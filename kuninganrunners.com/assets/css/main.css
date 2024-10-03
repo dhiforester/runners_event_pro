@@ -45,10 +45,10 @@
 }
 
 .dark-background {
-  --background-color: #2a2c39;
+  --background-color: #082a5a;
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --surface-color: #404356;
+  --surface-color: #558db1;
   --contrast-color: #ffffff;
 }
 
@@ -2557,4 +2557,20 @@ section,
   padding-left: 5px;
   color: color-mix(in srgb, var(--default-color), transparent 60%);
   font-size: 14px;
+}
+
+.insta-link {
+  text-align: center;
+  margin-top: 20px;
+}
+.insta-link a {
+  text-decoration: none;
+  color: #007bff;
+}
+.message-format {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 5px;
+  font-family: monospace;
+  margin-top: 10px;
 }
