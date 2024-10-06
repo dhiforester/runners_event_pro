@@ -1,54 +1,43 @@
 <li class="nav-item dropdown pe-3">
     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-        <span class="d-none d-md-block dropdown-toggle ps-2 text-white">K. Anderson</span>
+        <?php
+            echo '<img src="assets/img/User/'.$SessionGambar.'" alt="Profile" class="rounded-circle">';
+            echo '<span class="d-none d-md-block dropdown-toggle ps-2 text-white">'.$SessionNama.'</span>';
+        ?>
     </a>
-
     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
         <li class="dropdown-header">
-        <h6>Kevin Anderson</h6>
-        <span>Web Designer</span>
+            <h6><?php echo $SessionNama;?></h6>
+            <span><?php echo $SessionAkses;?></span>
         </li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-
-        <li>
-        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-            <i class="bi bi-person"></i>
-            <span>My Profile</span>
-        </a>
-        </li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-
-        <li>
-        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-            <i class="bi bi-gear"></i>
-            <span>Account Settings</span>
-        </a>
-        </li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-
-        <li>
-        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-            <i class="bi bi-question-circle"></i>
-            <span>Need Help?</span>
-        </a>
-        </li>
-        <li>
-        <hr class="dropdown-divider">
-        </li>
-
-        <li>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-        </a>
-        </li>
-
+        <?php
+            echo '<li>';
+            echo '  <hr class="dropdown-divider">';
+            echo '</li>';
+            echo '<li>';
+            echo '  <a class="dropdown-item d-flex align-items-center" href="index.php?Page=MyProfile">';
+            echo '      <i class="bi bi-person"></i>';
+            echo '      <span>Profil Saya</span>';
+            echo '  </a>';
+            echo '</li>';
+            echo '<li>';
+            echo '  <hr class="dropdown-divider">';
+            echo '</li>';
+            echo '<li>';
+            echo '  <a class="dropdown-item d-flex align-items-center" href="index.php?Page=Help&Sub=HelpHome">';
+            echo '      <i class="bi bi-question-circle"></i>';
+            echo '      <span>Bantuan</span>';
+            echo '  </a>';
+            echo '</li>';
+            echo '<li>';
+            echo '  <hr class="dropdown-divider">';
+            echo '</li>';
+            echo '<li>';
+            echo '  <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalLogout">';
+            echo '      <i class="bi bi-box-arrow-right"></i>';
+            echo '      <span>Keluar</span>';
+            echo '  </a>';
+            echo '</li>';
+        ?>
     </ul>
 </li>

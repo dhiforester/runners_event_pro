@@ -1,233 +1,153 @@
+<?php
+    if(empty($_GET['Page'])){
+        $PageMenu="";
+    }else{
+        $PageMenu=$_GET['Page'];
+    }
+    if(empty($_GET['Sub'])){
+        $SubMenu="";
+    }else{
+        $SubMenu=$_GET['Sub'];
+    }
+?>
 <aside id="sidebar" class="sidebar menu_background">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link collapsed" href="index.html">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
+            <a class="nav-link <?php if($PageMenu==""){echo "";}else{echo "collapsed";} ?>" href="index.php">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
             </a>
         </li>
-        <!-- End Dashboard Nav -->
         <li class="nav-item">
-            <a class="nav-link " data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#akses-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-person"></i>
+                <span>Akses</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="components-alerts.html">
-                <i class="bi bi-circle"></i><span>Alerts</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-accordion.html">
-                <i class="bi bi-circle"></i><span>Accordion</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-badges.html">
-                <i class="bi bi-circle"></i><span>Badges</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-breadcrumbs.html">
-                <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-buttons.html">
-                <i class="bi bi-circle"></i><span>Buttons</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-cards.html">
-                <i class="bi bi-circle"></i><span>Cards</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-carousel.html">
-                <i class="bi bi-circle"></i><span>Carousel</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-list-group.html">
-                <i class="bi bi-circle"></i><span>List group</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-modal.html" class="active">
-                <i class="bi bi-circle"></i><span>Modal</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-tabs.html">
-                <i class="bi bi-circle"></i><span>Tabs</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-pagination.html">
-                <i class="bi bi-circle"></i><span>Pagination</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-progress.html">
-                <i class="bi bi-circle"></i><span>Progress</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-spinners.html">
-                <i class="bi bi-circle"></i><span>Spinners</span>
-                </a>
-            </li>
-            <li>
-                <a href="components-tooltips.html">
-                <i class="bi bi-circle"></i><span>Tooltips</span>
-                </a>
-            </li>
+            <ul id="akses-nav" class="nav-content collapse <?php if($PageMenu=="AksesFitur"||$PageMenu=="AksesEntitas"||$PageMenu=="Akses"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=AksesFitur" class="<?php if($PageMenu=="AksesFitur"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Fitur</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=AksesEntitas" class="<?php if($PageMenu=="AksesEntitas"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Entitas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Akses" class="<?php if($PageMenu=="Akses"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Akses</span>
+                    </a>
+                </li>
             </ul>
-        </li><!-- End Components Nav -->
-
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link <?php if($PageMenu!=="Event"){echo "collapsed";} ?>" href="index.php?Page=Event">
+                <i class="bi bi-calendar"></i>
+                <span>Event</span>
             </a>
-            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="forms-elements.html">
-                <i class="bi bi-circle"></i><span>Form Elements</span>
-                </a>
-            </li>
-            <li>
-                <a href="forms-layouts.html">
-                <i class="bi bi-circle"></i><span>Form Layouts</span>
-                </a>
-            </li>
-            <li>
-                <a href="forms-editors.html">
-                <i class="bi bi-circle"></i><span>Form Editors</span>
-                </a>
-            </li>
-            <li>
-                <a href="forms-validation.html">
-                <i class="bi bi-circle"></i><span>Form Validation</span>
-                </a>
-            </li>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if($PageMenu!=="Merchandise"){echo "collapsed";} ?>" href="index.php?Page=Merchandise">
+                <i class="bi bi-tag"></i>
+                <span>Merchandise</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="OrderMerchandise"||$PageMenu=="LogPayment"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#transaksi-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-cash-coin"></i>
+                <span>Transaksi</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="transaksi-nav" class="nav-content collapse <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="OrderMerchandise"||$PageMenu=="LogPayment"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=RegistrasiEvent" class="<?php if($PageMenu=="RegistrasiEvent"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Registrasi Event</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=OrderMerchandise" class="<?php if($PageMenu=="OrderMerchandise"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Order Merchandise</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=LogPayment" class="<?php if($PageMenu=="LogPayment"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Log Payment</span>
+                    </a>
+                </li>
             </ul>
-        </li><!-- End Forms Nav -->
-
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#web-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-globe"></i>
+                <span>Konten Web</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="tables-general.html">
-                <i class="bi bi-circle"></i><span>General Tables</span>
-                </a>
-            </li>
-            <li>
-                <a href="tables-data.html">
-                <i class="bi bi-circle"></i><span>Data Tables</span>
-                </a>
-            </li>
+            <ul id="web-nav" class="nav-content collapse <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=KontenUtama" class="<?php if($PageMenu=="KontenUtama"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Konten Utama</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Galeri" class="<?php if($PageMenu=="Galeri"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Galeri/Album</span>
+                    </a>
+                </li>
             </ul>
-        </li><!-- End Tables Nav -->
-
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link <?php if($PageMenu=="Aktivitas"||$PageMenu=="BukuBesar"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-bar-chart"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="charts-chartjs.html">
-                <i class="bi bi-circle"></i><span>Chart.js</span>
-                </a>
-            </li>
-            <li>
-                <a href="charts-apexcharts.html">
-                <i class="bi bi-circle"></i><span>ApexCharts</span>
-                </a>
-            </li>
-            <li>
-                <a href="charts-echarts.html">
-                <i class="bi bi-circle"></i><span>ECharts</span>
-                </a>
-            </li>
+            <ul id="charts-nav" class="nav-content collapse <?php if($PageMenu=="Aktivitas"||$PageMenu=="BukuBesar"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=Aktivitas" class="<?php if($PageMenu=="Aktivitas"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Log Sistem</span>
+                    </a>
+                </li>
             </ul>
-        </li><!-- End Charts Nav -->
-
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+                <i class="bi bi-gear"></i>
+                    <span>Pengaturan</span><i class="bi bi-chevron-down ms-auto">
+                </i>
             </a>
-            <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="icons-bootstrap.html">
-                <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
-                </a>
-            </li>
-            <li>
-                <a href="icons-remix.html">
-                <i class="bi bi-circle"></i><span>Remix Icons</span>
-                </a>
-            </li>
-            <li>
-                <a href="icons-boxicons.html">
-                <i class="bi bi-circle"></i><span>Boxicons</span>
-                </a>
-            </li>
+            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="index.php?Page=SettingGeneral" class="<?php if($PageMenu=="SettingGeneral"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Pengaturan Umum</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=SettingPayment" class="<?php if($PageMenu=="SettingPayment"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Payment Gateway</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=SettingEmail" class="<?php if($PageMenu=="SettingEmail"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Email Gateway</span>
+                    </a>
+                </li> 
+                <li>
+                    <a href="index.php?Page=ApiKey" class="<?php if($PageMenu=="ApiKey"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>API Key</span>
+                    </a>
+                </li>
             </ul>
-        </li><!-- End Icons Nav -->
-
-        <li class="nav-heading">Pages</li>
-
+        </li>
+        <li class="nav-heading">Fitur Lainnya</li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="users-profile.html">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
+            <a class="nav-link <?php if($PageMenu!=="Help"){echo "collapsed";} ?>" href="index.php?Page=Help&Sub=HelpData">
+                <i class="bi bi-question"></i>
+                <span>Bantuan</span>
             </a>
-        </li><!-- End Profile Page Nav -->
-
+        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
-            <i class="bi bi-question-circle"></i>
-            <span>F.A.Q</span>
+            <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalLogout">
+                <i class="bi bi-box-arrow-in-left"></i>
+                <span>Keluar</span>
             </a>
-        </li><!-- End F.A.Q Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-contact.html">
-            <i class="bi bi-envelope"></i>
-            <span>Contact</span>
-            </a>
-        </li><!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-register.html">
-            <i class="bi bi-card-list"></i>
-            <span>Register</span>
-            </a>
-        </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-login.html">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-            </a>
-        </li><!-- End Login Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-error-404.html">
-            <i class="bi bi-dash-circle"></i>
-            <span>Error 404</span>
-            </a>
-        </li><!-- End Error 404 Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-blank.html">
-            <i class="bi bi-file-earmark"></i>
-            <span>Blank</span>
-            </a>
-        </li><!-- End Blank Page Nav -->
-
+        </li>
     </ul>
-
-</aside>
+</aside> 

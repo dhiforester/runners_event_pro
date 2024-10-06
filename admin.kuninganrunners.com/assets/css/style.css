@@ -235,11 +235,11 @@ h6 {
   border-color: #d3d3d4;
 }
 .login_background {
-  background: rgb(0, 0, 0);
+  background: #1c3b67;
 }
 .nav_background {
-  background: rgb(26,38,57);
-  background: linear-gradient(90deg, rgba(26,38,57,1) 0%, rgba(26,38,57,1) 35%, rgba(26,38,57,1) 100%); 
+  background: rgb(28,59,103);
+  background: linear-gradient(90deg, rgba(28,59,103,1) 0%, rgba(10,40,83,1) 54%, rgba(28,59,103,1) 100%);
 }
 .landing_background {
   background: rgb(114,171,230);
@@ -1289,4 +1289,9 @@ canvas {
   overflow-y: scroll;
   height: 300px; /* Atur ketinggian sesuai kebutuhan */
   /* Atur atribut lain sesuai kebutuhan */
+}
+body .title_page_app {
+  font-family: 'cc_running_with_scissorsMd', sans-serif !important;
+  font-size: 14pt;
+  color: #f0b906;
 }
