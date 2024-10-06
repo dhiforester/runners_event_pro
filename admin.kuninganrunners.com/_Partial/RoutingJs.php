@@ -82,12 +82,14 @@
         if($Page=="AutoJurnal"){
             echo '<script type="text/javascript" src="_Page/AutoJurnal/AutoJurnal.js"></script>';
         }
-        
+        if($Page=="SettingPayment"){
+            echo '<script type="text/javascript" src="_Page/SettingPayment/SettingPayment.js"></script>';
+        }
         if($Page=="SettingEmail"){
             echo '<script type="text/javascript" src="_Page/SettingService/SettingService.js"></script>';
         }
-        if($Page=="SettingPayment"){
-            echo '<script type="text/javascript" src="_Page/SettingPayment/SettingPayment.js"></script>';
+        if($Page=="ApiKey"){
+            echo '<script type="text/javascript" src="_Page/ApiKey/ApiKey.js"></script>';
         }
         if($Page=="Pendaftaran"){
             echo '<script type="text/javascript" src="_Page/Pendaftaran/Pendaftaran.js"></script>';

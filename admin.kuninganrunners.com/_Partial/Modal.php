@@ -70,11 +70,14 @@
         if($Page=="Help"){
             include "_Page/Help/ModalHelp.php";
         }
+        if($Page=="SettingPayment"){
+            include "_Page/SettingPayment/ModalSettingPayment.php";
+        }
         if($Page=="SettingEmail"){
             include "_Page/SettingService/ModalSettingService.php";
         }
-        if($Page=="SettingPayment"){
-            include "_Page/SettingPayment/ModalSettingPayment.php";
+        if($Page=="ApiKey"){
+            include "_Page/ApiKey/ModalApiKey.php";
         }
         if($Page=="Supplier"){
             include "_Page/Supplier/ModalSupplier.php";

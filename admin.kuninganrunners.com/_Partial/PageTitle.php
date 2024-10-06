@@ -313,7 +313,15 @@
                 }
                 
             }
-            
+            if($_GET['Page']=="SettingPayment"){
+                echo '<h1><a href=""><i class="bi bi-coin"></i> Payment Gateway</a></h1>';
+                echo '<nav>';
+                echo '  <ol class="breadcrumb">';
+                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+                echo '      <li class="breadcrumb-item active">Payment Gateway</li>';
+                echo '  </ol>';
+                echo '</nav>';
+            }
             if($_GET['Page']=="SettingEmail"){
                 echo '<h1><a href=""><i class="bi bi-envelope"></i> Pengaturan Email</a></h1>';
                 echo '<nav>';
@@ -323,12 +331,12 @@
                 echo '  </ol>';
                 echo '</nav>';
             }
-            if($_GET['Page']=="SettingPayment"){
-                echo '<h1><a href=""><i class="bi bi-coin"></i> Payment Gateway</a></h1>';
+            if($_GET['Page']=="ApiKey"){
+                echo '<h1><a href=""><i class="bi bi-key"></i> API Key</a></h1>';
                 echo '<nav>';
                 echo '  <ol class="breadcrumb">';
                 echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Payment Gateway</li>';
+                echo '      <li class="breadcrumb-item active">API Key</li>';
                 echo '  </ol>';
                 echo '</nav>';
             }

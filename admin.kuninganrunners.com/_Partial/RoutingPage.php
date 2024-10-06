@@ -75,11 +75,14 @@
         if($Page=="Help"){
             include "_Page/Help/Help.php";
         }
+        if($Page=="SettingPayment"){
+            include "_Page/SettingPayment/SettingPayment.php";
+        }
         if($Page=="SettingEmail"){
             include "_Page/SettingService/SettingService.php";
         }
-        if($Page=="SettingPayment"){
-            include "_Page/SettingPayment/SettingPayment.php";
+        if($Page=="ApiKey"){
+            include "_Page/ApiKey/ApiKey.php";
         }
         if($Page=="RiwayatAnggota"){
             include "_Page/RiwayatAnggota/RiwayatAnggota.php";
