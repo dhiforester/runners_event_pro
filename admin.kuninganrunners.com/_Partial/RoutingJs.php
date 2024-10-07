@@ -70,9 +70,6 @@
         if($Page=="BagiHasil"){
             echo '<script type="text/javascript" src="_Page/BagiHasil/BagiHasil.js"></script>';
         }
-        if($Page=="SettingGeneral"){
-            echo '<script type="text/javascript" src="_Page/SettingGeneral/SettingGeneral.js"></script>';
-        }
         if($Page=="EntitasAkses"){
             echo '<script type="text/javascript" src="_Page/EntitasAkses/EntitasAkses.js"></script>';
         }
@@ -82,11 +79,14 @@
         if($Page=="AutoJurnal"){
             echo '<script type="text/javascript" src="_Page/AutoJurnal/AutoJurnal.js"></script>';
         }
+        if($Page=="SettingGeneral"){
+            echo '<script type="text/javascript" src="_Page/SettingGeneral/SettingGeneral.js"></script>';
+        }
         if($Page=="SettingPayment"){
             echo '<script type="text/javascript" src="_Page/SettingPayment/SettingPayment.js"></script>';
         }
         if($Page=="SettingEmail"){
-            echo '<script type="text/javascript" src="_Page/SettingService/SettingService.js"></script>';
+            echo '<script type="text/javascript" src="_Page/SettingEmail/SettingEmail.js"></script>';
         }
         if($Page=="ApiKey"){
             echo '<script type="text/javascript" src="_Page/ApiKey/ApiKey.js"></script>';

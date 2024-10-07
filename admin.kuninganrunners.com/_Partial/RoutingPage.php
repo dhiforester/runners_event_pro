@@ -51,9 +51,6 @@
         if($Page=="Version"){
             include "_Page/Version/Version.php";
         }
-        if($Page=="SettingGeneral"){
-            include "_Page/SettingGeneral/SettingGeneral.php";
-        }
         if($Page=="EntitasAkses"){
             include "_Page/EntitasAkses/EntitasAkses.php";
         }
@@ -72,17 +69,20 @@
         if($Page=="MyProfile"){
             include "_Page/MyProfile/MyProfile.php";
         }
-        if($Page=="Help"){
-            include "_Page/Help/Help.php";
+        if($Page=="SettingGeneral"){
+            include "_Page/SettingGeneral/SettingGeneral.php";
         }
         if($Page=="SettingPayment"){
             include "_Page/SettingPayment/SettingPayment.php";
         }
         if($Page=="SettingEmail"){
-            include "_Page/SettingService/SettingService.php";
+            include "_Page/SettingEmail/SettingEmail.php";
         }
         if($Page=="ApiKey"){
             include "_Page/ApiKey/ApiKey.php";
+        }
+        if($Page=="Help"){
+            include "_Page/Help/Help.php";
         }
         if($Page=="RiwayatAnggota"){
             include "_Page/RiwayatAnggota/RiwayatAnggota.php";

@@ -52,9 +52,6 @@
         if($Page=="RekapTransaksi"){
             include "_Page/RekapTransaksi/ModalRekapTransaksi.php";
         }
-        if($Page=="SettingGeneral"){
-            include "_Page/SettingGeneral/ModalSettingGeneral.php";
-        }
         if($Page=="EntitasAkses"){
             include "_Page/EntitasAkses/ModalEntitasAkses.php";
         }
@@ -70,11 +67,14 @@
         if($Page=="Help"){
             include "_Page/Help/ModalHelp.php";
         }
+        if($Page=="SettingGeneral"){
+            include "_Page/SettingGeneral/ModalSettingGeneral.php";
+        }
         if($Page=="SettingPayment"){
             include "_Page/SettingPayment/ModalSettingPayment.php";
         }
         if($Page=="SettingEmail"){
-            include "_Page/SettingService/ModalSettingService.php";
+            include "_Page/SettingEmail/ModalSettingEmail.php";
         }
         if($Page=="ApiKey"){
             include "_Page/ApiKey/ModalApiKey.php";

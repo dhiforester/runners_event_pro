@@ -69,155 +69,6 @@
                 }
             }
         }
-        if($_GET['Page']=="Anggota"){
-            echo '<h1><a href=""><i class="bi bi-people"></i> Anggota</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Anggota</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="AnggotaKeluarMasuk"){
-            echo '<h1><a href=""><i class="bi bi-arrow-left-right"></i> Keluar-Masuk Anggota</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active"> Keluar Masuk Anggota</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="RekapAnggota"){
-            echo '<h1><a href=""><i class="bi bi-table"></i> Rekap Anggota</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active"> Rekap Anggota</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="JenisSimpanan"){
-            echo '<h1><a href=""><i class="bi bi-collection"></i> Jenis Simpanan</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active"> Jenis Simpanan</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="SimpananWajib"){
-            echo '<h1><a href=""><i class="bi bi-coin"></i> Simpanan Wajib</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active"> Simpanan Wajib</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="Tabungan"){
-            if(empty($_GET['Sub'])){
-                echo '<h1><a href=""><i class="bi bi-wallet"></i> Log Simpanan</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Log Simpanan</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }else{
-                $Sub=$_GET['Sub'];
-                if($Sub=="DetailTabungan"){
-                    echo '<h1><a href=""><i class="bi bi-wallet"></i> Detail Simpanan</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item"><a href="index.php?Page=Tabungan">Log Simpanan</a></li>';
-                    echo '      <li class="breadcrumb-item active">Detail Simpanan</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    echo '<h1><a href=""><i class="bi bi-wallet"></i> Log Simpanan</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Log Simpanan</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }
-            }
-        }
-        if($_GET['Page']=="RekapSimpanan"){
-            echo '<h1><a href=""><i class="bi bi-table"></i> Rekap Simpanan</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Rekap Simpanan</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="Pinjaman"){
-            if(empty($_GET['Sub'])){
-                echo '<h1><a href=""><i class="bi bi-bank"></i> Pinjaman</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Pinjaman</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }else{
-                $Sub=$_GET['Sub'];
-                if($Sub=="DetailPinjaman"){
-                    echo '<h1><a href=""><i class="bi bi-bank"></i> Detail Pinjaman</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item"><a href="index.php?Page=Pinjaman">Pinjaman</a></li>';
-                    echo '      <li class="breadcrumb-item active">Detail Pinjaman</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    if($Sub=="DetailAngsuran"){
-                        echo '<h1><a href=""><i class="bi bi-bank"></i> Detail Angsuran</a></h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=Pinjaman">Pinjaman</a></li>';
-                        echo '      <li class="breadcrumb-item active">Detail Angsuran</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }else{
-                        
-                    }
-                }
-            }
-            
-        }
-        if($_GET['Page']=="Tagihan"){
-            echo '<h1><a href=""><i class="bi bi-collection"></i> Tagihan</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Tagihan</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="RekapPinjaman"){
-            echo '<h1><a href=""><i class="bi bi-table"></i> Rekap Pinjaman</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Rekap Pinjaman</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
-        if($_GET['Page']=="JenisTransaksi"){
-            echo '<h1><a href=""><i class="bi bi-cart-check"></i> Jenis Transaksi</a></h1>';
-            echo '<nav>';
-            echo '  <ol class="breadcrumb">';
-            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Jenis Transaksi</li>';
-            echo '  </ol>';
-            echo '</nav>';
-        }
         if($_GET['Page']=="Transaksi"){
             if(empty($_GET['Sub'])){
                 echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';
@@ -281,15 +132,6 @@
             echo '  </ol>';
             echo '</nav>';
         }else{
-            if($_GET['Page']=="SettingGeneral"){
-                echo '<h1><a href=""><i class="bi bi-gear"></i> Pengaturan Umum</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Pengaturan Umum</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
             if($_GET['Page']=="EntitasAkses"){
                 if(empty($_GET['Sub'])){
                     echo '<h1><a href=""><i class="bi bi-key"></i> Entitas Ases</a></h1>';
@@ -312,6 +154,15 @@
                     }
                 }
                 
+            }
+            if($_GET['Page']=="SettingGeneral"){
+                echo '<h1><a href=""><i class="bi bi-gear"></i> Pengaturan Umum</a></h1>';
+                echo '<nav>';
+                echo '  <ol class="breadcrumb">';
+                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+                echo '      <li class="breadcrumb-item active">Pengaturan Umum</li>';
+                echo '  </ol>';
+                echo '</nav>';
             }
             if($_GET['Page']=="SettingPayment"){
                 echo '<h1><a href=""><i class="bi bi-coin"></i> Payment Gateway</a></h1>';
@@ -340,111 +191,6 @@
                 echo '  </ol>';
                 echo '</nav>';
             }
-            if($_GET['Page']=="ApiDoc"){
-                echo '<h1><i class="bi bi-file-code"></i> Dokumentasi API</h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Dokumentasi API</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="AutoJurnal"){
-                echo '<h1><a href=""><i class="bi bi-journal-medical"></i> Auto Jurnal</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Auto Jurnal</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="RiwayatAnggota"){
-                echo '<h1><a href=""><i class="bi bi-clock"></i> Riwayat Anggota</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Riwayat Anggota</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="StockOpename"){
-                echo '<h1><i class="bi bi-truck-flatbed"></i> Stock Opename</h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Stock Opename</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="Kunjungan"){
-                if(empty($_GET['Sub'])){
-                    echo '<h1><i class="bi bi-journal-text"></i> Kunjungan</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Kunjungan</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    $Sub=$_GET['Sub'];
-                    if($Sub=="Pendaftaran"){
-                        echo '<h1><i class="bi bi-journal-text"></i> Pendaftaran Kunjungan</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=Kunjungan">Kunjungan</a></li>';
-                        echo '      <li class="breadcrumb-item active">Pendaftaran Kunjungan</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }else{
-                        if($Sub=="DetailKunjungan"){
-                            echo '<h1><i class="bi bi-journal-text"></i> Detail Kunjungan</h1>';
-                            echo '<nav>';
-                            echo '  <ol class="breadcrumb">';
-                            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                            echo '      <li class="breadcrumb-item"><a href="index.php?Page=Kunjungan">Kunjungan</a></li>';
-                            echo '      <li class="breadcrumb-item active">Detail Kunjungan</li>';
-                            echo '  </ol>';
-                            echo '</nav>';
-                        }
-                    }
-                }
-            }
-            if($_GET['Page']=="Supplier"){
-                if(empty($_GET['Sub'])){
-                    echo '<h1><i class="bi bi-truck"></i> Supplier</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Supplier</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    $Sub=$_GET['Sub'];
-                    if($Sub=="DetailSupplier"){
-                        echo '<h1><i class="bi bi-truck"></i> Supplier</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=Supplier">Supplier</a></li>';
-                        echo '      <li class="breadcrumb-item active">Detail Supplier</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }else{
-                        if($Sub=="Import"){
-                            echo '<h1><i class="bi bi-truck"></i> Supplier</h1>';
-                            echo '<nav>';
-                            echo '  <ol class="breadcrumb">';
-                            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                            echo '      <li class="breadcrumb-item"><a href="index.php?Page=Supplier">Supplier</a></li>';
-                            echo '      <li class="breadcrumb-item active">Import Supplier</li>';
-                            echo '  </ol>';
-                            echo '</nav>';
-                        }
-                    }
-                }
-            }
-            
             if($_GET['Page']=="Aktivitas"){
                 if($_GET['Sub']=="AktivitasUmum"||$_GET['Sub']==""){
                     echo '<h1><i class="bi bi-record-btn"></i> Aktivitas Umum</h1>';
