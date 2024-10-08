@@ -21,6 +21,15 @@
             )
         </script>
     <?php } ?>
+    <?php if($NotifikasiSwal=="Ubah Profil Berhasil"){ ?>
+        <script>
+            Swal.fire(
+                'Berhasil!',
+                'Ubah Profil Berhasil!',
+                'success'
+            )
+        </script>
+    <?php } ?>
     <?php if($NotifikasiSwal=="Ubah Foto Profil Berhasil"){ ?>
         <script>
             Swal.fire(
