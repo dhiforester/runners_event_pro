@@ -181,7 +181,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-md btn-primary">
+                            <button type="submit" class="btn btn-md btn-primary btn-rounded">
                                 <i class="bi bi-send"></i> Kirim Pesan
                             </button>
                         </div>

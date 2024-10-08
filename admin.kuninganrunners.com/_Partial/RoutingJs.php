@@ -123,7 +123,7 @@
         }
     }
     //default Login
-    echo '<script type="text/javascript" src="_Page/Pendaftaran/Pendaftaran.js"></script>';
+    // echo '<script type="text/javascript" src="_Page/Pendaftaran/Pendaftaran.js"></script>';
     echo '<script type="text/javascript" src="_Page/Login/Login.js"></script>';
-    echo '<script type="text/javascript" src="_Page/ResetPassword/ResetPassword.js"></script>';
+    // echo '<script type="text/javascript" src="_Page/ResetPassword/ResetPassword.js"></script>';
 ?>

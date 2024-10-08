@@ -39,6 +39,12 @@
         }else{
             $url_service=$_POST['url_service'];
         }
+        $email_gateway=validateAndSanitizeInput($email_gateway);
+        $password_gateway=validateAndSanitizeInput($password_gateway);
+        $url_provider=validateAndSanitizeInput($url_provider);
+        $port_gateway=validateAndSanitizeInput($port_gateway);
+        $nama_pengirim=validateAndSanitizeInput($nama_pengirim);
+        $url_service=validateAndSanitizeInput($url_service);
         $Update= mysqli_query($Conn,"UPDATE setting_email_gateway SET 
             email_gateway='$email_gateway',
             password_gateway='$password_gateway',

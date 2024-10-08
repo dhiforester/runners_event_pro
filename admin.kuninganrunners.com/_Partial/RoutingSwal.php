@@ -84,6 +84,15 @@
             )
         </script>
     <?php } ?>
+    <?php if($NotifikasiSwal=="Simpan Setting Payment Berhasil"){ ?>
+        <script>
+            Swal.fire(
+                'Berhasil!',
+                'Simpan Setting Payment Berhasil',
+                'success'
+            )
+        </script>
+    <?php } ?>
     <?php if($NotifikasiSwal=="Simpan Help Berhasil"){ ?>
         <script>
             Swal.fire(

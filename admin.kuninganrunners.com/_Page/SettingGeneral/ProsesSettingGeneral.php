@@ -102,9 +102,16 @@
                 WHERE id_setting_general='1'");
                 
                 if($UpdateSetting){
-                    $_SESSION["NotifikasiSwal"] = "Simpan Setting General Berhasil";
-                    $response['status'] = 'success';
-                    $response['message'] = 'Pengaturan berhasil disimpan';
+                    $kategori_log="Setting";
+                    $deskripsi_log="Setting General";
+                    $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                    if($InputLog=="Success"){
+                        $_SESSION["NotifikasiSwal"] = "Simpan Setting General Berhasil";
+                        $response['status'] = 'success';
+                        $response['message'] = 'Pengaturan berhasil disimpan';
+                    }else{
+                        $response['message'] = 'Terjadi kesalahan pada saat menyimpan log aktivitas';
+                    }
                 } else {
                     $response['message'] = 'Terjadi kesalahan pada saat update data pengaturan';
                 }
