@@ -1,7 +1,7 @@
 <?php
         include "_Config/Connection.php";
         include "_Config/Function.php";
-        //Maual Setting
+        //Buka Pengaturan / Setting
 		$urll_call_back = getDataDetail($Conn, 'setting_payment', 'id_setting_payment', '1', 'urll_call_back');
 		$id_marchant = getDataDetail($Conn, 'setting_payment', 'id_setting_payment', '1', 'id_marchant');
 		$client_key = getDataDetail($Conn, 'setting_payment', 'id_setting_payment', '1', 'client_key');
@@ -12,6 +12,7 @@
         \Midtrans\Config::$isProduction = $production;
         \Midtrans\Config::$serverKey = ''.$server_key.'';
         $notif = new \Midtrans\Notification();
+        //Rekap Data Notifikasi
         $transaction_time = $notif->transaction_time;
         $transaction_status = $notif->transaction_status;
         $transaction_id = $notif->transaction_id;
@@ -26,45 +27,12 @@
         $gross_amount=$notif->gross_amount;
         //Mencari nilai kode transaksi
         $kode_transaksi=getDataDetail($Conn,'log_payment','order_id',$order_id,'kode_transaksi');
-        if(empty($kode_transaksi)){
-            $log = Array (
-                "ServerKey" => $server_key,
-                "Production" => $production,
-                "order_id" => $order_id,
-                "Notification" => $notif,
-                "transaction_time" => $transaction_time,
-                "transaction_status" => $transaction_status,
-                "gross_amount" => $gross_amount,
-                "kode_transaksi" => $kode_transaksi
-            );
-            $JsonLog = json_encode($log);
-            //Simpan Data
-            $simpan=InsertKodeTransaksi($Conn,$order_id,$kode_transaksi,$JsonLog);
-        }else{
-            $log = Array (
-                "ServerKey" => $server_key,
-                "Production" => $production,
-                "order_id" => $order_id,
-                "Notification" => $notif,
-                "transaction_time" => $transaction_time,
-                "transaction_status" => $transaction_status,
-                "gross_amount" => $gross_amount,
-                "kode_transaksi" => $kode_transaksi
-            );
-            $JsonLog = json_encode($log);
-            //Simpan Data
-            $simpan=UpdateKodeTransaksi($Conn,$order_id,$kode_transaksi,$JsonLog);
-        }
-        $KodeTransaksi2=getDataDetail($Conn,'order_transaksi','order_id',$order_id,'kode_transaksi');
-        if(!empty($KodeTransaksi2)){
-            if($transaction_status=="pending"){
-                $StatusPembayaran="Pending";
-            }else{
-                if($transaction_status=="settlement"){
-                    $StatusPembayaran="Lunas";
-                    $UpdateStatusTransaksiAdmin=UpdateStatusTransaksiAdmin($api_key,$urll_call_back,$KodeTransaksi2,$StatusPembayaran);
-                }else{
-                    $StatusPembayaran="Expired";
+        if(!empty($kode_transaksi)){
+            if($transaction_status=="settlement"){
+                $StatusPembayaran="Lunas";
+                if(!empty($urll_call_back)){
+                    //Mengirimkan Data Ke URL Call Back hanya apabila lunas
+                    $UpdateStatusTransaksiAdmin=UpdateStatusTransaksiAdmin($api_key,$urll_call_back,$kode_transaksi,$StatusPembayaran);
                 }
             }
         }
@@ -110,6 +78,7 @@
         }else{
             $keterangan="Error transaction: " . $order_id ." successfully captured using " . $payment_type;
         }
+        //Simpan Log Payment
         $entry="INSERT INTO log_payment (
             kode_transaksi,
             transaction_time,
@@ -141,8 +110,20 @@
         )";
         $Input=mysqli_query($Conn, $entry);
         if($Input){
-            echo "$keterangan";
+            //Simpan Raw Notifikasi
+            $json_notifikasi=json_encode($raw_notifikasi, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $entry_notifikasi="INSERT INTO raw_notifikasi (
+                raw_notifikasi
+            ) VALUES (
+                '$json_notifikasi'
+            )";
+            $InputRaw=mysqli_query($Conn, $entry_notifikasi);
+            if($InputRaw){
+                echo "$keterangan";
+            }else{
+                echo "Input Data raw_notifikasi Gagal";
+            }
         }else{
-            echo "Input Data Gagal";
+            echo "Input Data log_payment Gagal";
         }
 ?>

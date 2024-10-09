@@ -77,10 +77,10 @@
                                                     <label class="form-label" for="urll_call_back">URL Call Back</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <input type="text" name="urll_call_back" id="urll_call_back" class="form-control" required value="<?php echo "$urll_call_back"; ?>">
+                                                    <input type="text" name="urll_call_back" id="urll_call_back" class="form-control" value="<?php echo "$urll_call_back"; ?>">
                                                     <small>
                                                         <code class="text text-grayish">
-                                                            URL yang digunakan untuk memproses pembaharuan status transaksi.
+                                                            URL yang digunakan untuk memproses pembaharuan status transaksi. (Apabila tidak digunakan, silahkan kosongkan)
                                                         </code>
                                                     </small>
                                                 </div>
@@ -222,12 +222,18 @@
                                                 echo '  </div>';
                                                 echo '</div>';
                                             }else{
+                                                if(empty($arry_response['setting']['urll_call_back'])){
+                                                    $urll_call_back="Tidak Ada";
+                                                }else{
+                                                    $urll_call_back=$arry_response['setting']['urll_call_back'];
+                                                }
                                                 echo '<div class="row mt-4 mb-3">';
                                                 echo '  <div class="col col-md-12">';
                                                 echo '      Koneksi Ke Server Berhasil.<br>';
                                                 echo '      Berikut ini adalah informasi parameter koneksi dari server.<br>';
                                                 echo '      <ol>';
-                                                echo '          <li>URL Call Back : <small class="text text-grayish">'.$arry_response['setting']['urll_call_back'].'</small></li>';
+                                                echo '          <li>URL Payment Gateway : <small class="text text-grayish">'.$api_payment_url.'</small></li>';
+                                                echo '          <li>URL Call Back : <small class="text text-grayish">'.$urll_call_back.'</small></li>';
                                                 echo '          <li>ID Marchant : <small class="text text-grayish">'.$arry_response['setting']['id_marchant'].'</small></li>';
                                                 echo '          <li>Client Key : <small class="text text-grayish">'.$arry_response['setting']['client_key'].'</small></li>';
                                                 echo '          <li>Server Key : <small class="text text-grayish">'.$arry_response['setting']['server_key'].'</small></li>';
@@ -250,6 +256,26 @@
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <form action="javascript:void(0);" id="ProsesTestSnapToken">
+                                            <div class="row mb-3 mt-4">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="kode_transaksi">Kode Transaksi</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <input type="text" name="kode_transaksi" id="kode_transaksi" class="form-control" required>
+                                                        <span class="input-group-text" id="inputGroupPrepend">
+                                                            <a href="javascript:void(0);" id="GenerateKodeTransaksi">
+                                                                <code class="text text-success">Generate</code>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                    <small>
+                                                        <code class="text text-grayish">
+                                                            Kode transaksi adalah kode unik yang merepresentasikan transaksi yang sedang berlangsung. (Maksimal 36 karakter)
+                                                        </code>
+                                                    </small>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3 mt-4">
                                                 <div class="col-md-4">
                                                     <label class="form-label" for="order_id">Order ID (Kode Pembayaran)</label>

@@ -60,6 +60,11 @@ function generateUniqueCode(length) {
     }
     return result;
 }
+// Ketika tombol GenerateKodeTransaksi di klik
+$('#GenerateKodeTransaksi').on('click', function() {
+    var uniqueCode = generateUniqueCode(36); // Generate kode unik 36 karakter
+    $('#kode_transaksi').val(uniqueCode); // Mengisi input order_id dengan kode unik
+});
 // Ketika tombol GenerateOrderId di klik
 $('#GenerateOrderId').on('click', function() {
     var uniqueCode = generateUniqueCode(36); // Generate kode unik 36 karakter
