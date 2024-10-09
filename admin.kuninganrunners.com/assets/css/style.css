@@ -15,7 +15,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
+  background: #e7efff;
   color: #444444;
 }
 
@@ -45,7 +45,7 @@ h6 {
   margin-top: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
-  background: #f6f9ff;
+  background: #e7efff;
   padding-bottom: 300px;
 }
 
@@ -153,7 +153,7 @@ h6 {
 }
 
 .dropdown-menu .dropdown-item:hover {
-  background-color: #f6f9ff;
+  background-color: #e7efff;
 }
 
 @media (min-width: 768px) {
@@ -316,7 +316,7 @@ h6 {
 
 .accordion-button:not(.collapsed) {
   color: #012970;
-  background-color: #f6f9ff;
+  background-color: #e7efff;
 }
 
 .accordion-flush .accordion-button {
@@ -556,7 +556,7 @@ h6 {
 }
 
 .header-nav .notifications .notification-item:hover {
-  background-color: #f6f9ff;
+  background-color: #e7efff;
 }
 
 .header-nav .messages {
@@ -591,7 +591,7 @@ h6 {
 }
 
 .header-nav .messages .message-item:hover {
-  background-color: #f6f9ff;
+  background-color: #e7efff;
 }
 
 .header-nav .profile {
@@ -624,7 +624,7 @@ h6 {
 }
 
 .header-nav .profile .dropdown-item:hover {
-  background-color: #f6f9ff;
+  background-color: #e7efff;
 }
 
 /*--------------------------------------------------------------
@@ -739,7 +739,7 @@ h6 {
 
 .sidebar-nav .nav-link:hover {
   color: #949ef7;
-  background: #f6f9ff;
+  background: #e7efff;
 }
 
 .sidebar-nav .nav-link:hover i {

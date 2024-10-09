@@ -9,9 +9,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <label for="batas">Data</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="batas"><small>Batas/Limit</small></label>
+                        </div>
+                        <div class="col-md-8">
                             <select name="batas" id="batas" class="form-control">
                                 <option value="5">5</option>
                                 <option selected value="10">10</option>
@@ -22,8 +24,12 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="OrderBy">Mode Urutan</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="OrderBy"><small>Dasar Pengurutan</small></label>
+                        </div>
+                        <div class="col-md-8">
                             <select name="OrderBy" id="OrderBy" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="kategori">Kategori</option>
@@ -33,16 +39,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <label for="ShortBy">Tipe Urutan</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="ShortBy"><small>Tipe Urutan</small></label>
+                        </div>
+                        <div class="col-md-8">
                             <select name="ShortBy" id="ShortBy" class="form-control">
                                 <option value="ASC">A To Z</option>
                                 <option selected value="DESC">Z To A</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="KeywordBy">Pencarian</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="KeywordBy"><small>Dasar Pencarian</small></label>
+                        </div>
+                        <div class="col-md-8">
                             <select name="KeywordBy" id="KeywordBy" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="kategori">Kategori</option>
@@ -52,16 +64,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 mt-3" id="FormFilter">
-                            <label for="keyword">Kata Kunci Pencarian</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="KeywordBy"><small>Kata Kunci</small></label>
+                        </div>
+                        <div class="col-md-8" id="FormFilter">
                             <input type="text" name="keyword" id="keyword" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-rounded">
-                        <i class="bi bi-check"></i> Tampilkan
+                        <i class="bi bi-filter"></i> Filter
                     </button>
                     <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
                         <i class="bi bi-x-circle"></i> Tutup
@@ -137,8 +151,26 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalDetail" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Fitur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="FormDetailFitur">
+                <!-- Menampilkan Detail Fitur -->
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalHapusFitur" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesHapusFitur" autocomplete="off">
                 <div class="modal-header">
@@ -147,13 +179,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12 text-center" id="FormHapusFitur">
+                        <div class="col-md-12" id="FormHapusFitur">
                             
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <code>Apakah anda yakin akan menghapus data tersebut?</code>
                         </div>
                     </div>
                     <div class="row">
@@ -199,7 +226,7 @@
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i> Tidak
+                        <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
             </form>

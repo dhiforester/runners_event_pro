@@ -77,6 +77,19 @@ $('#ProsesTambahFitur').submit(function(){
         }
     });
 });
+//Modal Detail Fitur
+$('#ModalDetail').on('show.bs.modal', function (e) {
+    var id_akses_fitur = $(e.relatedTarget).data('id');
+    $('#FormDetailFitur').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/AksesFitur/FormDetailFitur.php',
+        data        : {id_akses_fitur: id_akses_fitur},
+        success     : function(data){
+            $('#FormDetailFitur').html(data);
+        }
+    });
+});
 //Ketika Modal Hapus Fitur Muncul
 $('#ModalHapusFitur').on('show.bs.modal', function (e) {
     var GetData = $(e.relatedTarget).data('id');
