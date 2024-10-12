@@ -1,6 +1,9 @@
 <?php
     include "_Config/Connection.php";
     include "_Config/Function.php";
+    //Time Zone
+    date_default_timezone_set('Asia/Jakarta');
+    $now=date('Y-m-d H:i:s');
 	// Membaca input JSON dan validasi
 	$fp = fopen('php://input', 'r');
 	$raw = stream_get_contents($fp);
@@ -11,14 +14,12 @@
 		"status" => "error",
 		"code" => 400
 	);
-
     // Mencegah pengiriman data kosong atau invalid
     if (empty($Tangkap) || !is_array($Tangkap)) {
         $Array['status'] = "Invalid JSON format";
         $Array['code'] = 400;
         sendResponse($Array);
     }
-
     // Membuka API Key dari database (asli)
     $api_key_database = getDataDetail($Conn, 'setting_payment', 'id_setting_payment', '1', 'api_key');
 	
@@ -96,69 +97,72 @@
 									$email = validateAndSanitizeInput($email);
 									$phone = validateAndSanitizeInput($phone);
 									$kode_transaksi = validateAndSanitizeInput($kode_transaksi);
-									//Bungkus Data
-									$log = Array (
-										"ServerKey" => $GetServerKey,
-										"Production" => $Production,
-										"order_id" => $order_id,
-										"gross_amount" => $gross_amount,
-										"first_name" => $first_name,
-										"last_name" => $last_name,
-										"email" => $email,
-										"phone" => $phone,
-										"kode_transaksi" => $kode_transaksi
-									);
-									$JsonLog = json_encode($log);
-									//Cek kode_transaksi apakah sudah ada atau belum
-									$GetKodeTransaksi=getDataDetail($Conn,'order_transaksi','kode_transaksi',$kode_transaksi,'kode_transaksi');
-									if(empty($GetKodeTransaksi)){
-										//Simpan Data
-										$simpan=InsertKodeTransaksi($Conn,$order_id,$kode_transaksi,$JsonLog);
+									//Membuat Snap Token Ke Midtrans
+									require_once "midtrans-php-master/Midtrans.php";
+									// Set your Merchant Server Key
+									\Midtrans\Config::$serverKey = ''.$GetServerKey.'';
+									// Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+									if($Production=="true"){
+										\Midtrans\Config::$isProduction = true;
 									}else{
-										//Simpan Data
-										$simpan=UpdateKodeTransaksi($Conn,$order_id,$kode_transaksi,$JsonLog);
+										\Midtrans\Config::$isProduction = false;
 									}
-									if($simpan!=="Berhasil"){
-										$Array['status'] = "Terjadi kesalahan pada saat menyimpan data transaksi : $simpan";
-										$Array['code'] = 401;
-										sendResponse($Array);
-									}else{
-										require_once "midtrans-php-master/Midtrans.php";
-										// Set your Merchant Server Key
-										\Midtrans\Config::$serverKey = ''.$GetServerKey.'';
-										// Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-										if($Production=="true"){
-											\Midtrans\Config::$isProduction = true;
-										}else{
-											\Midtrans\Config::$isProduction = false;
-										}
-										// Set sanitization on (default)
-										\Midtrans\Config::$isSanitized = true;
-										// Set 3DS transaction for credit card to true
-										\Midtrans\Config::$is3ds = true;
-										$params = array(
-											'transaction_details' => array(
-												'order_id' => $order_id,
-												'gross_amount' => $gross_amount,
-											),
-											'customer_details' => array(
-												'first_name' => ''.$first_name.'',
-												'last_name' => ''.$last_name.'',
-												'email' => ''.$email.'',
-												'phone' => ''.$phone.'',
-											),
+									// Set sanitization on (default)
+									\Midtrans\Config::$isSanitized = true;
+									// Set 3DS transaction for credit card to true
+									\Midtrans\Config::$is3ds = true;
+									$params = array(
+										'transaction_details' => array(
+											'order_id' => $order_id,
+											'gross_amount' => $gross_amount,
+										),
+										'customer_details' => array(
+											'first_name' => ''.$first_name.'',
+											'last_name' => ''.$last_name.'',
+											'email' => ''.$email.'',
+											'phone' => ''.$phone.'',
+										),
+									);
+									$snapToken = \Midtrans\Snap::getSnapToken($params);
+									if(!empty($snapToken)){
+										//Bungkus Data
+										$log = Array (
+											"kode_transaksi" => $kode_transaksi,
+											"order_id" => $order_id,
+											"datetime" => $now,
+											"ServerKey" => $GetServerKey,
+											"Production" => $Production,
+											"gross_amount" => $gross_amount,
+											"first_name" => $first_name,
+											"last_name" => $last_name,
+											"email" => $email,
+											"phone" => $phone,
+											"snapToken" => $snapToken
 										);
-										$snapToken = \Midtrans\Snap::getSnapToken($params);
-										if(!empty($snapToken)){
+										//Cek apakah kombinasi kode_transaksi dan order_id sudah ada
+										$QryOrder = mysqli_query($Conn,"SELECT * FROM order_transaksi WHERE order_id='$order_id' AND kode_transaksi='$kode_transaksi'")or die(mysqli_error($Conn));
+										$DataOrder = mysqli_fetch_array($QryOrder);
+										if(empty($DataOrder['id_order_transaksi'])){
+											//Jika Tidak Ada Maka Insert
+											$simpan=InsertKodeTransaksi($Conn,$log);
+										}else{
+											//Jika Ada Maka Update
+											$simpan=UpdateKodeTransaksi($Conn,$log);
+										}
+										if($simpan!=="Berhasil"){
+											$Array['status'] = "Terjadi kesalahan pada saat menyimpan data transaksi : $simpan";
+											$Array['code'] = 401;
+											sendResponse($Array);
+										}else{
 											$Array['status'] = "success";
 											$Array['code'] = 200;
 											$Array['token'] = $snapToken;
 											sendResponse($Array);
-										}else{
-											$Array['status'] = "Token Gagal Dibuat";
-											$Array['code'] = 401;
-											sendResponse($Array);
 										}
+									}else{
+										$Array['status'] = "Snap Token Gagal Dibuat";
+										$Array['code'] = 401;
+										sendResponse($Array);
 									}
 								}
 							}
@@ -180,7 +184,6 @@
 		header('Access-Control-Allow-Credentials: true');
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS"); 
 		header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, x-token, token"); 
-
 		// JSON Response
 		echo json_encode($response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 		exit();

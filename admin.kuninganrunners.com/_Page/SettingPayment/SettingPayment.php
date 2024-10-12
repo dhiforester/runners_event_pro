@@ -18,12 +18,16 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman pengaturan payment gateway menggunakan provider <b>Midtrans</b>.';
-                    echo '  Pada halaman ini anda bisa mengatur parameter payment gateway yang dibutuhkan.';
-                    echo '  Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
-                    echo '  Baca panduan integrasi pada <a href="https://docs.midtrans.com/docs/snap-snap-integration-guide">Link Berikut</a> ini.';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                    echo '  <small>';
+                    echo '      <code class="text-dark">';
+                    echo '          Berikut ini adalah halaman pengaturan payment gateway menggunakan provider <b>Midtrans</b>.';
+                    echo '          Pada halaman ini anda bisa mengatur parameter payment gateway yang dibutuhkan.';
+                    echo '          Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
+                    echo '          Baca panduan integrasi pada <a href="https://docs.midtrans.com/docs/snap-snap-integration-guide">Link Berikut</a> ini.';
+                    echo '          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '      </code>';
+                    echo '  </small>';
                     echo '</div>';
                 ?>
             </div>
@@ -255,7 +259,7 @@
                                 </h2>
                                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <form action="javascript:void(0);" id="ProsesTestSnapToken">
+                                        <form action="javascript:void(0);" id="ProsesGenerateSnapButton">
                                             <div class="row mb-3 mt-4">
                                                 <div class="col-md-4">
                                                     <label class="form-label" for="kode_transaksi">Kode Transaksi</label>
@@ -312,7 +316,7 @@
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
-                                                    <label class="form-label" for="gross_amount">Nama Pelanggan</label>
+                                                    <label class="form-label" for="first_name">Nama Pelanggan</label>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <input type="text" name="first_name" id="first_name" class="form-control" required>
@@ -379,12 +383,41 @@
                                             </div>
                                             <div class="row mb-3 mt-4">
                                                 <div class="col-md-112 text-center">
-                                                    <button type="submit" class="btn btn-md btn-primary btn-rounded" id="NotifikasiSimpanSettingPayment">
-                                                        <i class="bi bi-save"></i> Simpan Pengaturan
+                                                    <button type="submit" class="btn btn-md btn-success btn-rounded" id="NotifikasiSimpanSettingPayment">
+                                                        <i class="bi bi-arrow-right-circle"></i> Generate Button
                                                     </button>
                                                 </div>
                                             </div>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        <b>D. Log Order ID </b>
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-md-8 mb-3"></div>
+                                            <div class="col col-md-2 mb-3">
+                                                <button type="button" class="btn btn-md btn-block btn-rounded btn-outline-grayish" data-bs-toggle="modal" data-bs-target="#ModalFilter">
+                                                    <i class="bi bi-filter"></i> Filter
+                                                </button>
+                                            </div>
+                                            <div class="col col-md-2 mb-3">
+                                                <button type="button" class="btn btn-md btn-block btn-rounded btn-outline-primary" id="ReloadPaymentLog">
+                                                    <i class="bi bi-filter"></i> Reload
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-md-12" id="MenampilkanTabelPaymentLog">
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

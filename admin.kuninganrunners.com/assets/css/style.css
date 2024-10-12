@@ -1295,3 +1295,12 @@ body .title_page_app {
   font-size: 14pt;
   color: #f0b906;
 }
+.custom-list {
+  list-style-type: none; /* Menghilangkan titik default */
+}
+
+.custom-list li::before {
+  content: ""; /* Ganti 'Kata ' dengan teks yang diinginkan */
+  font-weight: bold; /* Opsi: Anda bisa menyesuaikan gaya teks */
+  margin-right: 10px; /* Memberi jarak antara teks dan isi list */
+}

@@ -122,12 +122,25 @@
                         $Array['code'] = 401;
                         sendResponse($Array);
                     }else{
-                        //keyword_by hanya boleh kode_transaksi atau order_id
-                        if($keyword_by!=='kode_transaksi'&&$keyword_by!=='order_id'&&$keyword_by!==''){
-                            $Array['status'] = "Dasar Pencarian Tidak Valid (Hanya Boleh kode_transaksi atau order_id)";
+                        $allowedColumns = [
+                            'id_order_transaksi', 
+                            'kode_transaksi', 
+                            'order_id', 
+                            'datetime', 
+                            'ServerKey', 
+                            'Production', 
+                            'gross_amount', 
+                            'name', 
+                            'email', 
+                            'phone', 
+                            'snapToken'
+                        ];
+                        // Validasi apakah $keyword_by ada dalam daftar $allowedColumns
+                        if (!in_array($keyword_by, $allowedColumns) && $keyword_by !== '') {
+                            $Array['status'] = "Dasar Pencarian Tidak Valid (Hanya Boleh " . implode(' atau ', ['kode_transaksi', 'order_id']) . ")";
                             $Array['code'] = 401;
                             sendResponse($Array);
-                        }else{
+                        } else {
                             //Jumlah Data
                             if(empty($keyword_by)){
                                 if(empty($keyword)){
@@ -181,7 +194,6 @@
                                     if (!empty($keyword)) {
                                         if (empty($keyword_by)) {
                                             // Jika tidak ada kolom tertentu untuk pencarian, lakukan pencarian di beberapa kolom
-                                            $allowedColumns = ['kode_transaksi', 'order_id']; // Tambahkan kolom lain sesuai kebutuhan
                                             $whereClauses = [];
                                             // Buat query pencarian dinamis berdasarkan kolom yang ada
                                             foreach ($allowedColumns as $column) {
@@ -203,13 +215,26 @@
                                         $id_order_transaksi = $x["id_order_transaksi"];
                                         $kode_transaksi=$x["kode_transaksi"];
                                         $order_id=$x["order_id"];
-                                        $log_payment=$x["log_payment"];
+                                        $datetime=$x["datetime"];
+                                        $ServerKey=$x["ServerKey"];
+                                        $Production=$x["Production"];
+                                        $gross_amount=$x["gross_amount"];
+                                        $name=$x["name"];
+                                        $email=$x["email"];
+                                        $phone=$x["phone"];
+                                        $snapToken=$x["snapToken"];
                                         //Enkrip Json to array
-                                        $log_payment=json_decode($log_payment, true);
                                         $h['id_order_transaksi'] =$id_order_transaksi ;
                                         $h['kode_transaksi'] =$kode_transaksi ;
                                         $h['order_id'] =$order_id ;
-                                        $h['log_payment'] =$log_payment ;
+                                        $h['datetime'] =$datetime;
+                                        $h['ServerKey'] =$ServerKey;
+                                        $h['Production'] =$Production;
+                                        $h['gross_amount'] =$gross_amount;
+                                        $h['name'] =$name;
+                                        $h['email'] =$email;
+                                        $h['phone'] =$phone;
+                                        $h['snapToken'] =$snapToken;
                                         array_push($list, $h);
                                     }
                                     $Array['status'] = "success";

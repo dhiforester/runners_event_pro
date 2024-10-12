@@ -28,38 +28,102 @@
         }
         return $randomString;
     }
-    function InsertKodeTransaksi($Conn,$order_id,$kode_transaksi,$JsonLog){
-        $entry="INSERT INTO order_transaksi (
-            order_id,
+    function InsertKodeTransaksi($Conn, $log) {
+        // Mendapatkan nilai dari array $log
+        $kode_transaksi = $log['kode_transaksi'];
+        $order_id = $log['order_id'];
+        $datetime = $log['datetime'];
+        $ServerKey = $log['ServerKey'];
+        $Production = $log['Production'];
+        $gross_amount = $log['gross_amount'];
+        $first_name = $log['first_name'];
+        $last_name = $log['last_name'];
+        $email = $log['email'];
+        $phone = $log['phone'];
+        $snapToken = $log['snapToken'];
+        
+        // Menggabungkan first name dan last name
+        $name = "$first_name $last_name";
+    
+        // Menyiapkan query menggunakan prepared statement
+        $stmt = $Conn->prepare("INSERT INTO order_transaksi (
             kode_transaksi,
-            log_payment
-        ) VALUES (
-            '$order_id',
-            '$kode_transaksi',
-            '$JsonLog'
-        )";
-        $Input=mysqli_query($Conn, $entry);
-        if($Input){
-            $Response="Berhasil";
-        }else{
-            $Response="Input Data Gagal";
+            order_id,
+            datetime,
+            ServerKey,
+            Production,
+            gross_amount,
+            name,
+            email,
+            phone,
+            snapToken
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
+        // Bind parameter untuk menghindari SQL Injection
+        $stmt->bind_param(
+            "sssssdssss",  // s = string, d = double (gross_amount di sini dianggap sebagai decimal/float)
+            $kode_transaksi, 
+            $order_id, 
+            $datetime, 
+            $ServerKey, 
+            $Production, 
+            $gross_amount, 
+            $name, 
+            $email, 
+            $phone, 
+            $snapToken
+        );
+    
+        // Eksekusi query dan cek hasilnya
+        if ($stmt->execute()) {
+            $Response = "Berhasil";
+        } else {
+            $Response = "Input Data Gagal: " . $stmt->error; // Untuk debug error
         }
+    
+        // Menutup prepared statement
+        $stmt->close();
+    
         return $Response;
     }
-    function UpdateKodeTransaksi($Conn, $order_id, $kode_transaksi, $JsonLog){
-        $query = "UPDATE order_transaksi SET 
-            order_id='$order_id',
-            log_payment='$JsonLog'
-            WHERE kode_transaksi='$kode_transaksi'";
-        $UpdateOrderId = mysqli_query($Conn, $query);
     
+    function UpdateKodeTransaksi($Conn, $log){
+        // Mendapatkan nilai dari array $log
+        $kode_transaksi = $log['kode_transaksi'];
+        $order_id = $log['order_id'];
+        $datetime = $log['datetime'];
+        $ServerKey = $log['ServerKey'];
+        $Production = $log['Production'];
+        $gross_amount = $log['gross_amount'];
+        $first_name = $log['first_name'];
+        $last_name = $log['last_name'];
+        $email = $log['email'];
+        $phone = $log['phone'];
+        $snapToken = $log['snapToken'];
+        
+        // Menggabungkan first name dan last name
+        $name = "$first_name $last_name";
+
+        //Melakukan Update
+        $query = "UPDATE order_transaksi SET 
+            kode_transaksi='$kode_transaksi',
+            order_id='$order_id',
+            datetime='$datetime',
+            ServerKey='$ServerKey',
+            Production='$Production',
+            gross_amount='$gross_amount',
+            name='$name',
+            email='$email',
+            phone='$phone',
+            snapToken='$snapToken'
+        WHERE kode_transaksi='$kode_transaksi' AND order_id='$order_id'";
+        $UpdateOrderId = mysqli_query($Conn, $query);
         if ($UpdateOrderId) {
             $Response = "Berhasil";
         } else {
             $Response = "Update Data Gagal: " . mysqli_error($Conn); 
             // Menggabungkan pesan error dari MySQL
         }
-    
         return $Response;
     }
     //Delete Data

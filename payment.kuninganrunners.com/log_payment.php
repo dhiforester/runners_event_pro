@@ -115,18 +115,8 @@
                     $allowedColumns = [
                         'id_log_payment', 
                         'kode_transaksi', 
-                        'transaction_time', 
-                        'transaction_status', 
-                        'transaction_id', 
-                        'status_message', 
-                        'status_code', 
-                        'signature_key', 
-                        'payment_type', 
                         'order_id', 
-                        'merchant_id', 
-                        'gross_amount', 
-                        'fraud_status', 
-                        'currency'
+                        'log_payment'
                     ];
                     if (!in_array($OrderBy, $allowedColumns)) {
                         $Array['status'] = "Dasar pengurutan data tidak valid. Anda hanya boleh mengurutkan data berdasarkan atribut yang ada";
@@ -192,7 +182,7 @@
                                     if (!empty($keyword)) {
                                         if (empty($keyword_by)) {
                                             // Jika tidak ada kolom tertentu untuk pencarian, lakukan pencarian di beberapa kolom
-                                            $allowedColumns = ['kode_transaksi', 'order_id', 'status_code']; // Tambahkan kolom lain sesuai kebutuhan
+                                            $allowedColumns = ['kode_transaksi', 'order_id']; // Tambahkan kolom lain sesuai kebutuhan
                                             $whereClauses = [];
                                             // Buat query pencarian dinamis berdasarkan kolom yang ada
                                             foreach ($allowedColumns as $column) {
@@ -213,32 +203,14 @@
                                     while ($x = mysqli_fetch_array($QryPayment)) {
                                         $id_log_payment = $x["id_log_payment"];
                                         $kode_transaksi=$x["kode_transaksi"];
-                                        $transaction_time=$x["transaction_time"];
-                                        $transaction_status=$x["transaction_status"];
-                                        $transaction_id=$x["transaction_id"];
-                                        $status_message=$x["status_message"];
-                                        $status_code=$x["status_code"];
-                                        $signature_key=$x["signature_key"];
-                                        $payment_type=$x["payment_type"];
                                         $order_id=$x["order_id"];
-                                        $merchant_id=$x["merchant_id"];
-                                        $gross_amount=$x["gross_amount"];
-                                        $fraud_status=$x["fraud_status"];
-                                        $currency=$x["currency"];
+                                        $log_payment=$x["log_payment"];
+                                        //ubah log payment menjadi array
+                                        $log_payment=json_decode($log_payment, true);
                                         $h['id_log_payment'] =$id_log_payment ;
                                         $h['kode_transaksi'] =$kode_transaksi ;
-                                        $h['transaction_time'] =$transaction_time ;
-                                        $h['transaction_status'] =$transaction_status ;
-                                        $h['transaction_id'] =$transaction_id ;
-                                        $h['status_message'] =$status_message ;
-                                        $h['status_code'] =$status_code ;
-                                        $h['signature_key'] =$signature_key ;
-                                        $h['payment_type'] =$payment_type ;
                                         $h['order_id'] =$order_id ;
-                                        $h['merchant_id'] =$merchant_id ;
-                                        $h['gross_amount'] =$gross_amount ;
-                                        $h['fraud_status'] =$fraud_status ;
-                                        $h['currency'] =$currency ;
+                                        $h['log_payment'] =$log_payment ;
                                         array_push($list, $h);
                                     }
                                     $Array['status'] = "success";
