@@ -71,7 +71,14 @@
                                         datetime_update='$now'
                                     WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
                                     if($UpdateAkses){
-                                        echo '<small class="text-success" id="NotifikasiEditAksesBerhasil">Success</small>';
+                                        $kategori_log="Akses";
+                                        $deskripsi_log="Edit Akses";
+                                        $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                        if($InputLog=="Success"){
+                                            echo '<small class="text-success" id="NotifikasiEditAksesBerhasil">Success</small>';
+                                        }else{
+                                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log aktivitas</small>';
+                                        }
                                     }else{
                                         echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
                                     }

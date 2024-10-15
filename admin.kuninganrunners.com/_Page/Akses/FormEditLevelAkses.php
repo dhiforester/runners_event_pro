@@ -32,45 +32,47 @@
             $akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'akses');
             $datetime_daftar=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_daftar');
             $datetime_update=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_update');
-            //Jumlah
-            $JumlahAktivitas =mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM log WHERE id_akses='$id_akses'"));
-            $JumlahRole =mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM akses_ijin WHERE id_akses='$id_akses'"));
-            //Format Tanggal
-            $strtotime1=strtotime($datetime_daftar);
-            $strtotime2=strtotime($datetime_update);
-            //Menampilkan Tanggal
-            $DateDaftar=date('d/m/Y H:i:s T', $strtotime1);
-            $DateUpdate=date('d/m/Y H:i:s T', $strtotime2);
-            if(!empty($image_akses)){
-                $image_akses=$image_akses;
-            }else{
-                $image_akses="No-Image.png";
-            }
 ?>
         <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
         <div class="row mb-3">
-            <div class="col col-md-4">Nama Lengkap</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+            <div class="co-md-12 border-1 border-bottom">
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>Nama Lengkap</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>Kontak</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>Email</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col col-md-4">Kontak</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">Email</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $email_akses; ?></code>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">
-                <label for="akses">Akses</label>
-            </div>
-            <div class="col col-md-8">
+            <div class="col-md-12">
+                <label for="akses">
+                    <small>Pilih Levell/Entitias</small>
+                </label>
                 <select name="akses" id="akses" class="form-control">
                     <option value="">Pilih</option>
                     <?php
@@ -87,7 +89,7 @@
                     ?>
                 </select>
                 <small class="credit">
-                    <code class="text text-grayish">Silahkan pilih level akses yang anda inginkan</code>
+                    <code class="text text-grayish">Tingkat level akses yang digunakan berdasarkan entitias</code>
                 </small>
             </div>
         </div>

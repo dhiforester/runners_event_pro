@@ -11,7 +11,122 @@ function filterAndLoadTable() {
     });
 }
 $(document).ready(function() {
+    //Menampilkan Data Pertama Kali
     filterAndLoadTable();
+    //Validasi Form Tambah Akses
+    var nama_akses_max_length = 100;
+    var kontak_akses_max_length = 20;
+    var password1_max_length = 20;
+    var password2_max_length = 20;
+    function updateCharCountNamaAkses() {
+        var charCount = $('#nama_akses').val().length;
+        $('#nama_akses_length').text(charCount + '/' + nama_akses_max_length);
+    }
+    function updateCharCountKontakAkses() {
+        var charCount = $('#kontak_akses').val().length;
+        $('#kontak_akses_length').text(charCount + '/' + kontak_akses_max_length);
+    }
+    function updateCharCountPasswordAkses1() {
+        var charCount = $('#password1').val().length;
+        $('#password1_length').text(charCount + '/' + password1_max_length);
+    }
+    function updateCharCountPasswordAkses2() {
+        var charCount = $('#password2').val().length;
+        $('#password2_length').text(charCount + '/' + password2_max_length);
+    }
+    // Fungsi untuk membatasi input hanya pada huruf dan spasi
+    function restrictInput(value) {
+        return value.replace(/[^a-zA-Z\s]/g, '');
+    }
+    function restrictNumberInput(value) {
+        return value.replace(/[^0-9\s]/g, '');
+    }
+    updateCharCountNamaAkses();
+    updateCharCountKontakAkses();
+    updateCharCountPasswordAkses1();
+    updateCharCountPasswordAkses2();
+    $('#nama_akses').on('input', function() {
+        var currentValue = $(this).val();
+        currentValue = restrictInput(currentValue);
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > nama_akses_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, nama_akses_max_length);
+        }
+        // Perbarui nilai input
+        $('#nama_akses').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountNamaAkses();
+    });
+    $('#nama_akses').on('change', function() {
+        var currentValue = $(this).val();
+        currentValue = restrictInput(currentValue);
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > nama_akses_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, nama_akses_max_length);
+        }
+        // Perbarui nilai input
+        $('#nama_akses').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountNamaAkses();
+    });
+    $('#kontak_akses').on('input', function() {
+        var currentValue = $(this).val();
+        currentValue = restrictNumberInput(currentValue);
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > kontak_akses_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, kontak_akses_max_length);
+        }
+        // Perbarui nilai input
+        $('#kontak_akses').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountKontakAkses();
+    });
+    $('#kontak_akses').on('change', function() {
+        var currentValue = $(this).val();
+        currentValue = restrictNumberInput(currentValue);
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > kontak_akses_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, kontak_akses_max_length);
+        }
+        // Perbarui nilai input
+        $('#kontak_akses').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountKontakAkses();
+    });
+    $('#password1').on('input', function() {
+        var currentValue = $(this).val();
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > password1_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, password1_max_length);
+        }
+        // Perbarui nilai input
+        $('#password1').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountPasswordAkses1();
+    });
+    $('#password1').on('change', function() {
+        var currentValue = $(this).val();
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > password1_max_length) {
+            // Jika melebihi, batasi input
+            currentValue = currentValue.substring(0, password1_max_length);
+        }
+        // Perbarui nilai input
+        $('#password1').val(currentValue);
+        // Update tampilan jumlah karakter
+        updateCharCountPasswordAkses1();
+    });
 });
 $('#ProsesFilter').submit(function(){
     $('#page').val("1");

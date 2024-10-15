@@ -49,28 +49,44 @@
 ?>
         <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
         <div class="row mb-3">
-            <div class="col col-md-4">Nama Lengkap</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+            <div class="col-md-12 border-1 border-bottom">
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>Nama Lengkap</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>No.Kontak/HP</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col col-md-4">
+                        <small>Email</small>
+                    </div>
+                    <div class="col col-md-8">
+                        <small>
+                            <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col col-md-4">Kontak</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">Email</div>
-            <div class="col col-md-8">
-                <code class="text text-grayish"><?php echo $email_akses; ?></code>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-md-4">
-                <label for="image_akses_edit">Upload Foto</label>
-            </div>
-            <div class="col col-md-8">
+            <div class="col-md-12">
+                <label for="image_akses_edit">
+                    <small>Upload Foto</small>
+                </label>
                 <input type="file" name="image_akses" id="image_akses_edit" class="form-control">
                 <small class="credit">
                     <code class="text text-grayish">

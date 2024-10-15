@@ -50,18 +50,46 @@
     <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
     <div class="row">
         <div class="col-md-12 mb-3">
-            <label for="password1">Password Baru</label>
-            <input type="password" name="password1" id="password1_edit" class="form-control">
-            <small class="credit">Password hanya boleh terdiri dari 6-20 karakter angka dan huruf</small>
+            <label for="password1">
+                <small>
+                    Password Baru
+                </small>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text" id="inputGroupPrepend">
+                    <small>
+                        <i class="bi bi-key"></i>
+                    </small>
+                </span>
+                <input type="password" name="password1" id="password1_edit" class="form-control">
+                <span class="input-group-text" id="inputGroupPrepend">
+                    <small>
+                        <code class="text text-dark" id="password1_edit_length">0/20</code>
+                    </small>
+                </span>
+            </div>
+            <small class="credit">
+                <code class="text text-grayish">Password terdiri dari 6-20 karakter angka dan huruf</code>
+            </small>
         </div>
         <div class="col-md-12 mb-3">
-            <label for="password2">Ulangi Password</label>
-            <input type="password" name="password2" id="password2_edit" class="form-control">
+            <label for="password2">
+                <small>Ulangi Password</small>
+            </label>
+            <div class="input-group">
+                <span class="input-group-text" id="inputGroupPrepend">
+                    <small>
+                        <i class="bi bi-key"></i>
+                    </small>
+                </span>
+                <input type="password" name="password2" id="password2_edit" class="form-control">
+            </div>
+            
             <small class="credit">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="Tampilkan" id="TampilkanPassword2" name="TampilkanPassword2">
                     <label class="form-check-label" for="TampilkanPassword2">
-                        Tampilkan Password
+                        <small>Tampilkan Password</small>
                     </label>
                 </div>
             </small>
@@ -77,6 +105,25 @@
                 $('#password1_edit').attr('type','password');
                 $('#password2_edit').attr('type','password');
             }
+        });
+        var password1_edit_max_length = 20;
+        function updateCharCountPasswordAkses1_edit() {
+            var charCount = $('#password1_edit').val().length;
+            $('#password1_edit_length').text(charCount + '/' + password1_edit_max_length);
+        }
+        updateCharCountPasswordAkses1_edit();
+        $('#password1_edit').on('input', function() {
+            var currentValue = $(this).val();
+            var charCount = currentValue.length;
+            // Cek apakah jumlah karakter melebihi
+            if (charCount > password1_edit_max_length) {
+                // Jika melebihi, batasi input
+                currentValue = currentValue.substring(0, password1_edit_max_length);
+            }
+            // Perbarui nilai input
+            $('#password1_edit').val(currentValue);
+            // Update tampilan jumlah karakter
+            updateCharCountPasswordAkses1_edit();
         });
     </script>
 <?php 

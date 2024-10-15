@@ -47,80 +47,144 @@
                 $image_akses="No-Image.png";
             }
 ?>
-            <div class="row mb-3 border-1 border-bottom">
-                <div class="col-md-12 text-center mb-4">
-                    <img src="<?php echo $base_url; ?>/assets/img/User/<?php echo $image_akses; ?>" alt="" width="50%" class="rounded-circle">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+                            A. Identitias Pengguna
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="">
+                        <div class="accordion-body">
+                            <div class="row mb-3 mt-3">
+                                <div class="col-md-12 mb-4">
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Nama Lengkap</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Kontak</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Email</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Akses</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $akses; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Datetime Creat</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $DateDaftar; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Update Time</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <code class="text text-grayish"><?php echo $DateUpdate; ?></code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            B. Foto Profil
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="row mb-3 mt-3">
+                                <div class="col-md-12 text-center">
+                                    <img src="assets/img/User/<?php echo $image_akses; ?>" alt="" width="50%" class="rounded-circle">
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <small>
+                                        <code><?php echo $image_akses; ?></code>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                            C. Ijin Akses Fitur
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <?php
+                                $no=1;
+                                echo '<div class="row mb-3 mt-3">';
+                                $QryKategori = mysqli_query($Conn, "SELECT DISTINCT kategori FROM akses_fitur ORDER BY kategori ASC");
+                                while ($DataKategori = mysqli_fetch_array($QryKategori)) {
+                                    $KategoriList= $DataKategori['kategori'];
+                                    echo '  <div class="col-md-12">';
+                                    echo '     <small class="credit">'.$no.'. '.$KategoriList.'</small><br>';
+                                    echo '      <ul>';
+                                    $QryFitur = mysqli_query($Conn, "SELECT * FROM akses_fitur WHERE kategori='$KategoriList' ORDER BY nama ASC");
+                                    while ($DataFitur = mysqli_fetch_array($QryFitur)) {
+                                        $id_akses_fitur= $DataFitur['id_akses_fitur'];
+                                        $KodeFitur= $DataFitur['kode'];
+                                        $NamaFitur= $DataFitur['nama'];
+                                        $KeteranganFitur= $DataFitur['keterangan'];
+                                        //Validasi Apakah Bersangkutan Punya Akses Ini
+                                        $Validasi=IjinAksesSaya($Conn,$id_akses,$KodeFitur);
+                                        if($Validasi=="Ada"){
+                                            echo '<li><code class="text text-grayish">'.$NamaFitur.' <i class="bi bi-check text-success"></i></code></li>';
+                                        }else{
+                                            echo '<li><code class="text text-grayish">'.$NamaFitur.' <i class="bi bi-x text-danger"></i></code></li>';
+                                        }
+                                    }
+                                    echo '      </ul>';
+                                    echo '  </div>';
+                                    $no++;
+                                }
+                                echo '</div>';
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-3 border-1 border-bottom">
-                <div class="col-md-12 mb-4">
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Nama Lengkap</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $nama_akses; ?></code>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Kontak</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Email</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $email_akses; ?></code>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Akses</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $akses; ?></code>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Creat</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $DateDaftar; ?></code>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col col-md-4">Update</div>
-                        <div class="col col-md-8">
-                            <code class="text text-grayish"><?php echo $DateUpdate; ?></code>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                $no=1;
-                echo '<div class="row mb-3">';
-                $QryKategori = mysqli_query($Conn, "SELECT DISTINCT kategori FROM akses_fitur ORDER BY kategori ASC");
-                while ($DataKategori = mysqli_fetch_array($QryKategori)) {
-                    $KategoriList= $DataKategori['kategori'];
-                    echo '  <div class="col-md-12">';
-                    echo '     <small class="credit">'.$no.'. '.$KategoriList.'</small><br>';
-                    echo '      <ul>';
-                    $QryFitur = mysqli_query($Conn, "SELECT * FROM akses_fitur WHERE kategori='$KategoriList' ORDER BY nama ASC");
-                    while ($DataFitur = mysqli_fetch_array($QryFitur)) {
-                        $id_akses_fitur= $DataFitur['id_akses_fitur'];
-                        $KodeFitur= $DataFitur['kode'];
-                        $NamaFitur= $DataFitur['nama'];
-                        $KeteranganFitur= $DataFitur['keterangan'];
-                        //Validasi Apakah Bersangkutan Punya Akses Ini
-                        $Validasi=IjinAksesSaya($Conn,$id_akses,$KodeFitur);
-                        if($Validasi=="Ada"){
-                            echo '<li><code class="text text-grayish">'.$NamaFitur.' <i class="bi bi-check text-success"></i></code></li>';
-                        }else{
-                            echo '<li><code class="text text-grayish">'.$NamaFitur.'</code></li>';
-                        }
-                    }
-                    echo '      </ul>';
-                    echo '  </div>';
-                    $no++;
-                }
-                echo '</div>';
-            ?>
 <?php 
         } 
     } 

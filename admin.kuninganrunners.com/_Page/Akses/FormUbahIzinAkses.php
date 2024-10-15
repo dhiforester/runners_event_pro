@@ -48,66 +48,131 @@
             }
 ?>
     <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
-    <div class="row mb-3">
-        <div class="col col-md-4">Nama Lengkap</div>
-        <div class="col col-md-8">
-            <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+    <div class="accordion accordion-flush" id="AkordionIjinAkses">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingIjinAkses1">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseIjinAkses1" aria-expanded="false" aria-controls="flush-collapseIjinAkses1">
+                    A. Detail Akses
+                </button>
+            </h2>
+            <div id="flush-collapseIjinAkses1" class="accordion-collapse collapse" aria-labelledby="flush-headingIjinAkses1" data-bs-parent="#AkordionIjinAkses">
+                <div class="accordion-body">
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Nama Lengkap</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Kontak</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Email</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Akses</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $akses; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Datetime Creat</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $DateDaftar; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Update Time</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo $DateUpdate; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Kontak</div>
-        <div class="col col-md-8">
-            <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingIjinAkses2">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseIjinAkses2" aria-expanded="true" aria-controls="flush-collapseIjinAkses2">
+                    B. Ijin Akses
+                </button>
+            </h2>
+            <div id="flush-collapseIjinAkses2" class="accordion-collapse collapse show" aria-labelledby="flush-headingIjinAkses2" data-bs-parent="#AkordionIjinAkses">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php
+                                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM akses_fitur"));
+                                if(empty($jml_data)){
+                                    echo '<code class="text-center text-danger">Belum ada data fitur aplikasi, silahkan tambahkan fitur aplikasi terlebih dulu</code>';
+                                }else{
+                                    echo '<div class="row">';
+                                    $no_kategori=1;
+                                    $QryKategoriFitur = mysqli_query($Conn, "SELECT DISTINCT kategori FROM akses_fitur ORDER BY kategori ASC");
+                                    while ($DataKategori = mysqli_fetch_array($QryKategoriFitur)) {
+                                        $kategori= $DataKategori['kategori'];
+                                        echo '<div class="col-md-12 mb-2">';
+                                        echo '  <small class="credit">'.$no_kategori.'. '.$kategori.'</small>';
+                                        echo '  <ul>';
+                                        $QryFitur = mysqli_query($Conn, "SELECT * FROM akses_fitur WHERE kategori='$kategori' ORDER BY nama ASC");
+                                        while ($DataFitur = mysqli_fetch_array($QryFitur)) {
+                                            $id_akses_fitur= $DataFitur['id_akses_fitur'];
+                                            $NamaFitur= $DataFitur['nama'];
+                                            $kode= $DataFitur['kode'];
+                                            echo '<li>';
+                                            //Validasi Apakah Bersangkutan Punya Akses Ini
+                                            $Validasi=IjinAksesSaya($Conn,$id_akses,$kode);
+                                            if($Validasi=="Ada"){
+                                                echo '<input type="checkbox" checked name="rules[]" id="IdFiturEdit'.$id_akses_fitur.'" value="'.$id_akses_fitur.'"> ';
+                                                echo '<label for="IdFiturEdit'.$id_akses_fitur.'"><small class="credit"><code class="text text-grayish">'.$NamaFitur.'</code></small></label>';
+                                            }else{
+                                                echo '<input type="checkbox" name="rules[]" id="IdFiturEdit'.$id_akses_fitur.'" value="'.$id_akses_fitur.'"> ';
+                                                echo '<label for="IdFiturEdit'.$id_akses_fitur.'"><small class="credit"><code class="text text-grayish">'.$NamaFitur.'</code></small></label>';
+                                            }
+                                            echo '  </td>';
+                                            echo '</li>';
+                                        }
+                                        echo '  </ul>';
+                                        echo '</div>';
+                                        $no_kategori++;
+                                    }
+                                    echo '</div>';
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3 border-1 border-bottom">
-        <div class="col col-md-4 mb-3">Email</div>
-        <div class="col col-md-8 mb-3">
-            <code class="text text-grayish"><?php echo $email_akses; ?></code>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?php
-                $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM akses_fitur"));
-                if(empty($jml_data)){
-                    echo '<code class="text-center text-danger">Belum ada data fitur aplikasi, silahkan tambahkan fitur aplikasi terlebih dulu</code>';
-                }else{
-                    echo '<div class="row">';
-                    $no_kategori=1;
-                    $QryKategoriFitur = mysqli_query($Conn, "SELECT DISTINCT kategori FROM akses_fitur ORDER BY kategori ASC");
-                    while ($DataKategori = mysqli_fetch_array($QryKategoriFitur)) {
-                        $kategori= $DataKategori['kategori'];
-                        echo '<div class="col-md-12 mb-2">';
-                        echo '  <small class="credit">'.$no_kategori.'. '.$kategori.'</small>';
-                        echo '  <ul>';
-                        $QryFitur = mysqli_query($Conn, "SELECT * FROM akses_fitur WHERE kategori='$kategori' ORDER BY nama ASC");
-                        while ($DataFitur = mysqli_fetch_array($QryFitur)) {
-                            $id_akses_fitur= $DataFitur['id_akses_fitur'];
-                            $NamaFitur= $DataFitur['nama'];
-                            $kode= $DataFitur['kode'];
-                            echo '<li>';
-                            //Validasi Apakah Bersangkutan Punya Akses Ini
-                            $Validasi=IjinAksesSaya($Conn,$id_akses,$kode);
-                            if($Validasi=="Ada"){
-                                echo '<input type="checkbox" checked name="rules[]" id="IdFiturEdit'.$id_akses_fitur.'" value="'.$id_akses_fitur.'"> ';
-                                echo '<label for="IdFiturEdit'.$id_akses_fitur.'"><small class="credit"><code class="text text-grayish">'.$NamaFitur.'</code></small></label>';
-                            }else{
-                                echo '<input type="checkbox" name="rules[]" id="IdFiturEdit'.$id_akses_fitur.'" value="'.$id_akses_fitur.'"> ';
-                                echo '<label for="IdFiturEdit'.$id_akses_fitur.'"><small class="credit"><code class="text text-grayish">'.$NamaFitur.'</code></small></label>';
-                            }
-                            echo '  </td>';
-                            echo '</li>';
-                        }
-                        echo '  </ul>';
-                        echo '</div>';
-                        $no_kategori++;
-                    }
-                    echo '</div>';
-                }
-            ?>
-        </div>
-    </div>
 <?php 
         } 
     } 

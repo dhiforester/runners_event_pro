@@ -50,28 +50,148 @@
         <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
         <div class="row mb-3">
             <div class="col col-md-4">
-                <label for="nama_akses_edit">Nama Lengkap</label>
+                <label for="nama_akses_edit">
+                    <small>Nama Lengkap</small>
+                </label>
             </div>
-            <div class="col col-md-8">
-                <input type="text" name="nama_akses" id="nama_akses_edit" class="form-control" value="<?php echo "$nama_akses"; ?>">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text" id="inputGroupPrepend">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    <input type="text" name="nama_akses" id="nama_akses_edit" class="form-control" value="<?php echo "$nama_akses"; ?>">
+                    <span class="input-group-text" id="inputGroupPrepend">
+                        <small>
+                            <code class="text text-dark" id="nama_akses_edit_length">0/100</code>
+                        </small>
+                    </span>
+                </div>
+                <small>
+                    <code class="text text-grayish">Nama lengkap pengguna</code>
+                </small>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col col-md-4">
-                <label for="kontak_akses_edit">Nomor Kontak</label>
+                <label for="kontak_akses_edit">
+                    <small>No Kontak/HP</small>
+                </label>
             </div>
-            <div class="col col-md-8">
-                <input type="text" name="kontak_akses" id="kontak_akses_edit" class="form-control" value="<?php echo "$kontak_akses"; ?>">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text" id="inputGroupPrepend">
+                        <i class="bi bi-phone"></i>
+                    </span>
+                    <input type="text" name="kontak_akses" id="kontak_akses_edit" class="form-control" placeholder="62" value="<?php echo "$kontak_akses"; ?>">
+                    <span class="input-group-text" id="inputGroupPrepend">
+                        <small>
+                            <code class="text text-dark" id="kontak_akses_edit_length">0/20</code>
+                        </small>
+                    </span>
+                </div>
+                <small>
+                    <code class="text text-grayish">Kontak/HP yang bisa dihubungi</code>
+                </small>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col col-md-4">
-                <label for="email_akses_edit">Email</label>
+                <label for="email_akses_edit">
+                    <small>Email</small>
+                </label>
             </div>
-            <div class="col col-md-8">
-                <input type="email" name="email_akses" id="email_akses_edit" class="form-control" value="<?php echo "$email_akses"; ?>">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <span class="input-group-text" id="inputGroupPrepend">
+                        <small>
+                            <i class="bi bi-envelope"></i>
+                        </small>
+                    </span>
+                    <input type="email" name="email_akses" id="email_akses_edit" class="form-control" value="<?php echo "$email_akses"; ?>">
+                </div>
+                <small>
+                    <code class="text text-grayish">Alamat email pengguna yang valid</code>
+                </small>
             </div>
         </div>
+        <script>
+            //Validasi Form Tambah Akses
+            var nama_akses_edit_max_length = 100;
+            var kontak_akses_edit_max_length = 20;
+            function updateCharCountNamaAksesEdit() {
+                var charCount = $('#nama_akses_edit').val().length;
+                $('#nama_akses_edit_length').text(charCount + '/' + nama_akses_edit_max_length);
+            }
+            function updateCharCountKontakAksesEdit() {
+                var charCount = $('#kontak_akses_edit').val().length;
+                $('#kontak_akses_edit_length').text(charCount + '/' + kontak_akses_edit_max_length);
+            }
+            // Fungsi untuk membatasi input hanya pada huruf dan spasi
+            function restrictInput2(value) {
+                return value.replace(/[^a-zA-Z\s]/g, '');
+            }
+            function restrictNumberInput2(value) {
+                return value.replace(/[^0-9\s]/g, '');
+            }
+            updateCharCountNamaAksesEdit();
+            updateCharCountKontakAksesEdit();
+            $('#nama_akses_edit').on('input', function() {
+                var currentValue = $(this).val();
+                currentValue = restrictInput2(currentValue);
+                var charCount = currentValue.length;
+                // Cek apakah jumlah karakter melebihi
+                if (charCount > nama_akses_edit_max_length) {
+                    // Jika melebihi, batasi input
+                    currentValue = currentValue.substring(0, nama_akses_edit_max_length);
+                }
+                // Perbarui nilai input
+                $('#nama_akses_edit').val(currentValue);
+                // Update tampilan jumlah karakter
+                updateCharCountNamaAksesEdit();
+            });
+            $('#nama_akses_edit').on('change', function() {
+                var currentValue = $(this).val();
+                currentValue = restrictInput2(currentValue);
+                var charCount = currentValue.length;
+                // Cek apakah jumlah karakter melebihi
+                if (charCount > nama_akses_edit_max_length) {
+                    // Jika melebihi, batasi input
+                    currentValue = currentValue.substring(0, nama_akses_edit_max_length);
+                }
+                // Perbarui nilai input
+                $('#nama_akses_edit').val(currentValue);
+                // Update tampilan jumlah karakter
+                updateCharCountNamaAksesEdit();
+            });
+            $('#kontak_akses_edit').on('input', function() {
+                var currentValue = $(this).val();
+                currentValue = restrictNumberInput2(currentValue);
+                var charCount = currentValue.length;
+                // Cek apakah jumlah karakter melebihi
+                if (charCount > kontak_akses_edit_max_length) {
+                    // Jika melebihi, batasi input
+                    currentValue = currentValue.substring(0, kontak_akses_edit_max_length);
+                }
+                // Perbarui nilai input
+                $('#kontak_akses_edit').val(currentValue);
+                // Update tampilan jumlah karakter
+                updateCharCountKontakAksesEdit();
+            });
+            $('#kontak_akses_edit').on('change', function() {
+                var currentValue = $(this).val();
+                currentValue = restrictNumberInput2(currentValue);
+                var charCount = currentValue.length;
+                // Cek apakah jumlah karakter melebihi
+                if (charCount > kontak_akses_edit_max_length) {
+                    // Jika melebihi, batasi input
+                    currentValue = currentValue.substring(0, kontak_akses_edit_max_length);
+                }
+                // Perbarui nilai input
+                $('#kontak_akses_edit').val(currentValue);
+                // Update tampilan jumlah karakter
+                updateCharCountKontakAksesEdit();
+            });
+        </script>
 <?php 
         } 
     } 

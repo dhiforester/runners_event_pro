@@ -28,7 +28,14 @@
                         $file = '../../assets/img/User/'.$image_akses.'';
                         if (file_exists($file)) {
                             if (unlink($file)) {
-                                echo '<span class="text-success" id="NotifikasiHapusAksesBerhasil">Success</span>';
+                                $kategori_log="Akses";
+                                $deskripsi_log="Hapus Akses";
+                                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                if($InputLog=="Success"){
+                                    echo '<span class="text-success" id="NotifikasiHapusAksesBerhasil">Success</span>';
+                                }else{
+                                    echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log aktivitas</small>';
+                                }
                             } else {
                                 echo '<span class="text-danger">Terjadi kesalahan pada saat menghapus file</span>';
                             }

@@ -49,39 +49,43 @@
 ?>
             <input type="hidden" name="id_akses" id="id_akses_edit" value="<?php echo "$id_akses"; ?>">
             <div class="row mb-3">
-                <div class="col col-md-4">Nama Lengkap</div>
+                <div class="col col-md-4">
+                    <small>Nama Lengkap</small>
+                </div>
                 <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                    <small>
+                        <code class="text text-grayish"><?php echo $nama_akses; ?></code>
+                    </small>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col col-md-4">Kontak</div>
+                <div class="col col-md-4">
+                    <small>Kontak</small>
+                </div>
                 <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                    <small>
+                        <code class="text text-grayish"><?php echo $kontak_akses; ?></code>
+                    </small>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col col-md-4">Email</div>
+                <div class="col col-md-4">
+                    <small>Email</small>
+                </div>
                 <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                    <small>
+                        <code class="text text-grayish"><?php echo $email_akses; ?></code>
+                    </small>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col col-md-4">Akses</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $akses; ?></code>
+                <div class="col col-md-4">
+                    <small>Akses</small>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Creat</div>
                 <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $DateDaftar; ?></code>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col col-md-4">Update</div>
-                <div class="col col-md-8">
-                    <code class="text text-grayish"><?php echo $DateUpdate; ?></code>
+                    <small>
+                        <code class="text text-grayish"><?php echo $akses; ?></code>
+                    </small>
                 </div>
             </div>
 <?php 

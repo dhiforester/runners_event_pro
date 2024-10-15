@@ -2,7 +2,6 @@
     session_start();
     include "../../_Config/Connection.php";
     header('Content-Type: application/json'); // Set header agar selalu mengembalikan JSON
-
     date_default_timezone_set('Asia/Jakarta');
     $date_creat = date('Y-m-d H:i:s');
     $expired_seconds = 60 * 60; // 1 hour
@@ -17,7 +16,6 @@
     }
 
     $response = [];
-
     if (empty($_POST["email"])) {
         $response['status'] = 'error';
         $response['message'] = 'Email tidak boleh kosong';
@@ -31,27 +29,23 @@
         $email = validateAndSanitizeInput($_POST["email"]);
         $password = validateAndSanitizeInput($_POST["password"]);
         $mode_akses = validateAndSanitizeInput($_POST["mode_akses"]);
-        $passwordMd5 = md5($password);
 
-        if ($mode_akses == "Admin") {
-            $stmt = $Conn->prepare("SELECT * FROM akses WHERE email_akses = ? AND password = ?");
-            $stmt->bind_param("ss", $email, $passwordMd5);
-        } else {
-            $stmt = $Conn->prepare("SELECT * FROM akses WHERE email_akses = ? AND password = ?");
-            $stmt->bind_param("ss", $email, $passwordMd5);
-        }
-
+        // Memeriksa apakah pengguna dengan email tersebut ada di database
+        $stmt = $Conn->prepare("SELECT * FROM akses WHERE email_akses = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         $DataAkses = $result->fetch_assoc();
 
-        if ($DataAkses) {
+        if ($DataAkses && password_verify($password, $DataAkses['password'])) {
             $id_akses = $mode_akses == "Admin" ? $DataAkses["id_akses"] : $DataAkses["id_anggota"];
 
+            // Hapus token lama
             $deleteTokenStmt = $Conn->prepare("DELETE FROM akses_login WHERE id_akses = ? AND kategori = ?");
             $deleteTokenStmt->bind_param("is", $id_akses, $mode_akses);
             $deleteTokenStmt->execute();
 
+            // Buat token baru
             $token = generateToken();
             $insertTokenStmt = $Conn->prepare("INSERT INTO akses_login (id_akses, kategori, token, date_creat, date_expired) VALUES (?, ?, ?, ?, ?)");
             $insertTokenStmt->bind_param("issss", $id_akses, $mode_akses, $token, $date_creat, $date_expired);

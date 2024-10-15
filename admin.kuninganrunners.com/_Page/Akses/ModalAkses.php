@@ -9,8 +9,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="batas">Data</label>
+                        <div class="col col-md-4">
+                            <label for="batas">
+                                <small class="credit">Limit/Batas</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="batas" id="batas" class="form-control">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -20,8 +24,14 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <div class="col-md-6 ">
-                            <label for="OrderBy">Mode Urutan</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="OrderBy">
+                                <small>Mode Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="OrderBy" id="OrderBy" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="nama_akses">Nama</option>
@@ -31,16 +41,26 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row  mb-3">
-                        <div class="col-md-6 ">
-                            <label for="ShortBy">Tipe Urutan</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="ShortBy">
+                                <small>Tipe Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="ShortBy" id="ShortBy" class="form-control">
-                                <option value="ASC">A To Z</option>
                                 <option value="DESC">Z To A</option>
+                                <option value="ASC">A To Z</option>
                             </select>
                         </div>
-                        <div class="col-md-6 ">
-                            <label for="keyword_by">Pencarian</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="keyword_by">
+                                <small>Dasar Pencarian</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="keyword_by" id="keyword_by" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="nama_akses">Nama</option>
@@ -51,8 +71,12 @@
                         </div>
                     </div>
                     <div class="row  mb-3">
-                        <div class="col-md-12 " id="FormFilter">
-                            <label for="keyword">Kata Kunci</label>
+                        <div class="col col-md-4">
+                            <label for="keyword">
+                                <small>Kata Kunci</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8" id="FormFilter">
                             <input type="text" name="keyword" id="keyword" class="form-control">
                         </div>
                     </div>
@@ -72,41 +96,85 @@
 <div class="modal fade" id="ModalTambahAkses" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesTambahAkses">
+            <form action="javascript:void(0);" id="ProsesTambahAkses" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title text-dak"><i class="bi bi-plus"></i> Tambah Akses</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="nama_akses">Nama Lengkap</label>
+                        <div class="col-md-4">
+                            <label for="nama_akses">
+                                <small>Nama Lengkap</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
-                            <input type="text" name="nama_akses" id="nama_akses" class="form-control">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input type="text" name="nama_akses" id="nama_akses" class="form-control">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="nama_akses_length">0/100</code>
+                                    </small>
+                                </span>
+                            </div>
+                            <small>
+                                <code class="text text-grayish">Nama lengkap pengguna</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="kontak_akses">Nomor Kontak</label>
+                        <div class="col-md-4">
+                            <label for="kontak_akses">
+                                <small>No Kontak/HP</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
-                            <input type="text" name="kontak_akses" id="kontak_akses" class="form-control">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <i class="bi bi-phone"></i>
+                                </span>
+                                <input type="text" name="kontak_akses" id="kontak_akses" class="form-control" placeholder="62">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="kontak_akses_length">0/20</code>
+                                    </small>
+                                </span>
+                            </div>
+                            <small>
+                                <code class="text text-grayish">Kontak/HP yang bisa dihubungi</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="email_akses">Email</label>
+                        <div class="col-md-4">
+                            <label for="email_akses">
+                                <small>Email</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
-                            <input type="email" name="email_akses" id="email_akses" class="form-control">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <i class="bi bi-envelope"></i>
+                                    </small>
+                                </span>
+                                <input type="email" name="email_akses" id="email_akses" class="form-control" placeholder="email@domain.com">
+                            </div>
+                            <small>
+                                <code class="text text-grayish">Alamat email pengguna yang valid</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="akses">Akses</label>
+                        <div class="col-md-4">
+                            <label for="akses">
+                                <small>Akses/Entitias</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
+                        <div class="col-md-8">
                             <select name="akses" id="akses" class="form-control">
                                 <option value="">Pilih</option>
                                 <?php
@@ -123,37 +191,69 @@
                                     }
                                 ?>
                             </select>
+                            <small>
+                                <code class="text text-grayish">Tingkat level akses yang digunakan berdasarkan entitias</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="image_akses">Photo Profile</label>
+                        <div class="col-md-4">
+                            <label for="image_akses">
+                                <small>Photo Profile</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
+                        <div class="col-md-8">
                             <input type="file" name="image_akses" id="image_akses" class="form-control">
-                            <small class="credit">Maximum File 2 Mb (PNG, JPG, JPEG, GIF)</small>
+                            <small class="credit">
+                                <code class="text text-grayish">Maximum File 2 Mb (PNG, JPG, JPEG, GIF)</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="password1">Password</label>
+                        <div class="col-md-4">
+                            <label for="password1">
+                                <small>Password</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
-                            <input type="password" name="password1" id="password1" class="form-control">
-                            <small class="credit">Password hanya boleh terdiri dari 6-20 karakter angka dan huruf</small>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <i class="bi bi-key"></i>
+                                    </small>
+                                </span>
+                                <input type="password" name="password1" id="password1" class="form-control">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="password1_length">0/20</code>
+                                    </small>
+                                </span>
+                            </div>
+                            <small class="credit">
+                                <code class="text text-grayish">Password terdiri dari 6-20 karakter angka dan huruf</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col col-md-4">
-                            <label for="password2">Ulangi Password</label>
+                        <div class="col-md-4">
+                            <label for="password2">
+                                <small>Ulangi Password</small>
+                            </label>
                         </div>
-                        <div class="col col-md-8">
-                            <input type="password" name="password2" id="password2" class="form-control">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <i class="bi bi-key"></i>
+                                    </small>
+                                </span>
+                                <input type="password" name="password2" id="password2" class="form-control">
+                            </div>
                             <small class="credit">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="Tampilkan" id="TampilkanPassword" name="TampilkanPassword">
                                     <label class="form-check-label" for="TampilkanPassword">
-                                        Tampilkan Password
+                                        <code class="text text-grayish">Tampilkan Password</code>
                                     </label>
                                 </div>
                             </small>
@@ -162,14 +262,12 @@
                     <div class="row mb-3">
                         <div class="col-md-4"></div>
                         <div class="col-md-8">
-                            <code class="text text-primary">
-                                Pastikan data yang anda input sudahh sesuai
-                            </code>
+                            <small id="NotifikasiTambahAkses">
+                                <code class="text text-primary">
+                                    Pastikan data yang anda input sudahh sesuai
+                                </code>
+                            </small>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-8" id="NotifikasiTambahAkses"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -221,12 +319,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4"></div>
-                        <div class="col-md-8">
-                            <small class="text-primary">Pastikan data yang anda input sudah sesuai</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4"></div>
                         <div class="col-md-8" id="NotifikasiEditAkses">
                             <!-- Notifikasi Edit Akses Akan Muncul Disini -->
                         </div>
@@ -245,7 +337,7 @@
     </div>
 </div>
 <div class="modal fade" id="ModalEditLevelAkses" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesEditLevelAkses">
                 <div class="modal-header">
@@ -255,12 +347,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12" id="FormEditLevelAkses">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-8 mt-3">
-                            <small class="text-primary">Pastikan data yang anda input sudah sesuai</small>
                         </div>
                     </div>
                     <div class="row">
@@ -282,7 +368,7 @@
     </div>
 </div>
 <div class="modal fade" id="ModalUbahFotoAkses" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesUbahFotoAkses">
                 <div class="modal-header">
@@ -292,14 +378,6 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12" id="FormUbahFotoAkses">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-8">
-                            <code class="text-primary">
-                                Pastikan data yang anda input sudah sesuai
-                            </code>
                         </div>
                     </div>
                     <div class="row">
@@ -440,7 +518,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <small class="text-primary">
+                            <small class="text-danger">
                                 Apakah anda yakin akan menghapus data akses ini?
                             </small>
                         </div>

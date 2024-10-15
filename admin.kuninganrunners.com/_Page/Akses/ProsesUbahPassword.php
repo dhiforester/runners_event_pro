@@ -5,6 +5,10 @@
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+    //Time Zone
+    date_default_timezone_set('Asia/Jakarta');
+    //Time Now Tmp
+    $now=date('Y-m-d H:i:s');
     //Harus Login Terlebih Dulu
     if(empty($SessionIdAkses)){
         echo '<small class="text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang!</small>';
@@ -34,12 +38,19 @@
                         $password1=$_POST['password1'];
                         $password1=validateAndSanitizeInput($password1);
                         //md5
-                        $password1=MD5($password1);                           
+                        $password1=password_hash($password1, PASSWORD_DEFAULT);                        
                         $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
                             password='$password1'
                         WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
                         if($UpdateAkses){
-                            echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
+                            $kategori_log="Akses";
+                            $deskripsi_log="Ubah Password Akses";
+                            $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                            if($InputLog=="Success"){
+                                echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
+                            }else{
+                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log aktivitas</small>';
+                            }
                         }else{
                             echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
                         }

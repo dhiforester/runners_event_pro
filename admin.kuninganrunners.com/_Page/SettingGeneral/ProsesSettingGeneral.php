@@ -89,7 +89,14 @@
                 $email_bisnis = $_POST['email_bisnis'];
                 $telepon_bisnis = $_POST['telepon_bisnis'];
                 $base_url = $_POST['base_url'];
-
+                //Bersihkan Variabel
+                $title_page = validateAndSanitizeInput($title_page);
+                $kata_kunci = validateAndSanitizeInput($kata_kunci);
+                $deskripsi = validateAndSanitizeInput($deskripsi);
+                $alamat_bisnis = validateAndSanitizeInput($alamat_bisnis);
+                $email_bisnis = validateAndSanitizeInput($email_bisnis);
+                $telepon_bisnis = validateAndSanitizeInput($telepon_bisnis);
+                $base_url = validateAndSanitizeInput($base_url);
                 // Update setting_general
                 $UpdateSetting = mysqli_query($Conn, "UPDATE setting_general SET 
                     title_page='$title_page',

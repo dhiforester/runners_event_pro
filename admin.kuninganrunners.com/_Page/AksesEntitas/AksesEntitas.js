@@ -12,7 +12,42 @@ function filterAndLoadTable() {
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+    //Menampilkan Data Pertama kali
     filterAndLoadTable();
+    var akses_max_length = 20;
+    var keterangan_max_length = 200;
+    function updateCharCountAkses() {
+        var charCount = $('#akses').val().length;
+        $('#akses_length').text(charCount + '/' + akses_max_length);
+    }
+    function updateCharCountKeterangan() {
+        var charCount = $('#keterangan').val().length;
+        $('#keterangan_length').text(charCount + '/' + keterangan_max_length);
+    }
+    updateCharCountAkses();
+    updateCharCountKeterangan();
+    $('#akses').on('input', function() {
+        var currentValue = $(this).val();
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > akses_max_length) {
+            // Jika melebihi, batasi input
+            $(this).val(currentValue.substring(0, akses_max_length));
+        }
+        // Update tampilan jumlah karakter
+        updateCharCountAkses();
+    });
+    $('#keterangan').on('input', function() {
+        var currentValue = $(this).val();
+        var charCount = currentValue.length;
+        // Cek apakah jumlah karakter melebihi
+        if (charCount > keterangan_max_length) {
+            // Jika melebihi, batasi input
+            $(this).val(currentValue.substring(0, keterangan_max_length));
+        }
+        // Update tampilan jumlah karakter
+        updateCharCountKeterangan();
+    });
     // Ketika class=KelasKategori di check
     $('.KelasKategori').change(function() {
         var kategoriId = $(this).val();

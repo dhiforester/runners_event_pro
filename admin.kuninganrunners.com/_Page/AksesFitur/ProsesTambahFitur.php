@@ -62,7 +62,7 @@
                                     )";
                                     $Input=mysqli_query($Conn, $entry);
                                     if($Input){
-                                        $kategori_log="Akses";
+                                        $kategori_log="Fitur Akses";
                                         $deskripsi_log="Input Fitur Akses";
                                         $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
                                         if($InputLog=="Success"){
