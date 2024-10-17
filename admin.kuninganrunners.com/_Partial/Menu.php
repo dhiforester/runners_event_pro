@@ -42,6 +42,12 @@
             </ul>
         </li>
         <li class="nav-item">
+            <a class="nav-link <?php if($PageMenu!=="Member"){echo "collapsed";} ?>" href="index.php?Page=Member">
+                <i class="bi bi-people"></i>
+                <span>Member</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link <?php if($PageMenu!=="Event"){echo "collapsed";} ?>" href="index.php?Page=Event">
                 <i class="bi bi-calendar"></i>
                 <span>Event</span>

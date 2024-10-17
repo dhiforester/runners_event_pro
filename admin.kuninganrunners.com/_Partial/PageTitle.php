@@ -69,6 +69,15 @@
                 }
             }
         }
+        if($_GET['Page']=="Event"){
+            echo '<h1><a href=""><i class="bi bi-calendar"></i> Event</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Event</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="Transaksi"){
             if(empty($_GET['Sub'])){
                 echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';

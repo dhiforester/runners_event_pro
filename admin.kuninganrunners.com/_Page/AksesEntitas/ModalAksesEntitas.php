@@ -299,7 +299,7 @@
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i> Tidak
+                        <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
             </form>

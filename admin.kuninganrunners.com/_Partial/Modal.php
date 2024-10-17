@@ -19,8 +19,8 @@
         if($Page=="Akses"){
             include "_Page/Akses/ModalAkses.php";
         }
-        if($Page=="Anggota"){
-            include "_Page/Anggota/ModalAnggota.php";
+        if($Page=="Event"){
+            include "_Page/Event/ModalEvent.php";
         }
         if($Page=="AnggotaKeluarMasuk"){
             include "_Page/AnggotaKeluarMasuk/ModalAnggotaKeluarMasuk.php";

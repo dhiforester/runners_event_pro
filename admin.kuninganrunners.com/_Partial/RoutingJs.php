@@ -22,8 +22,8 @@
         if($Page=="Akses"){
             echo '<script type="text/javascript" src="_Page/Akses/Akses.js"></script>';
         }
-        if($Page=="Anggota"){
-            echo '<script type="text/javascript" src="_Page/Anggota/Anggota.js"></script>';
+        if($Page=="Event"){
+            echo '<script type="text/javascript" src="_Page/Event/Event.js"></script>';
         }
         if($Page=="AnggotaKeluarMasuk"){
             echo '<script type="text/javascript" src="_Page/AnggotaKeluarMasuk/AnggotaKeluarMasuk.js"></script>';
