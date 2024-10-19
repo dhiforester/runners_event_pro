@@ -11,35 +11,86 @@
         }
         return $token;
     }
-    function GetDetailData($Conn,$Tabel,$Param,$Value,$Colom){
-        if(empty($Conn)){
-            $Response="No Database Connection";
-        }else{
-            if(empty($Tabel)){
-                $Response="No Table Selected";
-            }else{
-                if(empty($Param)){
-                    $Response="No Parameter Selected";
-                }else{
-                    if(empty($Value)){
-                        $Response="No Value Count";
-                    }else{
-                        if(empty($Colom)){
-                            $Response="No Colom Selected";
-                        }else{
-                            $Qry = mysqli_query($Conn,"SELECT * FROM $Tabel WHERE $Param='$Value'")or die(mysqli_error($Conn));
-                            $Data = mysqli_fetch_array($Qry);
-                            if(empty($Data[$Colom])){
-                                $Response="";
-                            }else{
-                                $Response=$Data[$Colom];
-                            }
-                        }
-                    }
-                }
-            }
+    // function GetDetailData($Conn,$Tabel,$Param,$Value,$Colom){
+    //     if(empty($Conn)){
+    //         $Response="No Database Connection";
+    //     }else{
+    //         if(empty($Tabel)){
+    //             $Response="No Table Selected";
+    //         }else{
+    //             if(empty($Param)){
+    //                 $Response="No Parameter Selected";
+    //             }else{
+    //                 if(empty($Value)){
+    //                     $Response="No Value Count";
+    //                 }else{
+    //                     if(empty($Colom)){
+    //                         $Response="No Colom Selected";
+    //                     }else{
+    //                         $Qry = mysqli_query($Conn,"SELECT * FROM $Tabel WHERE $Param='$Value'")or die(mysqli_error($Conn));
+    //                         $Data = mysqli_fetch_array($Qry);
+    //                         if(empty($Data[$Colom])){
+    //                             $Response="";
+    //                         }else{
+    //                             $Response=$Data[$Colom];
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return $Response;
+    // }
+    function GetDetailData($Conn, $Tabel, $Param, $Value, $Colom) {
+        // Validasi input yang diperlukan
+        if (empty($Conn)) {
+            return "No Database Connection";
         }
-        return $Response;
+        if (empty($Tabel)) {
+            return "No Table Selected";
+        }
+        if (empty($Param)) {
+            return "No Parameter Selected";
+        }
+        if (empty($Value)) {
+            return "No Value Provided";
+        }
+        if (empty($Colom)) {
+            return "No Column Selected";
+        }
+    
+        // Escape table name and column name untuk mencegah SQL Injection
+        $Tabel = mysqli_real_escape_string($Conn, $Tabel);
+        $Param = mysqli_real_escape_string($Conn, $Param);
+        $Colom = mysqli_real_escape_string($Conn, $Colom);
+    
+        // Menggunakan prepared statement
+        $Qry = $Conn->prepare("SELECT $Colom FROM $Tabel WHERE $Param = ?");
+        if ($Qry === false) {
+            return "Query Preparation Failed: " . $Conn->error;
+        }
+    
+        // Bind parameter
+        $Qry->bind_param("s", $Value);
+    
+        // Eksekusi query
+        if (!$Qry->execute()) {
+            return "Query Execution Failed: " . $Qry->error;
+        }
+    
+        // Mengambil hasil
+        $Result = $Qry->get_result();
+        $Data = $Result->fetch_assoc();
+    
+        // Menutup statement
+        $Qry->close();
+    
+        // Mengembalikan hasil
+        if (empty($Data[$Colom])) {
+            return "";
+        } else {
+            return $Data[$Colom];
+        }
     }
     function IjinAksesSaya($Conn,$SessionIdAkses,$KodeFitur){
         $QryParam = mysqli_query($Conn,"SELECT * FROM akses_ijin WHERE id_akses='$SessionIdAkses' AND kode='$KodeFitur'")or die(mysqli_error($Conn));

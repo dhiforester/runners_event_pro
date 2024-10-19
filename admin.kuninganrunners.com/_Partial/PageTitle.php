@@ -69,6 +69,15 @@
                 }
             }
         }
+        if($_GET['Page']=="Member"){
+            echo '<h1><a href=""><i class="bi bi-people"></i> Member</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Member</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="Event"){
             echo '<h1><a href=""><i class="bi bi-calendar"></i> Event</a></h1>';
             echo '<nav>';
@@ -200,6 +209,15 @@
                 echo '  </ol>';
                 echo '</nav>';
             }
+            if($_GET['Page']=="RegionalData"){
+                echo '<h1><a href=""><i class="bi bi-map"></i> Referensi Wilayah</a></h1>';
+                echo '<nav>';
+                echo '  <ol class="breadcrumb">';
+                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+                echo '      <li class="breadcrumb-item active">Referensi Wilayah</li>';
+                echo '  </ol>';
+                echo '</nav>';
+            }
             if($_GET['Page']=="Aktivitas"){
                 if($_GET['Sub']=="AktivitasUmum"||$_GET['Sub']==""){
                     echo '<h1><i class="bi bi-record-btn"></i> Aktivitas Umum</h1>';
@@ -228,124 +246,6 @@
                     echo '  </ol>';
                     echo '</nav>';
                 }
-            }
-            if($_GET['Page']=="AkunPerkiraan"){
-                echo '<h1><a href=""><i class="bi bi-list-nested"></i> Akun Perkiraan</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Akun Perkiraan</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            
-            if($_GET['Page']=="Jurnal"){
-                echo '<h1><a href=""><i class="bi bi-file-ruled"></i> Jurnal</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Jurnal</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="BarangExpired"){
-                if(empty($_GET['Sub'])){
-                    echo '<h1><i class="bi bi-calendar-check"></i> Batch & Expired</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Batch & Expired</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    if($_GET['Sub']=="Import"){
-                        echo '<h1><i class="bi bi-calendar-check"></i> Batch & Expired</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=BarangExpired">Batch & Expired</a></li>';
-                        echo '      <li class="breadcrumb-item active">Import Batch & Expired</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }else{
-                        echo '<h1><i class="bi bi-calendar-check"></i> Batch & Expired</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item active">Batch & Expired</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }
-                }
-            }
-            if($_GET['Page']=="SimpanPinjam"){
-                echo '<h1><a href=""><i class="bi bi-graph-down-arrow"></i> Simpan-Pinjam</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Simpan Pinjam</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="BukuBesar"){
-                echo '<h1><a href=""><i class="bi bi-file-ruled"></i> Buku Besar</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Buku Besar</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="NeracaSaldo"){
-                echo '<h1><a href=""><i class="bi bi-list"></i> Neraca Saldo</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Neraca Saldo</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="LabaRugi"){
-                echo '<h1><a href=""><i class="bi bi-graph-down-arrow"></i> Laba-Rugi</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Laba Rugi</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="RekapitulasiTransaksi"){
-                echo '<h1><i class="bi bi-coin"></i> Rekapitulasi Transaksi</h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Rekapitulasi Transaksi</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="BagiHasil"){
-                if(empty($_GET['Sub'])){
-                    echo '<h1><a href=""><i class="bi bi-coin"></i> Bagi Hasil (SHU)</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Bagi Hasil</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    $Sub=$_GET['Sub'];
-                    if($Sub=="DetailBagiHasil"){
-                        echo '<h1><a href=""><i class="bi bi-coin"></i> Bagi Hasil (SHU)</a></h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=BagiHasil">Bagi Hasil</a></li>';
-                        echo '      <li class="breadcrumb-item active">Detail Bagi Hasil</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }
-                }
-                
             }
             if($_GET['Page']=="Help"){
                 echo '<h1><a href=""><i class="bi bi-question"></i> Bantuan</a></h1>';
