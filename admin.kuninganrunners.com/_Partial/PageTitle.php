@@ -228,33 +228,13 @@
                 echo '</nav>';
             }
             if($_GET['Page']=="Aktivitas"){
-                if($_GET['Sub']=="AktivitasUmum"||$_GET['Sub']==""){
-                    echo '<h1><i class="bi bi-record-btn"></i> Aktivitas Umum</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Aktivitas</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }
-                if($_GET['Sub']=="Email"){
-                    echo '<h1><i class="bi bi-record-btn"></i> Aktivitas Email</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Aktivitas</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }
-                if($_GET['Sub']=="APIs"){
-                    echo '<h1><i class="bi bi-record-btn"></i> Aktivitas APIs</h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Aktivitas</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }
+                echo '<h1><a href=""><i class="bi bi-record-btn"></i> Log Aktivitas</a></h1>';
+                echo '<nav>';
+                echo '  <ol class="breadcrumb">';
+                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+                echo '      <li class="breadcrumb-item active">Log Aktivitas</li>';
+                echo '  </ol>';
+                echo '</nav>';
             }
             if($_GET['Page']=="Help"){
                 echo '<h1><a href=""><i class="bi bi-question"></i> Bantuan</a></h1>';

@@ -24,26 +24,44 @@
             $foto=GetDetailData($Conn,'barang','id_barang',$id_barang,'foto');
             //Membuka Varian
             $varian = GetDetailData($Conn, 'barang', 'id_barang', $id_barang, 'varian');
-            $VarianArray=json_decode($varian, true);
-            //Buka Data Array
-            foreach($VarianArray as $VarianList){
-                $foto_varian=$VarianList['foto_varian'];
-                $foto_path = '../../assets/img/Marchandise/' . $foto_varian;
-                if (file_exists($foto_path)) {
-                    //Menghapus Foto Varian
-                    unlink($foto_path);
+            if(!empty($varian)){
+                $VarianArray=json_decode($varian, true);
+                //Buka Data Array
+                foreach($VarianArray as $VarianList){
+                    $foto_varian=$VarianList['foto_varian'];
+                    if(!empty($foto_varian)){
+                        $foto_varian_path = '../../assets/img/Marchandise/' . $foto_varian;
+                        if (file_exists($foto_path)) {
+                            //Menghapus Foto Varian
+                            unlink($foto_path);
+                        }
+                    }
                 }
             }
+            
             //Proses hapus data
             $HapusBarang = mysqli_query($Conn, "DELETE FROM barang WHERE id_barang='$id_barang'") or die(mysqli_error($Conn));
             if ($HapusBarang) {
-                $foto_path= '../../assets/img/Marchandise/'.$foto.'';
-                if(!mepty($foto)){
+                if(!empty($foto)){
+                    $foto_path= '../../assets/img/Marchandise/'.$foto.'';
                     if (file_exists($foto_path)) {
                         $HapusBarang=unlink($foto_path);
                     }
-                }
-                if (!file_exists($foto_path)) {
+                    if (!file_exists($foto_path)) {
+                        //Menyimpan Log
+                        $kategori_log="Merchandise";
+                        $deskripsi_log="Hapus Merchandise";
+                        $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                        if($InputLog=="Success"){
+                            $response['success'] = true;
+                            $response['message'] = 'Hapus Merchandise Berhasil';
+                        }else{
+                            $errors[] = 'Terjadi Kesalahan Pada Saat Menyimpan Log';
+                        }
+                    }else{
+                        $errors[] = 'Terjadi Kesalahan Pada Saat Menghapus File Foto';
+                    }
+                }else{
                     //Menyimpan Log
                     $kategori_log="Merchandise";
                     $deskripsi_log="Hapus Merchandise";
@@ -54,8 +72,6 @@
                     }else{
                         $errors[] = 'Terjadi Kesalahan Pada Saat Menyimpan Log';
                     }
-                }else{
-                    $errors[] = 'Terjadi Kesalahan Pada Saat Menghapus File Foto';
                 }
             }else{
                 $errors[] = 'Terjadi Kesalahan Pada Saat Menghapus Data Dari Database';
