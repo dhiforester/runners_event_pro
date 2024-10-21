@@ -28,6 +28,9 @@
         if($Page=="Event"){
             echo '<script type="text/javascript" src="_Page/Event/Event.js"></script>';
         }
+        if($Page=="Merchandise"){
+            echo '<script type="text/javascript" src="_Page/Merchandise/Merchandise.js"></script>';
+        }
         if($Page=="Transaksi"){
             echo '<script type="text/javascript" src="_Page/Transaksi/Transaksi.js"></script>';
         }

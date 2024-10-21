@@ -121,10 +121,9 @@
                                     </h2>
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-12 text-center">
-                                                    <small>Peta Rute Event</small>
-                                                    <p id="ShowRuteEvent"></p>
+                                            <div class="row mt-4">
+                                                <div class="col-md-12 text-center" id="ShowRuteEvent">
+
                                                 </div>
                                             </div>
                                         </div>

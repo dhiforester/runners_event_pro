@@ -77,8 +77,129 @@
                         echo '  </div>';
                         echo '</div>';
                     } else {
+                       // Membaca file GPX dan mengekstrak data elevasi
+                        $xml = simplexml_load_file($rute_path);
+                        $elevation_data = [];
+
+                        foreach ($xml->trk->trkseg->trkpt as $trkpt) {
+                            $lat = (float) $trkpt['lat'];
+                            $lon = (float) $trkpt['lon'];
+                            $ele = (float) $trkpt->ele;
+                            $elevation_data[] = ['lat' => $lat, 'lon' => $lon, 'elevation' => $ele];
+                        }
+
+                        // Mengubah data elevasi ke format JSON
+                        $elevation_json = json_encode($elevation_data);
 ?>
-                    <iframe src="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" style="width: 100%; height: 400px; border: none;"></iframe>
+                    <script>
+                        var elevationData = <?php echo $elevation_json; ?>;
+                    </script>
+                    <div class="row mb-3">
+                        <div class="col-md-12 text-center">
+                            <a href="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" class="btn btn-md btn-primary btn-rounded">
+                                Tampilkan Layar Penuh
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12 text-center">
+                            <iframe src="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" style="width: 100%; height: 400px; border: none;"></iframe>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="ChartRute">
+                            
+                        </div>
+                    </div>
+                    <script>
+                       // Inisialisasi data elevasi dan jarak kumulatif
+                        var distance = 0;
+                        var elevationDataSeries = elevationData.map(function(point, index) {
+                            if (index > 0) {
+                                var prevPoint = elevationData[index - 1];
+                                var lat1 = prevPoint.lat;
+                                var lon1 = prevPoint.lon;
+                                var lat2 = point.lat;
+                                var lon2 = point.lon;
+
+                                // Menghitung jarak menggunakan Haversine formula
+                                var R = 6371e3; // Radius Bumi dalam meter
+                                var φ1 = lat1 * Math.PI / 180;
+                                var φ2 = lat2 * Math.PI / 180;
+                                var Δφ = (lat2 - lat1) * Math.PI / 180;
+                                var Δλ = (lon2 - lon1) * Math.PI / 180;
+
+                                var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                                        Math.cos(φ1) * Math.cos(φ2) *
+                                        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+                                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+                                var d = R * c; // Jarak antara dua titik
+                                distance += d;
+                            }
+                            return [distance, point.elevation];
+                        });
+
+                       // Konfigurasi ApexCharts dengan warna yang lebih jelas
+                        var options = {
+                            chart: {
+                                type: 'line',
+                                height: 400,
+                                toolbar: {
+                                    show: false
+                                }
+                            },
+                            series: [{
+                                name: 'Elevasi',
+                                data: elevationDataSeries
+                            }],
+                            xaxis: {
+                                type: 'numeric',
+                                title: {
+                                    text: 'Jarak (m)'
+                                }
+                            },
+                            yaxis: {
+                                title: {
+                                    text: 'Elevasi (m)'
+                                }
+                            },
+                            tooltip: {
+                                x: {
+                                    formatter: function(value) {
+                                        return value.toFixed(2) + ' m';
+                                    }
+                                },
+                                y: {
+                                    formatter: function(value) {
+                                        return value.toFixed(2) + ' m';
+                                    }
+                                }
+                            },
+                            stroke: {
+                                curve: 'smooth',
+                                width: 3, // Menambah ketebalan garis agar lebih jelas
+                                colors: ['#FF5733'] // Warna garis yang lebih mencolok
+                            },
+                            markers: {
+                                size: 0 // Menyembunyikan titik pada garis
+                            },
+                            fill: {
+                                type: 'gradient',
+                                gradient: {
+                                    shadeIntensity: 1,
+                                    opacityFrom: 0.9, // Mengatur transparansi untuk membuat garis tetap terlihat
+                                    opacityTo: 0.8,
+                                    stops: [0, 90, 100]
+                                }
+                            }
+                        };
+
+                        // Menampilkan grafik dengan ApexCharts
+                        var chart = new ApexCharts(document.querySelector("#ChartRute"), options);
+                        chart.render();
+
+                    </script>
 <?php
                     }
                 }

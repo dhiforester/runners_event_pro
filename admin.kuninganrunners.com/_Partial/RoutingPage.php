@@ -21,6 +21,9 @@
         if($Page=="Event"){
             include "_Page/Event/Event.php";
         }
+        if($Page=="Merchandise"){
+            include "_Page/Merchandise/Merchandise.php";
+        }
         if($Page=="Transaksi"){
             include "_Page/Transaksi/Transaksi.php";
         }

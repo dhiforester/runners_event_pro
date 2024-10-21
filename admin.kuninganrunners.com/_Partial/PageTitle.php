@@ -87,6 +87,15 @@
             echo '  </ol>';
             echo '</nav>';
         }
+        if($_GET['Page']=="Merchandise"){
+            echo '<h1><a href=""><i class="bi bi-tag"></i> Merchandise</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Merchandise</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="Transaksi"){
             if(empty($_GET['Sub'])){
                 echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';

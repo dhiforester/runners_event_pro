@@ -24,7 +24,7 @@
             echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
             echo '          <small class="credit">';
             echo '              <code class="text-dark">';
-            echo '                  ID Event Tidak Boleh Kosong!';
+            echo '                  ID Member Tidak Boleh Kosong!';
             echo '              </code>';
             echo '          </small>';
             echo '      </div>';
@@ -32,7 +32,7 @@
             echo '</div>';
         } else {
             $id_member = validateAndSanitizeInput($_POST['id_member']);
-            // Validasi apakah data event ada di database
+            // Validasi apakah data Member ada di database
             $id_member_validasi = GetDetailData($Conn, 'member', 'id_member', $id_member, 'id_member');
 
             if (empty($id_member_validasi)) {
