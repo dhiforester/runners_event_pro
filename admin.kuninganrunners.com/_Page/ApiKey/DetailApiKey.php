@@ -49,9 +49,13 @@
     <section class="section dashboard">
         <div class="row mb-3">
             <div class="col-md-12">
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    Berikut ini informasi detail API Key dan record log penggunaan resourcenya.
-                    Halaman ini digunakan untuk memantau penggunaan API key yang terhubung berdasarkan grafik harian token yang dibuat dan aktivitas service yang digunakan.
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <small>
+                        <code class="text-dark">
+                            Berikut ini detail informasi penggunaan API Key.
+                            Pada halaman ini anda bisa memantau penggunaan API key yang terhubung berdasarkan grafik harian token yang dibuat dan aktivitas service yang digunakan.
+                        </code>
+                    </small>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
@@ -67,7 +71,7 @@
                                 </b>
                             </div>
                             <div class="col-md-2">
-                                <a href="index.php?Page=ApiKey" class="btn btn-md btn-rounded btn-outline-black btn-block">
+                                <a href="index.php?Page=ApiKey" class="btn btn-md btn-rounded btn-black btn-block">
                                     <i class="bi bi-chevron-left"></i> Kembali
                                 </a>
                             </div>
@@ -77,7 +81,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>Nama/Title</b></div>
+                                    <div class="col col-md-4"><small>Nama/Title</small></div>
                                     <div class="col col-md-8">
                                         <small class="credit">
                                             <code class="text text-grayish"><?php echo "$title_api_key"; ?></code>
@@ -85,13 +89,13 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>User Key</b></div>
+                                    <div class="col col-md-4"><small>User Key</small></div>
                                     <div class="col col-md-8">
                                         <code class="text text-grayish"><small class="credit"><?php echo "$user_key_server"; ?></small></code>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>Dibuat</b></div>
+                                    <div class="col col-md-4"><small>Datetime Creat</small></div>
                                     <div class="col col-md-8">
                                         <code class="text text-grayish"><small class="credit"><?php echo "$datetime_creat"; ?></small></code>
                                     </div>
@@ -99,19 +103,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>Update</b></div>
+                                    <div class="col col-md-4"><small>Updatetime</small></div>
                                     <div class="col col-md-8">
                                         <code class="text text-grayish"><small class="credit"><?php echo "$datetime_update"; ?></small></code>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>Limit</b></div>
+                                    <div class="col col-md-4"><small>Limit Time</small></div>
                                     <div class="col col-md-8">
                                         <code class="text text-grayish"><small class="credit"><?php echo "$limit_session ms"; ?></small></code>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col col-md-4"><b>Status</b></div>
+                                    <div class="col col-md-4"><small>Status</small></div>
                                     <div class="col col-md-8">
                                         <code class="text text-grayish"><small class="credit"><?php echo "$status"; ?></small></code>
                                     </div>

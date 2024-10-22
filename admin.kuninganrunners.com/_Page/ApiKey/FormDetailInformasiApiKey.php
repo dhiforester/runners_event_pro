@@ -51,80 +51,121 @@
             $JumlahApiSession= mysqli_num_rows(mysqli_query($Conn, "SELECT id_api_session FROM api_session WHERE id_setting_api_key='$id_setting_api_key'"));
             $JumlahApiSession=number_format($JumlahApiSession, 0, ',', '.');
 ?>
+    <input type="hidden" name="Page" value="ApiKey">
+    <input type="hidden" name="Sub" value="Detail">
+    <input type="hidden" name="id" value="<?php echo "$id_setting_api_key"; ?>">
     <div class="row mb-3">
-        <div class="col-md-4">Nama/Judul</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$title_api_key"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Nama API Key</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$title_api_key"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Tgl.Dibuat</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$datetime_creat"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Deskripsi</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$description_api_key"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Tgl.Update</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$datetime_update"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>User Key</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$user_key_server"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Keterangan</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$description_api_key"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Time Limit</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$menit min"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">User Key</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$user_key_server"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Datetime Creat</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$datetime_creat"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Limit Session</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$limit_session ms ($menit min)"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>
+                Updatetime
+            </small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$datetime_update"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Status</div>
-        <div class="col-md-8">
-            <?php
-                if($status=="Aktif"){
-                    echo '<span class="badge badge-sm bg-success">Active</span>';
-                }else{
-                    echo '<span class="badge badge-sm bg-danger">None</span>';
-                }
-            ?>
+        <div class="col col-md-4">
+            <small>API Session</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$JumlahApiSession Record"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Log Aktifitas</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$JumlahLog Record"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Log Aktifitas</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <code class="text text-grayish">
+                    <?php echo "$JumlahLog Record"; ?>
+                </code>
+            </small>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">API Session</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$JumlahApiSession Record"; ?>
-            </code>
+        <div class="col col-md-4">
+            <small>Status</small>
+        </div>
+        <div class="col col-md-8">
+            <small>
+                <?php
+                    if($status=="Aktif"){
+                        echo '<code class="text text-success"><i class="bi bi-check-circle"></i> Active</code>';
+                    }else{
+                        echo '<code class="text text-danger"><i class="bi bi-x-circle"></i> No Active</code>';
+                    }
+                ?>
+            </small>
         </div>
     </div>
 <?php 

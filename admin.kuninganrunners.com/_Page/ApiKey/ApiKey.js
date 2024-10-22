@@ -10,6 +10,72 @@ function filterAndLoadTable() {
         }
     });
 }
+// Fungsi untuk menghasilkan string acak
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+// Fungsi jQuery untuk menghitung jumlah karakter dan membatasi input
+function countAndLimitCharacters(inputSelector, outputSelector, maxChars) {
+    // Fungsi untuk memvalidasi hanya karakter alphanumeric
+    function validateAlphanumeric(inputValue) {
+        return inputValue.replace(/[^a-zA-Z0-9]/g, '');
+    }
+    // Fungsi untuk memvalidasi hanya karakter alphanumeric dan spasi
+    function validateAlphanumericWithSpace(inputValue) {
+        return inputValue.replace(/[^a-zA-Z0-9\s]/g, '');
+    }
+    // Ketika ada perubahan pada elemen input
+    $(inputSelector).on('input', function() {
+        // Ambil nilai dari input
+        let currentValue = $(this).val();
+
+        // Jika inputSelector adalah #user_key_server atau #password_server, lakukan validasi alphanumeric
+        if (inputSelector === '#user_key_server' || inputSelector === '#password_server' || inputSelector === '#user_key_server_edit' || inputSelector === '#password_server_edit') {
+            currentValue = validateAlphanumeric(currentValue);
+        }
+
+        // Jika inputSelector adalah #title_api_key atau #description_api_key lakukan validasi validateAlphanumericWithSpace
+        if (inputSelector === '#title_api_key' || inputSelector === '#description_api_key' || inputSelector === '#title_api_key_edit' || inputSelector === '#description_api_key_edit') {
+            currentValue = validateAlphanumericWithSpace(currentValue);
+        }
+
+        // Jika panjang nilai melebihi maxChars, potong nilainya
+        if (currentValue.length > maxChars) {
+            currentValue = currentValue.substring(0, maxChars);
+        }
+
+        // Set kembali nilai yang valid ke input
+        $(this).val(currentValue);
+
+        // Hitung jumlah karakter yang valid (dalam batas)
+        let textLength = $(this).val().length;
+
+        // Tampilkan jumlah karakter pada elemen output
+        $(outputSelector).text(textLength + '/' + maxChars);
+    });
+
+    // Memicu perhitungan awal jika ada nilai yang sudah diisi
+    let initialValue = $(inputSelector).val();
+
+    // Jika inputSelector adalah #user_key_server atau #password_server, lakukan validasi alphanumeric awal
+    if (inputSelector === '#user_key_server' || inputSelector === '#password_server' || inputSelector === '#user_key_server_edit' || inputSelector === '#password_server_edit') {
+        initialValue = validateAlphanumeric(initialValue);
+        $(inputSelector).val(initialValue); // Update nilai input jika sudah ada data
+    }
+    // Hitung panjang awal
+    let initialLength = initialValue.length > maxChars ? maxChars : initialValue.length;
+    $(outputSelector).text(initialLength + '/' + maxChars);
+}
+
 //Fungsi Untuk Menampilkan Cart
 function LoadGrafikGrafikTokenApiKey() {
     var ProsesFilterGrafikApiKey = $('#ProsesFilterGrafikApiKey').serialize();
@@ -199,7 +265,48 @@ function toggleBulan() {
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
+    //Menampilkan Data API Key Pertama Kali
     filterAndLoadTable();
+    //Event ketika #title_api_key diketik
+    $('#title_api_key').on('input', function() {
+        countAndLimitCharacters('#title_api_key', '#title_api_key_length', 50);
+    });
+
+    //Event ketika #description_api_key diketik
+    $('#description_api_key').on('input', function() {
+        countAndLimitCharacters('#description_api_key', '#description_api_key_length', 200);
+    });
+
+    // Event Ketika #user_key_server diketik
+    $('#user_key_server').on('input', function() {
+        countAndLimitCharacters('#user_key_server', '#user_key_server_length', 36);
+    });
+
+    // Event Ketika #password_server diketik
+    $('#password_server').on('input', function() {
+        countAndLimitCharacters('#password_server', '#password_server_length', 20);
+    });
+
+    // Event ketika tombol #GenerateUserKey diklik
+    $('#GenerateUserKey').click(function(){
+        // Hasilkan string acak dengan panjang 36 karakter
+        var string = generateRandomString(36);
+        // Set nilai string ke input #user_key_server
+        $('#user_key_server').val(string);
+        // Hitung jumlah karakter setelah mengisi nilai otomatis
+        countAndLimitCharacters('#user_key_server', '#user_key_server_length', 36);
+    });
+
+    //Generate Password Server
+    $('#GeneratePasswordServer').click(function(){
+        //Hasilkan string password sebanyak 20 karakter
+        var password_server=generateRandomString(20);
+        // Set Nilai password tersebut ke #password_server
+        $('#password_server').val(password_server);
+        // Hitung jumlah karakter setelah mengisi nilai otomatis
+        countAndLimitCharacters('#password_server', '#password_server_length', 20);
+    });
+
     //Mencari nilai id
     var id_setting_api_key = $('#id_setting_api_key').val();
     //Tempelkan kedalam modal
@@ -233,28 +340,7 @@ $('#ProsesFilter').submit(function(){
     filterAndLoadTable();
     $('#ModalFilter').modal('toggle');
 });
-//Generate apikey
-$('#GenerateUserKey').click(function(){
-    $('#user_key_server').val('...');
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/ApiKey/ProsesGenerateKode.php',
-        success     : function(data){
-            $('#user_key_server').val(data);
-        }
-    });
-});
-//Generate Password Server
-$('#GeneratePasswordServer').click(function(){
-    $('#password_server').val('...');
-    $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/ApiKey/ProsesGenerateKode.php',
-        success     : function(data){
-            $('#password_server').val(data);
-        }
-    });
-});
+
 //Proses Tambah ApiKey
 $('#ProsesTambahApiKey').submit(function(){
     $('#NotifikasiTambahApiKey').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');

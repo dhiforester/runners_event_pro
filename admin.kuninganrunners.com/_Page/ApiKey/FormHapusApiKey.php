@@ -43,18 +43,10 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-4">Tgl.Dibuat</div>
+        <div class="col-md-4">Deskripsi</div>
         <div class="col-md-8">
             <code class="text text-grayish">
-                <?php echo "$datetime_creat"; ?>
-            </code>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4">Tgl.Update</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$datetime_update"; ?>
+                <?php echo "$description_api_key"; ?>
             </code>
         </div>
     </div>
@@ -66,30 +58,11 @@
             </code>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-md-4">Log Aktifitas</div>
-        <div class="col-md-8">
-            <code class="text text-grayish">
-                <?php echo "$JumlahLog Record"; ?>
-            </code>
-        </div>
-    </div>
-    <div class="row mb-3">
+    <div class="row">
         <div class="col-md-12 text-center text-primary">
-            <input type="checkbox" name="hapus_log" id="hapus_log" value="Ya">
-            <label for="hapus_log">
-                <code class="text-dark">Hapus juga log aktifitasnya</code>
-            </label>
-        </div>
-        <div class="col-md-12 text-center text-primary">
-            <code class="text text-grayish">
-                Apabila anda memutuskan menghapus log aktifitasnya maka anda tidak bisa lagi membuka riwayat penggunaan sumberdaya oleh API key ini.
-            </code>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-12 text-center text-primary">
-            Apakah anda yakin ingin menghapus data API Key Ini?
+            <small>
+                Apakah anda yakin ingin menghapus data API Key Ini?
+            </small>
         </div>
     </div>
 <?php 

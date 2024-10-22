@@ -22,42 +22,51 @@
             echo '      </div>';
             echo '  </div>';
         }else{
-            $datetime_creat=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'datetime_creat');
-            $datetime_update=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'datetime_update');
-            $title_api_key=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'title_api_key');
-            $description_api_key=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'description_api_key');
-            $user_key_server=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'user_key_server');
-            $status=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'status');
-            $limit_session=GetDetailData($Conn,'setting_api_key','id_setting_api_key',$id_setting_api_key,'limit_session');
 ?>
     <input type="hidden" name="id_setting_api_key" value="<?php echo "$id_setting_api_key"; ?>">
     <div class="row mb-3">
-        <div class="col-md-4">
-            <label for="password_server_edit">Password Server</label>
+        <div class="col-md-12">
+            <label for="password_server_edit">
+                <small>Password Baru</small>
+            </label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="input-group">
+                <span class="input-group-text" id="inputGroupPrepend">
+                    <small>
+                        <code class="text text-dark" id="password_server_edit_length">0/20</code>
+                    </small>
+                </span>
                 <input type="text" name="password_server" id="password_server_edit" class="form-control">
-                <button type="button" class="btn btn-md btn-dark" id="GeneratePasswordServerEdit">
-                    <i class="bi bi-arrow-clockwise"></i> Generate
-                </button>
+                <span class="input-group-text" id="inputGroupPrepend">
+                    <a href="javascript:void(0);" id="GeneratePasswordServerEdit" title="Generate Otomatis Password Server">
+                        <small>
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </small>
+                    </a>
+                </span>
             </div>
             <small>
-                <code class="text text-grayish">Password server akan disimpan dengan format enkripsi MD5. Oleh sebab itu, sebaiknya anda mencatat parameter ini terlebih dulu.</code>
+                <code class="text text-grayish">
+                    Password server maksimal 20 karakter yang terdiri dari huruf dan angka.<br>
+                    (Catatlah password ini karena tidak akan ditampilkan setelah disimpan)
+                </code>
             </small>
         </div>
     </div>
     <script>
         //Generate Password Server
         $('#GeneratePasswordServerEdit').click(function(){
-            $('#password_server_edit').val('...');
-            $.ajax({
-                type 	    : 'POST',
-                url 	    : '_Page/ApiKey/ProsesGenerateKode.php',
-                success     : function(data){
-                    $('#password_server_edit').val(data);
-                }
-            });
+            //Hasilkan string password sebanyak 20 karakter
+            var password_server=generateRandomString(20);
+            // Set Nilai password tersebut ke #password_server
+            $('#password_server_edit').val(password_server);
+            // Hitung jumlah karakter setelah mengisi nilai otomatis
+            countAndLimitCharacters('#password_server_edit', '#password_server_edit_length', 20);
+        });
+        // Event Ketika #password_server_edit diketik
+        $('#password_server_edit').on('input', function() {
+            countAndLimitCharacters('#password_server_edit', '#password_server_edit_length', 20);
         });
     </script>
 <?php 

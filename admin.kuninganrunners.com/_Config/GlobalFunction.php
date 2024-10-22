@@ -366,36 +366,36 @@
     }
     
     function insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, $response_code, $response_text, $datetime) {
-        // Escape strings untuk menghindari SQL injection
-        $id_setting_api_key = mysqli_real_escape_string($Conn, $id_setting_api_key);
-        $title_api_key = mysqli_real_escape_string($Conn, $title_api_key);
-        $service_name = mysqli_real_escape_string($Conn, $service_name);
-        $response_code = mysqli_real_escape_string($Conn, $response_code);
-        $response_text = mysqli_real_escape_string($Conn, $response_text);
-        $datetime = mysqli_real_escape_string($Conn, $datetime);
-        $EntryLog="INSERT INTO log_api (
+        // Siapkan statement untuk menghindari SQL injection
+        $stmt = $Conn->prepare("INSERT INTO log_api (
             id_setting_api_key,
             title_api_key,
             service_name,
             response_code,
             response_text,
             datetime_log
-        ) VALUES (
-            '$id_setting_api_key',
-            '$title_api_key',
-            '$service_name',
-            '$response_code',
-            '$response_text',
-            '$datetime'
-        )";
-        $InputLog=mysqli_query($Conn, $EntryLog);
-        if($InputLog){
-            $response="Success";
-        }else{
-            $response="Error Insert Data";
+        ) VALUES (?, ?, ?, ?, ?, ?)");
+    
+        // Cek apakah statement berhasil disiapkan
+        if ($stmt === false) {
+            return "Error preparing statement: " . htmlspecialchars($Conn->error);
         }
+    
+        // Bind parameter
+        $stmt->bind_param("ssssss", $id_setting_api_key, $title_api_key, $service_name, $response_code, $response_text, $datetime);
+    
+        // Eksekusi statement
+        if ($stmt->execute()) {
+            $response = "Success";
+        } else {
+            $response = "Error Insert Data: " . htmlspecialchars($stmt->error);
+        }
+    
+        // Menutup statement
+        $stmt->close();
+    
         return $response;
-    }
+    }    
     function generateUuidV1() {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $length = 36;

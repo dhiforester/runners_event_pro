@@ -8,9 +8,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <label for="batas">Data</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="batas">
+                                <small>Batas/Limit</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="batas" id="batas" class="form-control">
                                 <option value="5">5</option>
                                 <option selected value="10">10</option>
@@ -21,43 +25,63 @@
                                 <option value="500">500</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="OrderBy">Mode Urutan</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="OrderBy">
+                                <small>Mode Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="OrderBy" id="OrderBy" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="datetime_creat">Tanggal Dibuat</option>
-                                <option value="datetime_update">Tanggal Update</option>
-                                <option value="title_api_key">Nama/Judul</option>
+                                <option value="title_api_key">Nama API Key</option>
                                 <option value="description_api_key">Deskripsi/Keterangan</option>
                                 <option value="user_key_server">User Key</option>
                                 <option value="status">Status</option>
+                                <option value="datetime_creat">Datetime Creat</option>
+                                <option value="datetime_update">Updatetime</option>
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <label for="ShortBy">Tipe Urutan</label>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="ShortBy">
+                                <small>Tipe Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="ShortBy" id="ShortBy" class="form-control">
                                 <option value="ASC">A To Z</option>
                                 <option selected value="DESC">Z To A</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <label for="keyword_by">Pencarian</label>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="keyword_by">
+                                <small>Dasar Pencarian</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
                             <select name="keyword_by" id="keyword_by" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="datetime_creat">Tanggal Dibuat</option>
-                                <option value="datetime_update">Tanggal Update</option>
-                                <option value="title_api_key">Nama/Judul</option>
+                                <option value="title_api_key">Nama API Key</option>
                                 <option value="description_api_key">Deskripsi/Keterangan</option>
                                 <option value="user_key_server">User Key</option>
                                 <option value="status">Status</option>
+                                <option value="datetime_creat">Datetime Creat</option>
+                                <option value="datetime_update">Updatetime</option>
                             </select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 mt-3" id="FormFilter">
-                            <label for="keyword">Kata Kunci Pencarian</label>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="keyword">
+                                <small>Kata Kunci</small>
+                            </label>
+                        </div>
+                        <div class="col-md-8" id="FormFilter">
                             <input type="text" name="keyword" id="keyword" class="form-control">
                         </div>
                     </div>
@@ -77,7 +101,7 @@
 <div class="modal fade" id="ModalTambahApiKey" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesTambahApiKey">
+            <form action="javascript:void(0);" id="ProsesTambahApiKey" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Buat Api Key</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -85,10 +109,19 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="title_api_key">Nama/Judul</label>
+                            <label for="title_api_key">
+                                <small>Nama API Key</small>
+                            </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="title_api_key" id="title_api_key" class="form-control">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="title_api_key_length">0/50</code>
+                                    </small>
+                                </span>
+                                <input type="text" name="title_api_key" id="title_api_key" class="form-control">
+                            </div>
                             <small>
                                 <code class="text text-grayish">Diisi dengan nama aplikasi/pihak yang akan terhubung.</code>
                             </small>
@@ -96,64 +129,115 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="description_api_key">Keterangan</label>
+                            <label for="description_api_key">
+                                <small>
+                                    Deskripsi
+                                </small>
+                            </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="description_api_key" id="description_api_key" class="form-control">
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="description_api_key_length">0/200</code>
+                                    </small>
+                                </span>
+                                <input type="text" name="description_api_key" id="description_api_key" class="form-control">
+                            </div>
                             <small>
-                                <code class="text text-grayish">Diisi dengan informasi alasan/tujuan penggunaan</code>
+                                <code class="text text-grayish">Diisi dengan informasi keterangan penggunaan</code>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="user_key_server">User Key Server</label>
+                            <label for="user_key_server">
+                                <small>User Key</small>
+                            </label>
                         </div>
                         <div class="col-md-8">
                             <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="user_key_server_length">0/36</code>
+                                    </small>
+                                </span>
                                 <input type="text" name="user_key_server" id="user_key_server" class="form-control">
-                                <button type="button" class="btn btn-md btn-dark" id="GenerateUserKey">
-                                    <i class="bi bi-arrow-clockwise"></i> Generate
-                                </button>
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <a href="javascript:void(0);" id="GenerateUserKey" title="Generate Otomatis API Key">
+                                        <small>
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </small>
+                                    </a>
+                                </span>
                             </div>
+                            <small>
+                                <code class="text text-grayish">Maksimal 36 karakter yang terdiri dari huruf dan angka</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="password_server">Password Server</label>
+                            <label for="password_server">
+                                <small>Password</small>
+                            </label>
                         </div>
                         <div class="col-md-8">
                             <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code class="text text-dark" id="password_server_length">0/20</code>
+                                    </small>
+                                </span>
                                 <input type="text" name="password_server" id="password_server" class="form-control">
-                                <button type="button" class="btn btn-md btn-dark" id="GeneratePasswordServer">
-                                    <i class="bi bi-arrow-clockwise"></i> Generate
-                                </button>
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <a href="javascript:void(0);" id="GeneratePasswordServer" title="Generate Otomatis Password Server">
+                                        <small>
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </small>
+                                    </a>
+                                </span>
                             </div>
                             <small>
-                                <code class="text text-grayish">Password server akan disimpan dengan format enkripsi MD5. Oleh sebab itu, sebaiknya anda mencatat parameter ini terlebih dulu.</code>
+                                <code class="text text-grayish">
+                                    Password server maksimal 20 karakter yang terdiri dari huruf dan angka.<br>
+                                    (Catatlah password ini karena tidak akan ditampilkan setelah disimpan)
+                                </code>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="limit_session">Limit Session</label>
+                            <label for="limit_session">
+                                <small>Time Limit</small>
+                            </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="limit_session" id="limit_session" class="form-control">
+                            <select name="limit_session" id="limit_session" class="form-control" required>
+                                <option value="">Pilih..</option>
+                                <option value="60000">1 Menit</option>
+                                <option value="300000">5 Menit</option>
+                                <option value="600000">10 Menit</option>
+                                <option value="1800000">30 Menit</option>
+                            </select>
                             <small>
-                                <code class="text text-grayish">Durasi waktu expired x-token setiap kali dibuat (1 s = 1000 ms)</code>
+                                <code class="text text-grayish">Durasi waktu expired x-token setiap kali dibuat</code>
                             </small>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="status_api_key">Status</label>
+                            <label for="status_api_key">
+                                <small>
+                                    Status
+                                </small>
+                            </label>
                         </div>
                         <div class="col-md-8">
                             <select name="status_api_key" id="status_api_key" class="form-control" required>
                                 <option value="">Pilih..</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="None">None</option>
+                                <option value="Aktif">Active</option>
+                                <option value="None">No Active</option>
                             </select>
                         </div>
                     </div>
@@ -185,22 +269,27 @@
 <div class="modal fade" id="ModalDetailInformasiApiKey" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Detail Api Key</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-md-12" id="FormDetailInformasiApiKey">
-                        
+            <form action="index.php">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-info-circle"></i> Detail Api Key</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="FormDetailInformasiApiKey">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
-                    <i class="bi bi-x-circle"></i> Tutup
-                </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary btn-rounded">
+                        <i class="bi bi-three-dots"></i> Selengkapnya
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -234,7 +323,7 @@
     </div>
 </div>
 <div class="modal fade" id="ModalEditPasswordApiKey" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesEditPasswordApiKey">
                 <div class="modal-header">
@@ -242,10 +331,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-12" id="FormEditPasswordApiKey"></div>
                     </div>
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-8" id="NotifikasiEditPasswordApiKey"></div>
                     </div>
