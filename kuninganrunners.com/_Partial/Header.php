@@ -3,7 +3,7 @@
         <a href="" class="logo d-flex align-items-center">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="assets/img/logo_head.png" alt=""> -->
-            <h1 class="sitename text-warning">Kuningan Runners</h1>
+            <h2 class="sitename text-warning">Kuningan Runners</h2>
         </a>
         <nav id="navmenu" class="navmenu">
             <ul>

@@ -2574,3 +2574,7 @@ section,
   font-family: monospace;
   margin-top: 10px;
 }
+.sitename{
+  font-family: 'Roguelai', sans-serif !important;
+  font-size: 18pt;
+}
