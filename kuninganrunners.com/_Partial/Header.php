@@ -14,6 +14,7 @@
                 <li><a href="#testimonials">Testimoni</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#product">Merchandise</a></li>
+                <li><a href="index.php?Page=Login">Login</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

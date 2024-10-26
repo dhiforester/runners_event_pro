@@ -150,12 +150,12 @@
             echo '  </ol>';
             echo '</nav>';
         }
-        if($_GET['Page']=="Version"){
-            echo '<h1><i class="bi bi-person"></i> Tentang Aplikasi</h1>';
+        if($_GET['Page']=="KontenUtama"){
+            echo '<h1><a href=""><i class="bi bi-globe"></i> Web Konten</a></h1>';
             echo '<nav>';
             echo '  <ol class="breadcrumb">';
             echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Tentang Aplikasi</li>';
+            echo '      <li class="breadcrumb-item active">Web Konten</li>';
             echo '  </ol>';
             echo '</nav>';
         }else{

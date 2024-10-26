@@ -83,12 +83,12 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#web-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="Testimoni"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#web-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-globe"></i>
                 <span>Konten Web</span>
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="web-nav" class="nav-content collapse <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="web-nav" class="nav-content collapse <?php if($PageMenu=="KontenUtama"||$PageMenu=="Galeri"||$PageMenu=="Testimoni"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=KontenUtama" class="<?php if($PageMenu=="KontenUtama"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Konten Utama</span>
@@ -97,6 +97,11 @@
                 <li>
                     <a href="index.php?Page=Galeri" class="<?php if($PageMenu=="Galeri"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Galeri/Album</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=Testimoni" class="<?php if($PageMenu=="Testimoni"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Testimoni</span>
                     </a>
                 </li>
             </ul>

@@ -31,8 +31,8 @@
         if($Page=="Transaksi"){
             include "_Page/Transaksi/ModalTransaksi.php";
         }
-        if($Page=="EntitasAkses"){
-            include "_Page/EntitasAkses/ModalEntitasAkses.php";
+        if($Page=="KontenUtama"){
+            include "_Page/KontenUtama/ModalKontenUtama.php";
         }
         if($Page=="Help"){
             include "_Page/Help/ModalHelp.php";

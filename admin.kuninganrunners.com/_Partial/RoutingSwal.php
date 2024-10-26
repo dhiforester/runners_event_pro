@@ -129,6 +129,15 @@
             )
         </script>
     <?php } ?>
+    <?php if($NotifikasiSwal=="Simpan Tentang Berhasil"){ ?>
+        <script>
+            Swal.fire(
+                'Berhasil!',
+                'Simpan Tentang Berhasil',
+                'success'
+            )
+        </script>
+    <?php } ?>
 <?php 
     unset($_SESSION['NotifikasiSwal']);
     }

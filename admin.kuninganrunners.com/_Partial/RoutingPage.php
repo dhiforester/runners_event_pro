@@ -30,8 +30,8 @@
         if($Page=="RekapTransaksi"){
             include "_Page/RekapTransaksi/RekapTransaksi.php";
         }
-        if($Page=="Version"){
-            include "_Page/Version/Version.php";
+        if($Page=="KontenUtama"){
+            include "_Page/KontenUtama/KontenUtama.php";
         }
         if($Page=="EntitasAkses"){
             include "_Page/EntitasAkses/EntitasAkses.php";

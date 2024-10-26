@@ -37,8 +37,8 @@
         if($Page=="RekapTransaksi"){
             echo '<script type="text/javascript" src="_Page/RekapTransaksi/RekapTransaksi.js"></script>';
         }
-        if($Page=="EntitasAkses"){
-            echo '<script type="text/javascript" src="_Page/EntitasAkses/EntitasAkses.js"></script>';
+        if($Page=="KontenUtama"){
+            echo '<script type="text/javascript" src="_Page/KontenUtama/KontenUtama.js"></script>';
         }
         if($Page=="ApiDoc"){
             echo '<script type="text/javascript" src="_Page/ApiDoc/ApiDoc.js"></script>';
