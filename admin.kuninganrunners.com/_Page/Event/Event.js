@@ -10,39 +10,90 @@ function filterAndLoadTable() {
         }
     });
 }
-//Fungsi Menampilkan Poster Event
 function ShowPosterEvent() {
     var id_event = $('#GetIdEvent').val();
-    $.ajax({
-        type    : 'POST',
-        url     : '_Page/Event/ShowPosterEvent.php',
-        data    : {id_event: id_event},
-        success: function(data) {
-            $('#ShowPosterEvent').html(data);
-        }
-    });
+    if (id_event) { // Cek apakah id_event tidak kosong atau undefined
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowPosterEvent.php',
+            data: { id_event: id_event },
+            success: function(data) {
+                $('#ShowPosterEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowPosterEvent:', error);
+            }
+        });
+    }
 }
+
 function ShowDetailEvent() {
     var id_event = $('#GetIdEvent').val();
-    $.ajax({
-        type    : 'POST',
-        url     : '_Page/Event/FormDetailEvent.php',
-        data    : {id_event: id_event},
-        success: function(data) {
-            $('#ShowDetailEvent').html(data);
-        }
-    });
+    if (id_event) { // Cek apakah id_event tidak kosong atau undefined
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormDetailEvent.php',
+            data: { id_event: id_event },
+            success: function(data) {
+                $('#ShowDetailEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowDetailEvent:', error);
+            }
+        });
+    }
 }
+
 function ShowRuteEvent() {
     var id_event = $('#GetIdEvent').val();
-    $.ajax({
-        type    : 'POST',
-        url     : '_Page/Event/ShowRuteEvent.php',
-        data    : {id_event: id_event},
-        success: function(data) {
-            $('#ShowRuteEvent').html(data);
-        }
-    });
+    if (id_event) { // Cek apakah id_event tidak kosong atau undefined
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowRuteEvent.php',
+            data: { id_event: id_event },
+            success: function(data) {
+                $('#ShowRuteEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowRuteEvent:', error);
+            }
+        });
+    }
+}
+function ShowKategoriEvent() {
+    var id_event = $('#GetIdEvent').val();
+    if (id_event) { // Cek apakah id_event tidak kosong atau undefined
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowKategoriEvent.php',
+            data: { id_event: id_event },
+            success: function(data) {
+                $('#ShowKategoriEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowKategoriEvent:', error);
+            }
+        });
+    }
+}
+function ShowPesertaEvent() {
+    var id_event = $('#GetIdEvent').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event) { 
+        $('#id_event_peserta').val(id_event);
+        var ProsesFilterPeserta = $('#ProsesFilterPeserta').serialize();
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/ShowPesertaEvent.php',
+            data        : ProsesFilterPeserta,
+            success: function(data) {
+                $('#ShowPesertaEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowPesertaEvent:', error);
+            }
+        });
+    }
 }
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
@@ -52,12 +103,49 @@ $(document).ready(function() {
     ShowPosterEvent();
     ShowDetailEvent();
     ShowRuteEvent();
+    ShowKategoriEvent();
+    ShowPesertaEvent();
+
+    //Ketika keyword_by Diubah
+    $('#keyword_by').change(function(){
+        var keyword_by =$('#keyword_by').val();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/FormFilter.php',
+            data        : {keyword_by: keyword_by},
+            success     : function(data){
+                $('#FormFilter').html(data);
+            }
+        });
+    });
+
     //Filter Data
     $('#ProsesFilter').submit(function(){
         $('#page').val("1");
         filterAndLoadTable();
         $('#ModalFilter').modal('hide');
     });
+
+    //Ketika KeywordByPeserta Diubah
+    $('#KeywordByPeserta').change(function(){
+        var KeywordByPeserta =$('#KeywordByPeserta').val();
+        var id_event = $('#GetIdEvent').val();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/FormFilterPeserta.php',
+            data        : {KeywordByPeserta: KeywordByPeserta, id_event: id_event},
+            success     : function(data){
+                $('#FormFilterPeserta').html(data);
+            }
+        });
+    });
+    //Filter Data Peserta Event
+    $('#ProsesFilterPeserta').submit(function(){
+        $('#page_peserta').val("1");
+        ShowPesertaEvent();
+        $('#ModalFilterPeserta').modal('hide');
+    });
+
     // Fungsi untuk mengecek panjang input nama_event
     $('#nama_event').on('input', function () {
         var maxLength = 100;
@@ -344,4 +432,361 @@ $(document).ready(function() {
             }
         });
     });
+    //Ketika Modal Tambah Kategori Muncul
+    $('#ModalTambahKategori').on('show.bs.modal', function (e) {
+        var id_event = $(e.relatedTarget).data('id');
+        $('#FormTambahKategori').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/FormTambahKategori.php',
+            data        : {id_event: id_event},
+            success     : function(data){
+                $('#FormTambahKategori').html(data);
+                $('#NotifikasiTambahKategori').html('');
+            }
+        });
+    });
+    // Proses Tambah Kategori
+    $('#ProsesTambahKategori').on('submit', function(e) {
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#NotifikasiTambahKategori').html('Loading...');
+        var id_event = $('#PutIdEventForAddKategori').val();
+        var kategori = $('#kategori').val();
+        var biaya_pendaftaran = $('#biaya_pendaftaran').val();
+        var deskripsi = $('#deskripsi').val();
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/ProsesTambahKategori.php',
+            data 	    :  {id_event: id_event, kategori: kategori, biaya_pendaftaran: biaya_pendaftaran, deskripsi: deskripsi},
+            enctype     : 'multipart/form-data',
+            success     : function(data){
+                $('#NotifikasiTambahKategori').html(data);
+                var NotifikasiTambahKategoriBerhasil=$('#NotifikasiTambahKategoriBerhasil').html();
+                if(NotifikasiTambahKategoriBerhasil=="Success"){
+                    $('#NotifikasiTambahKategori').html('');
+                    $('#ModalTambahKategori').modal('hide');
+                    Swal.fire(
+                        'Success!',
+                        'Simpan Kategori Event Berhasil!',
+                        'success'
+                    )
+                    //Menampilkan Data
+                    ShowDetailEvent();
+                    ShowKategoriEvent();
+                }
+            }
+        });
+        
+    });
+    //Ketika Modal Detail Kategori Event Muncul
+    $('#ModalDetailKategori').on('show.bs.modal', function (e) {
+        var id_event_kategori = $(e.relatedTarget).data('id');
+        $('#FormDetailKategori').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/FormDetailKategori.php',
+            data        : {id_event_kategori: id_event_kategori},
+            success     : function(data){
+                $('#FormDetailKategori').html(data);
+            }
+        });
+    });
+    //Ketika Modal Edit Kategori Event Muncul
+    $('#ModalEditKategori').on('show.bs.modal', function (e) {
+        var id_event_kategori = $(e.relatedTarget).data('id');
+        $('#FormEditKategori').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Event/FormEditKategori.php',
+            data        : {id_event_kategori: id_event_kategori},
+            success     : function(data){
+                $('#FormEditKategori').html(data);
+            }
+        });
+    });
+    // Proses Edit Kategori
+    $('#ProsesEditKategori').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonEditKategori').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesEditKategori.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowKategoriEvent();
+                    ShowDetailEvent();
+                    $('#ModalEditKategori').modal('hide');
+                    $('#ButtonEditKategori').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Kategori Event Berhasil Diupdate', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditKategori').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonEditKategori').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditKategori').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonEditKategori').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Ketika Modal Hapus Kategori Event Muncul
+    $('#ModalHapusKategori').on('show.bs.modal', function (e) {
+        var id_event_kategori = $(e.relatedTarget).data('id');
+        $('#FormHapusKategori').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormHapusKategori.php',
+            data: { id_event_kategori: id_event_kategori },
+            success: function(data) {
+                $('#FormHapusKategori').html(data);
+                $('#NotifikasiHapusKategori').html('');
+                var JumlahPeserta = $('#JumlahPeserta').val();
+                // Pengecekan jika JumlahPeserta tidak kosong
+                if (JumlahPeserta !== null && JumlahPeserta !== '') {
+                    $('#ButtonHapusKategori').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                } else {
+                    $('#ButtonHapusKategori').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', true);
+                }
+            }
+        });
+    });
+
+    // Proses Hapus Kategori
+    $('#ProsesHapusKategori').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonHapusKategori').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesHapusKategori.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowKategoriEvent();
+                    ShowDetailEvent();
+                    $('#ModalHapusKategori').modal('hide');
+                    $('#ButtonHapusKategori').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Kategori Event Berhasil Dihapus', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusKategori').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonHapusKategori').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusKategori').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonHapusKategori').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    // Ketika Modal Tambah Peserta Muncul
+    $('#ModalTambahPeserta').on('show.bs.modal', function (e) {
+        var id_event = $(e.relatedTarget).data('id');
+        $('#kategori_event').html('<option value="">Loading..</option>');
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Event/ListKategori.php',
+            data    : { id_event: id_event },
+            success: function(data) {
+                $('#kategori_event').html(data);
+            }
+        });
+        //Pencarian Member
+        var ProsesPencarianMember = $('#ProsesPencarianMember').serialize();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Event/ListMember.php',
+            data    : ProsesPencarianMember,
+            success: function(data) {
+                $('#FormListMember').html(data);
+            }
+        });
+    });
+    //Ketika Proses Pencarian Member Di Submit
+    $('#ProsesPencarianMember').submit(function(){
+        var ProsesPencarianMember = $('#ProsesPencarianMember').serialize();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Event/ListMember.php',
+            data    : ProsesPencarianMember,
+            success: function(data) {
+                $('#FormListMember').html(data);
+            }
+        });
+    });
+    // Proses Tambah Peserta
+    $('#ProsesTambahPeserta').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonTambahPeserta').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesTambahPeserta.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    $('#page_peserta').val('1');
+                    ShowKategoriEvent();
+                    ShowDetailEvent();
+                    ShowPesertaEvent();
+                    $('#ProsesTambahPeserta')[0].reset();
+                    $('#ModalTambahPeserta').modal('hide');
+                    $('#ButtonTambahPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Peserta berhasil ditambahkan', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiTambahPeserta').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonTambahPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiTambahPeserta').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonTambahPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Ketika Modal Detail Peserta Event Muncul
+    $('#ModalDetailPeserta').on('show.bs.modal', function (e) {
+        var id_event_peserta = $(e.relatedTarget).data('id');
+        $('#FormDetailPeserta').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormDetailPeserta.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#FormDetailPeserta').html(data);
+            }
+        });
+    });
+    // Ketika Modal Edit Peserta Event Muncul
+    $('#ModalEditPeserta').on('show.bs.modal', function (e) {
+        var id_event_peserta = $(e.relatedTarget).data('id');
+        $('#FormEditPeserta').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormEditPeserta.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#FormEditPeserta').html(data);
+                $('#NotifikasiEditPeserta').html('');
+            }
+        });
+    });
+    // Proses Edit Peserta
+    $('#ProsesEditPeserta').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonEditPeserta').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesEditPeserta.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowKategoriEvent();
+                    ShowDetailEvent();
+                    ShowPesertaEvent();
+                    $('#ModalEditPeserta').modal('hide');
+                    $('#ButtonEditPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Edit Peserta Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditPeserta').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonEditPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditPeserta').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonEditPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Ketika Modal Hapus Peserta Event Muncul
+    $('#ModalHapusPeserta').on('show.bs.modal', function (e) {
+        var id_event_peserta = $(e.relatedTarget).data('id');
+        $('#FormHapusPeserta').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormHapusPeserta.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#FormHapusPeserta').html(data);
+                $('#NotifikasiHapusPeserta').html('');
+                $('#ButtonHapusPeserta').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    // Proses Hapus Peserta
+    $('#ProsesHapusPeserta').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonHapusPeserta').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesHapusPeserta.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowKategoriEvent();
+                    ShowDetailEvent();
+                    ShowPesertaEvent();
+                    $('#ModalHapusPeserta').modal('hide');
+                    $('#ButtonHapusPeserta').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Peserta berhasil dihapus', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusPeserta').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonHapusPeserta').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusPeserta').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonHapusPeserta').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    
 });

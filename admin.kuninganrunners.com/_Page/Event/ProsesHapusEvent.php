@@ -12,7 +12,7 @@
     }else{
         //Validasi id_event tidak boleh kosong
         if(empty($_POST['id_event'])){
-            echo '<small class="text-danger">ID Akses tidak boleh kosong</small>';
+            echo '<small class="text-danger">ID Event tidak boleh kosong</small>';
         }else{
             //Variabel Lainnya
             $id_event=$_POST['id_event'];

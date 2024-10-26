@@ -133,7 +133,7 @@
                     $nama_event= $data['nama_event'];
                     $keterangan= $data['keterangan'];
                     //Potong Karakter Yang terlalu panjang
-                    $keterangan_short = substr($data['keterangan'], 0, 50) . '...';
+                    $keterangan_short = substr($data['keterangan'], 0, 15) . '...';
                     //Format Tanggal
                     $strtotime1=strtotime($tanggal_mulai);
                     $strtotime2=strtotime($tanggal_selesai);
@@ -147,6 +147,20 @@
                         }else{
                             $LabelStatus='<code class="text text-success">Ongoing</code>';
                         }
+                    }
+                    //Jumlah Kategori Dan Peserta
+                    $JumlahKategori = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_kategori FROM event_kategori WHERE id_event='$id_event'"));
+                    $JumahPeserta = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_event='$id_event'"));
+                    //Label
+                    if(empty($JumlahKategori)){
+                        $LabelJumlahKategori='<code class="text text-danger">Tidak Ada</code>';
+                    }else{
+                        $LabelJumlahKategori='<code class="text text-success">'.$JumlahKategori.' Kategori</code>';
+                    }
+                    if(empty($JumahPeserta)){
+                        $LabelJumlahPeserta='<code class="text text-danger">Tidak Ada</code>';
+                    }else{
+                        $LabelJumlahPeserta='<code class="text text-success">'.$JumahPeserta.' Orang</code>';
                     }
         ?>
                     <div class="card hover-shadow">
@@ -194,8 +208,8 @@
                                         </a>
                                     </b>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row mb-3">
                                         <div class="col col-md-4">
                                             <small>Event Mulai</small>
                                         </div>
@@ -205,7 +219,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mb-3">
                                         <div class="col col-md-4">
                                             <small>Event Selesai</small>
                                         </div>
@@ -216,8 +230,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Kategori Event</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <?php echo $LabelJumlahKategori; ?>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-4">
+                                            <small>Jumlah Peserta</small>
+                                        </div>
+                                        <div class="col col-md-8">
+                                            <small>
+                                                <?php echo "$LabelJumlahPeserta"; ?>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row mb-3">
                                         <div class="col col-md-4">
                                             <small>Keterangan</small>
                                         </div>
@@ -227,7 +263,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mb-3">
                                         <div class="col col-md-4">
                                             <small>Status</small>
                                         </div>

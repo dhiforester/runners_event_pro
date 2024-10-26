@@ -55,35 +55,10 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-md-8 mb-3">
+                                <div class="col-md-10 mb-3">
                                     <b class="card-title">
                                         <i class="bi bi-info-circle"></i> Detail Event
                                     </b>
-                                </div>
-                                <div class="col col-md-2 mb-3">
-                                    <a class="btn btn-md btn-outline-dark btn-rounded btn-block" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-three-dots"></i> Option
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Option</h6>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditEvent" data-id="<?php echo "$id_event"; ?>">
-                                                <i class="bi bi-pencil"></i> Edit Event
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahPoster" data-id="<?php echo "$id_event"; ?>">
-                                                <i class="bi bi-image"></i> Ubah Poster (Image)
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalGantiRute" data-id="<?php echo "$id_event"; ?>">
-                                                <i class="bi bi-pin-map"></i> Ganti Rute (.gpx)
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
                                 <div class="col col-md-2 mb-3">
                                     <a href="index.php?Page=Event" class="btn btn-md btn-dark btn-block btn-rounded">
@@ -101,7 +76,30 @@
                                         </button>
                                     </h2>
                                     <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="">
-                                        <div class="accordion-body">
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mt-4 mb-3">
+                                                <div class="col col-md-2 mb-3">
+                                                    <a class="btn btn-md btn-outline-grayish btn-rounded btn-block" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="bi bi-three-dots"></i> Option
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                        <li class="dropdown-header text-start">
+                                                            <h6>Option</h6>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditEvent" data-id="<?php echo "$id_event"; ?>">
+                                                                <i class="bi bi-pencil"></i> Edit Event
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahPoster" data-id="<?php echo "$id_event"; ?>">
+                                                                <i class="bi bi-image"></i> Ubah Poster (Image)
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-10"></div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6 mb-3" id="ShowDetailEvent">
                                                     <!-- Disini Menampilkan Detail Event -->
@@ -121,7 +119,20 @@
                                     </h2>
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
-                                            <div class="row mt-4">
+                                            <div class="row mt-4 mb-3">
+                                                <div class="col col-md-2 mb-3">
+                                                    <a class="btn btn-md btn-outline-grayish btn-rounded btn-block" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalGantiRute" data-id="<?php echo "$id_event"; ?>">
+                                                        <i class="bi bi-pin-map"></i> Ubah Rute
+                                                    </a>
+                                                </div>
+                                                <div class="col col-md-2 mb-3">
+                                                    <a href="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" class="btn btn-md btn-outline-primary btn-rounded btn-block">
+                                                        <i class="bi bi-fullscreen"></i> Layar Penuh
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-10"></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-12 text-center" id="ShowRuteEvent">
 
                                                 </div>
@@ -132,11 +143,54 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingThree">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                            3. Peserta
+                                            3. Kategori Event
                                         </button>
                                     </h2>
                                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mt-4 mb-3">
+                                                <div class="col col-md-2">
+                                                    <button type="button" class="btn btn-md btn-outline-primary btn-block btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalTambahKategori" data-id="<?php echo "$id_event"; ?>">
+                                                        <i class="bi bi-plus"></i> Kategori
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-10"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" id="ShowKategoriEvent">
+                                                    <!-- Menampilkan Kategori Event -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                            4. Peserta
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-3">
+                                            <div class="row mt-4 mb-3">
+                                                <div class="col col-md-2">
+                                                    <button type="button" class="btn btn-md btn-outline-dark btn-block btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalFilterPeserta">
+                                                        <i class="bi bi-filter"></i> Filter
+                                                    </button>
+                                                </div>
+                                                <div class="col col-md-2">
+                                                    <button type="button" class="btn btn-md btn-outline-primary btn-block btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalTambahPeserta" data-id="<?php echo "$id_event"; ?>">
+                                                        <i class="bi bi-plus"></i> Peserta
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-8"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" id="ShowPesertaEvent">
+                                                    <!-- Menampilkan data peserta -->
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

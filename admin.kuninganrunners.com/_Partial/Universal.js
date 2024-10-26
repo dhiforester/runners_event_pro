@@ -5,7 +5,7 @@ $(document).ready(function() {
     function ReloadBelNotification() {
         $('#MenampilkanBelNotifikasi').load('_Partial/ReloadBelNotification.php');
     }
-    setInterval(ReloadBelNotification, 5000);
+    setInterval(ReloadBelNotification, 10000);
 });
 //Kondisi Ketika Uraian Notifikasi Di Klik
 $('#MenampilkanBelNotifikasi').click(function(){

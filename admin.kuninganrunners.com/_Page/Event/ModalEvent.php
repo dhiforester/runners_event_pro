@@ -56,13 +56,13 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="KeywordBy">
+                        <div class="col col-md-4">
+                            <label for="keyword_by">
                                 <small>Dasar Pencarian</small>
                             </label>
                         </div>
-                        <div class="col-md-8">
-                            <select name="KeywordBy" id="KeywordBy" class="form-control">
+                        <div class="col col-md-8">
+                            <select name="keyword_by" id="keyword_by" class="form-control">
                                 <option value="">Pilih</option>
                                 <option value="nama_event">Nama Event</option>
                                 <option value="keterangan">Keterangan</option>
@@ -78,6 +78,107 @@
                         </div>
                         <div class="col col-md-8" id="FormFilter">
                             <input type="text" name="keyword" id="keyword" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-check"></i> Tampilkan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Filter Data Peserta-->
+<div class="modal fade" id="ModalFilterPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesFilterPeserta">
+                <input type="hidden" name="page_peserta" id="page_peserta" value="1">
+                <input type="hidden" name="id_event_peserta" id="id_event_peserta">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-funnel"></i> Filter Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="batas_peserta">
+                                <small>Limit/Batas</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
+                            <select name="batas_peserta" id="batas_peserta" class="form-control">
+                                <option value="5">5</option>
+                                <option selected value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="250">250</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="OrderByPeserta">
+                                <small>Mode Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
+                            <select name="OrderByPeserta" id="OrderByPeserta" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="nama">Nama Member</option>
+                                <option value="datetime">Tanggal Daftar</option>
+                                <option value="kategori">Kategori Event</option>
+                                <option value="biaya_pendaftaran">Biaya Pendaftaran</option>
+                                <option value="status">Status Pembayaran</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="ShortByPeserta">
+                                <small>Tipe Urutan</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
+                            <select name="ShortByPeserta" id="ShortByPeserta" class="form-control">
+                                <option value="ASC">A To Z</option>
+                                <option selected value="DESC">Z To A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="KeywordByPeserta">
+                                <small>Dasar Pencarian</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8">
+                            <select name="KeywordByPeserta" id="KeywordByPeserta" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="nama">Nama Member</option>
+                                <option value="email">Email</option>
+                                <option value="datetime">Tanggal Daftar</option>
+                                <option value="id_event_kategori">Kategori Event</option>
+                                <option value="biaya_pendaftaran">Biaya Pendaftaran</option>
+                                <option value="status">Status Pembayaran</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="keyword_peserta">
+                                <small>Kata Kunci</small>
+                            </label>
+                        </div>
+                        <div class="col col-md-8" id="FormFilterPeserta">
+                            <input type="text" name="keyword_peserta" id="keyword_peserta" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -519,6 +620,301 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusEvent">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalTambahKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahKategori" autocomplete="off">
+                <input type="hidden" name="id_event" id="PutIdEventOnAddKategori">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Kategori Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormTambahKategori">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiTambahKategori">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonTambahKategori">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalDetailKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Kategori Event
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailKategori">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditKategori" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Edit Kategori Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditKategori">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiEditKategori">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonEditKategori">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusKategori" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Kategori Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusKategori">
+                            <!-- Form Hapus Kategori -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusKategori">
+                            <!-- Notifiksi Hapus Kategori -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusKategori">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalTambahPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Peserta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="javascript:void(0);" id="ProsesPencarianMember">
+                    <input type="hidden" name="page_member" id="page_member" value="1">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="keyword_member">
+                                <small>Cari Member</small>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" name="keyword_member" id="keyword_member" class="form-control" placeholder="Cari Member">
+                                <button type="submit" class="btn btn-grayish">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="javascript:void(0);" id="ProsesTambahPeserta">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="id_member_list">
+                                <small>Pilih Member</small>
+                            </label>
+                        </div>
+                        <div class="col-md-12" id="FormListMember">
+                            
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="kategori_event">
+                                <small>Kategori Event</small>
+                            </label>
+                            <select name="kategori_event" id="kategori_event" class="form-control">
+                                <option value="">Pilih</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="status_pembayaran">
+                                <small>Status Pembayaran</small>
+                            </label>
+                            <select name="status_pembayaran" id="status_pembayaran" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="Lunas">Lunas</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <small>
+                                Pastikan data peserta yang anda input sudah sesuai.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12 text-center" id="NotifikasiTambahPeserta">
+                            
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-success btn-rounded" id="ButtonTambahPeserta">
+                                <i class="bi bi-save"></i> Simpan
+                            </button>
+                            <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                                <i class="bi bi-x-circle"></i> Tutup
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalDetailPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Peserta
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailPeserta">
+                        <!-- Menampilkan Detail Peserta Disini -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditPeserta" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Peserta Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditPeserta">
+                            <!-- Form Hapus Peserta -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiEditPeserta">
+                            <!-- Notifiksi Hapus Peserta -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonEditPeserta">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusPeserta" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Peserta Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusPeserta">
+                            <!-- Form Hapus Peserta -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusPeserta">
+                            <!-- Notifiksi Hapus Peserta -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusPeserta">
                         <i class="bi bi-check"></i> Ya, Hapus
                     </button>
                     <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">

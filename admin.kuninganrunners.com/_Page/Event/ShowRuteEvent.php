@@ -96,13 +96,6 @@
                     </script>
                     <div class="row mb-3">
                         <div class="col-md-12 text-center">
-                            <a href="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" class="btn btn-md btn-primary btn-rounded">
-                                Tampilkan Layar Penuh
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12 text-center">
                             <iframe src="<?php echo "$base_url/MapRute.php?id=$id_event"; ?>" style="width: 100%; height: 400px; border: none;"></iframe>
                         </div>
                     </div>
