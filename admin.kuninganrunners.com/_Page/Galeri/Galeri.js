@@ -94,12 +94,15 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Jika sukses, tutup modal dan kembalikan tombol ke semula
-                    filterAndLoadTable();
+                    $('#ProsesFilter')[0].reset();
+                    $('#page').val('1');
                     $('#ProsesTambahGaleri')[0].reset();
                     $('#ModalTambahGaleri').modal('hide');
                     $('#ButtonTambahGaleri').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
                     $('#NotifikasiTambahGaleri').html('');
+                    $('#ValidasiFileGaleri').html('<code class="text text-dark">Foto yang digunakan maksimal 5 MB (JPG, JPEG, PNG Atau GIF) </code>');
                     Swal.fire('Berhasil!', 'Tambah Galeri Berhasil', 'success');
+                    filterAndLoadTable();
                 } else {
                     // Jika gagal, tampilkan notifikasi error
                     $('#NotifikasiTambahGaleri').html('<div class="alert alert-danger">' + response.message + '</div>');

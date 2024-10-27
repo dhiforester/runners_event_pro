@@ -232,9 +232,10 @@ $(document).ready(function() {
                     return; // Keluar dari fungsi jika JSON tidak valid
                 }
                 if (result.success) {
+                    $('#page').val("1");
+                    $("#ProsesFilter")[0].reset();
                     $('#ButtonTambahMember').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
                     $('#ProsesTambahMember').trigger('reset');
-                    $('#ProsesFilter').trigger('reset');
                     $('#ModalTambahMember').modal('hide');
                     $('#NotifikasiTambahMember').html('');
                     filterAndLoadTable();
