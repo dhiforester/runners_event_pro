@@ -33,8 +33,8 @@
         if($Page=="KontenUtama"){
             include "_Page/KontenUtama/KontenUtama.php";
         }
-        if($Page=="EntitasAkses"){
-            include "_Page/EntitasAkses/EntitasAkses.php";
+        if($Page=="Galeri"){
+            include "_Page/Galeri/Galeri.php";
         }
         if($Page=="ApiDoc"){
             include "_Page/ApiDoc/ApiDoc.php";

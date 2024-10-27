@@ -34,6 +34,9 @@
         if($Page=="KontenUtama"){
             include "_Page/KontenUtama/ModalKontenUtama.php";
         }
+        if($Page=="Galeri"){
+            include "_Page/Galeri/ModalGaleri.php";
+        }
         if($Page=="Help"){
             include "_Page/Help/ModalHelp.php";
         }

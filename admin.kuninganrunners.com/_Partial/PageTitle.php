@@ -158,102 +158,87 @@
             echo '      <li class="breadcrumb-item active">Web Konten</li>';
             echo '  </ol>';
             echo '</nav>';
-        }else{
-            if($_GET['Page']=="EntitasAkses"){
-                if(empty($_GET['Sub'])){
-                    echo '<h1><a href=""><i class="bi bi-key"></i> Entitas Ases</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item active">Entitas Akses</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    if($_GET['Sub']=="BuatEntitas"){
-                        echo '<h1><i class="bi bi-key"></i> Entitas Ases</h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=EntitasAkses">Entitas Akses</a></li>';
-                        echo '      <li class="breadcrumb-item active">Buat Entitas</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }
-                }
-                
-            }
-            if($_GET['Page']=="SettingGeneral"){
-                echo '<h1><a href=""><i class="bi bi-gear"></i> Pengaturan Umum</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Pengaturan Umum</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="SettingPayment"){
-                echo '<h1><a href=""><i class="bi bi-coin"></i> Payment Gateway</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Payment Gateway</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="SettingEmail"){
-                echo '<h1><a href=""><i class="bi bi-envelope"></i> Pengaturan Email</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Pengaturan Email</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="ApiKey"){
-                echo '<h1><a href=""><i class="bi bi-key"></i> API Key</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">API Key</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="RegionalData"){
-                echo '<h1><a href=""><i class="bi bi-map"></i> Referensi Wilayah</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Referensi Wilayah</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="Aktivitas"){
-                echo '<h1><a href=""><i class="bi bi-record-btn"></i> Log Aktivitas</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Log Aktivitas</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="Help"){
-                echo '<h1><a href=""><i class="bi bi-question"></i> Bantuan</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Bantuan</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
-            if($_GET['Page']=="Error"){
-                echo '<h1><i class="bi bi-emoji-angry"></i> Error</h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Error</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }
+        }
+        if($_GET['Page']=="Galeri"){
+            echo '<h1><a href=""><i class="bi bi-image"></i> Galeri</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Galeri</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="SettingGeneral"){
+            echo '<h1><a href=""><i class="bi bi-gear"></i> Pengaturan Umum</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Pengaturan Umum</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="SettingPayment"){
+            echo '<h1><a href=""><i class="bi bi-coin"></i> Payment Gateway</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Payment Gateway</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="SettingEmail"){
+            echo '<h1><a href=""><i class="bi bi-envelope"></i> Pengaturan Email</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Pengaturan Email</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="ApiKey"){
+            echo '<h1><a href=""><i class="bi bi-key"></i> API Key</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">API Key</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="RegionalData"){
+            echo '<h1><a href=""><i class="bi bi-map"></i> Referensi Wilayah</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Referensi Wilayah</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="Aktivitas"){
+            echo '<h1><a href=""><i class="bi bi-record-btn"></i> Log Aktivitas</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Log Aktivitas</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="Help"){
+            echo '<h1><a href=""><i class="bi bi-question"></i> Bantuan</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Bantuan</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
+        if($_GET['Page']=="Error"){
+            echo '<h1><i class="bi bi-emoji-angry"></i> Error</h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Error</li>';
+            echo '  </ol>';
+            echo '</nav>';
         }
     }
     echo '</div>';

@@ -40,8 +40,8 @@
         if($Page=="KontenUtama"){
             echo '<script type="text/javascript" src="_Page/KontenUtama/KontenUtama.js"></script>';
         }
-        if($Page=="ApiDoc"){
-            echo '<script type="text/javascript" src="_Page/ApiDoc/ApiDoc.js"></script>';
+        if($Page=="Galeri"){
+            echo '<script type="text/javascript" src="_Page/Galeri/Galeri.js"></script>';
         }
         if($Page=="SettingGeneral"){
             echo '<script type="text/javascript" src="_Page/SettingGeneral/SettingGeneral.js"></script>';
