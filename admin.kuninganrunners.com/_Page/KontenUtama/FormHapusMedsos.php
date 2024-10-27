@@ -52,11 +52,7 @@
                 $logo=GetDetailData($Conn,'web_medsos','id_web_medsos',$id_web_medsos,'logo');
                 $url_logo="assets/img/Medsos/$logo";
 ?>
-        <div class="row mb-3">
-            <div class="col-md-12 text-center mb-3">
-                <img src="<?php echo "$url_logo"; ?>" alt="" width="100px"  height="100px">
-            </div>
-        </div>
+        <input type="hidden" name="id_web_medsos" value="<?php echo $id_web_medsos; ?>">
         <div class="row mb-3">
             <div class="col col-md-4">
                 <small class="credit">Nama Medsos</small>
@@ -90,6 +86,13 @@
                     <code class="text text-grayish">
                         <?php echo "$logo"; ?>
                     </code>
+                </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col col-md-12">
+                <small class="text-primary">
+                    Apakah anda yakin akan menghapus data tersebut?
                 </small>
             </div>
         </div>

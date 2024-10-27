@@ -450,5 +450,107 @@ $(document).ready(function() {
             }
         });
     });
+    //Ketika Modal Edit Medsos
+    $('#ModalEditMedsos').on('show.bs.modal', function (e) {
+        var id_web_medsos = $(e.relatedTarget).data('id');
+        $('#FormEditMedsos').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/KontenUtama/FormEditMedsos.php',
+            data        : {id_web_medsos: id_web_medsos},
+            success     : function(data){
+                $('#FormEditMedsos').html(data);
+                $('#NotifikasiEditMedsos').html('');
+            }
+        });
+    });
+    // Proses Edit Medsos
+    $('#ProsesEditMedsos').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonEditMedsos').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/KontenUtama/ProsesEditMedsos.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowMedsos();
+                    $('#ProsesEditMedsos')[0].reset();
+                    $('#ModalEditMedsos').modal('hide');
+                    $('#ButtonEditMedsos').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    $('#NotifikasiEditMedsos').html('');
+                    Swal.fire('Berhasil!', 'Edit Link Medsos Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditMedsos').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonEditMedsos').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditMedsos').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonEditMedsos').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    //Ketika Modal Hapus Medsos
+    $('#ModalHapusMedsos').on('show.bs.modal', function (e) {
+        var id_web_medsos = $(e.relatedTarget).data('id');
+        $('#FormHapusMedsos').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/KontenUtama/FormHapusMedsos.php',
+            data        : {id_web_medsos: id_web_medsos},
+            success     : function(data){
+                $('#FormHapusMedsos').html(data);
+                $('#NotifikasiHapusMedsos').html('');
+            }
+        });
+    });
+    // Proses Hapus Medsos
+    $('#ProsesHapusMedsos').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonHapusMedsos').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/KontenUtama/ProsesHapusMedsos.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowMedsos();
+                    $('#ProsesHapusMedsos')[0].reset();
+                    $('#ModalHapusMedsos').modal('hide');
+                    $('#ButtonHapusMedsos').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                    $('#NotifikasiHapusMedsos').html('');
+                    Swal.fire('Berhasil!', 'Hapus Link Medsos Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusMedsos').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonHapusMedsos').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusMedsos').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonHapusMedsos').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
 });
 

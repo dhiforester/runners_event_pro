@@ -309,3 +309,35 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalHapusMedsos" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusMedsos" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Medsos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusMedsos">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusMedsos">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusMedsos">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
