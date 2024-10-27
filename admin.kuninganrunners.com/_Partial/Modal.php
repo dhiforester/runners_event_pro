@@ -37,6 +37,9 @@
         if($Page=="Galeri"){
             include "_Page/Galeri/ModalGaleri.php";
         }
+        if($Page=="Testimoni"){
+            include "_Page/Testimoni/ModalTestimoni.php";
+        }
         if($Page=="Help"){
             include "_Page/Help/ModalHelp.php";
         }

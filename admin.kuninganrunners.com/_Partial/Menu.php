@@ -147,7 +147,7 @@
                 </li>
                 <li>
                     <a href="index.php?Page=RegionalData" class="<?php if($PageMenu=="RegionalData"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Referensi Wilayah</span>
+                        <i class="bi bi-circle"></i><span>Wilayah</span>
                     </a>
                 </li>
             </ul>

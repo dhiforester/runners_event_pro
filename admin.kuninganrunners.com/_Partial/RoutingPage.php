@@ -36,8 +36,8 @@
         if($Page=="Galeri"){
             include "_Page/Galeri/Galeri.php";
         }
-        if($Page=="ApiDoc"){
-            include "_Page/ApiDoc/ApiDoc.php";
+        if($Page=="Testimoni"){
+            include "_Page/Testimoni/Testimoni.php";
         }
         if($Page=="MyProfile"){
             include "_Page/MyProfile/MyProfile.php";

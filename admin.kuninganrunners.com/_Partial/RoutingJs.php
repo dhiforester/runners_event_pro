@@ -43,6 +43,9 @@
         if($Page=="Galeri"){
             echo '<script type="text/javascript" src="_Page/Galeri/Galeri.js"></script>';
         }
+        if($Page=="Testimoni"){
+            echo '<script type="text/javascript" src="_Page/Testimoni/Testimoni.js"></script>';
+        }
         if($Page=="SettingGeneral"){
             echo '<script type="text/javascript" src="_Page/SettingGeneral/SettingGeneral.js"></script>';
         }

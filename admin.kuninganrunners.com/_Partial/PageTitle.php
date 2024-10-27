@@ -168,6 +168,15 @@
             echo '  </ol>';
             echo '</nav>';
         }
+        if($_GET['Page']=="Testimoni"){
+            echo '<h1><a href=""><i class="bi bi-chat-dots"></i> Testimoni</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Testimoni</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="SettingGeneral"){
             echo '<h1><a href=""><i class="bi bi-gear"></i> Pengaturan Umum</a></h1>';
             echo '<nav>';
