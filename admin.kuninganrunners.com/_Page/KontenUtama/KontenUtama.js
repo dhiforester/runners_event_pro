@@ -1,4 +1,47 @@
+//Ketika nama medsos Diketik
+function FormKetik(FormId,FormLengthId) {
+    $(FormId).on('input', function() {
+        var value = $(this).val();
+        var maxLength = 250;
+        // Jika panjang melebihi batas, potong sesuai maxLength
+        if (value.length > maxLength) {
+            value = value.substring(0, maxLength);
+        }
+        // Update nilai input
+        $(this).val(value); 
+        // Tampilkan jumlah karakter saat ini
+        $(FormLengthId).text(value.length + '/' + maxLength);
+    });
+}
+// Fungsi validasi file
+function validateFile(input, validationMessageElement) {
+    const file = input[0].files[0];
+    const validTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+    const maxSize = 1 * 1024 * 1024; // 1 MB dalam byte
 
+    // Reset pesan validasi
+    $(validationMessageElement).html(""); // Mengosongkan elemen kode
+
+    if (file) {
+        // Validasi tipe file
+        if (!validTypes.includes(file.type)) {
+            $(validationMessageElement).html("<span style='color: red;'>Tipe file tidak valid. Harap pilih file dengan tipe PNG, JPG, JPEG, atau GIF.</span><br>");
+            input.val(""); // Reset input file
+            return false;
+        }
+
+        // Validasi ukuran file
+        if (file.size > maxSize) {
+            $(validationMessageElement).html("<span style='color: red;'>Ukuran file terlalu besar. Maksimal ukuran adalah 1 MB.</span><br>");
+            input.val(""); // Reset input file
+            return false;
+        }
+
+        // Jika validasi berhasil
+        $(validationMessageElement).html("<span style='color: green;'>File valid dan siap diunggah.</span><br>");
+        return true;
+    }
+}
 //Fungsi Menampilkan Tentang
 function ShowTentang() {
     //Ketika Edit Konten Tentang Di Click
@@ -106,7 +149,56 @@ $(document).ready(function() {
     ShowTentang();
     ShowFaq();
     ShowMedsos();
+    FormKetik('#web_base_url','#web_base_url_length');
+    FormKetik('#web_title','#web_title_length');
+    FormKetik('#web_description','#web_description_length');
+    FormKetik('#web_keyword','#web_keyword_length');
+    FormKetik('#web_author','#web_author_length');
+    //Validasi File
+    // Event listener untuk input file #web_pavicon
+    $("#web_pavicon").change(function () {
+        validateFile($(this), "#ValidasiWebPavicon");
+    });
 
+    // Event listener untuk input file #web_icon
+    $("#web_icon").change(function () {
+        validateFile($(this), "#ValidasiWebIcon");
+    });
+    // Proses Simpan Pengaturan Web
+    $('#ProsesSimpanPengaturanWebsite').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonSimpanPengaturanWebsite').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/KontenUtama/ProsesSimpanPengaturanWebsite.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses
+                    $('#ModalTambahFaq').modal('hide');
+                    $('#ButtonSimpanPengaturanWebsite').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    $('#NotifikasiSimpanPengaturanWebsite').html('');
+                    Swal.fire('Berhasil!', 'Tambah Konten FAQ Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiSimpanPengaturanWebsite').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonSimpanPengaturanWebsite').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiSimpanPengaturanWebsite').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonSimpanPengaturanWebsite').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
     //Proses Simpan Tentang
     $('#ClickSimpanTentangKami').click(function(){
         $('#NotifikasiTentangKami').html('Loading..');
