@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "List Event";
+    $service_name = "List Testimoni";
 
     // Setting default response
     $code = 201;
@@ -47,54 +47,71 @@
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         
-                        // Persiapkan Query untuk Mengambil Data Event
-                        $QryEvent = $Conn->prepare("SELECT * FROM event WHERE tanggal_selesai >= ? ORDER BY id_event DESC");
-                        $QryEvent->bind_param("s", $now);
-                        $QryEvent->execute();
-                        $resultEvent = $QryEvent->get_result();
+                        // Persiapkan Query untuk Mengambil Data Album
+                        $QryTestimoni = $Conn->prepare("SELECT id_member, penilaian, testimoni, datetime FROM web_testimoni WHERE status='Publish' ORDER BY datetime ASC");
+                        $QryTestimoni->execute();
+                        $ResultTestimoni = $QryTestimoni->get_result();
                         
-                        while ($DataEvent = $resultEvent->fetch_assoc()) {
-                            $poster = !empty($DataEvent['poster']) ? "$base_url/assets/img/Poster/{$DataEvent['poster']}" : "";
-                            $rute = !empty($DataEvent['rute']) ? "$base_url/assets/img/Rute/{$DataEvent['rute']}" : "";
-                            $id_event=$DataEvent['id_event'];
-                            //Buat List Kategori
-                            $kategori=[];
-                            $QryKategori = $Conn->prepare("SELECT * FROM event_kategori WHERE id_event >= ? ORDER BY id_event_kategori ASC");
-                            $QryKategori->bind_param("s", $id_event);
-                            $QryKategori->execute();
-                            $ResultKategori = $QryKategori->get_result();
-                            while ($DataKategori = $ResultKategori->fetch_assoc()) {
-                                $id_event_kategori=$DataKategori['id_event_kategori'];
-                                $kategori_list=$DataKategori['kategori'];
-                                if(empty($DataKategori['deskripsi'])){
-                                    $deskripsi_list="";
-                                }else{
-                                    $deskripsi_list=$DataKategori['deskripsi'];
+                        while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
+                            $id_member=$DataTestimoni['id_member'];
+                            $penilaian=$DataTestimoni['penilaian'];
+                            $testimoni=$DataTestimoni['testimoni'];
+                            $datetime=$DataTestimoni['datetime'];
+                            //Membuka Member
+                            $nama = GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
+                            $foto = GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
+                            $image_path="../../assets/img/Member/$foto";
+                            // Desired width and height for the resized image
+                            $new_width = 200;
+                            $new_height = 200;
+
+                            // Check if file exists
+                            if (file_exists($image_path)) {
+                                // Get the original image dimensions and type
+                                list($width, $height, $type) = getimagesize($image_path);
+                                // Create an image resource from the file based on its type
+                                switch ($type) {
+                                    case IMAGETYPE_JPEG:
+                                        $src_image = imagecreatefromjpeg($image_path);
+                                        break;
+                                    case IMAGETYPE_PNG:
+                                        $src_image = imagecreatefrompng($image_path);
+                                        break;
+                                    case IMAGETYPE_GIF:
+                                        $src_image = imagecreatefromgif($image_path);
+                                        break;
+                                    default:
+                                        $foto_profil="File Type No Support";
                                 }
-                                if(empty($DataKategori['biaya_pendaftaran'])){
-                                    $biaya_pendaftaran_list="";
-                                }else{
-                                    $biaya_pendaftaran_list=$DataKategori['biaya_pendaftaran'];
-                                }
-                                $kategori[] = [
-                                    "id_event_kategori" => $id_event_kategori,
-                                    "kategori" => $kategori_list,
-                                    "deskripsi" => $deskripsi_list,
-                                    "biaya_pendaftaran" => $biaya_pendaftaran_list
-                                ];
+                                // Create a new true color image with the desired dimensions
+                                $resized_image = imagecreatetruecolor($new_width, $new_height);
+
+                                // Resize the image
+                                imagecopyresampled($resized_image, $src_image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+                                // Start output buffering to capture the output
+                                ob_start();
+
+                                // Output the resized image as JPEG to buffer
+                                imagejpeg($resized_image, null, 85); // 85 is the quality level
+
+                                // Get the contents of the buffer and encode it in Base64
+                                $image_data = ob_get_clean();
+                                $foto_profil = "data:image/jpeg;base64," . base64_encode($image_data);
+
+                                // Clean up memory
+                                imagedestroy($src_image);
+                                imagedestroy($resized_image);
+                            } else {
+                                $foto_profil="No File";
                             }
                             // Add to array
                             $metadata[] = [
-                                "id_event" => $DataEvent['id_event'] ?? null,
-                                "tanggal_mulai" => $DataEvent['tanggal_mulai'] ?? null,
-                                "tanggal_selesai" => $DataEvent['tanggal_selesai'] ?? null,
-                                "mulai_pendaftaran" => $DataEvent['mulai_pendaftaran'] ?? null,
-                                "selesai_pendaftaran" => $DataEvent['selesai_pendaftaran'] ?? null,
-                                "nama_event" => $DataEvent['nama_event'] ?? null,
-                                "keterangan" => $DataEvent['keterangan'] ?? null,
-                                "poster" => $poster,
-                                "rute" => $rute,
-                                "kategori" => $kategori
+                                "nama" => $nama,
+                                "penilaian" => $penilaian,
+                                "testimoni" => $testimoni,
+                                "datetime" => $datetime,
+                                "foto_profil" => $foto_profil
                             ];
                         }
                         

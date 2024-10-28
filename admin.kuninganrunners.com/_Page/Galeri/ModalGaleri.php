@@ -17,13 +17,11 @@
                         </div>
                         <div class="col col-md-8">
                             <select name="batas" id="batas" class="form-control">
-                                <option value="5">5</option>
-                                <option selected value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="250">250</option>
-                                <option value="500">500</option>
+                                <option value="4">4</option>
+                                <option value="8">8</option>
+                                <option selected value="12">12</option>
+                                <option value="24">24</option>
+                                <option value="48">48</option>
                             </select>
                         </div>
                     </div>

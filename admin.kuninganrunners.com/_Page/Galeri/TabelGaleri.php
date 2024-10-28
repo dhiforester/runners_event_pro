@@ -101,6 +101,7 @@
                 filterAndLoadTable();
             });
         </script>
+        <div class="row">
             <?php
                 if(empty($jml_data)){
                     echo '<div class="card">';
@@ -138,13 +139,19 @@
                         //Url Image
                         $GaleriPath="assets/img/Galeri/$file_galeri";
             ?>
+                    <div class="col-md-3">
                         <div class="card hover-shadow">
+                            <!-- Display the image full-width at the top -->
+                            <div class="image-overlay">
+                                <img src="<?php echo $GaleriPath; ?>" alt="" class="img-fluid rounded-top">
+                            </div>
+                            
                             <div class="card-body">
                                 <div class="filter">
-                                    <a class="icon text-secondary" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="icon text-light" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-three-dots"></i>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                         <li class="dropdown-header text-start">
                                             <h6>Option</h6>
                                         </li>
@@ -166,10 +173,7 @@
                                     </ul>
                                 </div>
                                 <div class="row">
-                                    <div class="col col-md-2 text-left">
-                                        <img src="<?php echo $GaleriPath; ?>" alt="" width="70px" height="70px" class="rounded-circle">
-                                    </div>
-                                    <div class="col col-md-10 mb-3">
+                                    <div class="col-12 mb-3">
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalDetailGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
                                             <small><?php echo "$no. $nama_galeri"; ?></small>
                                         </a><br>
@@ -181,16 +185,19 @@
                                                 <i class="bi bi-calendar"></i> <?php echo "$DatetimeFormat"; ?>
                                             </code><br>
                                         </small>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
             <?php
                         $no++; 
                     }
                 }
             ?>
+        </div>
+            
         <div class="row">
             <div class="col-md-12 text-center">
                 <div class="btn-group shadow-0" role="group" aria-label="Basic example">

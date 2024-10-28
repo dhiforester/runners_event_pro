@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "List Event";
+    $service_name = "List Album";
 
     // Setting default response
     $code = 201;
@@ -47,54 +47,21 @@
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         
-                        // Persiapkan Query untuk Mengambil Data Event
-                        $QryEvent = $Conn->prepare("SELECT * FROM event WHERE tanggal_selesai >= ? ORDER BY id_event DESC");
-                        $QryEvent->bind_param("s", $now);
-                        $QryEvent->execute();
-                        $resultEvent = $QryEvent->get_result();
+                        // Persiapkan Query untuk Mengambil Data Album
+                        $QryAlbum = $Conn->prepare("SELECT DISTINCT album FROM web_galeri ORDER BY album ASC");
+                        $QryAlbum->execute();
+                        $ResultAlbum = $QryAlbum->get_result();
                         
-                        while ($DataEvent = $resultEvent->fetch_assoc()) {
-                            $poster = !empty($DataEvent['poster']) ? "$base_url/assets/img/Poster/{$DataEvent['poster']}" : "";
-                            $rute = !empty($DataEvent['rute']) ? "$base_url/assets/img/Rute/{$DataEvent['rute']}" : "";
-                            $id_event=$DataEvent['id_event'];
-                            //Buat List Kategori
-                            $kategori=[];
-                            $QryKategori = $Conn->prepare("SELECT * FROM event_kategori WHERE id_event >= ? ORDER BY id_event_kategori ASC");
-                            $QryKategori->bind_param("s", $id_event);
-                            $QryKategori->execute();
-                            $ResultKategori = $QryKategori->get_result();
-                            while ($DataKategori = $ResultKategori->fetch_assoc()) {
-                                $id_event_kategori=$DataKategori['id_event_kategori'];
-                                $kategori_list=$DataKategori['kategori'];
-                                if(empty($DataKategori['deskripsi'])){
-                                    $deskripsi_list="";
-                                }else{
-                                    $deskripsi_list=$DataKategori['deskripsi'];
-                                }
-                                if(empty($DataKategori['biaya_pendaftaran'])){
-                                    $biaya_pendaftaran_list="";
-                                }else{
-                                    $biaya_pendaftaran_list=$DataKategori['biaya_pendaftaran'];
-                                }
-                                $kategori[] = [
-                                    "id_event_kategori" => $id_event_kategori,
-                                    "kategori" => $kategori_list,
-                                    "deskripsi" => $deskripsi_list,
-                                    "biaya_pendaftaran" => $biaya_pendaftaran_list
-                                ];
-                            }
+                        while ($DataAlbum = $ResultAlbum->fetch_assoc()) {
+                            $Album=$DataAlbum['album'];
+                            $JumlahFile=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$Album'"));
+                            $file_galeri = GetDetailData($Conn, 'web_galeri', 'album', $Album, 'file_galeri');
+                            $image_path="$base_url/ImageReader.php?dir=Galeri&fl=$file_galeri";
                             // Add to array
                             $metadata[] = [
-                                "id_event" => $DataEvent['id_event'] ?? null,
-                                "tanggal_mulai" => $DataEvent['tanggal_mulai'] ?? null,
-                                "tanggal_selesai" => $DataEvent['tanggal_selesai'] ?? null,
-                                "mulai_pendaftaran" => $DataEvent['mulai_pendaftaran'] ?? null,
-                                "selesai_pendaftaran" => $DataEvent['selesai_pendaftaran'] ?? null,
-                                "nama_event" => $DataEvent['nama_event'] ?? null,
-                                "keterangan" => $DataEvent['keterangan'] ?? null,
-                                "poster" => $poster,
-                                "rute" => $rute,
-                                "kategori" => $kategori
+                                "album" => $Album,
+                                "galeri" => $JumlahFile,
+                                "image" => $image_path
                             ];
                         }
                         
