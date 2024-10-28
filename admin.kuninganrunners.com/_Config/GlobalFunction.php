@@ -92,6 +92,80 @@
             return $Data[$Colom];
         }
     }
+    function GetDetailWilayah($Conn, $TabelWilayah, $Kategori, $id_wilayah) {
+        // Validasi input yang diperlukan
+        if (empty($Conn)) {
+            return "No Database Connection";
+        }
+        if (empty($TabelWilayah)) {
+            return "No Table Selected";
+        }
+        if (empty($Kategori)) {
+            return "No Category Selected";
+        }
+        if (empty($id_wilayah)) {
+            return "No ID Provided";
+        }
+        // Escape table name and column name untuk mencegah SQL Injection
+        $TabelWilayah = mysqli_real_escape_string($Conn, $TabelWilayah);
+        $Kategori = mysqli_real_escape_string($Conn, $Kategori);
+        $id_wilayah = mysqli_real_escape_string($Conn, $id_wilayah);
+    
+        // Menggunakan prepared statement
+        $Qry = $Conn->prepare("SELECT * FROM $TabelWilayah WHERE kategori= ? AND id_wilayah= ?");
+        if ($Qry === false) {
+            return "Query Preparation Failed: " . $Conn->error;
+        }
+    
+        // Bind parameter
+        $Qry->bind_param("ss", $Kategori, $id_wilayah);
+    
+        // Eksekusi query
+        if (!$Qry->execute()) {
+            return "Query Execution Failed: " . $Qry->error;
+        }
+    
+        // Mengambil hasil
+        $Result = $Qry->get_result();
+        $Data = $Result->fetch_assoc();
+    
+        // Menutup statement
+        $Qry->close();
+        //mengambil Hasil Berdasarkan Kategori
+        if($Kategori=="Propinsi"){
+            if (empty($Data['propinsi'])) {
+                return "";
+            } else {
+                return $Data['propinsi'];
+            }
+        }else{
+            if($Kategori=="Kabupaten"){
+                if (empty($Data['kabupaten'])) {
+                    return "";
+                } else {
+                    return $Data['kabupaten'];
+                }
+            }else{
+                if($Kategori=="Kecamatan"){
+                    if (empty($Data['kecamatan'])) {
+                        return "";
+                    } else {
+                        return $Data['kecamatan'];
+                    }
+                }else{
+                    if($Kategori=="desa"){
+                        if (empty($Data['desa'])) {
+                            return "";
+                        } else {
+                            return $Data['desa'];
+                        }
+                    }else{
+                        return "";
+                    }
+                }
+            }
+        }
+    }
     function IjinAksesSaya($Conn,$SessionIdAkses,$KodeFitur){
         $QryParam = mysqli_query($Conn,"SELECT * FROM akses_ijin WHERE id_akses='$SessionIdAkses' AND kode='$KodeFitur'")or die(mysqli_error($Conn));
         $DataParam = mysqli_fetch_array($QryParam);
@@ -425,4 +499,33 @@
         // Mengembalikan nama bulan berdasarkan angka
         return $namaBulan[$angkaBulan] ?? 'Bulan tidak valid';
     }
+
+    // Fungsi untuk memvalidasi data base64
+    function validate_base64_image($base64_string, $max_size) {
+        // Decode base64 string
+        $decoded_image = base64_decode($base64_string, true);
+        if ($decoded_image === false) {
+            return "Format base64 tidak valid.";
+        }
+    
+        // Check file size
+        if (strlen($decoded_image) > $max_size) {
+            return "Ukuran file gambar melebihi batas maksimum.";
+        }
+    
+        // Detect image mime type
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_buffer($finfo, $decoded_image);
+        finfo_close($finfo);
+    
+        // Allow only JPEG and PNG
+        if ($mime_type !== 'image/jpeg' && $mime_type !== 'image/png') {
+            return "Tipe MIME tidak valid. Hanya JPEG dan PNG diperbolehkan.";
+        }
+    
+        // If all validations pass, return the decoded image
+        return $decoded_image;
+    }
+    
+
 ?>

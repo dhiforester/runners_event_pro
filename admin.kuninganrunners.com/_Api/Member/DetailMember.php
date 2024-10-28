@@ -16,7 +16,7 @@
 
     // Validasi Metode Pengiriman Data
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        $keterangan = "Metode Pengiriman Data Hanya Boleh Menggunakan GET";
+        $keterangan = "Metode Pengiriman Data Hanya Boleh Menggunakan POST";
     } else {
         try {
             // Tangkap Header
