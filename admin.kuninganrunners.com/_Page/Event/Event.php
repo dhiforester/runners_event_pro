@@ -11,7 +11,11 @@
             if($Sub=="DetailEvent"){
                 include "_Page/Event/DetailEvent.php";
             }else{
-                
+                if($Sub=="DetailPeserta"){
+                    include "_Page/Event/DetailPeserta.php";
+                }else{
+                    
+                }
             }
         }
     }

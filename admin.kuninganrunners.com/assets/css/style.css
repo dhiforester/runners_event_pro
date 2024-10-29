@@ -1304,12 +1304,12 @@ body .title_page_app {
   font-weight: bold; /* Opsi: Anda bisa menyesuaikan gaya teks */
   margin-right: 10px; /* Memberi jarak antara teks dan isi list */
 }
-.card img {
+.card .album img {
   height: 200px;
   object-fit: cover;
   width: 100%;
   filter: brightness(30%);
 }
-.card img:hover {
+.card .album img:hover {
   filter: brightness(40%);
 }

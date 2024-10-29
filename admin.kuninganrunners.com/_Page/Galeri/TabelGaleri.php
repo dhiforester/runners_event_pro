@@ -142,7 +142,7 @@
                     <div class="col-md-3">
                         <div class="card hover-shadow">
                             <!-- Display the image full-width at the top -->
-                            <div class="image-overlay">
+                            <div class="image-overlay album">
                                 <img src="<?php echo $GaleriPath; ?>" alt="" class="img-fluid rounded-top">
                             </div>
                             

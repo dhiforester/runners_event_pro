@@ -63,6 +63,9 @@
                 //Jumlah Riwayat Transaksi
                 $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
 ?>
+        <input type="hidden" name="Page" value="Event">
+        <input type="hidden" name="Sub" value="DetailPeserta">
+        <input type="hidden" name="id" value="<?php echo "$id_event_peserta"; ?>">
         <div class="row mb-3">
             <div class="col col-md-4"><small class="credit">Nama Peserta</small></div>
             <div class="col col-md-8">
