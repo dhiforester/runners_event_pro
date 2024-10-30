@@ -930,3 +930,57 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalTambahTransaksiEvent" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahTransaksiEvent" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Pembayaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormTambahTransaksiEvent">
+                            <!-- Form Tambah Transaksi Event -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiTambahTransaksiEvent">
+                            <!-- Notifikasi Tambah Transaksi Event -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonTambahTransaksiEvent">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalBayarEvent" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark"><i class="bi bi-coin"></i> Bayar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormBayarEvent">
+                        <!-- Form Bayar Event -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

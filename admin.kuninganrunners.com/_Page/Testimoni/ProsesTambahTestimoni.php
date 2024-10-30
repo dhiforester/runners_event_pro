@@ -43,22 +43,84 @@
                         if(strlen($testimoni)>500){
                             $errors[] = 'Testimoni tidak boleh lebih dari 500 karakter!.';
                         }else{
-                            // Insert data ke database
-                            $query = "INSERT INTO web_testimoni (id_member, penilaian, testimoni, sumber, datetime, status) 
-                                VALUES (?, ?, ?, ?, ?, ?)";
-                            $stmt = $Conn->prepare($query);
-                            $stmt->bind_param("ssssss", $id_member, $penilaian, $testimoni, $sumber, $now, $status);
-                            if ($stmt->execute()) {
-                                $kategori_log="Testimoni";
-                                $deskripsi_log="Tambah Testimoni";
-                                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
-                                if($InputLog=="Success"){
-                                    $response['success'] = true;
-                                }else{
-                                    $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
-                                }
+                            if (!ctype_digit($_POST['penilaian'])) {
+                                $errors[] = 'Penilaian hanya boleh diisi dengan angka 1-5';
                             }else{
-                                $errors[] = 'Terjadi kesalahan pada saat menambahkan data pada database!.';
+                                if($penilaian>5){
+                                    $errors[] = 'Penilaian hanya boleh diisi dengan angka 1-5';
+                                }else{
+                                    //Buka Detail Member
+                                    $nik_name=GetDetailData($Conn,'member','id_member',$id_member,'nama');
+                                    $foto=GetDetailData($Conn,'member','id_member',$id_member,'foto');
+                                    if(!empty($foto)){
+                                        $image_path="../../assets/img/Member/$foto";
+                                        //Proses Mengubah Foto Menjadi base64
+                                        
+                                        // Desired width and height for the resized image
+                                        $new_width = 200;
+                                        $new_height = 200;
+
+                                        // Check if file exists
+                                        if (file_exists($image_path)) {
+                                            // Get the original image dimensions and type
+                                            list($width, $height, $type) = getimagesize($image_path);
+                                            // Create an image resource from the file based on its type
+                                            switch ($type) {
+                                                case IMAGETYPE_JPEG:
+                                                    $src_image = imagecreatefromjpeg($image_path);
+                                                    break;
+                                                case IMAGETYPE_PNG:
+                                                    $src_image = imagecreatefrompng($image_path);
+                                                    break;
+                                                case IMAGETYPE_GIF:
+                                                    $src_image = imagecreatefromgif($image_path);
+                                                    break;
+                                                default:
+                                                    $foto_profil="";
+                                            }
+                                            // Create a new true color image with the desired dimensions
+                                            $resized_image = imagecreatetruecolor($new_width, $new_height);
+
+                                            // Resize the image
+                                            imagecopyresampled($resized_image, $src_image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+                                            // Start output buffering to capture the output
+                                            ob_start();
+
+                                            // Output the resized image as JPEG to buffer
+                                            imagejpeg($resized_image, null, 85); // 85 is the quality level
+
+                                            // Get the contents of the buffer and encode it in Base64
+                                            $image_data = ob_get_clean();
+                                            $foto_profil = "data:image/jpeg;base64," . base64_encode($image_data);
+
+                                            // Clean up memory
+                                            imagedestroy($src_image);
+                                            imagedestroy($resized_image);
+                                        } else {
+                                            $foto_profil="";
+                                        }
+                                    }else{
+                                        $foto_profil="";
+                                    }
+                                    // Insert data ke database
+                                    $query = "INSERT INTO web_testimoni (id_member, nik_name, penilaian, testimoni, foto_profil, sumber, datetime, status) 
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                    $stmt = $Conn->prepare($query);
+                                    $stmt->bind_param("ssssssss", $id_member, $nik_name, $penilaian, $testimoni, $foto_profil, $sumber, $now, $status);
+                                    if ($stmt->execute()) {
+                                        $kategori_log="Testimoni";
+                                        $deskripsi_log="Tambah Testimoni";
+                                        $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                        if($InputLog=="Success"){
+                                            $response['success'] = true;
+                                        }else{
+                                            $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
+                                        }
+                                    }else{
+                                        $errors[] = 'Terjadi kesalahan pada saat menambahkan data pada database!.';
+                                    }
+                                }
                             }
                         }
                     }

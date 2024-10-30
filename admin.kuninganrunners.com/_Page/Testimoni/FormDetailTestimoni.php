@@ -48,8 +48,10 @@
                 echo '</div>';
             }else{
                 $id_member=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'id_member');
+                $nik_name=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'nik_name');
                 $penilaian=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'penilaian');
                 $testimoni=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'testimoni');
+                $foto_profil=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'foto_profil');
                 $sumber=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'sumber');
                 $datetime=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'datetime');
                 $status=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'status');
@@ -67,6 +69,15 @@
                 }
 ?>
         <div class="row mb-3">
+            <div class="col col-md-12 text-center">
+                <?php
+                    if(!empty($foto_profil)){
+                        echo '<img src="' . $foto_profil . '" alt="Foto Profile" class="img img-fluid rounded-circle" width="200px" height="200px" />';
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="row mb-3">
             <div class="col col-md-4">
                 <small class="credit">Nama Member</small>
             </div>
@@ -74,6 +85,18 @@
                 <small class="credit">
                     <code class="text text-grayish">
                         <?php echo "$nama"; ?>
+                    </code>
+                </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col col-md-4">
+                <small class="credit">Nama Panggilan</small>
+            </div>
+            <div class="col col-md-8">
+                <small class="credit">
+                    <code class="text text-grayish">
+                        <?php echo "$nik_name"; ?>
                     </code>
                 </small>
             </div>
@@ -139,13 +162,15 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-4">
-                <small class="credit">Testimoni</small>
+            <div class="col-md-12 text-center">
+                <small class="credit">
+                    <b>Testimoni</b>
+                </small>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-12  text-center">
                 <small class="credit">
                     <code class="text text-grayish">
-                        <?php echo "$testimoni"; ?>
+                        <i>"<?php echo "$testimoni"; ?>"</i>
                     </code>
                 </small>
             </div>

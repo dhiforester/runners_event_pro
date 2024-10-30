@@ -95,6 +95,40 @@ function ShowPesertaEvent() {
         });
     }
 }
+function ShowDetailPesertaEvent() {
+    var id_event_peserta = $('#PutIdEventPeserta').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event_peserta) { 
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowDetailPesertaEvent.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#ShowDetailPesertaEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowDetailPesertaEvent:', error);
+            }
+        });
+    }
+}
+function ShowRiwayatPembayaranEvent() {
+    var id_event_peserta = $('#PutIdEventPeserta').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event_peserta) { 
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowRiwayatPembayaranEvent.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#ShowRiwayatPembayaranEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowRiwayatPembayaranEvent:', error);
+            }
+        });
+    }
+}
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     //Menampilkan Data Pertama kali
@@ -105,6 +139,8 @@ $(document).ready(function() {
     ShowRuteEvent();
     ShowKategoriEvent();
     ShowPesertaEvent();
+    ShowDetailPesertaEvent();
+    ShowRiwayatPembayaranEvent();
 
     //Ketika keyword_by Diubah
     $('#keyword_by').change(function(){
@@ -788,5 +824,68 @@ $(document).ready(function() {
             }
         });
     });
-    
+    // Ketika Modal Tambah Transaksi Event Muncul
+    $('#ModalTambahTransaksiEvent').on('show.bs.modal', function (e) {
+        var id_event_peserta = $(e.relatedTarget).data('id');
+        $('#FormTambahTransaksiEvent').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormTambahTransaksiEvent.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#FormTambahTransaksiEvent').html(data);
+                $('#NotifikasiTambahTransaksiEvent').html('');
+                $('#ButtonHapusPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Proses Tambah Transaksi Event
+    $('#ProsesTambahTransaksiEvent').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonTambahTransaksiEvent').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesTambahTransaksiEvent.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowDetailPesertaEvent();
+                    ShowRiwayatPembayaranEvent();
+                    $('#ModalTambahTransaksiEvent').modal('hide');
+                    $('#ButtonTambahTransaksiEvent').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Peserta berhasil ditambahkan', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiTambahTransaksiEvent').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonTambahTransaksiEvent').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiTambahTransaksiEvent').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonTambahTransaksiEvent').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Ketika Modal Bayar Event Muncul
+    $('#ModalBayarEvent').on('show.bs.modal', function (e) {
+        var id_transaksi = $(e.relatedTarget).data('id');
+        $('#FormBayarEvent').html("Loading...");
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/FormBayarEvent.php',
+            data: { id_transaksi: id_transaksi },
+            success: function(data) {
+                $('#FormBayarEvent').html(data);
+            }
+        });
+    });
 });

@@ -48,66 +48,31 @@
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         
                         // Persiapkan Query untuk Mengambil Data Album
-                        $QryTestimoni = $Conn->prepare("SELECT id_member, penilaian, testimoni, datetime FROM web_testimoni WHERE status='Publish' ORDER BY datetime ASC");
+                        $QryTestimoni = $Conn->prepare("SELECT id_member, nik_name, penilaian, testimoni, foto_profil datetime FROM web_testimoni WHERE status='Publish' ORDER BY datetime ASC");
                         $QryTestimoni->execute();
                         $ResultTestimoni = $QryTestimoni->get_result();
                         
                         while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
                             $id_member=$DataTestimoni['id_member'];
+                            if(empty($DataTestimoni['nik_name'])){
+                                $nik_name="None";
+                            }else{
+                                $nik_name=$DataTestimoni['nik_name'];
+                            }
+                            
                             $penilaian=$DataTestimoni['penilaian'];
                             $testimoni=$DataTestimoni['testimoni'];
+                            if(empty($DataTestimoni['foto_profil'])){
+                                $foto_profil="";
+                            }else{
+                                $foto_profil=$DataTestimoni['foto_profil'];
+                            }
                             $datetime=$DataTestimoni['datetime'];
                             //Membuka Member
                             $nama = GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
-                            $foto = GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
-                            $image_path="../../assets/img/Member/$foto";
-                            // Desired width and height for the resized image
-                            $new_width = 200;
-                            $new_height = 200;
-
-                            // Check if file exists
-                            if (file_exists($image_path)) {
-                                // Get the original image dimensions and type
-                                list($width, $height, $type) = getimagesize($image_path);
-                                // Create an image resource from the file based on its type
-                                switch ($type) {
-                                    case IMAGETYPE_JPEG:
-                                        $src_image = imagecreatefromjpeg($image_path);
-                                        break;
-                                    case IMAGETYPE_PNG:
-                                        $src_image = imagecreatefrompng($image_path);
-                                        break;
-                                    case IMAGETYPE_GIF:
-                                        $src_image = imagecreatefromgif($image_path);
-                                        break;
-                                    default:
-                                        $foto_profil="File Type No Support";
-                                }
-                                // Create a new true color image with the desired dimensions
-                                $resized_image = imagecreatetruecolor($new_width, $new_height);
-
-                                // Resize the image
-                                imagecopyresampled($resized_image, $src_image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-                                // Start output buffering to capture the output
-                                ob_start();
-
-                                // Output the resized image as JPEG to buffer
-                                imagejpeg($resized_image, null, 85); // 85 is the quality level
-
-                                // Get the contents of the buffer and encode it in Base64
-                                $image_data = ob_get_clean();
-                                $foto_profil = "data:image/jpeg;base64," . base64_encode($image_data);
-
-                                // Clean up memory
-                                imagedestroy($src_image);
-                                imagedestroy($resized_image);
-                            } else {
-                                $foto_profil="No File";
-                            }
                             // Add to array
                             $metadata[] = [
-                                "nama" => $nama,
+                                "nama" => $nik_name,
                                 "penilaian" => $penilaian,
                                 "testimoni" => $testimoni,
                                 "datetime" => $datetime,
