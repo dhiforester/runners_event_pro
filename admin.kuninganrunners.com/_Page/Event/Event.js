@@ -76,6 +76,23 @@ function ShowKategoriEvent() {
         });
     }
 }
+function ShowAseesmentFormEvent() {
+    var id_event = $('#GetIdEvent').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event) { 
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/ShowAseesmentFormEvent.php',
+            data        : {id_event: id_event},
+            success: function(data) {
+                $('#ShowAseesmentFormEvent').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowAseesmentFormEvent:', error);
+            }
+        });
+    }
+}
 function ShowPesertaEvent() {
     var id_event = $('#GetIdEvent').val();
     // Cek apakah id_event tidak kosong atau undefined
@@ -112,6 +129,23 @@ function ShowDetailPesertaEvent() {
         });
     }
 }
+function ShowAssesmentPeserta() {
+    var id_event_peserta = $('#PutIdEventPeserta').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event_peserta) { 
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowAssesmentPeserta.php',
+            data: { id_event_peserta: id_event_peserta },
+            success: function(data) {
+                $('#ShowAssesmentPeserta').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowAssesmentPeserta:', error);
+            }
+        });
+    }
+}
 function ShowRiwayatPembayaranEvent() {
     var id_event_peserta = $('#PutIdEventPeserta').val();
     // Cek apakah id_event tidak kosong atau undefined
@@ -138,8 +172,10 @@ $(document).ready(function() {
     ShowDetailEvent();
     ShowRuteEvent();
     ShowKategoriEvent();
+    ShowAseesmentFormEvent();
     ShowPesertaEvent();
     ShowDetailPesertaEvent();
+    ShowAssesmentPeserta();
     ShowRiwayatPembayaranEvent();
 
     //Ketika keyword_by Diubah
@@ -885,6 +921,314 @@ $(document).ready(function() {
             data: { id_transaksi: id_transaksi },
             success: function(data) {
                 $('#FormBayarEvent').html(data);
+            }
+        });
+    });
+
+    //FORM ASSESMENT PESERTA
+    // Ketika Modal Tambah Assesment Form Muncul
+    $('#ModalTambahAssesmentForm').on('show.bs.modal', function (e) {
+        var id_event = $(e.relatedTarget).data('id');
+        var form_type = $('#form_type').val();
+        $('#PutIdEventOnAssesmentForm').val(id_event);
+        //Menampilkan Alternatif
+        if(form_type=='checkbox'||form_type=='radio'||form_type=='select_option'){
+            $('#AlternatifButton').show();
+        }else{
+            $('#AlternatifButton').hide();
+            $('#AlternatifList').html('');
+        }
+    });
+    // Keterangan Form Type
+    $('#form_type').on('change', function (e) {
+        var form_type = $('#form_type').val();
+        if(form_type=='file_foto'){
+            $('#KeteranganTypeForm').html('Memungkinkan peserta mengunggah file foto maksimal 5 mb (JPG, JPEG, PNG dan GIF)');
+        }else{
+            if(form_type=='file_pdf'){
+                $('#KeteranganTypeForm').html('Memungkinkan peserta mengunggah file PDF maksimal 5 mb');
+            }else{
+                if(form_type=='text'){
+                    $('#KeteranganTypeForm').html('Memungkinkan peserta mengisi form tersebut maksimal 100 karakter');
+                }else{
+                    if(form_type=='textarea'){
+                        $('#KeteranganTypeForm').html('Memungkinkan peserta mengisi form tersebut maksimal 500 karakter');
+                    }else{
+                        if(form_type=='checkbox'||form_type=='radio'||form_type=='select_option'){
+                            $('#KeteranganTypeForm').html('Memungkinkan peserta memilih alternatif yang ditetapkan');
+                        }else{
+                            $('#KeteranganTypeForm').html('');
+                        }
+                    }
+                }
+            }
+        }
+        if(form_type=='checkbox'||form_type=='radio'||form_type=='select_option'){
+            $('#AlternatifButton').show();
+        }else{
+            $('#AlternatifButton').hide();
+            $('#AlternatifList').html('');
+        }
+    });
+    // Fungsi untuk mengecek panjang input form_name
+    $('#form_name').on('input keyup keydown', function (e) {
+        var maxLength = 50;
+        var currentLength = $(this).val().length;
+        
+        // Memperbarui penghitung panjang karakter di tampilan
+        $('#form_name_length').text(currentLength + '/' + maxLength);
+        
+        // Batasi input tepat di 50 karakter dan cegah tambahan input
+        if (currentLength >= maxLength && e.key !== 'Backspace' && e.key !== 'Delete') {
+            e.preventDefault();
+            $(this).val($(this).val().substring(0, maxLength));
+        }
+    });
+    // Fungsi untuk mengecek panjang input form_name
+    $('#komentar').on('input keyup keydown', function (e) {
+        var maxLength = 500;
+        var currentLength = $(this).val().length;
+        
+        // Memperbarui penghitung panjang karakter di tampilan
+        $('#komentar_length').text(currentLength + '/' + maxLength);
+        
+        // Batasi input tepat di 500 karakter dan cegah tambahan input
+        if (currentLength >= maxLength && e.key !== 'Backspace' && e.key !== 'Delete') {
+            e.preventDefault();
+            $(this).val($(this).val().substring(0, maxLength));
+        }
+    });
+    
+    var count = 1; // Untuk melacak nomor alternatif
+
+    // Ketika tombol TambahAlternatif ditekan
+    $('#TambahAlternatif').on('click', function (e) {
+        e.preventDefault(); // Mencegah halaman reload jika tombol di dalam form
+
+        // HTML untuk form baru yang akan ditambahkan
+        var alternatifHTML = `
+            <div class="input-group mb-3" id="alternatif_display" data-id="${count}">
+                <span class="input-group-text" id="AlternatifNumber">
+                    <small><code class="text text-grayish"><i class="bi bi-check"></i></code></small>
+                </span>
+                <input type="text" name="alternatif_display[]" class="form-control" placeholder="Display">
+                <input type="text" name="alternatif_value[]" class="form-control" placeholder="Value">
+                <span class="input-group-text" id="AlternatifRemoveButton">
+                    <a href="#" class="text-danger remove-alternatif" data-id="${count}">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                </span>
+            </div>
+        `;
+
+        // Menambahkan elemen baru ke #AlternatifList
+        $('#AlternatifList').append(alternatifHTML);
+        count++; // Menambah nomor untuk alternatif berikutnya
+    });
+
+    // Event listener untuk menghapus form alternatif
+    $('#AlternatifList').on('click', '.remove-alternatif', function (e) {
+        e.preventDefault(); // Mencegah reload halaman
+        $(this).closest('.input-group').remove(); // Menghapus elemen terkait
+    });
+
+    // Proses Tambah Assesment Form
+    $('#ProsesTambahAssesmentForm').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonTambahAssesmentForm').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesTambahAssesmentForm.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowAseesmentFormEvent();
+                    $('#NotifikasiTambahAssesmentForm').html('');
+                    $('#ProsesTambahAssesmentForm')[0].reset();
+                    $('#ModalTambahAssesmentForm').modal('hide');
+                    $('#ButtonTambahAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Form berhasil ditambahkan', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiTambahAssesmentForm').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonTambahAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiTambahAssesmentForm').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonTambahAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Detail Assesment Form
+    $('#ModalDetailAssesmentForm').on('show.bs.modal', function (e) {
+        var id_event_assesment_form = $(e.relatedTarget).data('id');
+        $('#FormDetailAssesmentForm').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormDetailAssesmentForm.php',
+            data        : { id_event_assesment_form: id_event_assesment_form },
+            success     : function(data) {
+                $('#FormDetailAssesmentForm').html(data);
+            }
+        });
+    });
+    // Menampilkan Form Edit Assesment Form
+    $('#ModalEditAssesmentForm').on('show.bs.modal', function (e) {
+        var id_event_assesment_form = $(e.relatedTarget).data('id');
+        $('#FormEditAssesmentForm').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormEditAssesmentForm.php',
+            data        : { id_event_assesment_form: id_event_assesment_form },
+            success     : function(data) {
+                $('#FormEditAssesmentForm').html(data);
+                $('#NotifikasiEditAssesmentForm').html('');
+            }
+        });
+    });
+    // Proses Edit Assesment Form
+    $('#ProsesEditAssesmentForm').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonEditAssesmentForm').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesEditAssesmentForm.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowAseesmentFormEvent();
+                    $('#NotifikasiEditAssesmentForm').html('');
+                    $('#ModalEditAssesmentForm').modal('hide');
+                    $('#ButtonEditAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Form Edit Assesment Form', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditAssesmentForm').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonEditAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditAssesmentForm').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonEditAssesmentForm').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Form Hapus Assesment Form
+    $('#ModalHapusAssesmentForm').on('show.bs.modal', function (e) {
+        var id_event_assesment_form = $(e.relatedTarget).data('id');
+        $('#FormHapusAssesmentForm').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormHapusAssesmentForm.php',
+            data        : { id_event_assesment_form: id_event_assesment_form },
+            success     : function(data) {
+                $('#FormHapusAssesmentForm').html(data);
+                $('#NotifikasiHapusAssesmentForm').html('');
+            }
+        });
+    });
+    // Proses Hapus Assesment Form
+    $('#ProsesHapusAssesmentForm').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonHapusAssesmentForm').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesHapusAssesmentForm.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowAseesmentFormEvent();
+                    $('#NotifikasiHapusAssesmentForm').html('');
+                    $('#ModalHapusAssesmentForm').modal('hide');
+                    $('#ButtonHapusAssesmentForm').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Form Assesment Berhasil Dihapus', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusAssesmentForm').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonHapusAssesmentForm').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusAssesmentForm').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonHapusAssesmentForm').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Form Assesment Peserta
+    $('#ModalUbahAssesmentPeserta').on('show.bs.modal', function (e) {
+        var id_event_peserta = $(e.relatedTarget).data('id');
+        $('#FormUbahAssesmentPeserta').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormUbahAssesmentPeserta.php',
+            data        : { id_event_peserta: id_event_peserta },
+            success     : function(data) {
+                $('#FormUbahAssesmentPeserta').html(data);
+                $('#NotifikasiUbahAssesmentPeserta').html('');
+            }
+        });
+    });
+    // Proses Ubah Assesment Peserta
+    $('#ProsesUbahAssesmentPeserta').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonUbahAssesmentPeserta').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesUbahAssesmentPeserta.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowAssesmentPeserta();
+                    $('#NotifikasiUbahAssesmentPeserta').html('');
+                    $('#ModalUbahAssesmentPeserta').modal('hide');
+                    $('#ButtonUbahAssesmentPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Form Assesment Berhasil Dihapus', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiUbahAssesmentPeserta').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonUbahAssesmentPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiUbahAssesmentPeserta').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonUbahAssesmentPeserta').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
             }
         });
     });

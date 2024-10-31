@@ -73,36 +73,44 @@
 								$Array['code'] = 401;
 								sendResponse($Array);
 							} else {
-								// Jika API key valid, ambil pengaturan dari database
-								$id_marchant = $Tangkap['setting']['id_marchant'];
-								$client_key = $Tangkap['setting']['client_key'];
-								$server_key = $Tangkap['setting']['server_key'];
-								$snap_url = $Tangkap['setting']['snap_url'];
-								$production = $Tangkap['setting']['production'];
-								//Bersihkan Variabel
-								$urll_call_back = validateAndSanitizeInput($urll_call_back);
-								$id_marchant = validateAndSanitizeInput($id_marchant);
-								$client_key = validateAndSanitizeInput($client_key);
-								$server_key = validateAndSanitizeInput($server_key);
-								$snap_url = validateAndSanitizeInput($snap_url);
-								$production = validateAndSanitizeInput($production);
-								//Update Data
-								$UpdateSetting= mysqli_query($Conn,"UPDATE setting_payment SET 
-									urll_call_back='$urll_call_back',
-									id_marchant='$id_marchant',
-									client_key='$client_key',
-									server_key='$server_key',
-									snap_url='$snap_url',
-									production='$production'
-								WHERE api_key='$api_key_client'") or die(mysqli_error($Conn)); 
-								if($UpdateSetting){
-									$Array['status'] = "Success";
-									$Array['code'] = 200;
-									sendResponse($Array);
-								}else{
-									$Array['status'] = "Terjadi kesalahan pada saat update setting";
+								if (empty($Tangkap['setting']['url_status'])) {
+									$Array['status'] = "URL Status Tidak Boleh Kosong";
 									$Array['code'] = 401;
 									sendResponse($Array);
+								} else {
+									// Jika API key valid, ambil pengaturan dari database
+									$id_marchant = $Tangkap['setting']['id_marchant'];
+									$client_key = $Tangkap['setting']['client_key'];
+									$server_key = $Tangkap['setting']['server_key'];
+									$snap_url = $Tangkap['setting']['snap_url'];
+									$production = $Tangkap['setting']['production'];
+									$url_status = $Tangkap['setting']['url_status'];
+									//Bersihkan Variabel
+									$urll_call_back = validateAndSanitizeInput($urll_call_back);
+									$id_marchant = validateAndSanitizeInput($id_marchant);
+									$client_key = validateAndSanitizeInput($client_key);
+									$server_key = validateAndSanitizeInput($server_key);
+									$snap_url = validateAndSanitizeInput($snap_url);
+									$production = validateAndSanitizeInput($production);
+									//Update Data
+									$UpdateSetting= mysqli_query($Conn,"UPDATE setting_payment SET 
+										urll_call_back='$urll_call_back',
+										url_status='$url_status',
+										id_marchant='$id_marchant',
+										client_key='$client_key',
+										server_key='$server_key',
+										snap_url='$snap_url',
+										production='$production'
+									WHERE api_key='$api_key_client'") or die(mysqli_error($Conn)); 
+									if($UpdateSetting){
+										$Array['status'] = "Success";
+										$Array['code'] = 200;
+										sendResponse($Array);
+									}else{
+										$Array['status'] = "Terjadi kesalahan pada saat update setting";
+										$Array['code'] = 401;
+										sendResponse($Array);
+									}
 								}
 							}
 						}

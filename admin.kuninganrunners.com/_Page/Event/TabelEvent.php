@@ -151,6 +151,7 @@
                     //Jumlah Kategori Dan Peserta
                     $JumlahKategori = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_kategori FROM event_kategori WHERE id_event='$id_event'"));
                     $JumahPeserta = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_event='$id_event'"));
+                    $JumlahFormAssesment = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_assesment_form FROM event_assesment_form WHERE id_event='$id_event'"));
                     //Label
                     if(empty($JumlahKategori)){
                         $LabelJumlahKategori='<code class="text text-danger">Tidak Ada</code>';
@@ -161,6 +162,11 @@
                         $LabelJumlahPeserta='<code class="text text-danger">Tidak Ada</code>';
                     }else{
                         $LabelJumlahPeserta='<code class="text text-success">'.$JumahPeserta.' Orang</code>';
+                    }
+                    if(empty($JumlahFormAssesment)){
+                        $LabelJumlahAssesment='<code class="text text-danger">Tidak Ada</code>';
+                    }else{
+                        $LabelJumlahAssesment='<code class="text text-success">'.$JumlahFormAssesment.' Record</code>';
                     }
         ?>
                     <div class="card hover-shadow">
@@ -255,11 +261,11 @@
                                 <div class="col-md-4">
                                     <div class="row mb-3">
                                         <div class="col col-md-4">
-                                            <small>Keterangan</small>
+                                            <small>Assesment Form</small>
                                         </div>
                                         <div class="col col-md-8">
                                             <small>
-                                                <code class="text text-grayish"><?php echo "$keterangan_short"; ?></code>
+                                                <code class="text text-grayish"><?php echo "$LabelJumlahAssesment"; ?></code>
                                             </small>
                                         </div>
                                     </div>

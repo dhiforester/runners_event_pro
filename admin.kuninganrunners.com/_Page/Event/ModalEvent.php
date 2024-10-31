@@ -891,7 +891,7 @@
                         <i class="bi bi-save"></i> Simpan
                     </button>
                     <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i> Tidak
+                        <i class="bi bi-x-circle"></i> Tutup
                     </button>
                 </div>
             </form>
@@ -981,6 +981,223 @@
                     <i class="bi bi-x-circle"></i> Tutup
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalTambahAssesmentForm" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesTambahAssesmentForm" autocomplete="off">
+                <input type="hidden" name="id_event" id="PutIdEventOnAssesmentForm">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Assesment Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="form_name"><small>Nama Form</small></label>
+                            <div class="input-group">
+                                <input type="text" name="form_name" id="form_name" class="form-control">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <small>
+                                        <code id="form_name_length" class="text text-grayish">0/50</code>
+                                    </small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="form_type"><small>Tipe Form</small></label>
+                            <select name="form_type" id="form_type" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="text">Text</option>
+                                <option value="textarea">Textarea</option>
+                                <option value="select_option">Select Option</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio Button</option>
+                                <option value="file_foto">File Foto</option>
+                                <option value="file_pdf">File PDF</option>
+                            </select>
+                            <small>
+                                <code class="text text-grayish" id="KeteranganTypeForm">
+                                    <!-- Keterangan Type Form Disini -->
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="mandatori"><small>Mandatori</small></label>
+                            <select name="mandatori" id="mandatori" class="form-control">
+                                <option value="">Pilih</option>
+                                <option value="true">Wajib Terisi</option>
+                                <option value="false">Tidak Wajib</option>
+                            </select>
+                            <small>
+                                <code class="text text-grayish">
+                                    Menyatakan apakah form tersebut wajib untuk diisi.
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="komentar"><small>Komentar</small></label>
+                            <textarea name="komentar" id="komentar" class="form-control"></textarea>
+                            <small>
+                                <code id="komentar_length" class="text text-grayish">0/500</code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="AlternatifButton">
+                            <button type="button" class="btn btn-sm btn-outline-info btn-block" id="TambahAlternatif">
+                                <i clas="bi bi-plus"></i> Tambah Alternatif
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="AlternatifList">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiTambahAssesmentForm">
+                            <!-- Notifikasi Tambah Assesment Form -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonTambahAssesmentForm">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalDetailAssesmentForm" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Assesment Form
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailAssesmentForm">
+                        <!-- Form Detail Assesment Form -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditAssesmentForm" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditAssesmentForm" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Edit Assesment Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormEditAssesmentForm">
+                            <!-- Form Hapus Peserta -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiEditAssesmentForm">
+                            <!-- Notifiksi Hapus Peserta -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonEditAssesmentForm">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusAssesmentForm" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusAssesmentForm" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Assesment Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusAssesmentForm">
+                            <!-- Form Hapus Assesment Form -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusAssesmentForm">
+                            <!-- Notifiksi Hapus Assesment Form -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusAssesmentForm">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalUbahAssesmentPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesUbahAssesmentPeserta" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Assesment Peserta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormUbahAssesmentPeserta">
+                            <!-- Form Assesment Peserta -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiUbahAssesmentPeserta">
+                            <!-- Notifiksi Assesment Peserta -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonUbahAssesmentPeserta">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

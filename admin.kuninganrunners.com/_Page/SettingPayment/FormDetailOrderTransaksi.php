@@ -332,6 +332,182 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-heading3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
+                                        3. Status Transaksi (URL Status)
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse3" class="accordion-collapse collapse" aria-labelledby="flush-heading3" data-bs-parent="#accordionFlushExample2">
+                                    <div class="accordion-body">
+                                        <?php
+                                            $url_status = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'url_status');
+                                            $server_key = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'server_key');
+                                            $server_key_base64=base64_encode($server_key);
+                                            //Open Service
+                                            $curl2 = curl_init();
+                                            curl_setopt_array($curl2, array(
+                                                CURLOPT_URL => ''.$url_status.'/'.$order_id.'/status',
+                                                CURLOPT_RETURNTRANSFER => true,
+                                                CURLOPT_ENCODING => '',
+                                                CURLOPT_MAXREDIRS => 10,
+                                                CURLOPT_TIMEOUT => 0,
+                                                CURLOPT_FOLLOWLOCATION => true,
+                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                                CURLOPT_HTTPHEADER => array(
+                                                    'Accept:  application/json',
+                                                    'Content-Type: application/json',
+                                                    'Authorization: Basic '.$server_key_base64.''
+                                                ),
+                                            ));
+                                            // Tambahkan opsi ini jika Anda ingin menonaktifkan verifikasi SSL
+                                            curl_setopt($curl2, CURLOPT_SSL_VERIFYPEER, false);
+                                            curl_setopt($curl2, CURLOPT_SSL_VERIFYHOST, false);
+                                            $response2 = curl_exec($curl2);
+                                            //Decode Response
+                                            $json_response2=json_decode($response2, true);
+                                            //Apabila Terjadi kesalahan pada saat request Data
+                                            if (curl_errno($curl2)) {
+                                                $PesanKesalahan = curl_error($curl2);
+                                                echo '<div class="row mt-4">';
+                                                echo '  <div class="col-md-12 text-center">';
+                                                echo '      <small class="credit"><code class="text-danger">'.$PesanKesalahan.'</code></small>';
+                                                echo '  </div>';
+                                                echo '</div>';
+                                            }else{
+                                                if($json_response2['status_code']==401){
+                                                    echo '<div class="row mt-4">';
+                                                    echo '  <div class="col-md-12 text-center">';
+                                                    echo '      <small class="credit"><code class="text-danger">Order ID "'.$order_id.'" Tidak Ditemukan</code></small><br>';
+                                                    echo '      <small class="credit"><code class="text-danger">'.$response2.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                }else{
+                                                    $transaction_time=$json_response2['transaction_time'];
+                                                    $gross_amount=$json_response2['gross_amount'];
+                                                    $currency=$json_response2['currency'];
+                                                    $payment_type=$json_response2['payment_type'];
+                                                    $signature_key=$json_response2['signature_key'];
+                                                    $status_code=$json_response2['status_code'];
+                                                    $transaction_id=$json_response2['transaction_id'];
+                                                    $transaction_status=$json_response2['transaction_status'];
+                                                    $fraud_status=$json_response2['fraud_status'];
+                                                    $expiry_time=$json_response2['expiry_time'];
+                                                    $status_message=$json_response2['status_message'];
+                                                    $merchant_id=$json_response2['merchant_id'];
+                                                    $acquirer=$json_response2['acquirer'];
+                                                    echo '<div class="row mt-4 mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Transaction Time</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$transaction_time.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Gross Amount</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$gross_amount.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Currency</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$currency.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Payment Type</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$payment_type.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Signature Key</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$signature_key.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Status Code</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$status_code.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Transaction ID</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$transaction_id.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Transaction Status</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$transaction_status.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Fraud Status</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$fraud_status.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Expired Time</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$expiry_time.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Status Message</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$status_message.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Merchant Id</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$merchant_id.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-4">';
+                                                    echo '      <small class="credit">Scquirer</small>';
+                                                    echo '  </div>';
+                                                    echo '  <div class="col-md-8">';
+                                                    echo '      <small class="credit"><code class="text text-grayish">'.$acquirer.'</code></small>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                }
+                                            }
+                                            curl_close($curl2);
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 <?php
                         curl_close($curl);

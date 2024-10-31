@@ -102,9 +102,21 @@
                                     </div>
                                 </div>
                                 <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                            2. Assesment Peserta
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-4"  id="ShowAssesmentPeserta">
+                                            <!-- Show Riwayat Pembayaran Event -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingTwo">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                            2. Riwayat Pembayaran
+                                            3. Riwayat Pembayaran
                                         </button>
                                     </h2>
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
@@ -112,7 +124,7 @@
                                             <div class="row mt-4 mb-3">
                                                 <div class="col col-md-10"></div>
                                                 <div class="col col-md-2">
-                                                    <button type="button" class="btn btn-md btn-rounded btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#ModalTambahTransaksiEvent" data-id="<?php echo $id_event_peserta; ?>">
+                                                    <button type="button" class="btn btn-md btn-rounded btn-outline-primary btn-block" data-bs-toggle="modal" data-bs-target="#ModalTambahTransaksiEvent" data-id="<?php echo $id_event_peserta; ?>">
                                                         <i class="bi bi-plus"></i> Tambah
                                                     </button>
                                                 </div>
@@ -121,20 +133,6 @@
                                                 <div class="col-md-12" id="ShowRiwayatPembayaranEvent">
                                                     <!-- Show Riwayat Pembayaran Event -->
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="flush-headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                            3. Log Pembayaran
-                                        </button>
-                                    </h2>
-                                    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body mb-4">
-                                            <div class="row mt-4 mb-3">
-                                                <div class="col-md-12"></div>
                                             </div>
                                         </div>
                                     </div>

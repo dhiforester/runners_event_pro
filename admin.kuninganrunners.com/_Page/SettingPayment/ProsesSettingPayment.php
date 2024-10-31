@@ -15,6 +15,7 @@
         // Ambil dan validasi input
         $api_payment_url = !empty($_POST['api_payment_url']) ? validateAndSanitizeInput($_POST['api_payment_url']) : '';
         $urll_call_back = !empty($_POST['urll_call_back']) ? validateAndSanitizeInput($_POST['urll_call_back']) : '';
+        $url_status = !empty($_POST['url_status']) ? validateAndSanitizeInput($_POST['url_status']) : '';
         $api_key = !empty($_POST['api_key']) ? validateAndSanitizeInput($_POST['api_key']) : '';
         $id_marchant = !empty($_POST['id_marchant']) ? validateAndSanitizeInput($_POST['id_marchant']) : '';
         $client_key = !empty($_POST['client_key']) ? validateAndSanitizeInput($_POST['client_key']) : '';
@@ -27,6 +28,7 @@
         $stmt = $Conn->prepare("UPDATE setting_payment SET 
             api_payment_url = ?, 
             urll_call_back = ?, 
+            url_status = ?, 
             api_key = ?, 
             id_marchant = ?, 
             client_key = ?, 
@@ -38,9 +40,10 @@
 
         if ($stmt) {
             $stmt->bind_param(
-                "sssssssss",
+                "ssssssssss",
                 $api_payment_url,
                 $urll_call_back,
+                $url_status,
                 $api_key,
                 $id_marchant,
                 $client_key,
@@ -66,6 +69,7 @@
                         "api_key" => $api_key,
                         "setting" => array(
                             "urll_call_back" => $urll_call_back,
+                            "url_status" => $url_status,
                             "id_marchant" => $id_marchant,
                             "client_key" => $client_key,
                             "server_key" => $server_key,

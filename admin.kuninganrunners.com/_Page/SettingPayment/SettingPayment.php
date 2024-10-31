@@ -6,6 +6,7 @@
     }else{
         $api_payment_url=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','api_payment_url');
         $urll_call_back=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','urll_call_back');
+        $url_status=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','url_status');
         $api_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','api_key');
         $id_marchant=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','id_marchant');
         $client_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','client_key');
@@ -85,6 +86,23 @@
                                                     <small>
                                                         <code class="text text-grayish">
                                                             URL yang digunakan untuk memproses pembaharuan status transaksi. (Apabila tidak digunakan, silahkan kosongkan)
+                                                        </code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="url_status">URL Status</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="text" name="url_status" id="url_status" class="form-control" value="<?php echo "$url_status"; ?>" placeholder="https://">
+                                                    <small>
+                                                        <code class="text text-grayish">
+                                                            URL yang digunakan untuk meminta status transaksi berdasarkan Order ID
+                                                            <ul>
+                                                                <li>Sanbox : https://api.sandbox.midtrans.com</li>
+                                                                <li>Production : https://api.midtrans.com</li>
+                                                            </ul>
                                                         </code>
                                                     </small>
                                                 </div>

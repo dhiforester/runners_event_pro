@@ -165,9 +165,33 @@
                                     </div>
                                 </div>
                                 <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                            4. Assesment Form
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mt-4 mb-3">
+                                                <div class="col col-md-2">
+                                                    <button type="button" class="btn btn-md btn-outline-primary btn-block btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalTambahAssesmentForm" data-id="<?php echo "$id_event"; ?>">
+                                                        <i class="bi bi-plus"></i> Assesment Form
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-10"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" id="ShowAseesmentFormEvent">
+                                                    <!-- Menampilkan Aseesment Form Event -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingFour">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                                            4. Peserta
+                                            5. Daftar Peserta
                                         </button>
                                     </h2>
                                     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
