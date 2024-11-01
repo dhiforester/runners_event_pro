@@ -100,6 +100,18 @@
                     }
                     //Menghitung Jumlah Karakter
                     $ValueFormLength=strlen($ValueForm);
+                    //Menampilkan Form
+                    echo '<div class="row mb-3">';
+                    echo '  <div class="col-md-12">';
+                    echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                    echo '          <small>';
+                    echo '              <code class="text-dark">';
+                    echo '                  Umumnya, form ini diisi oleh peserta secara mandiri. Namun admin masih bisa mengisi secara manual.';
+                    echo '              </code>';
+                    echo '          </small>';
+                    echo '      </div>';
+                    echo '  </div>';
+                    echo '</div>';
                     echo '<div class="row mb-3">';
                     echo '  <div class="col-md-12">';
                     echo '      <label for="'.$id_event_assesment_form.'_'.$id_event_peserta.'"><small>'.$form_name.'</small></label>';

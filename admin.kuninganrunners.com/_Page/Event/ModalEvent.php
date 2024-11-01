@@ -1201,3 +1201,91 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalDetailAssesmentPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Detail Assesment Peserta
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="FormDetailAssesmentPeserta">
+                        <!-- Form Detail Assesment Peserta -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalStatusAssesmentPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesStatusAssesmentPeserta" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-check-circle"></i> Status Assesment Peserta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormStatusAssesmentPeserta">
+                            <!-- Form Assesment Peserta -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiStatusAssesmentPeserta">
+                            <!-- Notifiksi Assesment Peserta -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonStatusAssesmentPeserta">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusAssesmentPeserta" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusAssesmentPeserta" autocomplete="off">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Assesment Peserta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormHapusAssesmentPeserta">
+                            <!-- Form Hapus Assesment Form -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" id="NotifikasiHapusAssesmentPeserta">
+                            <!-- Notifiksi Hapus Assesment Form -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded" id="ButtonHapusAssesmentPeserta">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tidak
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

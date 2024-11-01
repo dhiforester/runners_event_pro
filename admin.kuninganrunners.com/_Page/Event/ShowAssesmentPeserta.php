@@ -76,15 +76,23 @@
                         $alternatif= $DataAssesmentForm['alternatif'];
                         $komentar= $DataAssesmentForm['komentar'];
                         //Membuka Nilai
-                        $Qry = $Conn->prepare("SELECT assesment_value FROM event_assesment WHERE id_event_assesment_form = ? AND id_event_peserta = ?");
+                        $Qry = $Conn->prepare("SELECT id_event_assesment, assesment_value, status_assesment FROM event_assesment WHERE id_event_assesment_form = ? AND id_event_peserta = ?");
                         if ($Qry === false) {
-                            $ValueForm="Query Preparation Failed: " . $Conn->error;
+                            $ValueForm='<code class="text-danger">Query Preparation Failed: '.$Conn->error.'</code>';
+                            $id_event_assesment="";
+                            $status_assesment="";
+                            $status='<code class="text-danger">None</code>';
+                            $komentar='<code class="text-danger">None</code>';
                         }
                         // Bind parameter
                         $Qry->bind_param("ss", $id_event_assesment_form, $id_event_peserta);
                         // Eksekusi query
                         if (!$Qry->execute()) {
-                            $ValueForm="Query Execution Failed: " . $Qry->error;
+                            $ValueForm='<code class="text-danger">Query Execution Failed: '.$Conn->error.'</code>';
+                            $id_event_assesment="";
+                            $status_assesment="";
+                            $status='<code class="text-danger">None</code>';
+                            $komentar='<code class="text-danger">None</code>';
                         }
                         // Mengambil hasil
                         $Result = $Qry->get_result();
@@ -92,30 +100,107 @@
                         // Menutup statement
                         $Qry->close();
                         // Mengembalikan hasil
-                        if (empty($Data['assesment_value'])) {
-                            $ValueForm="None (Tidak Ada)";
+                        if (empty($Data['id_event_assesment'])) {
+                            $id_event_assesment="";
+                            $status_assesment="";
+                            $ValueForm='<code class="text-danger">None (Tidak Ada)</code>';
+                            $status='<code class="text-danger">None</code>';
+                            $komentar='<code class="text-danger">None</code>';
                         } else {
+                            $id_event_assesment=$Data['id_event_assesment'];
+                            $status_assesment=$Data['status_assesment'];
                             $ValueForm=$Data['assesment_value'];
+                            
+                            //Apabila tipe form adalah checkbox
+                            if($form_type=="checkbox"){
+                                $arrayValues = json_decode($ValueForm, true);
+                                $ValueForm = implode(", ", $arrayValues);
+                                $ValueForm='<code class="text text-grayish">'.$ValueForm.'</code>';
+                            }else{
+                                if($form_type=="file_foto"){
+                                    $file_path ="assets/img/Assesment/$ValueForm";
+                                    $ValueForm='<a href="'.$file_path.'" target="_blank"><code class="text text-success">'.$ValueForm.'</code></a>';
+                                }else{
+                                    if($form_type=="file_pdf"){
+                                        $file_path ="assets/img/Assesment/$ValueForm";
+                                        $ValueForm='<a href="'.$file_path.'" target="_blank"><code class="text text-success">'.$ValueForm.'</code></a>';
+                                    }else{
+                                        $ValueForm='<code class="text text-grayish">'.$ValueForm.'</code>';
+                                    }
+                                }
+                            }
+                            //Menguraikan Status
+                            $status_assesment_array = json_decode($status_assesment, true);
+                            $status=$status_assesment_array['status_assesment'];
+                            $komentar=$status_assesment_array['komentar'];
+                            if($status=="Pending"){
+                                $status='<code class="text-warning">Pending</code>';
+                            }else{
+                                if($status=="Refisi"){
+                                    $status='<code class="text-danger">Refisi</code>';
+                                }else{
+                                    $status='<code class="text-success">Valid</code>';
+                                }
+                            }
+                            if(empty($komentar)){
+                                $komentar='<code class="text-grayish">Tidak Ada</code>';
+                            }else{
+                                $komentar='<code class="text-grayish">'.$komentar.'</code>';
+                            }
+                            
                         }
 ?>
                         <div class="list-group-item list-group-item-action" aria-current="true">
                             <div class="d-flex w-100 justify-content-between">
                                 <span class="mb-1 text-dark"><?php echo "$no. $form_name"; ?></span>
                                 <small>
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#ModalUbahAssesmentPeserta" data-id="<?php echo "$id_event_peserta,$id_event_assesment_form"; ?>">
-                                        <i class="bi bi-pencil"></i>
+                                    <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
                                     </a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Option</h6>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahAssesmentPeserta" data-id="<?php echo "$id_event_peserta,$id_event_assesment_form"; ?>">
+                                                <i class="bi bi-pencil"></i> Edit Manual
+                                            </a>
+                                        </li>
+                                        <?php
+                                            if(!empty($id_event_assesment)){
+                                                echo '<li>';
+                                                echo '  <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailAssesmentPeserta" data-id="'.$id_event_assesment.'">';
+                                                echo '      <i class="bi bi-info-circle"></i> Detail';
+                                                echo '  </a>';
+                                                echo '</li>';
+                                                echo '<li>';
+                                                echo '  <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalStatusAssesmentPeserta" data-id="'.$id_event_assesment.'">';
+                                                echo '      <i class="bi bi-check-circle"></i> Status & Komentar';
+                                                echo '  </a>';
+                                                echo '</li>';
+                                                echo '<li>';
+                                                echo '  <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusAssesmentPeserta" data-id="'.$id_event_assesment.'">';
+                                                echo '      <i class="bi bi-trash"></i> Hapus';
+                                                echo '  </a>';
+                                                echo '</li>';
+                                            }
+                                        ?>
+                                    </ul>
                                 </small>
                             </div>
                             <ul>
-                                <li class="mb-2">
-                                    <small>Form Type : <code class="text text-grayish"><?php echo "$form_type"; ?></code></small>
-                                </li>
-                                <li class="mb-2">
-                                    <small>Mandatori : <code class="text text-grayish"><?php echo "$mandatori"; ?></code></small>
-                                </li>
-                                <li class="mb-2">
+                                <li>
                                     <small>Value : <code class="text text-grayish"><?php echo "$ValueForm"; ?></code></small>
+                                </li>
+                                <li>
+                                    <small>
+                                        Status : <?php echo "$status"; ?>
+                                    </small>
+                                </li>
+                                <li>
+                                    <small>
+                                        Komentar : <?php echo "$komentar"; ?>
+                                    </small>
                                 </li>
                             </ul>
                         </div>
