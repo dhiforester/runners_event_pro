@@ -1,62 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-  <?php
-    include "_Partial/Head.php";
-  ?>
-  <body>
-    <?php
-      include "_Partial/Header.php";
-    ?>
-    <main class="main">
-      <?php
-        include "_Partial/Hero.php";
-        include "_Partial/About.php";
-        include "_Partial/Contact.php";
-        include "_Partial/Galery.php";
-        include "_Partial/Testimoni.php";
-        include "_Partial/Faq.php";
-        include "_Partial/Product.php";
-      ?>
-    </main>
-    <footer id="footer" class="footer dark-background">
-      <p>
-        <div class="social-links d-flex justify-content-center">
-            <a href="https://www.instagram.com/kuningan_runners/">
-              <i class="bi bi-instagram"></i>
-            </a>
-            <a href="https://linktr.ee/KNGR?fbclid=PAZXh0bgNhZW0CMTEAAaaaMCMp47B3nqIHA4cpm1ZgSVx04ZL6fVMJKjrfrDMuzKiALXxNx4wiGVY_aem_yglyOzhYjlAq9p97WqygXw">
-              <i class="bi bi-link"></i>
-            </a>
-            <a href="https://www.strava.com/clubs/kuninganrunners">
-              <i class="bi bi-strava"></i>
-            </a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScUG4JZmxnAbXVo6z9xOBxhSzLny73d3t96qko0M1ngELRrkA/viewform">
-              <i class="bi bi-whatsapp"></i>
-            </a>
-        </div>
-      </p>
-      <span>Copyright</span> <strong class="px-1 sitename">Kuningan Runners</strong> <span>All Rights Reserved</span>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://parasilva.tech/">Parasilva Technology</a>
-      </div>
-    </footer>
-    <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-    <!-- Preloader -->
-    <div id="preloader"></div>
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-  </body>
-</html>
+<?php
+    session_start();
+    include "_Config/Connection.php";
+    //Memanggil xtoken pertama kali
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => ''.$url_server.'/_Api/GenerateToken/GenerateToken.php',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "user_key_server" : "'.$user_key_server.'",
+        "password_server" : "'.$password_server.'"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json'
+    ),
+    ));
+    $response = curl_exec($curl);
+    $curl_error = curl_error($curl);
+    if ($curl_error) {
+        $xtoken ="";
+        $datetime_expired ="";
+        echo 'Curl error: ' . $curl_error;
+    }else{
+        $arry_res = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $xtoken ="";
+            $datetime_expired ="";
+            echo 'Invalid JSON response: ' . $response;
+        }else{
+            if($arry_res['response']['code']!==200) {
+                $xtoken ="";
+                $datetime_expired ="";
+                $message = $arry_res['response']['message'];
+                echo 'Terjadi kesalahan pada saat update data pengaturan ke server (Keterangan: ' . $message . ')';
+            }else{
+                $metadata = $arry_res['metadata'];
+                $datetime_expired = $metadata['datetime_expired'];
+                $xtoken = $metadata['x-token'];
+            }
+        }
+    }
+    curl_close($curl);
+    if(!empty($xtoken)){
+        //Apabila X-token berhasil dibuat simpan dalam session
+        $_SESSION['datetime_expired'] = $datetime_expired;
+        $_SESSION['xtoken'] = $xtoken;
+        //Rekam Log Halaman
+        include "_Config/SendLogViewer.php";
+        if($ValidasiSimpanLog!=="Valid"){
+            echo $ValidasiSimpanLog;
+        }else{
+            include "_Config/GlobalFunction.php";
+            //Membuka Web Setting Dari Server
+            $WebSetting=WebSetting($url_server,$xtoken);
+            $WebSetting = json_decode($WebSetting, true);
+            $title_web=ShowTrueContent($WebSetting['metadata']['title']);
+            $description_web=ShowTrueContent($WebSetting['metadata']['description']);
+            $keyword_web=ShowTrueContent($WebSetting['metadata']['keyword']);
+            $author_web=ShowTrueContent($WebSetting['metadata']['x-author']);
+            $icon_web=ShowTrueContent($WebSetting['metadata']['icon']);
+            $pavicon_web=ShowTrueContent($WebSetting['metadata']['pavicon']);
+            $tentang_judul=ShowTrueContent($WebSetting['metadata']['tentang']['judul']);
+            $tentang_preview=$WebSetting['metadata']['tentang']['preview'];
+            //Kontak
+            $kontak_alamat=ShowTrueContent($WebSetting['metadata']['kontak']['alamat']);
+            $kontak_email=ShowTrueContent($WebSetting['metadata']['kontak']['email']);
+            $kontak_telepon=ShowTrueContent($WebSetting['metadata']['kontak']['telepon']);
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+        <?php
+            include "_Partial/Head.php";
+        ?>
+        <body>
+            <?php
+                include "_Partial/Header.php";
+            ?>
+            <main class="main">
+                <?php
+                    if(empty($_GET['Page'])){
+                        include "_Page/Home/Home.php";
+                        include "_Page/Home/ModalHome.php";
+                    }else{
+                        $Page=$_GET['Page'];
+                        if($Page=="Album"){
+                            include "_Partial/Album.php";
+                        }
+                    }
+                ?>
+            </main>
+            <footer id="footer" class="footer dark-background">
+                <!-- <p>
+                    <div class="social-links d-flex justify-content-center">
+                        <a href="https://www.instagram.com/kuningan_runners/">
+                        <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://linktr.ee/KNGR?fbclid=PAZXh0bgNhZW0CMTEAAaaaMCMp47B3nqIHA4cpm1ZgSVx04ZL6fVMJKjrfrDMuzKiALXxNx4wiGVY_aem_yglyOzhYjlAq9p97WqygXw">
+                        <i class="bi bi-link"></i>
+                        </a>
+                        <a href="https://www.strava.com/clubs/kuninganrunners">
+                        <i class="bi bi-strava"></i>
+                        </a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScUG4JZmxnAbXVo6z9xOBxhSzLny73d3t96qko0M1ngELRrkA/viewform">
+                        <i class="bi bi-whatsapp"></i>
+                        </a>
+                    </div>
+                </p> -->
+                <div class="row mt-4 mb-4">
+                    <div class="col-md-12 text-center">
+                        <a href="">
+                            Privacy Policy
+                        </a>
+                        |
+                        <a href="">
+                            Term Of Condition
+                        </a>
+                    </div>
+                </div>
+                <span>Copyright</span> <strong><?php echo $title_web; ?></strong> <span>All Rights Reserved</span>
+                <div class="credits">
+                    <!-- All the links in the footer should remain intact. -->
+                    <!-- You can delete the links only if you've purchased the pro version. -->
+                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+                    Designed by <a href="https://parasilva.tech/"><?php echo $author_web; ?></a>
+                </div>
+            </footer>
+            <!-- Scroll Top -->
+            <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+            <!-- Preloader -->
+            <div id="preloader"></div>
+            <!-- Vendor JS Files -->
+            <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="assets/vendor/php-email-form/validate.js"></script>
+            <script src="assets/vendor/aos/aos.js"></script>
+            <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+            <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+            <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+            <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="assets/js/main.js"></script>
+            <?php
+                //script jquery berdasarkan halaman (page)
+                if(empty($_GET['Page'])){
+                    echo '<script src="_Page/Home/Home.js"></script>';
+                }
+            ?>
+        </body>
+    </html>
+<?php 
+    } 
+} 
+?>

@@ -2578,3 +2578,19 @@ section,
   font-family: 'Roguelai', sans-serif !important;
   font-size: 18pt;
 }
+.button_more {
+  border: 2px solid orange; /* Garis pinggir oranye */
+  border-radius: 12px; /* Membuat sudut membulat */
+  padding: 10px 20px; /* Spasi dalam tombol */
+  background-color: transparent; /* Latar belakang transparan */
+  color: orange; /* Warna teks */
+  cursor: pointer; /* Menampilkan pointer saat di-hover */
+  text-align: center; /* Teks rata tengah */
+  font-size: 16px; /* Ukuran teks */
+  transition: background-color 0.3s, color 0.3s; /* Efek transisi */
+}
+
+.button_more:hover {
+  background-color: orange; /* Latar belakang oranye saat di-hover */
+  color: white; /* Warna teks putih saat di-hover */
+}

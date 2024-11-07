@@ -1,14 +1,15 @@
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Kuningan Runners</title>
-    <meta name="description" content="Kuningan Runners merupakan komunitas lari di Kabupaten Kuningan, Jawa Barat">
-    <meta name="keywords" content="Kuningan, Runners, Jawa Barat">
-    <meta name="author" content="Solihul Hadi" />
+    <title><?php echo $title_web; ?></title>
+    <meta name="description" content="<?php echo $description_web; ?>">
+    <meta name="keywords" content="<?php echo $keyword_web; ?>">
+    <meta name="author" content="<?php echo $author_web; ?>" />
     <!-- Favicons -->
-    <link href="assets/img/logo_pavicon.png" rel="icon">
-    <link href="assets/img/logo_pavicon.png" rel="apple-touch-icon">
+    <link href="<?php echo $icon_web; ?>" rel="icon">
+    <link href="<?php echo $pavicon_web; ?>" rel="apple-touch-icon">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

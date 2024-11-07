@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "Setting Web";
+    $service_name = "Detail Testimoni";
 
     // Setting default response
     $code = 201;
@@ -47,48 +47,36 @@
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         
-                        //Membuka Pengaturan Website
-                        $web_url=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'base_url');
-                        $web_pavicon=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'pavicon');
-                        $web_icon=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'icon');
-                        $web_title=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'title');
-                        $web_description=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'description');
-                        $web_keyword=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'keyword');
-                        $web_author=GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'author');
-                        //Membuka Tentang
-                        $JudulTentang=GetDetailData($Conn, 'web_tentang', 'id_web_tentang', '1', 'judul');
-                        $PreviewTentang=GetDetailData($Conn, 'web_tentang', 'id_web_tentang', '1', 'tentang');
-                        $KontenTentang = [
-                            "judul" => $JudulTentang,
-                            "preview" => $PreviewTentang,
-                        ];
-                        //Membuka Kontak
-                        $KontakWeb = [
-                            "alamat" => $alamat_bisnis,
-                            "email" => $email_bisnis,
-                            "telepon" => $telepon_bisnis
-                        ];
-                        //Mempersiapkan Metadata
-                        $metadata = [
-                            "base_url" => $web_url,
-                            "pavicon" => "$base_url/assets/img/Web/$web_pavicon",
-                            "icon" => "$base_url/assets/img/Web/$web_icon",
-                            "title" => $web_title,
-                            "description" => $web_description,
-                            "keyword" => $web_keyword,
-                            "x-author" => $web_author,
-                            "tentang" => $KontenTentang,
-                            "kontak" => $KontakWeb
-                        ];
-                        
-                        //menyimpan Log
-                        $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                        if ($SimpanLog !== "Success") {
-                            $keterangan = "Gagal Menyimpan Log Service";
-                            $code = 201;
-                        } else {
-                            $keterangan = "success";
-                            $code = 200;
+                        //ID tidak boleh Kosong
+                        if(empty($_GET['id'])){
+                            $keterangan = "ID Testimoni Tidak Boleh Kosong!";
+                        }else{
+                            $id_web_testimoni=$_GET['id'];
+                            // Persiapkan Query untuk Mengambil Data Testimoni
+                            $id_member=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'id_member');
+                            $nik_name=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'nik_name');
+                            $penilaian=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'penilaian');
+                            $testimoni=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'testimoni');
+                            $foto_profil=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'foto_profil');
+                            $sumber=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'sumber');
+                            $datetime=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'datetime');
+                            $status=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'status');
+                            $metadata= [
+                                "nama" => $nik_name,
+                                "penilaian" => $penilaian,
+                                "testimoni" => $testimoni,
+                                "datetime" => $datetime,
+                                "foto_profil" => $foto_profil
+                            ];
+                            //menyimpan Log
+                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                            if ($SimpanLog !== "Success") {
+                                $keterangan = "Gagal Menyimpan Log Service";
+                                $code = 201;
+                            } else {
+                                $keterangan = "success";
+                                $code = 200;
+                            }
                         }
                     } else {
                         $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";

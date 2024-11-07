@@ -46,25 +46,51 @@
                         $id_api_session = $DataValidasiToken['id_api_session'];
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
+                        //Hitung Jumlah Data Album Dan Properti Paging
+                        $jumlah_album=mysqli_num_rows(mysqli_query($Conn, "SELECT DISTINCT album FROM web_galeri"));
+                        if(empty($_GET['limit'])){
+                            $limit=8;
+                        }else{
+                            $limit=$_GET['limit'];
+                        }
+                        if(empty($_GET['page'])){
+                            $page=1;
+                            $posisi = 0;
+                        }else{
+                            $page=$_GET['page'];
+                            $posisi = ( $page - 1 ) * $limit;
+                        }
+                        $jumlah_halaman = ceil($jumlah_album/$limit); 
                         
                         // Persiapkan Query untuk Mengambil Data Album
-                        $QryAlbum = $Conn->prepare("SELECT DISTINCT album FROM web_galeri ORDER BY album ASC");
+                        $QryAlbum = $Conn->prepare("SELECT DISTINCT album FROM web_galeri ORDER BY album ASC LIMIT $posisi, $limit");
                         $QryAlbum->execute();
                         $ResultAlbum = $QryAlbum->get_result();
-                        
+
+                        $list_album=[];
                         while ($DataAlbum = $ResultAlbum->fetch_assoc()) {
                             $Album=$DataAlbum['album'];
                             $JumlahFile=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$Album'"));
                             $file_galeri = GetDetailData($Conn, 'web_galeri', 'album', $Album, 'file_galeri');
-                            $image_path="$base_url/ImageReader.php?dir=Galeri&fl=$file_galeri";
+                            $image_path="$base_url/assets/img/Galeri/$file_galeri";
+                            $new_width=300;
+                            $new_height=300;
+                            $image_album_new=resizeImage($image_path, $new_width, $new_height);
                             // Add to array
-                            $metadata[] = [
+                            $list_album[] = [
                                 "album" => $Album,
                                 "galeri" => $JumlahFile,
-                                "image" => $image_path
+                                "image" => $image_album_new
                             ];
                         }
-                        
+                        // Add to array
+                        $metadata= [
+                            "jumlah_album" => $jumlah_album,
+                            "jumlah_halaman" => $jumlah_halaman,
+                            "page" => $page,
+                            "limit" => $limit,
+                            "list_album" => $list_album
+                        ];
                         //menyimpan Log
                         $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
                         if ($SimpanLog !== "Success") {
