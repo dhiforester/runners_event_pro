@@ -100,6 +100,7 @@
                             include "_Partial/Album.php";
                         }
                     }
+                    include "_Partial/Modal.php";
                 ?>
             </main>
             <footer id="footer" class="footer dark-background">
@@ -121,12 +122,12 @@
                 </p> -->
                 <div class="row mt-4 mb-4">
                     <div class="col-md-12 text-center">
-                        <a href="">
+                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPrivacyPolicy">
                             Privacy Policy
                         </a>
                         |
-                        <a href="">
-                            Term Of Condition
+                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTermOfService">
+                            Term Of Service
                         </a>
                     </div>
                 </div>
@@ -176,6 +177,7 @@
                         }
                     }
                 }
+                echo '<script src="_Partial/Global.js"></script>';
             ?>
         </body>
     </html>

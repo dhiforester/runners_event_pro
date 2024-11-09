@@ -53,7 +53,7 @@
                         $term_of_service = htmlspecialchars($term_of_service, ENT_QUOTES, 'UTF-8');
 
                         $metadata = [
-                            "tentang" => $term_of_service
+                            "term_of_service" => $term_of_service
                         ];
                         
                         // Menyimpan Log
