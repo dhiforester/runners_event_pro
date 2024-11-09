@@ -138,6 +138,24 @@
             )
         </script>
     <?php } ?>
+    <?php if($NotifikasiSwal=="Simpan Term Of Service Berhasil"){ ?>
+        <script>
+            Swal.fire(
+                'Berhasil!',
+                'Simpan Term Of Service Berhasil',
+                'success'
+            )
+        </script>
+    <?php } ?>
+    <?php if($NotifikasiSwal=="Simpan Privacy Policy Berhasil"){ ?>
+        <script>
+            Swal.fire(
+                'Berhasil!',
+                'Simpan Privacy Policy Berhasil',
+                'success'
+            )
+        </script>
+    <?php } ?>
 <?php 
     unset($_SESSION['NotifikasiSwal']);
     }

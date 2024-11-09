@@ -88,7 +88,15 @@
                         include "_Page/Home/ModalHome.php";
                     }else{
                         $Page=$_GET['Page'];
-                        if($Page=="Album"){
+                        if($Page=="Login"){
+                            include "_Page/Login/Login.php";
+                        }else if($Page=="Pendaftaran"){
+                            include "_Page/Pendaftaran/Pendaftaran.php";
+                        }else if($Page=="VerifikasiPendaftaran"){
+                            include "_Page/Pendaftaran/VerifikasiPendaftaran.php";
+                        }else if($Page=="ResetPassword"){
+                            include "_Page/ResetPassword/ResetPassword.php";
+                        }else if($Page=="Album"){
                             include "_Partial/Album.php";
                         }
                     }
@@ -149,6 +157,24 @@
                 //script jquery berdasarkan halaman (page)
                 if(empty($_GET['Page'])){
                     echo '<script src="_Page/Home/Home.js"></script>';
+                }else{
+                    if($_GET['Page']=="Login"){
+                        echo '<script src="_Page/Login/Login.js"></script>';
+                    }else{
+                        if($_GET['Page']=="Pendaftaran"){
+                            echo '<script src="_Page/Pendaftaran/Pendaftaran.js"></script>';
+                        }else{
+                            if($_GET['Page']=="VerifikasiPendaftaran"){
+                                echo '<script src="_Page/Pendaftaran/Pendaftaran.js"></script>';
+                            }else{
+                                if($_GET['Page']=="ResetPassword"){
+                                    echo '<script src="_Page/ResetPassword/ResetPassword.js"></script>';
+                                }else{
+        
+                                }
+                            }
+                        }
+                    }
                 }
             ?>
         </body>

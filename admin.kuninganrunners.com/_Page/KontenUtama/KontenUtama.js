@@ -120,6 +120,162 @@ function ShowTentang() {
         height : "480"
     });
 }
+//Fungsi Menampilkan Term Of Service
+function ShowTermOfService() {
+    //Ketika Edit Konten Tentang Di Click
+    var GetTermOfService=$('#GetTermOfService').html();
+    tinymce.init({
+        selector: '#term_of_service',
+        setup: function (editor) {
+            editor.on('init', function (e) {
+                editor.setContent(GetTermOfService);
+            });
+        },
+        plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'table emoticons template paste help'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent | link image | print preview media fullscreen charmap | ' +
+        'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+        },
+        menubar: 'favs file edit view insert format tools table help',
+        content_css: 'assets/css/tinymce.css',
+        images_upload_url: '_Page/PostAcceptor/PostAcceptor.php',
+        images_upload_credentials: true,
+        images_reuse_filename: true,
+        image_title: true,
+        /* enable automatic uploads of images represented by blob or data URIs*/
+        automatic_uploads: true,
+        /*
+            URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+            images_upload_url: 'postAcceptor.php',
+            here we add custom filepicker only to Image dialog
+        */
+        file_picker_types: 'image',
+        /* and here's our custom image picker*/
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+
+            /*
+            Note: In modern browsers input[type="file"] is functional without
+            even adding it to the DOM, but that might not be the case in some older
+            or quirky browsers like IE, so you might want to add it to the DOM
+            just in case, and visually hide it. And do not forget do remove it
+            once you do not need it anymore.
+            */
+
+            input.onchange = function () {
+            var file = this.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                /*
+                Note: Now we need to register the blob in TinyMCEs image blob
+                registry. In the next release this part hopefully won't be
+                necessary, as we are looking to handle it internally.
+                */
+                var id = 'blobid' + (new Date()).getTime();
+                var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                var base64 = reader.result.split(',')[1];
+                var blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+
+                /* call the callback and populate the Title field with the file name */
+                cb(blobInfo.blobUri(), { title: file.name });
+            };
+            reader.readAsDataURL(file);
+            };
+
+            input.click();
+        },
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        height : "480"
+    });
+}
+//Fungsi Menampilkan Term Of Service
+function ShowPrivacyPolicy() {
+    //Ketika Edit Konten Tentang Di Click
+    var GetPrivacyPolecy=$('#GetPrivacyPolecy').html();
+    tinymce.init({
+        selector: '#privacy_policy',
+        setup: function (editor) {
+            editor.on('init', function (e) {
+                editor.setContent(GetPrivacyPolecy);
+            });
+        },
+        plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'table emoticons template paste help'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent | link image | print preview media fullscreen charmap | ' +
+        'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+        },
+        menubar: 'favs file edit view insert format tools table help',
+        content_css: 'assets/css/tinymce.css',
+        images_upload_url: '_Page/PostAcceptor/PostAcceptor.php',
+        images_upload_credentials: true,
+        images_reuse_filename: true,
+        image_title: true,
+        /* enable automatic uploads of images represented by blob or data URIs*/
+        automatic_uploads: true,
+        /*
+            URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+            images_upload_url: 'postAcceptor.php',
+            here we add custom filepicker only to Image dialog
+        */
+        file_picker_types: 'image',
+        /* and here's our custom image picker*/
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+
+            /*
+            Note: In modern browsers input[type="file"] is functional without
+            even adding it to the DOM, but that might not be the case in some older
+            or quirky browsers like IE, so you might want to add it to the DOM
+            just in case, and visually hide it. And do not forget do remove it
+            once you do not need it anymore.
+            */
+
+            input.onchange = function () {
+            var file = this.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                /*
+                Note: Now we need to register the blob in TinyMCEs image blob
+                registry. In the next release this part hopefully won't be
+                necessary, as we are looking to handle it internally.
+                */
+                var id = 'blobid' + (new Date()).getTime();
+                var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                var base64 = reader.result.split(',')[1];
+                var blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+
+                /* call the callback and populate the Title field with the file name */
+                cb(blobInfo.blobUri(), { title: file.name });
+            };
+            reader.readAsDataURL(file);
+            };
+
+            input.click();
+        },
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        height : "480"
+    });
+}
 function ShowFaq() {
     $.ajax({
         type: 'POST',
@@ -147,6 +303,8 @@ function ShowMedsos() {
 $(document).ready(function() {
     //Menampilkan Data Pertama kali
     ShowTentang();
+    ShowTermOfService();
+    ShowPrivacyPolicy();
     ShowFaq();
     ShowMedsos();
     FormKetik('#web_base_url','#web_base_url_length');
@@ -212,6 +370,40 @@ $(document).ready(function() {
                 $('#NotifikasiTentangKami').html(data);
                 var NotifikasiTentangKamiBerhasil=$('#NotifikasiTentangKamiBerhasil').html();
                 if(NotifikasiTentangKamiBerhasil=="Success"){
+                    window.location.href = "index.php?Page=KontenUtama";
+                }
+            }
+        });
+    });
+    //Proses Simpan Term Of Service
+    $('#ClickTermOfService').click(function(){
+        $('#NotifikasiTermOfService').html('Loading..');
+        var term_of_service = tinymce.get("term_of_service").getContent();
+        $.ajax({
+            type    : 'POST',
+            url     : "_Page/KontenUtama/ProsesSimpanTermOfService.php",
+            data    : {term_of_service: term_of_service},
+            success: function(data) {
+                $('#NotifikasiTermOfService').html(data);
+                var NotifikasiTermOfServiceBerhasil=$('#NotifikasiTermOfServiceBerhasil').html();
+                if(NotifikasiTermOfServiceBerhasil=="Success"){
+                    window.location.href = "index.php?Page=KontenUtama";
+                }
+            }
+        });
+    });
+    //Proses Simpan Privacy Policy
+    $('#ClickPrivacyPolicy').click(function(){
+        $('#NotifikasiPrivacyPolicy').html('Loading..');
+        var privacy_policy = tinymce.get("privacy_policy").getContent();
+        $.ajax({
+            type    : 'POST',
+            url     : "_Page/KontenUtama/ProsesSimpanPrivacyPolicy.php",
+            data    : {privacy_policy: privacy_policy},
+            success: function(data) {
+                $('#NotifikasiPrivacyPolicy').html(data);
+                var NotifikasiPrivacyPolicyBerhasil=$('#NotifikasiPrivacyPolicyBerhasil').html();
+                if(NotifikasiPrivacyPolicyBerhasil=="Success"){
                     window.location.href = "index.php?Page=KontenUtama";
                 }
             }

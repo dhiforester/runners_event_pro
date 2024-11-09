@@ -20,10 +20,33 @@
                         if($_GET['Page']=="Galeri"){
                             echo '<li><a href="index.php">Beranda</a></li>';
                             echo '<li><a href="index.php?Page=Galeri" class="active">Galeri</a></li>';
+                        }else{
+                            if($_GET['Page']=="Pendaftaran"){
+                                echo '<li><a href="index.php">Beranda</a></li>';
+                                echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                                echo '<li><a href="index.php?Page=Pendaftaran" class="active">Pendaftaran</a></li>';
+                            }else{
+                                if($_GET['Page']=="VerifikasiPendaftaran"){
+                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                    echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                                    echo '<li><a href="index.php?Page=VerifikasiPendaftaran" class="active">Verifikasi</a></li>';
+                                }else{
+                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                }
+                            }
                         }
                     }
-                    //Kondisi Apabila Belum Login
-                    echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                    if(empty($_SESSION['login_session'])){
+                        if(empty($_GET['Page'])){
+                            echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                        }else{
+                            if($_GET['Page']=="Login"){
+                                echo '<li><a href="index.php?Page=Login" class="active">Login/Daftar</a></li>';
+                            }
+                        }
+                    }else{
+                        echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                    }
                 ?>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

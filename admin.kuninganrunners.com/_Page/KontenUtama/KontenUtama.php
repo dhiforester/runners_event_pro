@@ -27,6 +27,9 @@
         $web_description_length=strlen($web_description);
         $web_keyword_length=strlen($web_keyword);
         $web_author_length=strlen($web_author);
+        //Menampilkan TOS dan PP
+        $privacy_policy=GetDetailData($Conn, 'web_tos', 'id_web_tos', '1', 'privacy_policy');
+        $term_of_service=GetDetailData($Conn, 'web_tos', 'id_web_tos', '1', 'term_of_service');
 ?>
         <section class="section dashboard">
             <div class="row">
@@ -309,6 +312,60 @@
                                             <div class="row mt-4 mb-3">
                                                 <div class="col-md-12" id="ShowMedsos">
                                                     <!-- Menampilkan ShowMedsos-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                            5. Term Of Service
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mb-3 mt-4">
+                                                <div class="col-md-12">
+                                                    <textarea name="term_of_service" id="term_of_service" cols="30" rows="3" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-9" id="NotifikasiTermOfService"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2 mb-3">
+                                                    <button type="submit" class="btn btn-md btn-rounded btn-success btn-block" id="ClickTermOfService">
+                                                        <i class="bi bi-save"></i> Simpan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                            6. Privacy Policy
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mb-3 mt-4">
+                                                <div class="col-md-12">
+                                                    <textarea name="privacy_policy" id="privacy_policy" cols="30" rows="3" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-9" id="NotifikasiPrivacyPolicy"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2 mb-3">
+                                                    <button type="submit" class="btn btn-md btn-rounded btn-success btn-block" id="ClickPrivacyPolicy">
+                                                        <i class="bi bi-save"></i> Simpan
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

@@ -11,6 +11,32 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalEditApi" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="GetTermOfService"> 
+                        <?php echo html_entity_decode($term_of_service); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditApi" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="GetPrivacyPolecy"> 
+                        <?php echo html_entity_decode($privacy_policy); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalTambahFaq" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">

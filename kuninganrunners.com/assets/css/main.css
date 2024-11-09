@@ -2594,3 +2594,54 @@ section,
   background-color: orange; /* Latar belakang oranye saat di-hover */
   color: white; /* Warna teks putih saat di-hover */
 }
+.button_pendaftaran {
+  display: block; /* Lebar penuh */
+  width: 100%; /* Sesuaikan lebar dengan kontainer */
+  border: 2px solid orange;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: orange; /* Warna awal oranye */
+  color: white; /* Warna teks putih */
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button_pendaftaran:hover {
+  background-color: #ffd699; /* Warna lebih muda saat di-hover */
+  color: orange; /* Teks oranye saat di-hover */
+}
+
+.button_back_to_login {
+  display: block; /* Lebar penuh */
+  width: 100%; /* Sesuaikan lebar dengan kontainer */
+  border: 2px solid rgb(160, 160, 160);
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color:rgb(160, 160, 160); /* Warna awal oranye */
+  color: white; /* Warna teks putih */
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button_back_to_login:hover {
+  background-color: rgb(255, 255, 255); /* Warna lebih muda saat di-hover */
+  color: rgb(160, 160, 160); /* Teks oranye saat di-hover */
+}
+
+.sub-page-title {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px 0 80px 0;
+  text-align: center;
+  position: relative;
+}
+body {
+  overflow-x: hidden;
+}
