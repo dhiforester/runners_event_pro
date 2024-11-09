@@ -2,12 +2,9 @@
     session_start();
     include "../_Config/Connection.php";
     include "../_Config/GlobalFunction.php";
-    //Cek Apakah xtoken expired
-    if(date('Y-m-d H:i:s')<$_SESSION['datetime_expired']){
-        //Apabila Masih Aktif Maka Buka Dari Session
-        $xtoken=$_SESSION['xtoken'];
-    }else{
-        //Apabila sudah Expired
+    //Apabila Session Datetime expired tidak ada
+    if(empty($_SESSION['datetime_expired'])){
+        //Buat Xtoken
         $response=GenerateXtoken($url_server,$user_key_server,$password_server,$limit);
         $arry_res = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -18,6 +15,26 @@
             }else{
                 $metadata = $arry_res['metadata'];
                 $xtoken = $metadata['x-token'];
+            }
+        }
+    }else{
+        //Cek Apakah xtoken expired
+        if(date('Y-m-d H:i:s')<$_SESSION['datetime_expired']){
+            //Apabila Masih Aktif Maka Buka Dari Session
+            $xtoken=$_SESSION['xtoken'];
+        }else{
+            //Apabila sudah Expired
+            $response=GenerateXtoken($url_server,$user_key_server,$password_server,$limit);
+            $arry_res = json_decode($response, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $xtoken ="";
+            }else{
+                if($arry_res['response']['code']!==200) {
+                    $xtoken ="";
+                }else{
+                    $metadata = $arry_res['metadata'];
+                    $xtoken = $metadata['x-token'];
+                }
             }
         }
     }

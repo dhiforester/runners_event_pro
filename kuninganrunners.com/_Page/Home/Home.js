@@ -49,17 +49,5 @@ $(document).ready(function() {
     ShowAlbum();
     ShowTestimonial();
     ShowFaq();
-    //Modal Detail Testimoni
-    $('#ModalDetailTestimoni').on('show.bs.modal', function (e) {
-        var id_web_testimoni = $(e.relatedTarget).data('id');
-        $('#FormDetailTestimoni').html("Loading...");
-        $.ajax({
-            type 	    : 'POST',
-            url 	    : '_Page/Home/FormDetailTestimoni.php',
-            data        : {id_web_testimoni: id_web_testimoni},
-            success     : function(data){
-                $('#FormDetailTestimoni').html(data);
-            }
-        });
-    });
+   
 });
