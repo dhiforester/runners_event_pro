@@ -33,14 +33,14 @@
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
                 } else {
-                     // Validasi password tidak boleh kosong
-                    if (!isset($Tangkap['password'])) {
-                        $keterangan = "Password Tidak Boleh Kosong";
+                     // Validasi id_member_login tidak boleh kosong
+                    if (!isset($Tangkap['id_member_login'])) {
+                        $keterangan = "ID Member Login Tidak Boleh Kosong";
                     } else {
                         // Buat Dalam Bentukk Variabel
                         $xtoken = validateAndSanitizeInput($headers['x-token']);
                         $email = validateAndSanitizeInput($Tangkap['email']);
-                        $password = validateAndSanitizeInput($Tangkap['password']);
+                        $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                         
                         // Validasi x-token menggunakan prepared statements
                         $stmt = $Conn->prepare("SELECT * FROM api_session WHERE xtoken = ?");
@@ -60,41 +60,67 @@
                                 $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                 $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                 
-                                //Validasi Email Dan Password
-                                $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                $stmt->bind_param("s", $email);
+                                //Validasi email Dan id_member_login
+                                $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                $stmt->bind_param("s", $id_member_login);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
                                 $DataMember = $result->fetch_assoc();
-                                if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                    // Persiapkan Query untuk Mengambil Data Member
-                                    $metadata = [
-                                        "nama" => $DataMember['nama'] ?? null,
-                                        "kontak" => $DataMember['kontak'] ?? null,
-                                        "email" => $DataMember['email'] ?? null,
-                                        "provinsi" => $DataMember['provinsi'] ?? null,
-                                        "kabupaten" => $DataMember['kabupaten'] ?? null,
-                                        "kecamatan" => $DataMember['kecamatan'] ?? null,
-                                        "desa" => $DataMember['desa'] ?? null,
-                                        "kode_pos" => $DataMember['kode_pos'] ?? null,
-                                        "rt_rw" => $DataMember['rt_rw'] ?? null,
-                                        "datetime" => $DataMember['datetime'] ?? null,
-                                        "status" => $DataMember['status'] ?? null,
-                                        "sumber" => $DataMember['sumber'] ?? null,
-                                        "foto" => $DataMember['foto'] ?? null,
-                                    ];
-                                    
-                                    //menyimpan Log
-                                    $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                    if ($SimpanLog !== "Success") {
-                                        $keterangan = "Gagal Menyimpan Log Service";
-                                        $code = 201;
-                                    } else {
-                                        $keterangan = "success";
-                                        $code = 200;
+                                if (!empty($DataMember['id_member'])) {
+                                    $id_member=$DataMember['id_member'];
+                                    $datetime_expired=$DataMember['datetime_expired'];
+                                    //Cek Apakah Sessi Login Sudah Berakhir?
+                                    if($datetime_expired<$now){
+                                        $keterangan = "Sessi Login Sudah Berakhir";
+                                    }else{
+                                        //Buka Email Di Database
+                                        $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                        //Cek Apakah Email Sesuai
+                                        if($email_member!==$email){
+                                            $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
+                                        }else{
+                                            // Buka Data Member
+                                            $nama=GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
+                                            $kontak=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kontak');
+                                            $provinsi=GetDetailData($Conn, 'member', 'id_member', $id_member, 'provinsi');
+                                            $kabupaten=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kabupaten');
+                                            $kecamatan=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kecamatan');
+                                            $desa=GetDetailData($Conn, 'member', 'id_member', $id_member, 'desa');
+                                            $kode_pos=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kode_pos');
+                                            $rt_rw=GetDetailData($Conn, 'member', 'id_member', $id_member, 'rt_rw');
+                                            $datetime=GetDetailData($Conn, 'member', 'id_member', $id_member, 'datetime');
+                                            $status=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
+                                            $sumber=GetDetailData($Conn, 'member', 'id_member', $id_member, 'sumber');
+                                            $foto=GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
+                                            $metadata = [
+                                                "nama" => $nama,
+                                                "kontak" => $kontak,
+                                                "email" => $email,
+                                                "provinsi" => $provinsi,
+                                                "kabupaten" => $kabupaten,
+                                                "kecamatan" => $kecamatan,
+                                                "desa" => $desa,
+                                                "kode_pos" => $kode_pos,
+                                                "rt_rw" => $rt_rw,
+                                                "datetime" => $datetime,
+                                                "status" => $status,
+                                                "sumber" => $sumber,
+                                                "foto" => $foto,
+                                            ];
+                                            
+                                            //menyimpan Log
+                                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                            if ($SimpanLog !== "Success") {
+                                                $keterangan = "Gagal Menyimpan Log Service";
+                                                $code = 201;
+                                            } else {
+                                                $keterangan = "success";
+                                                $code = 200;
+                                            }
+                                        }
                                     }
                                 }else{
-                                    $keterangan = "Kombinasi Password Dan Email Tidak Valid";
+                                    $keterangan = "Sessi Login Tidak Ditemukan";
                                 }
                             } else {
                                 $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";
@@ -102,7 +128,6 @@
                         } else {
                             $keterangan = "X-Token Yang Digunakan Tidak Valid";
                         }
-                        
                         $stmt->close();
                     }
                 }

@@ -39,8 +39,13 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <div class="col-md-12" id="NotifikasiLogin">
+                                <!-- Notifikasi Login Akan Muncul Disini -->
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <button type="submit" class="button_pendaftaran">
+                                <button type="submit" class="button_pendaftaran" id="ButtonLogin">
                                     <i class="bi bi-key"></i> Login
                                 </button>
                             </div>

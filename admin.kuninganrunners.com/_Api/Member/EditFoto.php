@@ -31,16 +31,16 @@
                 // Validasi email tidak boleh kosong
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['password'])) {
-                    $keterangan = "Password Tidak Boleh Kosong";
+                } else if (!isset($Tangkap['id_member_login'])) {
+                    $keterangan = "ID Member Login Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['base64'])) {
                     $keterangan = "File Foto Tidak Boleh Kosong";
                 } else {
                     // Buat Variabel
                     $xtoken = validateAndSanitizeInput($headers['x-token']);
                     $email = validateAndSanitizeInput($Tangkap['email']);
-                    $password = validateAndSanitizeInput($Tangkap['password']);
-                    $base64 = $Tangkap['base64'];
+                    $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
+                    $base64 = validateAndSanitizeInput($Tangkap['base64']);
 
                     // Validasi x-token menggunakan prepared statements
                     $stmt = $Conn->prepare("SELECT * FROM api_session WHERE xtoken = ?");
@@ -59,92 +59,105 @@
                             $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                             $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                             
-                            // Validasi Email dan Password
-                            $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                            $stmt->bind_param("s", $email);
+                            // Validasi id_member_login
+                            $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                            $stmt->bind_param("s", $id_member_login);
                             $stmt->execute();
                             $result = $stmt->get_result();
                             $DataMember = $result->fetch_assoc();
 
-                            if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                if ($DataMember['status'] !== "Active") {
-                                    $keterangan = "Member Belum Melakukan Validasi Email";
-                                } else {
-                                    $id_member = $DataMember['id_member'];
-                                    
-                                    $decoded_image = base64_decode($base64, true);
-                                    if ($decoded_image === false) {
-                                        $keterangan = "Base 64 Image Tidak Valid";
-                                    } else {
-                                        //Validasi Size
-                                        $max_size=5 * 1024 * 1024;
-                                        if (strlen($decoded_image) > $max_size) {
-                                            $keterangan = "File Terlalu Besar (Maksimal 5 Mb)";
-                                        }else{
-                                            //Vaidasi Tipe
-                                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                            $mime_type = finfo_buffer($finfo, $decoded_image);
-                                            finfo_close($finfo);
-
-                                            if ($mime_type !== 'image/jpeg' && $mime_type !== 'image/jpg' && $mime_type !== 'image/png' && $mime_type !== 'image/gif') {
-                                                $keterangan = "Tipe File Tidak Valid (Hanya Boleh JPG, JPEG, GIF dan PNG)";
-                                            }else{
-                                                if($mime_type=='image/jpeg'){
-                                                    $extension=".jpeg";
+                            if (!empty($DataMember['id_member'])) {
+                                $id_member=$DataMember['id_member'];
+                                $datetime_expired=$DataMember['datetime_expired'];
+                                //Cek Apakah Sessi Login Sudah Berakhir?
+                                if($datetime_expired<$now){
+                                    $keterangan = "Sessi Login Sudah Berakhir";
+                                }else{
+                                    //Buka Email Di Database
+                                    $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                    $status_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
+                                    //Cek Apakah Email Sesuai
+                                    if($email_member!==$email){
+                                        $keterangan = "Email dengan ID Login Tidak Sesuai";
+                                    }else{
+                                        if ($status_member !== "Active") {
+                                            $keterangan = "Member Belum Melakukan Validasi Email";
+                                        } else {
+                                            $decoded_image = base64_decode($base64, true);
+                                            if ($decoded_image === false) {
+                                                $keterangan = "Base 64 Image Tidak Valid";
+                                            } else {
+                                                //Validasi Size
+                                                $max_size=5 * 1024 * 1024;
+                                                if (strlen($decoded_image) > $max_size) {
+                                                    $keterangan = "File Terlalu Besar (Maksimal 5 Mb)";
                                                 }else{
-                                                    if($mime_type=='image/jpg'){
-                                                        $extension=".jpg";
+                                                    //Vaidasi Tipe
+                                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                                    $mime_type = finfo_buffer($finfo, $decoded_image);
+                                                    finfo_close($finfo);
+
+                                                    if ($mime_type !== 'image/jpeg' && $mime_type !== 'image/jpg' && $mime_type !== 'image/png' && $mime_type !== 'image/gif') {
+                                                        $keterangan = "Tipe File Tidak Valid (Hanya Boleh JPG, JPEG, GIF dan PNG)";
                                                     }else{
-                                                        if($mime_type=='image/png'){
-                                                            $extension=".png";
+                                                        if($mime_type=='image/jpeg'){
+                                                            $extension=".jpeg";
                                                         }else{
-                                                            if($mime_type=='image/gif'){
-                                                                $extension=".gif";
+                                                            if($mime_type=='image/jpg'){
+                                                                $extension=".jpg";
                                                             }else{
-                                                                $extension=".jpeg";
+                                                                if($mime_type=='image/png'){
+                                                                    $extension=".png";
+                                                                }else{
+                                                                    if($mime_type=='image/gif'){
+                                                                        $extension=".gif";
+                                                                    }else{
+                                                                        $extension=".jpeg";
+                                                                    }
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                }
-                                                $newFileName = bin2hex(random_bytes(16)) . ''.$extension.'';
-                                                $uploadDir = '../../assets/img/Member/';
-                                                $uploadPath = $uploadDir . $newFileName;
+                                                        $newFileName = bin2hex(random_bytes(16)) . ''.$extension.'';
+                                                        $uploadDir = '../../assets/img/Member/';
+                                                        $uploadPath = $uploadDir . $newFileName;
 
-                                                if (file_put_contents($uploadPath, $decoded_image)) {
-                                                    // Hapus foto lama jika ada
-                                                    if (!empty($DataMember['foto'])) {
-                                                        unlink($uploadDir . $DataMember['foto']);
-                                                    }
+                                                        if (file_put_contents($uploadPath, $decoded_image)) {
+                                                            // Hapus foto lama jika ada
+                                                            if (!empty($DataMember['foto'])) {
+                                                                unlink($uploadDir . $DataMember['foto']);
+                                                            }
 
-                                                    // Update Data Foto Member
-                                                    $updateQuery = "UPDATE member SET foto = ? WHERE id_member = ?";
-                                                    $stmtUpdate = $Conn->prepare($updateQuery);
-                                                    $stmtUpdate->bind_param('ss', $newFileName, $id_member);
-                                                    if ($stmtUpdate->execute()) {
-                                                        $metadata = [
-                                                            "foto" => $newFileName
-                                                        ];
-                                                        //menyimpan Log
-                                                        $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                                        if ($SimpanLog !== "Success") {
-                                                            $keterangan = "Gagal Menyimpan Log Service";
-                                                            $code = 201;
+                                                            // Update Data Foto Member
+                                                            $updateQuery = "UPDATE member SET foto = ? WHERE id_member = ?";
+                                                            $stmtUpdate = $Conn->prepare($updateQuery);
+                                                            $stmtUpdate->bind_param('ss', $newFileName, $id_member);
+                                                            if ($stmtUpdate->execute()) {
+                                                                $metadata = [
+                                                                    "foto" => $newFileName
+                                                                ];
+                                                                //menyimpan Log
+                                                                $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                                if ($SimpanLog !== "Success") {
+                                                                    $keterangan = "Gagal Menyimpan Log Service";
+                                                                    $code = 201;
+                                                                } else {
+                                                                    $keterangan = "success";
+                                                                    $code = 200;
+                                                                }
+                                                            } else {
+                                                                $keterangan = "Terjadi kesalahan saat menyimpan ke database";
+                                                            }
                                                         } else {
-                                                            $keterangan = "success";
-                                                            $code = 200;
+                                                            $keterangan = "Terjadi kesalahan saat upload file";
                                                         }
-                                                    } else {
-                                                        $keterangan = "Terjadi kesalahan saat menyimpan ke database";
                                                     }
-                                                } else {
-                                                    $keterangan = "Terjadi kesalahan saat upload file";
                                                 }
                                             }
                                         }
                                     }
                                 }
                             } else {
-                                $keterangan = "Kombinasi Password Dan Email Tidak Valid";
+                                $keterangan = "Sesi Login Tidak Valid";
                             }
                         } else {
                             $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";

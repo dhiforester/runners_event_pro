@@ -31,8 +31,8 @@
                 // Validasi email tidak boleh kosong
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['password'])) {
-                    $keterangan = "Password Tidak Boleh Kosong";
+                } else if (!isset($Tangkap['id_member_login'])) {
+                    $keterangan = "ID Member Login Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['password_baru'])) {
                     $keterangan = "Password Baru Tidak Boleh Kosong";
                 } else {
@@ -45,7 +45,7 @@
                             // Buat Variabel
                             $xtoken = validateAndSanitizeInput($headers['x-token']);
                             $email = validateAndSanitizeInput($Tangkap['email']);
-                            $password = validateAndSanitizeInput($Tangkap['password']);
+                            $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                             $password_baru = validateAndSanitizeInput($Tangkap['password_baru']);
 
                             // Validasi x-token menggunakan prepared statements
@@ -66,38 +66,53 @@
                                     $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                     
                                     // Validasi Email dan Password
-                                    $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                    $stmt->bind_param("s", $email);
+                                    $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                    $stmt->bind_param("s", $id_member_login);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     $DataMember = $result->fetch_assoc();
 
-                                    if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                        if ($DataMember['status'] !== "Active") {
-                                            $keterangan = "Member Belum Melakukan Validasi Email";
-                                        } else {
-                                            $id_member = $DataMember['id_member'];
-                                            $password = password_hash($password_baru, PASSWORD_DEFAULT);
-                                            // Update Member
-                                            $updateQuery = "UPDATE member SET password = ? WHERE id_member = ?";
-                                            $stmtUpdate = $Conn->prepare($updateQuery);
-                                            $stmtUpdate->bind_param('ss', $password, $id_member);
-                                            if ($stmtUpdate->execute()) {
-                                                //menyimpan Log
-                                                $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                                if ($SimpanLog !== "Success") {
-                                                    $keterangan = "Gagal Menyimpan Log Service";
-                                                    $code = 201;
+                                    if (!empty($DataMember['id_member'])) {
+                                        //Buka ID Member
+                                        $id_member=$DataMember['id_member'];
+                                        $datetime_expired=$DataMember['datetime_expired'];
+                                        //Cek Apakah Sessi Login Sudah Berakhir?
+                                        if($datetime_expired<$now){
+                                            $keterangan = "Sessi Login Sudah Berakhir";
+                                        }else{
+                                            //Buka Email Di Database
+                                            $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                            $status_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
+                                            //Cek Apakah Email Sesuai
+                                            if($email_member!==$email){
+                                                $keterangan = "Email dengan ID Login Tidak Sesuai";
+                                            }else{
+                                                if ($status_member !== "Active") {
+                                                    $keterangan = "Member Belum Melakukan Validasi Email";
                                                 } else {
-                                                    $keterangan = "success";
-                                                    $code = 200;
+                                                    $password = password_hash($password_baru, PASSWORD_DEFAULT);
+                                                    // Update Member
+                                                    $updateQuery = "UPDATE member SET password = ? WHERE id_member = ?";
+                                                    $stmtUpdate = $Conn->prepare($updateQuery);
+                                                    $stmtUpdate->bind_param('ss', $password, $id_member);
+                                                    if ($stmtUpdate->execute()) {
+                                                        //menyimpan Log
+                                                        $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                        if ($SimpanLog !== "Success") {
+                                                            $keterangan = "Gagal Menyimpan Log Service";
+                                                            $code = 201;
+                                                        } else {
+                                                            $keterangan = "success";
+                                                            $code = 200;
+                                                        }
+                                                    } else {
+                                                        $keterangan = "Terjadi kesalahan saat menyimpan ke database";
+                                                    }
                                                 }
-                                            } else {
-                                                $keterangan = "Terjadi kesalahan saat menyimpan ke database";
                                             }
                                         }
                                     } else {
-                                        $keterangan = "Kombinasi Password Dan Email Tidak Valid";
+                                        $keterangan = "ID Member Login Tidak Valid";
                                     }
                                 } else {
                                     $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";

@@ -41,7 +41,13 @@
                                             echo '<li><a href="" class="active">Pendaftaran Selesai</a></li>';
                                             echo '<li><a href="index.php?Page=Login">Login</a></li>';
                                         }else{
-                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                            if($_GET['Page']=="LoginBerhasil"){
+                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                echo '<li><a href="" class="active">Login Berhasil</a></li>';
+                                                echo '<li><a href="index.php?Page=Profil">Profil</a></li>';
+                                            }else{
+                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                            }
                                         }
                                     }
                                 }

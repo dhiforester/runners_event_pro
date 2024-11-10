@@ -234,7 +234,9 @@
                                     <label class="form-check-label" for="konfirmasi_pendaftaran">
                                         <small>
                                             Saya setuju dan telah membaca berbagai ketentuan dan peraturan yang telah ditetapkan pada 
-                                            <a href="">Privacy Policy</a> dan <a href="">Term Of Condition</a>.
+                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPrivacyPolicy">Privacy Policy</a> 
+                                            dan 
+                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTermOfService">Term Of Condition</a>.
                                         </small>
                                     </label>
                                 </div>

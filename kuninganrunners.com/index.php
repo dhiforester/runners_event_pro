@@ -90,6 +90,8 @@
                         $Page=$_GET['Page'];
                         if($Page=="Login"){
                             include "_Page/Login/Login.php";
+                        }else if($Page=="LoginBerhasil"){
+                            include "_Page/Login/LoginBerhasil.php";
                         }else if($Page=="Pendaftaran"){
                             include "_Page/Pendaftaran/Pendaftaran.php";
                         }else if($Page=="Pendaftaran-Berhasil"){

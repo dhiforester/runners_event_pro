@@ -6,7 +6,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "Edit Password Member";
+    $service_name = "Edit Profil Member";
     // Setting default response
     $code = 201;
     $keterangan = "Terjadi kesalahan";
@@ -31,8 +31,8 @@
                 // Validasi kelengkapan data tidak boleh kosong
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['password'])) {
-                    $keterangan = "Password Tidak Boleh Kosong";
+                } else if (!isset($Tangkap['id_member_login'])) {
+                    $keterangan = "ID Member login Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['nama'])) {
                     $keterangan = "Nama Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['kontak'])) {
@@ -43,7 +43,7 @@
                     // Buat Variabel
                     $xtoken = validateAndSanitizeInput($headers['x-token']);
                     $email = validateAndSanitizeInput($Tangkap['email']);
-                    $password = validateAndSanitizeInput($Tangkap['password']);
+                    $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                     $nama = validateAndSanitizeInput($Tangkap['nama']);
                     $kontak = validateAndSanitizeInput($Tangkap['kontak']);
                     $id_wilayah = validateAndSanitizeInput($Tangkap['id_wilayah']);
@@ -67,17 +67,13 @@
                             if (strlen($Tangkap['email']) > 100) { 
                                 $ValidasiJumlahKarakter= 'Email tidak boleh lebih dari 100 karakter.'; 
                             }else{
-                                if (strlen($Tangkap['password']) > 20) { 
-                                    $ValidasiJumlahKarakter='Password tidak boleh lebih dari 20 karakter.'; 
+                                if (isset($Tangkap['kode_pos']) && strlen($Tangkap['kode_pos']) > 10) { 
+                                    $ValidasiJumlahKarakter='Kode pos tidak boleh lebih dari 10 karakter.'; 
                                 }else{
-                                    if (isset($Tangkap['kode_pos']) && strlen($Tangkap['kode_pos']) > 10) { 
-                                        $ValidasiJumlahKarakter='Kode pos tidak boleh lebih dari 10 karakter.'; 
+                                    if (isset($Tangkap['rt_rw']) && strlen($Tangkap['rt_rw']) > 50) { 
+                                        $ValidasiJumlahKarakter='RT/RW tidak boleh lebih dari 50 karakter.'; 
                                     }else{
-                                        if (isset($Tangkap['rt_rw']) && strlen($Tangkap['rt_rw']) > 50) { 
-                                            $ValidasiJumlahKarakter='RT/RW tidak boleh lebih dari 50 karakter.'; 
-                                        }else{
-                                            $ValidasiJumlahKarakter='Valid'; 
-                                        }
+                                        $ValidasiJumlahKarakter='Valid'; 
                                     }
                                 }
                             }
@@ -93,18 +89,14 @@
                             if (!ctype_digit($Tangkap['kontak'])) {
                                 $ValidasiTipeData='Kontak hanya boleh angka.';
                             }else{
-                                if (!ctype_alnum($Tangkap['password'])) {
-                                    $ValidasiTipeData='Password hanya boleh huruf dan angka.';
-                                }else{
-                                    if (!empty($Tangkap['kode_pos'])) {
-                                        if(!ctype_alnum($Tangkap['kode_pos'])){
-                                            $ValidasiTipeData='Kode pos hanya boleh angka.';
-                                        }else{
-                                            $ValidasiTipeData='Valid';
-                                        }
+                                if (!empty($Tangkap['kode_pos'])) {
+                                    if(!ctype_alnum($Tangkap['kode_pos'])){
+                                        $ValidasiTipeData='Kode pos hanya boleh angka.';
                                     }else{
                                         $ValidasiTipeData='Valid';
                                     }
+                                }else{
+                                    $ValidasiTipeData='Valid';
                                 }
                             }
                         }
@@ -128,68 +120,84 @@
                                     $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                     $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                     
-                                    // Validasi Email dan Password
-                                    $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                    $stmt->bind_param("s", $email);
+                                    // Validasi Email dan id_member_login
+                                    $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                    $stmt->bind_param("s", $id_member_login);
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     $DataMember = $result->fetch_assoc();
 
-                                    if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                        if ($DataMember['status'] !== "Active") {
-                                            $keterangan = "Member Belum Melakukan Validasi Email";
-                                        } else {
-                                            //Validasi id_wilayah
-                                            $kategori_wilayah=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kategori');
-                                            if($kategori_wilayah!=="desa"){
-                                                $keterangan="ID Wilayah Tidak Valid";
+                                    if (!empty($DataMember['id_member'])) {
+                                        //Buka ID Member
+                                        $id_member=$DataMember['id_member'];
+                                        $datetime_expired=$DataMember['datetime_expired'];
+                                        //Cek Apakah Sessi Login Sudah Berakhir?
+                                        if($datetime_expired<$now){
+                                            $keterangan = "Sessi Login Sudah Berakhir";
+                                        }else{
+                                            //Buka Email Di Database
+                                            $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                            $status_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
+                                            //Cek Apakah Email Sesuai
+                                            if($email_member!==$email){
+                                                $keterangan = "Email dengan ID Login Tidak Sesuai";
                                             }else{
-                                                $provinsi=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'propinsi');
-                                                $kabupaten=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kabupaten');
-                                                $kecamatan=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kecamatan');
-                                                $desa=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'desa');
-                                                $id_member = $DataMember['id_member'];
-                                                // Update Member
-                                                $updateQuery = "UPDATE member SET 
-                                                    nama = ?, 
-                                                    kontak = ?, 
-                                                    provinsi = ?, 
-                                                    kabupaten = ?, 
-                                                    kecamatan = ?, 
-                                                    desa = ?, 
-                                                    kode_pos = ?, 
-                                                    rt_rw = ? 
-                                                WHERE id_member = ?";
-                                                $stmtUpdate = $Conn->prepare($updateQuery);
-                                                $stmtUpdate->bind_param(
-                                                    'sssssssss', 
-                                                    $nama, 
-                                                    $kontak, 
-                                                    $provinsi, 
-                                                    $kabupaten, 
-                                                    $kecamatan, 
-                                                    $desa, 
-                                                    $kode_pos, 
-                                                    $rt_rw, 
-                                                    $id_member
-                                                );
-                                                if ($stmtUpdate->execute()) {
-                                                    //menyimpan Log
-                                                    $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                                    if ($SimpanLog !== "Success") {
-                                                        $keterangan = "Gagal Menyimpan Log Service";
-                                                        $code = 201;
-                                                    } else {
-                                                        $keterangan = "success";
-                                                        $code = 200;
-                                                    }
+                                                if ($status_member !== "Active") {
+                                                    $keterangan = "Member Belum Melakukan Validasi Email";
                                                 } else {
-                                                    $keterangan = "Terjadi kesalahan saat menyimpan ke database";
+                                                    //Validasi id_wilayah
+                                                    $kategori_wilayah=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kategori');
+                                                    if($kategori_wilayah!=="desa"){
+                                                        $keterangan="ID Wilayah Tidak Valid";
+                                                    }else{
+                                                        $provinsi=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'propinsi');
+                                                        $kabupaten=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kabupaten');
+                                                        $kecamatan=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'kecamatan');
+                                                        $desa=GetDetailData($Conn, 'wilayah', 'id_wilayah', $id_wilayah, 'desa');
+                                                        $id_member = $DataMember['id_member'];
+                                                        // Update Member
+                                                        $updateQuery = "UPDATE member SET 
+                                                            nama = ?, 
+                                                            kontak = ?, 
+                                                            provinsi = ?, 
+                                                            kabupaten = ?, 
+                                                            kecamatan = ?, 
+                                                            desa = ?, 
+                                                            kode_pos = ?, 
+                                                            rt_rw = ? 
+                                                        WHERE id_member = ?";
+                                                        $stmtUpdate = $Conn->prepare($updateQuery);
+                                                        $stmtUpdate->bind_param(
+                                                            'sssssssss', 
+                                                            $nama, 
+                                                            $kontak, 
+                                                            $provinsi, 
+                                                            $kabupaten, 
+                                                            $kecamatan, 
+                                                            $desa, 
+                                                            $kode_pos, 
+                                                            $rt_rw, 
+                                                            $id_member
+                                                        );
+                                                        if ($stmtUpdate->execute()) {
+                                                            //menyimpan Log
+                                                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                            if ($SimpanLog !== "Success") {
+                                                                $keterangan = "Gagal Menyimpan Log Service";
+                                                                $code = 201;
+                                                            } else {
+                                                                $keterangan = "success";
+                                                                $code = 200;
+                                                            }
+                                                        } else {
+                                                            $keterangan = "Terjadi kesalahan saat menyimpan ke database";
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
                                     } else {
-                                        $keterangan = "Kombinasi Password Dan Email Tidak Valid";
+                                        $keterangan = "Sessi Member Tidak Valid";
                                     }
                                 } else {
                                     $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";
