@@ -31,7 +31,7 @@
         curl_close($curl);
         return $response;
     }
-    function GenerateXtoken($url_server,$user_key_server,$password_server,$limit){
+    function GenerateXtoken($url_server,$user_key_server,$password_server){
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => ''.$url_server.'/_Api/GenerateToken/GenerateToken.php',
@@ -157,6 +157,82 @@
         $curl = curl_init();
         curl_setopt_array($curl, array(
         CURLOPT_URL => ''.$url_server.'/_Api/Web/TermOfService.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function ListProvinsi($url_server,$xtoken){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Wilayah/Provinsi.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function ListKabupaten($url_server,$xtoken,$id_propinsi){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Wilayah/Kabupaten.php?id_propinsi='.$id_propinsi.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function ListKecamatan($url_server,$xtoken,$id_kabupaten){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Wilayah/Kecamatan.php?id_kabupaten='.$id_kabupaten.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function ListDesa($url_server,$xtoken,$id_kecamatan){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Wilayah/Desa.php?id_kecamatan='.$id_kecamatan.'',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,

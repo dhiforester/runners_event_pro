@@ -31,7 +31,19 @@
                                     echo '<li><a href="index.php?Page=Login">Login</a></li>';
                                     echo '<li><a href="index.php?Page=VerifikasiPendaftaran" class="active">Verifikasi</a></li>';
                                 }else{
-                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                    if($_GET['Page']=="Pendaftaran-Berhasil"){
+                                        echo '<li><a href="index.php">Beranda</a></li>';
+                                        echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                                        echo '<li><a href="" class="active">Pendaftaran</a></li>';
+                                    }else{
+                                        if($_GET['Page']=="Selesai"){
+                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                            echo '<li><a href="" class="active">Pendaftaran Selesai</a></li>';
+                                            echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                                        }else{
+                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                        }
+                                    }
                                 }
                             }
                         }

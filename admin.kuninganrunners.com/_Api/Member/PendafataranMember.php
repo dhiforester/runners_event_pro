@@ -221,7 +221,23 @@
                                         );
                                         if ($stmt->execute()) {
                                             //Kirim Email
-                                            $pesan='Kepada Yth.'.$nama.'<br>Berikut ini adalah kode verifikasi yang bisa anda gunakan untuk melakukan validasi akun member anda.<p>Kode : '.$email_validation.'</p>';
+$pesan = <<<HTML
+<html>
+<head>
+    <title>Verifikasi Akun</title>
+</head>
+<body>
+    <p>
+        Kepada Yth.<br> $nama,
+    </p>
+    <p>Berikut ini adalah kode verifikasi yang bisa anda gunakan untuk melakukan validasi akun member yang sudah anda buat.</p>
+    <p>Kode Verifikasi: <strong>$email_validation</strong></p>
+    <p>Apabila anda terlanjur sudah meninggalkan halaman verifikasi akun pada saat pertama kali, silahkan lakukan login dan buka tautan verifikasi pada halaman profil anda</p>
+    <p>Jika anda masih mengalami kesulitan, silahkan hubungi kami melalui kontak yang tersedia. </p>
+    <p>Terima kasih atas kepercayaan Anda.</p>
+</body>
+</html>
+HTML;
                                             $ch = curl_init();
                                             $headers = array(
                                                 'Content-Type: Application/JSON',          

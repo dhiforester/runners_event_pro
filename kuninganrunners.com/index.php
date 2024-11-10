@@ -92,8 +92,12 @@
                             include "_Page/Login/Login.php";
                         }else if($Page=="Pendaftaran"){
                             include "_Page/Pendaftaran/Pendaftaran.php";
+                        }else if($Page=="Pendaftaran-Berhasil"){
+                            include "_Page/Pendaftaran/Pendaftaran-Berhasil.php";
                         }else if($Page=="VerifikasiPendaftaran"){
                             include "_Page/Pendaftaran/VerifikasiPendaftaran.php";
+                        }else if($Page=="Selesai"){
+                            include "_Page/Pendaftaran/Selesai.php";
                         }else if($Page=="ResetPassword"){
                             include "_Page/ResetPassword/ResetPassword.php";
                         }else if($Page=="Album"){
@@ -162,7 +166,7 @@
                     if($_GET['Page']=="Login"){
                         echo '<script src="_Page/Login/Login.js"></script>';
                     }else{
-                        if($_GET['Page']=="Pendaftaran"){
+                        if($_GET['Page']=="Pendaftaran"||$_GET['Page']=="Pendaftaran-Berhasil"){
                             echo '<script src="_Page/Pendaftaran/Pendaftaran.js"></script>';
                         }else{
                             if($_GET['Page']=="VerifikasiPendaftaran"){

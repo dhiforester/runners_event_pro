@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    date_default_timezone_set('Asia/Jakarta');
     if(empty($_POST['id_web_testimoni'])){
         echo '<div class="row">';
         echo '  <div class="col-md-12 text-center">';
@@ -8,21 +10,23 @@
         echo '  </div>';
         echo '</div>';
     }else{
-        session_start();
         $id_web_testimoni=$_POST['id_web_testimoni'];
         include "../../_Config/Connection.php";
         include "../../_Config/GlobalFunction.php";
         if(empty($_SESSION['datetime_expired'])){
-            //Apabila Session X token tidak ada
-            $response=GenerateXtoken($url_server,$user_key_server,$password_server,$limit);
+            // Apabila Session X token tidak ada
+            $response=GenerateXtoken($url_server,$user_key_server,$password_server);
             $arry_res = json_decode($response, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $xtoken ="";
+                $datetime_expired ="";
             }else{
                 if($arry_res['response']['code']!==200) {
                     $xtoken ="";
+                    $datetime_expired ="";
                 }else{
                     $metadata = $arry_res['metadata'];
+                    $datetime_expired = $metadata['datetime_expired'];
                     $xtoken = $metadata['x-token'];
                 }
             }
@@ -31,17 +35,21 @@
             if(date('Y-m-d H:i:s')<$_SESSION['datetime_expired']){
                 //Apabila Masih Aktif Maka Buka Dari Session
                 $xtoken=$_SESSION['xtoken'];
+                $datetime_expired=$_SESSION['datetime_expired'];
             }else{
                 //Apabila sudah Expired
-                $response=GenerateXtoken($url_server,$user_key_server,$password_server,$limit);
+                $response=GenerateXtoken($url_server,$user_key_server,$password_server);
                 $arry_res = json_decode($response, true);
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     $xtoken ="";
+                    $datetime_expired ="";
                 }else{
                     if($arry_res['response']['code']!==200) {
                         $xtoken ="";
+                        $datetime_expired ="";
                     }else{
                         $metadata = $arry_res['metadata'];
+                        $datetime_expired = $metadata['datetime_expired'];
                         $xtoken = $metadata['x-token'];
                     }
                 }
@@ -56,6 +64,8 @@
             echo '  </div>';
             echo '</div>';
         }else{
+            $_SESSION['datetime_expired'] = $datetime_expired;
+            $_SESSION['xtoken'] = $xtoken;
             $DetailTestimoni=WebDetailTestimoni($url_server,$xtoken,$id_web_testimoni);
             $arry_detail_testimoni = json_decode($DetailTestimoni, true);
             if($arry_detail_testimoni['response']['code']!==200) {

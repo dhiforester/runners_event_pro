@@ -7,7 +7,7 @@
     
     // Teks acak
     $captcha_code = substr(str_shuffle("ABCDEFGHJKMNPRSTUVWXYZ23456789"), 0, 6);
-    $_SESSION["captcha-validation-form"] = $captcha_code;
+    $_SESSION["captcha_validation_form"] = $captcha_code;
     
     // Menghitung posisi teks agar berada di tengah
     $font_size = 5; // Ukuran font untuk imagestring
