@@ -18,11 +18,18 @@
         </g>
     </svg>
 </section>
-
 <!-- TENTANG KAMI -->
 <section id="about" class="about section">
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
+        <?php
+            if(!empty($_SESSION['id_member_login'])){
+                echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">';
+                echo '  <b>Selamat Datang</b> <i>'.$_SESSION['email'].'</i><br>';
+                echo '  Pada saat ini anda sudah login. Lihat halaman <a href="index.php?Page=Profil">profil</a> untuk melihat detail lengkap akun anda.';
+                echo '</div>';
+            }
+        ?>
         <h2>Tentang Kami</h2>
         <p><?php echo "$tentang_judul"; ?></p>
     </div><!-- End Section Title -->

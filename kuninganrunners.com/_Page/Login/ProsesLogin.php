@@ -78,7 +78,7 @@
             //Persiapan Mengirim Data Ke Server
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => $url_server . '/_Api/Member/DetailMember.php',
+                CURLOPT_URL => $url_server . '/_Api/Member/verification_member.php',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -121,26 +121,15 @@
                         $message=$arry['response']['message'];
                         $code =$arry['response']['code'];
                         $metadata =$arry['metadata'];
-                        $AksesMember = [
-                            "metadata" => $metadata,
-                            "email" => $email,
-                            "password" => $password
-                        ];
-                        //Membuat JSON
-                        $DetailMemberJson=json_encode($AksesMember, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                        // Kombinasi kunci enkripsi sederhana
-                        $encryption_key = hash_hmac('sha256', $user_key_server . $password_server, 'encryption_salt');
-                        // Enkripsi data menggunakan AES-128-CBC (tanpa IV untuk metode sederhana)
-                        $encrypted_data = openssl_encrypt(
-                            $DetailMemberJson,         // Data yang akan dienkripsi
-                            'AES-128-ECB',             // Metode enkripsi
-                            $encryption_key,           // Kunci enkripsi yang dikombinasikan
-                            0                          // Mode 0 untuk menghasilkan data terenkripsi dalam binary
-                        );
-                        // Enkripsi diubah menjadi base64 agar mudah disimpan
-                        $encrypted_payload = base64_encode($encrypted_data);
-                        // Simpan data terenkripsi dalam cookie atau tempat penyimpanan lainnya
-                        setcookie("encrypted_member_data", $encrypted_payload, time() + (86400 * 30), "/");
+                        $id_member_login =$metadata['id_member_login'];
+                        $datetime_login =$metadata['datetime_login'];
+                        $login_expired =$metadata['datetime_expired'];
+                        $email =$metadata['email'];
+                        //Buat Session
+                        $_SESSION['id_member_login']=$id_member_login;
+                        $_SESSION['datetime_login']=$datetime_login;
+                        $_SESSION['login_expired']=$login_expired;
+                        $_SESSION['email']=$email;
                     }
                 }
             }

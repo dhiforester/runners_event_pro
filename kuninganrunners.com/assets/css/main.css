@@ -2642,6 +2642,93 @@ section,
   text-align: center;
   position: relative;
 }
+
+/* Menghilangkan Scroll Horisontal */
 body {
   overflow-x: hidden;
+}
+
+/* Style untuk box */
+.box_custome {
+  /* Ukuran dan posisi */
+  width: 100%;
+  padding: 20px;
+  margin: 20px auto;
+  
+  /* Warna latar belakang, border, dan radius */
+  background-color: #ffffff;
+  border-radius: 10px; /* Radius lembut */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid #eecc0b;
+}
+
+/* Header box */
+.box_custome_header {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+  text-align: center;
+  background-color: #ffffff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Konten utama box */
+.box_custome_content {
+  padding: 15px;
+  color: #555;
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+/* Footer box */
+.box_custome_footer {
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+  text-align: right;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.button_save {
+  font-size:15px;
+  font-family:Arial;
+  width:140px;
+  height:50px;
+  border-width:1px;
+  color:#fff;
+  border-color:#18ab29;
+  border-top-left-radius:28px;
+  border-top-right-radius:28px;
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+  text-shadow: 1px 1px 0px #2f6627;
+  background:#44c767;
+}
+
+.button_save:hover {
+  background: #5cbf2a
+}
+.css-button-fully-rounded--green {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 20px;
+  border: 2px solid #57cc99;
+  background: #57cc99;
+}
+.css-button-fully-rounded--green:hover {
+  background: #fff;
+  color: #57cc99
 }

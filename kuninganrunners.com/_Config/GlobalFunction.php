@@ -248,4 +248,62 @@
         curl_close($curl);
         return $response;
     }
+    //Update Session Membver Login
+    function UpdateSessionMemberLogin($url_server,$xtoken,$email,$id_member_login){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Member/UpdateSession.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "email" : "'.$email.'",
+            "id_member_login" : "'.$id_member_login.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        $curl_error = curl_error($curl);
+        if ($curl_error) {
+            $response=$curl_error;
+        }
+        curl_close($curl);
+        return $response;
+    }
+    //Detail Profile Member
+    function DetailProfilMember($url_server,$xtoken,$email,$id_member_login){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Member/DetailMember.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "email" : "'.$email.'",
+            "id_member_login" : "'.$id_member_login.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        $curl_error = curl_error($curl);
+        if ($curl_error) {
+            $response=$curl_error;
+        }
+        curl_close($curl);
+        return $response;
+    }
 ?>

@@ -46,7 +46,13 @@
                                                 echo '<li><a href="" class="active">Login Berhasil</a></li>';
                                                 echo '<li><a href="index.php?Page=Profil">Profil</a></li>';
                                             }else{
-                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                if($_GET['Page']=="ResetPassword"){
+                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                    echo '<li><a href="" class="active">Reset Password</a></li>';
+                                                    echo '<li><a href="index.php?Page=Login">Login</a></li>';
+                                                }else{
+                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                }
                                             }
                                         }
                                     }
@@ -54,7 +60,7 @@
                             }
                         }
                     }
-                    if(empty($_SESSION['login_session'])){
+                    if(empty($_SESSION['id_member_login'])){
                         if(empty($_GET['Page'])){
                             echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
                         }else{
@@ -63,7 +69,13 @@
                             }
                         }
                     }else{
-                        echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                        if(empty($_GET['Page'])){
+                            echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                        }else{
+                            if($_GET['Page']=="Profil"){
+                                echo '<li><a href="index.php?Page=Profil" class="active">Profil</a></li>';
+                            }
+                        }
                     }
                 ?>
             </ul>

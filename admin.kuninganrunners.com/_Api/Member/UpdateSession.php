@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "Detail Member";
+    $service_name = "Update Session";
 
     // Setting default response
     $code = 201;
@@ -79,59 +79,27 @@
                                         if($email_member!==$email){
                                             $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
                                         }else{
-                                            // Buka Data Member
-                                            $nama=GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
-                                            $kontak=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kontak');
-                                            $provinsi=GetDetailData($Conn, 'member', 'id_member', $id_member, 'provinsi');
-                                            $kabupaten=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kabupaten');
-                                            $kecamatan=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kecamatan');
-                                            $desa=GetDetailData($Conn, 'member', 'id_member', $id_member, 'desa');
-                                            $kode_pos=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kode_pos');
-                                            $rt_rw=GetDetailData($Conn, 'member', 'id_member', $id_member, 'rt_rw');
-                                            $datetime=GetDetailData($Conn, 'member', 'id_member', $id_member, 'datetime');
-                                            $status=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
-                                            $sumber=GetDetailData($Conn, 'member', 'id_member', $id_member, 'sumber');
-                                            $foto=GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
-                                            if(!empty($foto)){
-                                                $path_foto="../../assets/img/Member/$foto";
-                                                if (file_exists($path_foto)) {
-                                                    // Membaca file dan mengonversi ke base64
-                                                    $imageData = base64_encode(file_get_contents($path_foto));
-                                                    // Menentukan tipe MIME gambar berdasarkan ekstensi file
-                                                    $mimeType = mime_content_type($path_foto);
-                                                    // Menggabungkan base64 dengan prefix data URL
-                                                    $base64String = "data:$mimeType;base64," . $imageData;
-                                                    $foto_base64=$base64String;
+                                            // Update datetime_expired member_login tersebut
+                                            $datetime_expired = date("Y-m-d H:i:s", strtotime("+1 hour"));
+                                            $updateQuery = "UPDATE member_login SET datetime_expired = ? WHERE id_member_login = ?";
+                                            $stmtUpdate = $Conn->prepare($updateQuery);
+                                            $stmtUpdate->bind_param('ss', $datetime_expired, $id_member_login);
+                                            if ($stmtUpdate->execute()) {
+                                                $metadata = [
+                                                    "id_member_login" => $id_member_login,
+                                                    "datetime_expired" => $datetime_expired
+                                                ];
+                                                //menyimpan Log
+                                                $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                if ($SimpanLog !== "Success") {
+                                                    $keterangan = "Gagal Menyimpan Log Service";
+                                                    $code = 201;
                                                 } else {
-                                                    $foto_base64="";
+                                                    $keterangan = "success";
+                                                    $code = 200;
                                                 }
-                                            }else{
-                                                $foto_base64="";
-                                            }
-                                            $metadata = [
-                                                "nama" => $nama,
-                                                "kontak" => $kontak,
-                                                "email" => $email,
-                                                "provinsi" => $provinsi,
-                                                "kabupaten" => $kabupaten,
-                                                "kecamatan" => $kecamatan,
-                                                "desa" => $desa,
-                                                "kode_pos" => $kode_pos,
-                                                "rt_rw" => $rt_rw,
-                                                "datetime" => $datetime,
-                                                "status" => $status,
-                                                "sumber" => $sumber,
-                                                "foto" => $foto_base64,
-                                            ];
-                                            
-                                            //menyimpan Log
-                                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                            if ($SimpanLog !== "Success") {
-                                                $keterangan = "Gagal Menyimpan Log Service";
-                                                $code = 201;
                                             } else {
-                                                $keterangan = "success";
-                                                $code = 200;
+                                                $keterangan = "Terjadi kesalahan saat menyimpan ke database";
                                             }
                                         }
                                     }

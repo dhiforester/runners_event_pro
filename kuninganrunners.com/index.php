@@ -22,23 +22,27 @@
     ));
     $response = curl_exec($curl);
     $curl_error = curl_error($curl);
+    //Apabila Terjadi kesalahan Pada CURL
     if ($curl_error) {
         $xtoken ="";
         $datetime_expired ="";
         echo 'Curl error: ' . $curl_error;
     }else{
+        //Apabila Response Bukan JSON
         $arry_res = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             $xtoken ="";
             $datetime_expired ="";
             echo 'Invalid JSON response: ' . $response;
         }else{
+            //Apabila Otentifikasi token tidak valid
             if($arry_res['response']['code']!==200) {
                 $xtoken ="";
                 $datetime_expired ="";
                 $message = $arry_res['response']['message'];
                 echo 'Terjadi kesalahan pada saat update data pengaturan ke server (Keterangan: ' . $message . ')';
             }else{
+                //Apabila Berhasil
                 $metadata = $arry_res['metadata'];
                 $datetime_expired = $metadata['datetime_expired'];
                 $xtoken = $metadata['x-token'];
@@ -104,6 +108,9 @@
                             include "_Page/ResetPassword/ResetPassword.php";
                         }else if($Page=="Album"){
                             include "_Partial/Album.php";
+                        }else if($Page=="Profil"){
+                            include "_Page/Profil/Profil.php";
+                            include "_Page/Profil/ModalProfil.php";
                         }
                     }
                     include "_Partial/Modal.php";
@@ -177,7 +184,11 @@
                                 if($_GET['Page']=="ResetPassword"){
                                     echo '<script src="_Page/ResetPassword/ResetPassword.js"></script>';
                                 }else{
-        
+                                    if($_GET['Page']=="Profil"){
+                                        echo '<script src="_Page/Profil/Profil.js"></script>';
+                                    }else{
+            
+                                    }
                                 }
                             }
                         }
