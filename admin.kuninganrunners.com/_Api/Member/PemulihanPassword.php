@@ -104,7 +104,7 @@
                                         }
                                         
                                         // Bind parameter
-                                        $stmtUpdate->bind_param('ss', $password, $id_member_lp_pass);
+                                        $stmtUpdate->bind_param('ss', $password, $id_member);
                                         
                                         // Eksekusi statement dengan pengecekan hasil
                                         if ($stmtUpdate->execute()) {

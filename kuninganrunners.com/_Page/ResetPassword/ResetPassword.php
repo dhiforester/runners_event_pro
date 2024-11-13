@@ -8,7 +8,7 @@
 <!-- Service Details Section -->
 <section id="service-details mt-5" class="service-details section">
     <div class="container">
-        <form action="javascript:void(0);" id="ProsesVerifikasiPendaftaran">
+        <form action="javascript:void(0);" id="ProsesResetPassword">
             <div class="row gy-5">
                 <div class="col-md-4"></div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
@@ -44,8 +44,13 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <div class="col-md-12" id="NotifikasiResetPassword">
+                                
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-md-12">
-                                <button type="submit" class="button_pendaftaran">
+                                <button type="submit" class="button_pendaftaran" id="ButtonResetPassword">
                                     <i class="bi bi-send"></i> Kirim Permintaan
                                 </button>
                             </div>

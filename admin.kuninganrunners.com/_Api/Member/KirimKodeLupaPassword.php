@@ -118,7 +118,18 @@
                                     $nama = GetDetailData($Conn, 'member', 'email', $email, 'nama');
                                     $web_base_url = GetDetailData($Conn, 'web_setting', 'id_web_setting', '1', 'base_url');
                                     //Kirim Email
-                                    $pesan='Kepada Yth.'.$nama.'<br>Berikut ini adalah tautan untuk melakukan reset password akun anda : <a href="'.$web_base_url.'/index.php?Page=ResetPassword&id='.$id_member.'&rest='.$id_member_lp_pass.'&kode='.$kode.'">Klik Pada Tautan Berikut Ini Untuk Reset Password</a>';
+                                    $pesan = <<<HTML
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <p>Kepada Yth. <strong>$nama</strong>,</p>
+    <p>Berikut ini adalah tautan untuk melakukan reset password akun Anda:</p>
+    <p>
+        <a href="{$web_base_url}/index.php?Page=UbahPassword&id={$id_member}&rest={$id_member_lp_pass}&kode={$kode}" 
+            style="color: #ffffff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+            Klik Pada Tautan Berikut Ini Untuk Reset Password
+        </a>
+    </p>
+</div>
+HTML;
                                     $ch = curl_init();
                                     $headers = array(
                                         'Content-Type: Application/JSON',          

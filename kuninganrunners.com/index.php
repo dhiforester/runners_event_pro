@@ -111,6 +111,12 @@
                         }else if($Page=="Profil"){
                             include "_Page/Profil/Profil.php";
                             include "_Page/Profil/ModalProfil.php";
+                        }else if($Page=="UbahPassword"){
+                            include "_Page/ResetPassword/UbahPassword.php";
+                        }else if($Page=="PermintaanResetPasswordBerhasil"){
+                            include "_Page/ResetPassword/PermintaanResetPasswordBerhasil.php";
+                        }else if($Page=="UbahPasswordBerhasil"){
+                            include "_Page/ResetPassword/UbahPasswordBerhasil.php";
                         }
                     }
                     include "_Partial/Modal.php";
@@ -181,13 +187,13 @@
                             if($_GET['Page']=="VerifikasiPendaftaran"){
                                 echo '<script src="_Page/Pendaftaran/Pendaftaran.js"></script>';
                             }else{
-                                if($_GET['Page']=="ResetPassword"){
+                                if($_GET['Page']=="ResetPassword"||$_GET['Page']=="UbahPassword"){
                                     echo '<script src="_Page/ResetPassword/ResetPassword.js"></script>';
                                 }else{
                                     if($_GET['Page']=="Profil"){
                                         echo '<script src="_Page/Profil/Profil.js"></script>';
                                     }else{
-            
+                                        
                                     }
                                 }
                             }
