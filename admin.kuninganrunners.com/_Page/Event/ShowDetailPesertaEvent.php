@@ -48,22 +48,34 @@
                 echo '</div>';
             }else{
                 $id_event=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'id_event');
-            $id_event_kategori=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'id_event_kategori');
-            $id_member=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'id_member');
-            $nama=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'nama');
-            $email=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'email');
-            $biaya_pendaftaran=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'biaya_pendaftaran');
-            $datetime=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'datetime');
-            $status=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'status');
-            $strtotime=strtotime($datetime);
-            $TanggalDaftar=date('d/m/Y H:i', $strtotime);
-            //Buka Kategori
-            $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');
-            //Biaya Pendaftaran
-            $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
-            //Jumlah Riwayat Transaksi
-            $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
-            
+                $id_event_kategori=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'id_event_kategori');
+                $id_member=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'id_member');
+                $nama=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'nama');
+                $email=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'email');
+                $biaya_pendaftaran=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'biaya_pendaftaran');
+                $datetime=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'datetime');
+                $status=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'status');
+                $strtotime=strtotime($datetime);
+                $TanggalDaftar=date('d/m/Y H:i', $strtotime);
+                //Buka Kategori
+                $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');
+                //Biaya Pendaftaran
+                $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
+                //Jumlah Riwayat Transaksi
+                $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
+                //Buka Nama Event
+                $NamaEvent=GetDetailData($Conn,'event','id_event',$id_event,'nama_event');
+                //Buka Detail Member
+                $kontak=GetDetailData($Conn,'member','id_member',$id_member,'kontak');
+                //Buka Detail Member
+                $provinsi=GetDetailData($Conn,'member','id_member',$id_member,'provinsi');
+                $kabupaten=GetDetailData($Conn,'member','id_member',$id_member,'kabupaten');
+                $kecamatan=GetDetailData($Conn,'member','id_member',$id_member,'kecamatan');
+                $desa=GetDetailData($Conn,'member','id_member',$id_member,'desa');
+                $kode_pos=GetDetailData($Conn,'member','id_member',$id_member,'kode_pos');
+                $rt_rw=GetDetailData($Conn,'member','id_member',$id_member,'rt_rw');
+                $status_member=GetDetailData($Conn,'member','id_member',$id_member,'status');
+                $sumber=GetDetailData($Conn,'member','id_member',$id_member,'sumber');
 ?>
             <div class="row">
                 <div class="col-md-6">
@@ -89,6 +101,124 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col col-md-4">
+                            <small>Kontak</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo "$kontak"; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Provinsi</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $provinsi; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Kabupaten/Kota</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $kabupaten; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Kecamatan</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $kecamatan; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Desa/Kelurahan</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $desa; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Kode Pos</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $kode_pos; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>RT/RW/Jalan</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $rt_rw; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Status Member</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $status_member; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Sumber Data</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish">
+                                    <?php echo $sumber; ?>
+                                </code>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <small>Event</small>
+                        </div>
+                        <div class="col col-md-8">
+                            <small>
+                                <code class="text text-grayish"><?php echo "$NamaEvent"; ?></code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
                             <small>Kategori Peserta</small>
                         </div>
                         <div class="col col-md-8">
@@ -97,8 +227,6 @@
                             </small>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
                     <div class="row mb-3">
                         <div class="col col-md-4">
                             <small>Biaya Pendaftaran</small>

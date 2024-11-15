@@ -1,5 +1,6 @@
 <?php
     date_default_timezone_set('Asia/Jakarta');
+    $now=date('Y-m-d H:i:s');
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
@@ -16,7 +17,7 @@
         echo '  </div>';
         echo '</div>';
     }else{
-        if(empty($_POST['id_transaksi'])){
+        if(empty($_POST['kode_transaksi'])){
             echo '<div class="row mb-3">';
             echo '  <div class="col-md-12">';
             echo '      <div class="alert alert-warning border-1 alert-dismissible fade show" role="alert">';
@@ -29,11 +30,11 @@
             echo '  </div>';
             echo '</div>';
         }else{
-            $id_transaksi=$_POST['id_transaksi'];
+            $kode_transaksi=$_POST['kode_transaksi'];
             //Bersihkan Data
-            $id_transaksi=validateAndSanitizeInput($id_transaksi);
+            $kode_transaksi=validateAndSanitizeInput($kode_transaksi);
             //Buka Data
-            $id_transaksi_validasi=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'id_transaksi');
+            $id_transaksi_validasi=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'kode_transaksi');
             if(empty($id_transaksi_validasi)){
                 echo '<div class="row mb-3">';
                 echo '  <div class="col-md-12">';
@@ -47,14 +48,13 @@
                 echo '  </div>';
                 echo '</div>';
             }else{
-                $id_member=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'id_member');
-                $raw_member=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'raw_member');
-                $kategori=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'kategori');
-                $kode_transaksi=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'kode_transaksi');
-                $order_id=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'order_id');
-                $datetime=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'datetime');
-                $jumlah=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'jumlah');
-                $status=GetDetailData($Conn,'transaksi','id_transaksi',$id_transaksi,'status');
+                $id_member=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'id_member');
+                $raw_member=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'raw_member');
+                $kategori=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'kategori');
+                $kode_transaksi=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'kode_transaksi');
+                $datetime=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'datetime');
+                $jumlah=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'jumlah');
+                $status_transaksi=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'status');
                 //format Data
                 $strtotime=strtotime($datetime);
                 $datetime_format=date('d M Y H:i',$strtotime);
@@ -80,6 +80,8 @@
                 $snap_url=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','snap_url');
                 $production=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','production');
                 $aktif_payment_gateway=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','aktif_payment_gateway');
+                //Buat Order ID
+                $order_id=GenerateToken(32);
                 // Set header
                 $headers = array(
                     'Content-Type: Application/x-www-form-urlencoded',
@@ -147,6 +149,30 @@
                     echo '  </div>';
                     echo '</div>';
                 }else{
+                    //Simpan Ke dalam Transaksi Paymen
+                    $query = "INSERT INTO transaksi_payment (
+                        kode_transaksi, 
+                        order_id, 
+                        snap_token, 
+                        datetime, 
+                        status
+                    ) VALUES (
+                        ?,  
+                        ?, 
+                        ?, 
+                        ?,  
+                        ?
+                    )";
+                    $stmt = $Conn->prepare($query);
+                    $stmt->bind_param(
+                        "sssss", 
+                        $kode_transaksi, 
+                        $order_id, 
+                        $snap_token, 
+                        $now, 
+                        $status_transaksi
+                    );
+                    if ($stmt->execute()) {
 ?>
         <html>
             <head>
@@ -269,6 +295,19 @@
             </body>
         </html>
 <?php
+                    }else{
+                        echo '<div class="row mb-3">';
+                        echo '  <div class="col-md-12">';
+                        echo '      <div class="alert alert-warning border-1 alert-dismissible fade show" role="alert">';
+                        echo '          <small class="credit">';
+                        echo '              <code class="text-dark">';
+                        echo '                 Terjadi kesalahan pada saat menyimpan data pembayaran!';
+                        echo '              </code>';
+                        echo '          </small>';
+                        echo '      </div>';
+                        echo '  </div>';
+                        echo '</div>';
+                    }
                 }
             }
         }

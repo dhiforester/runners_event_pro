@@ -913,14 +913,15 @@ $(document).ready(function() {
     });
     // Ketika Modal Bayar Event Muncul
     $('#ModalBayarEvent').on('show.bs.modal', function (e) {
-        var id_transaksi = $(e.relatedTarget).data('id');
+        var kode_transaksi = $(e.relatedTarget).data('id');
         $('#FormBayarEvent').html("Loading...");
         $.ajax({
             type: 'POST',
             url: '_Page/Event/FormBayarEvent.php',
-            data: { id_transaksi: id_transaksi },
+            data: { kode_transaksi: kode_transaksi },
             success: function(data) {
                 $('#FormBayarEvent').html(data);
+                ShowRiwayatPembayaranEvent();
             }
         });
     });
@@ -1342,6 +1343,132 @@ $(document).ready(function() {
                 // Jika terjadi error pada request
                 $('#NotifikasiHapusAssesmentPeserta').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
                 $('#ButtonHapusAssesmentPeserta').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Form Detail Transaksi
+    $('#ModalDetailTransaksi').on('show.bs.modal', function (e) {
+        var kode_transaksi = $(e.relatedTarget).data('id');
+        $('#FormDetailTransaksi').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormDetailTransaksi.php',
+            data        : { kode_transaksi: kode_transaksi },
+            success     : function(data) {
+                $('#FormDetailTransaksi').html(data);
+            }
+        });
+    });
+    // Menampilkan Form Edit Transaksi
+    $('#ModalEditTransaksi').on('show.bs.modal', function (e) {
+        var kode_transaksi = $(e.relatedTarget).data('id');
+        $('#FormEditTransaksi').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormEditTransaksi.php',
+            data        : { kode_transaksi: kode_transaksi },
+            success     : function(data) {
+                $('#FormEditTransaksi').html(data);
+                $('#NotifikasiEditTransaksi').html('');
+            }
+        });
+    });
+    // Proses Edit Transaksi
+    $('#ProsesEditTransaksi').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonEditTransaksi').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesEditTransaksi.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowRiwayatPembayaranEvent();
+                    $('#NotifikasiEditTransaksi').html('');
+                    $('#ModalEditTransaksi').modal('hide');
+                    $('#ButtonEditTransaksi').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Edit Transaksi Peserta Event Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditTransaksi').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonEditTransaksi').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditTransaksi').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonEditTransaksi').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Form Hapus Transaksi
+    $('#ModalHapusTransaksi').on('show.bs.modal', function (e) {
+        var kode_transaksi = $(e.relatedTarget).data('id');
+        $('#FormHapusTransaksi').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormHapusTransaksi.php',
+            data        : { kode_transaksi: kode_transaksi },
+            success     : function(data) {
+                $('#FormHapusTransaksi').html(data);
+                $('#NotifikasiHapusTransaksi').html('');
+            }
+        });
+    });
+    // Proses Hapus Transaksi
+    $('#ProsesHapusTransaksi').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonHapusTransaksi').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesHapusTransaksi.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowRiwayatPembayaranEvent();
+                    $('#NotifikasiHapusTransaksi').html('');
+                    $('#ModalHapusTransaksi').modal('hide');
+                    $('#ButtonHapusTransaksi').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Edit Transaksi Peserta Event Berhasil', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusTransaksi').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonHapusTransaksi').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusTransaksi').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonHapusTransaksi').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
+            }
+        });
+    });
+    // Menampilkan Log Pembayaran
+    $('#ModalLogPembayaran').on('show.bs.modal', function (e) {
+        var kode_transaksi = $(e.relatedTarget).data('id');
+        $('#FormLogPembayaran').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormLogPembayaran.php',
+            data        : { kode_transaksi: kode_transaksi },
+            success     : function(data) {
+                $('#FormLogPembayaran').html(data);
             }
         });
     });

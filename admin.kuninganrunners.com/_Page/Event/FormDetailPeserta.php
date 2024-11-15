@@ -61,7 +61,7 @@
                 //Biaya Pendaftaran
                 $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
                 //Jumlah Riwayat Transaksi
-                $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
+                $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
 ?>
         <input type="hidden" name="Page" value="Event">
         <input type="hidden" name="Sub" value="DetailPeserta">
