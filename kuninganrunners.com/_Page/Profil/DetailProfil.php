@@ -237,7 +237,7 @@
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalUbahPassword">
                                     <i class="bi bi-key"></i><span>Ubah Password</span>
                                 </a>
-                                <a href="javascript:void(0);">
+                                <a href="index.php?Page=RiwayatEvent">
                                     <i class="bi bi-arrow-right-circle"></i><span>Riwayat Event</span>
                                 </a>
                                 <a href="javascript:void(0);">

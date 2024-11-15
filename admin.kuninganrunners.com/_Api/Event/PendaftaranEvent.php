@@ -31,8 +31,8 @@
                 // Validasi kelengkapan data tidak boleh kosong
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['password'])) {
-                    $keterangan = "Password Tidak Boleh Kosong";
+                } else if (!isset($Tangkap['id_member_login'])) {
+                    $keterangan = "ID Member Login Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['id_event'])) {
                     $keterangan = "ID Event Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['id_event_kategori'])) {
@@ -41,7 +41,7 @@
                     // Buat Variabel
                     $xtoken = validateAndSanitizeInput($headers['x-token']);
                     $email = validateAndSanitizeInput($Tangkap['email']);
-                    $password = validateAndSanitizeInput($Tangkap['password']);
+                    $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                     $id_event = validateAndSanitizeInput($Tangkap['id_event']);
                     $id_event_kategori = validateAndSanitizeInput($Tangkap['id_event_kategori']);
                     //Validasi Tipe Dan Karakter Data
@@ -71,16 +71,18 @@
                                 $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                 
                                 // Validasi Email dan Password
-                                $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                $stmt->bind_param("s", $email);
+                                $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                $stmt->bind_param("s", $id_member_login);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
                                 $DataMember = $result->fetch_assoc();
-
-                                if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                    if ($DataMember['status'] !== "Active") {
-                                        $keterangan = "Member Belum Melakukan Validasi Email";
-                                    } else {
+                                if (!empty($DataMember['id_member'])) {
+                                    $id_member=$DataMember['id_member'];
+                                    $datetime_expired=$DataMember['datetime_expired'];
+                                    //Cek Apakah Sessi Login Sudah Berakhir?
+                                    if($datetime_expired<$now){
+                                        $keterangan = "Sessi Login Sudah Berakhir";
+                                    }else{
                                         //Validasi id_event
                                         $ValidasiEvent=GetDetailData($Conn, 'event', 'id_event', $id_event, 'id_event');
                                         if(empty($ValidasiEvent)){
@@ -105,8 +107,8 @@
                                                             $keterangan="Pendaftaran Event Tersebut Sudah Berakhir";
                                                         }else{
                                                             $id_member=$DataMember['id_member'];
-                                                            $nama=$DataMember['nama'];
-                                                            $email=$DataMember['email'];
+                                                            $nama=GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
+                                                            $email=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
                                                             $biaya_pendaftaran=GetDetailData($Conn, 'event_kategori', 'id_event_kategori', $id_event_kategori, 'biaya_pendaftaran');
                                                             $status="Pending";
                                                             $id_event_peserta=GenerateToken(36);
@@ -142,7 +144,7 @@
                                                                     $status
                                                                 );
                                                                 if ($stmt->execute()) {
-                                                                    $metadata[] = [
+                                                                    $metadata= [
                                                                         "id_event_peserta" => $id_event_peserta,
                                                                         "id_event" => $id_event,
                                                                         "id_event_kategori" => $id_event_kategori,

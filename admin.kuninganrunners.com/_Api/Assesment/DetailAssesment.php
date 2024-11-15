@@ -29,19 +29,13 @@
                 $Tangkap = json_decode($raw, true);
 
                 // Validasi kelengkapan data tidak boleh kosong
-                if (!isset($Tangkap['email'])) {
-                    $keterangan = "Email Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['password'])) {
-                    $keterangan = "Password Tidak Boleh Kosong";
-                } else if (!isset($Tangkap['id_event_assesment_form'])) {
+                if (!isset($Tangkap['id_event_assesment_form'])) {
                     $keterangan = "ID Assesment Form Tidak Boleh Kosong";
                 } else if (!isset($Tangkap['id_event_peserta'])) {
                     $keterangan = "ID Peserta Event Tidak Boleh Kosong";
                 } else {
                     // Buat Variabel
                     $xtoken = validateAndSanitizeInput($headers['x-token']);
-                    $email = validateAndSanitizeInput($Tangkap['email']);
-                    $password = validateAndSanitizeInput($Tangkap['password']);
                     $id_event_assesment_form = validateAndSanitizeInput($Tangkap['id_event_assesment_form']);
                     $id_event_peserta = validateAndSanitizeInput($Tangkap['id_event_peserta']);
                     //Validasi Tipe Dan Karakter Data
@@ -71,84 +65,77 @@
                                 $id_api_session = $DataValidasiToken['id_api_session'];
                                 $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                 $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
-                                
-                                // Validasi Email dan Password
-                                $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                $stmt->bind_param("s", $email);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                $DataMember = $result->fetch_assoc();
-
-                                if ($DataMember && password_verify($password, $DataMember['password'])) {
-                                    if ($DataMember['status'] !== "Active") {
-                                        $keterangan = "Member Belum Melakukan Validasi Email";
-                                    } else {
-                                        //Validasi id_event_assesment_form
-                                        $ValidasiAssesmentForm=GetDetailData($Conn, 'event', 'event_assesment_form', $id_event_assesment_form, 'id_event_assesment_form');
-                                        if(empty($ValidasiAssesmentForm)){
-                                            $ValidasiKebenaranData="ID Form Tidak Valid";
-                                        }else{
-                                            //Validasi Peserta
-                                            $ValidasiIdPeserta=GetDetailData($Conn, 'event_peserta', 'id_event_peserta', $id_event_peserta, 'id_event_peserta');
-                                            if(empty($ValidasiIdPeserta)){
-                                                $ValidasiKebenaranData="ID Peserta Tidak Valid";
-                                            }else{
-                                                $ValidasiKebenaranData="Valid";
-                                            }
-                                        }
-                                        if($ValidasiKebenaranData!=="Valid"){
-                                            $keterangan =$ValidasiKebenaranData;
-                                        }else{
-                                            $ValidasiDetailData="Valid";
-                                            //Buka Detail Data
-                                            $QryEventAssesment = $Conn->prepare("SELECT * FROM event_assesment WHERE id_event_peserta = ? AND id_event_assesment_form = ?");
-                                            if ($QryEventAssesment === false) {
-                                                $ValidasiDetailData="Terjadi Kesalahan Pada Saat Membuka Event Assesment";
-                                            }
-                                            // Bind parameter
-                                            $QryEventAssesment->bind_param("ss", $id_event_peserta, $id_event_assesment_form);
-                                            // Eksekusi query
-                                            if (!$QryEventAssesment->execute()) {
-                                                $ValidasiDetailData="Terjadi Kesalahan Pada Saat Membuka ID Dari Database";
-                                            }
-                                            // Mengambil hasil
-                                            $ResultAssesment = $QryEventAssesment->get_result();
-                                            $DataAssesment = $ResultAssesment->fetch_assoc();
-                                            // Menutup statement
-                                            $QryEventAssesment->close();
-                                            //Apabila Validasi Peserta Tidak Valid
-                                            if($ValidasiDetailData!=="Valid"){
-                                                $keterangan=$ValidasiPeserta;
-                                            }else{
-                                                $assesment_value=$DataAssesment['assesment_value'];
-                                                $status_assesment=$DataAssesment['status_assesment'];
-                                                $form_type=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_type');
-                                                //Buat JSON Status
-                                                $status_assesment=json_decode($status_assesment, true);
-                                                //Sesuaikan assesment_value berdasarkan type
-                                                if($form_type=="checkbox"){
-                                                    $assesment_value=json_decode($assesment_value, true);
-                                                }
-                                                if($form_type=="file_foto"){
-                                                    $assesment_value="$base_url/ImageReader.php?dir=Assesment&fl=$assesment_value";
-                                                }
-                                                if($form_type=="file_pdf"){
-                                                    $assesment_value="$base_url/PdfReader.php?dir=Assesment&fl=$assesment_value";
-                                                }
-                                                $metadata=[
-                                                    "id_event_assesment_form" => $id_event_assesment_form,
-                                                    "id_event_peserta" => $id_event_peserta,
-                                                    "form_type" => $form_type,
-                                                    "assesment_value" => $assesment_value,
-                                                    "status_assesment" => $status_assesment
-                                                ];
-                                                $keterangan = "success";
-                                                $code = 200;
-                                            }
-                                        }
+                                //Validasi id_event_assesment_form
+                                $ValidasiAssesmentForm=GetDetailData($Conn, 'event', 'event_assesment_form', $id_event_assesment_form, 'id_event_assesment_form');
+                                if(empty($ValidasiAssesmentForm)){
+                                    $ValidasiKebenaranData="ID Form Tidak Valid";
+                                }else{
+                                    //Validasi Peserta
+                                    $ValidasiIdPeserta=GetDetailData($Conn, 'event_peserta', 'id_event_peserta', $id_event_peserta, 'id_event_peserta');
+                                    if(empty($ValidasiIdPeserta)){
+                                        $ValidasiKebenaranData="ID Peserta Tidak Valid";
+                                    }else{
+                                        $ValidasiKebenaranData="Valid";
                                     }
-                                } else {
-                                    $keterangan = "Kombinasi Password Dan Email Tidak Valid";
+                                }
+                                if($ValidasiKebenaranData!=="Valid"){
+                                    $keterangan =$ValidasiKebenaranData;
+                                }else{
+                                    $ValidasiDetailData="Valid";
+                                    //Buka Detail Data
+                                    $QryEventAssesment = $Conn->prepare("SELECT * FROM event_assesment WHERE id_event_peserta = ? AND id_event_assesment_form = ?");
+                                    if ($QryEventAssesment === false) {
+                                        $ValidasiDetailData="Terjadi Kesalahan Pada Saat Membuka Event Assesment";
+                                    }
+                                    // Bind parameter
+                                    $QryEventAssesment->bind_param("ss", $id_event_peserta, $id_event_assesment_form);
+                                    // Eksekusi query
+                                    if (!$QryEventAssesment->execute()) {
+                                        $ValidasiDetailData="Terjadi Kesalahan Pada Saat Membuka ID Dari Database";
+                                    }
+                                    // Mengambil hasil
+                                    $ResultAssesment = $QryEventAssesment->get_result();
+                                    $DataAssesment = $ResultAssesment->fetch_assoc();
+                                    // Menutup statement
+                                    $QryEventAssesment->close();
+                                    //Apabila Validasi Peserta Tidak Valid
+                                    if($ValidasiDetailData!=="Valid"){
+                                        $keterangan=$ValidasiPeserta;
+                                    }else{
+                                        $assesment_value=$DataAssesment['assesment_value'];
+                                        $status_assesment=$DataAssesment['status_assesment'];
+                                        $form_type=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_type');
+                                        //Buat JSON Status
+                                        $status_assesment=json_decode($status_assesment, true);
+                                        //Sesuaikan assesment_value berdasarkan type
+                                        if($form_type=="checkbox"){
+                                            $assesment_value=json_decode($assesment_value, true);
+                                        }
+                                        if($form_type=="file_foto"){
+                                            if(!empty($assesment_value)){
+                                                $assesment_value="$base_url/assets/img/Assesment/$assesment_value";
+                                            }else{
+                                                $assesment_value="";
+                                            }
+                                            
+                                        }
+                                        if($form_type=="file_pdf"){
+                                            if(!empty($assesment_value)){
+                                                $assesment_value="$base_url/assets/img/Assesment/$assesment_value";
+                                            }else{
+                                                $assesment_value="";
+                                            }
+                                        }
+                                        $metadata=[
+                                            "id_event_assesment_form" => $id_event_assesment_form,
+                                            "id_event_peserta" => $id_event_peserta,
+                                            "form_type" => $form_type,
+                                            "assesment_value" => $assesment_value,
+                                            "status_assesment" => $status_assesment
+                                        ];
+                                        $keterangan = "success";
+                                        $code = 200;
+                                    }
                                 }
                             } else {
                                 $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";

@@ -1,0 +1,544 @@
+<!-- Page Title -->
+<div class="sub-page-title dark-background">
+</div>
+<!-- End Page Title -->
+<?php
+    if(empty($_SESSION['id_member_login'])&&empty($_SESSION['id_member_login'])){
+        include "_Page/Profil/no_access_member.php";
+    }else{
+        //Apabila Session Sudah Expired
+        if($_SESSION['login_expired']<date('Y-m-d H:i:s')){
+            include "_Page/Profil/no_access_member.php";
+        }else{
+            //Perpanjang Session Akses Member
+            $email_member=$_SESSION['email'];
+            $id_member_login=$_SESSION['id_member_login'];
+            $UpdateSessionMemberLogin=UpdateSessionMemberLogin($url_server,$xtoken,$email_member,$id_member_login);
+            //Apabila ID Tidak Ada
+            if(empty($_GET['id'])){
+                echo '<section id="service-details mt-5" class="service-details section">';
+                echo '  <div class="container">';
+                echo '      <div class="row gy-5">';
+                echo '          <div class="col-md-4"></div>';
+                echo '              <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">';
+                echo '                  <div class="service-box">';
+                echo '                      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                echo '                          <small>';
+                echo '                              ID Peserta Event Tidak Boleh Kosong!';
+                echo '                          </small>';
+                echo '                      </div>';
+                echo '                  </div>';
+                echo '              </div>';
+                echo '          <div class="col-md-4"></div>';
+                echo '      </div>';
+                echo '  </div>';
+                echo '</section>';
+            }else{
+                //Buat Variabel
+                $id_event_peserta=$_GET['id'];
+                //Bersihkan Variabel
+                $id_event_peserta=validateAndSanitizeInput($id_event_peserta);
+                //Buka Detail Event Peserta
+                $GetDetailEventPeserta=DetailEventPeserta($url_server,$xtoken,$id_event_peserta);
+                $response=json_decode($GetDetailEventPeserta,true);
+                //Apabila Terjadi Kesalahan Pada Saat Memperpanjang Session
+                if($response['response']['code']!==200){
+                    echo '<section id="service-details mt-5" class="service-details section">';
+                    echo '  <div class="container">';
+                    echo '      <div class="row gy-5">';
+                    echo '          <div class="col-md-4"></div>';
+                    echo '              <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">';
+                    echo '                  <div class="service-box">';
+                    echo '                      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                    echo '                          <small>';
+                    echo '                              '.$response['response']['message'].'';
+                    echo '                          </small>';
+                    echo '                      </div>';
+                    echo '                  </div>';
+                    echo '              </div>';
+                    echo '          <div class="col-md-4"></div>';
+                    echo '      </div>';
+                    echo '  </div>';
+                    echo '</section>';
+                }else{
+                    $metadata=$response['metadata'];
+                    //Buka Informasi Pendaftaran Event
+                    $id_event=$metadata['id_event'];
+                    $id_event_kategori=$metadata['id_event_kategori'];
+                    $nama=$metadata['nama'];
+                    $email=$metadata['email'];
+                    $biaya_pendaftaran=$metadata['biaya_pendaftaran'];
+                    $datetime=$metadata['datetime'];
+                    $status=$metadata['status'];
+                    $kategori=$metadata['kategori'];
+                    $event=$metadata['event'];
+                    //Buka Detail Kategori
+                    $kategori_nama=$kategori['kategori'];
+                    $deskripsi=$kategori['deskripsi'];
+                    $strtotime1=strtotime($datetime);
+                    $tangaal_daftar_format=date('d/m/Y H:i',$strtotime1);
+                    //Buka Informasi Event
+                    $nama_event=$event['nama_event'];
+                    //Format Biaya Pendaftaran
+                    $biaya_pendaftaran_format=formatRupiah($biaya_pendaftaran);
+?>
+                    <section id="service-details" class="service-details section">
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-center">
+                                    <h4>
+                                        <i class="bi bi-info-circle"></i> Detail Pendaftaran
+                                    </h4>
+                                    <small>Uraian dan informasi lengkap mengenai status pendaftaran event</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="box_custome">
+                                        <div class="services-list">
+                                            <a href="index.php?Page=Profil">
+                                                <i class="bi bi-person-circle"></i> <span>Profil</span>
+                                            </a>
+                                            <a href="index.php?Page=DetailEvent&id=<?php echo "$id_event"; ?>">
+                                                <i class="bi bi-info-circle"></i> <span>Detail Event</span>
+                                            </a>
+                                            <a href="index.php?Page=RiwayatEvent">
+                                                <i class="bi bi-clock-history"></i><span>Riwayat Event</span>
+                                            </a>
+                                            <a href="index.php?Page=KalenderEvent">
+                                                <i class="bi bi-calendar"></i><span>Kalender Event</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="box_custome">
+                                        <div class="box_custome_content">
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <b>Informasi Umum Pendaftaran</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Kode Pendaftaran</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$id_event_peserta"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Nama Event</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$nama_event"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Nama Peserta</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$nama"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Email Peserta</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$email"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Kategori</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$kategori_nama"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Biaya Pendaftaran</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$biaya_pendaftaran_format"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Status</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <?php 
+                                                            if($status=="Pending"){
+                                                                echo '<code>Pending</code>';
+                                                            }else{
+                                                                echo '<code class="text-success">'.$status.'</code>';
+                                                            }
+                                                        ?>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small>Tanggal Pendaftaran</small>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <small>
+                                                        <code class="text-dark"><?php echo "$tangaal_daftar_format"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <b>Assesment Pendaftaran</b><br>
+                                                    <small>
+                                                        Assesment pendaftaran adalah informasi tambahan yang harus anda isi untuk membantu admin melakukan peninjauan terhadap pendaftaran anda.
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <?php
+                                                //Membuka Assesment Event
+                                                $assesment=ListAssesment($url_server,$xtoken,$id_event);
+                                                $assesment_arry=json_decode($assesment, true);
+                                                if($assesment_arry['response']['code']!==200){
+                                                    echo '<div class="row mb-3">';
+                                                    echo '  <div class="col-md-12">';
+                                                    echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                                    echo '          <small>';
+                                                    echo '              '.$assesment_arry['response']['message'].'';
+                                                    echo '          </small>';
+                                                    echo '      </div>';
+                                                    echo '  </div>';
+                                                    echo '</div>';
+                                                }else{
+                                                    $metadata_assesment=$assesment_arry['metadata'];
+                                                    $assesment_count=count($metadata_assesment);
+                                                    //Jika Tidak Ada Assesment Untuk Event Ini
+                                                    if(empty($assesment_count)){
+                                                        echo '<div class="row mb-3">';
+                                                        echo '  <div class="col-md-12">';
+                                                        echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                                        echo '          <small>';
+                                                        echo '              Tidak Ada Assesment Yang Perlu Diisi Untuk Event Ini.';
+                                                        echo '          </small>';
+                                                        echo '      </div>';
+                                                        echo '  </div>';
+                                                        echo '</div>';
+                                                    }else{
+                                                        echo '<div class="row mb-3">';
+                                                        echo '  <div class="col-md-12">';
+                                                        echo '      <div class="accordion" id="accordionExample">';
+                                                        $no=1;
+                                                        foreach($metadata_assesment as $list_assesement){
+                                                            $id_event_assesment_form=$list_assesement['id_event_assesment_form'];
+                                                            $form_name=$list_assesement['form_name'];
+                                                            $form_type=$list_assesement['form_type'];
+                                                            $mandatori=$list_assesement['mandatori'];
+                                                            $komentar=$list_assesement['komentar'];
+                                                            //Buka Detail Assesment
+                                                            $DetailAssesment=DetailAssesment($url_server,$xtoken,$id_event_assesment_form,$id_event_peserta);
+                                                            $DetailAssesmentArry=json_decode($DetailAssesment, true);
+                                                            if($DetailAssesmentArry['response']['code']!==200){
+                                                                $value_fix="";
+                                                                $status='<i class="bi bi-x-circle text-danger"></i>';
+                                                                $assesment_value='<code class="text-danger">None</code>';
+                                                            }else{
+                                                                //Apabila Tidak Ada Metadata
+                                                                if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
+                                                                    $value_fix="";
+                                                                    $status='<i class="bi bi-question-circle text-warning"></i>';
+                                                                    $assesment_value='<code class="text-danger">None</code>';
+                                                                }else{
+                                                                    $status_assesment=$DetailAssesmentArry['metadata']['status_assesment']['status_assesment'];
+                                                                    if($status_assesment=="Pending"){
+                                                                        $status='<i class="bi bi-check-circle text-info"></i>';
+                                                                    }else{
+                                                                        if($status_assesment=="Refisi"){
+                                                                            $status='<i class="bi bi-exclamation-circle text-danger"></i>';
+                                                                        }else{
+                                                                            $status='<i class="bi bi-check-circle text-primary"></i>';
+                                                                        }
+                                                                    }
+                                                                    //Apabila Belum Terisi
+                                                                    if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
+                                                                        $assesment_value='<code class="text-danger">None</code>';
+                                                                        $value_fix="";
+                                                                    }else{
+                                                                        $value_fix=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                        if($form_type=="checkbox"){
+                                                                            $assesment_value = implode(", ", $DetailAssesmentArry['metadata']['assesment_value']);
+                                                                            $assesment_value='<code class="text-dark">'.$assesment_value.'</code>';
+                                                                        }else{
+                                                                            if($form_type=="file_foto"||$form_type=="file_pdf"){
+                                                                                $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                                $assesment_value='<a href="'.$assesment_value.'"><code class="text-primary"><i class="bi bi-paperclip"></i> Lihat Lampiran</code></a>';
+                                                                            }else{
+                                                                                $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                                $assesment_value='<code class="text-dark">'.$assesment_value.'</code>';
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                            ?>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="heading<?php echo $no; ?>">
+                                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $no; ?>" aria-expanded="false" aria-controls="collapse<?php echo $no; ?>">
+                                                                        <?php echo "$status &nbsp; &nbsp; <small>$form_name</small>"; ?>
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="collapse<?php echo $no; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $no; ?>" data-bs-parent="#accordionExample">
+                                                                    <div class="accordion-body">
+                                                                        <div class="row mb-3">
+                                                                            <div class="col col-md-4">
+                                                                                <small>Status</small>
+                                                                            </div>
+                                                                            <div class="col col-md-8">
+                                                                                <small>
+                                                                                    <?php
+                                                                                        //Apabila Belum Terisi
+                                                                                        if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
+                                                                                            echo '<code class="text-dark">Belum Diisi</code>';
+                                                                                        }else{
+                                                                                            if($status_assesment=="Pending"){
+                                                                                                echo '<code class="text-warning">Dalam peninjauan</code>';
+                                                                                            }else{
+                                                                                                if($status_assesment=="Refisi"){
+                                                                                                    echo '<code class="text-danger">Perlu Tindakan</code>';
+                                                                                                }else{
+                                                                                                    echo '<code class="text-success">Selesai</code>';
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                </small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mb-3">
+                                                                            <div class="col col-md-4">
+                                                                                <small>Jawaban</small>
+                                                                            </div>
+                                                                            <div class="col col-md-8">
+                                                                                <small>
+                                                                                    <?php echo  $assesment_value; ?>
+                                                                                </small>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php 
+                                                                            //Kondisi Jika Ada Komentar
+                                                                            if(!empty($DetailAssesmentArry['metadata']['status_assesment']['komentar'])){
+                                                                                $komentar=$DetailAssesmentArry['metadata']['status_assesment']['komentar'];
+                                                                                echo '<div class="row mb-3">';
+                                                                                echo '  <div class="col-md-12">';
+                                                                                echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                                                                echo '          <small>';
+                                                                                echo '              Komentar Perbaikan :<br>';
+                                                                                echo '              <code class="text-dark"><i>"'.$komentar.'"</i></code>';
+                                                                                echo '          </small>';
+                                                                                echo '      </div>';
+                                                                                echo '  </div>';
+                                                                                echo '</div>';
+                                                                            }
+                                                                        ?>
+                                                                        <?php 
+                                                                            //Apabila Status Assesment Belum Valid
+                                                                            if(empty($DetailAssesmentArry['metadata']['status_assesment']['status_assesment'])||$DetailAssesmentArry['metadata']['status_assesment']['status_assesment']!=="Valid"){
+                                                                        ?>
+                                                                            <div class="row mb-3">
+                                                                                <div class="col col-md-4">
+                                                                                    <button type="button" class="btn btn-sm btn-outline-secondary btn-block w-100" data-bs-toggle="modal" data-bs-target="#ModalAssesment<?php echo "$id_event_assesment_form"; ?>">
+                                                                                        <i class="bi bi-pencil"></i> Assesment
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal fade" id="ModalAssesment<?php echo $id_event_assesment_form; ?>" tabindex="-1">
+                                                                <div class="modal-dialog modal-md">
+                                                                    <div class="modal-content">
+                                                                        <form action="javascript:void(0);" class="ProsesAssesment">
+                                                                            <input type="hidden" name="id_event_assesment_form" value="<?php echo $id_event_assesment_form; ?>">
+                                                                            <input type="hidden" name="id_event_peserta" value="<?php echo $id_event_peserta; ?>">
+                                                                            <input type="hidden" name="id_event" value="<?php echo $id_event; ?>">
+                                                                            <input type="hidden" name="form_type" value="<?php echo $form_type; ?>">
+                                                                            <div class="modal-header border-0">
+                                                                                <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Form Assesment</h5>
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-md-12">
+                                                                                        <label for="<?php echo $id_event_assesment_form; ?>"><?php echo "$form_name"; ?></label>
+                                                                                        <?php
+                                                                                            if($form_type=="text"){
+                                                                                                if($DetailAssesmentArry['response']['code']==200){
+                                                                                                    echo '<input type="text" name="form_value" id="'.$id_event_assesment_form.'" class="form-control" value="'.$value_fix.'">';
+                                                                                                }else{
+                                                                                                    echo '<input type="text" name="form_value" id="'.$id_event_assesment_form.'" class="form-control" value="">';
+                                                                                                }
+                                                                                            }else{
+                                                                                                if($form_type=="file_foto"||$form_type=="file_pdf"){
+                                                                                                    echo '<input type="file" name="form_value" id="'.$id_event_assesment_form.'" class="form-control">';
+                                                                                                }else{
+                                                                                                    if($form_type=="textarea"){
+                                                                                                        if($DetailAssesmentArry['response']['code']==200){
+                                                                                                            echo '<textarea class="form-control" name="form_value" id="'.$id_event_assesment_form.'">'.$value_fix.'</textarea>';
+                                                                                                        }else{
+                                                                                                            echo '<textarea class="form-control" name="form_value" id="'.$id_event_assesment_form.'">'.$value_fix.'</textarea>';
+                                                                                                        }
+                                                                                                            
+                                                                                                    }else{
+                                                                                                        if($form_type=="select_option"){
+                                                                                                            $alternatif=$list_assesement['alternatif'];
+                                                                                                            echo '<select class="form-control" name="form_value" id="'.$id_event_assesment_form.'">';
+                                                                                                            echo '  <option value="">Pilih</option>';
+                                                                                                            foreach($alternatif as $alternatif_list){
+                                                                                                                $alt_value=$alternatif_list['value'];
+                                                                                                                $alt_display=$alternatif_list['display'];
+                                                                                                                if($DetailAssesmentArry['response']['code']==200){
+                                                                                                                    if($value_fix==$alt_value){
+                                                                                                                        echo '  <option selected value="'.$alt_value.'">'.$alt_display.'</option>';
+                                                                                                                    }else{
+                                                                                                                        echo '  <option value="'.$alt_value.'">'.$alt_display.'</option>';
+                                                                                                                    }
+                                                                                                                }else{
+                                                                                                                    echo '  <option value="'.$alt_value.'">'.$alt_display.'</option>';
+                                                                                                                }
+                                                                                                            }
+                                                                                                            echo '</select>';
+                                                                                                        }else{
+                                                                                                            if($form_type=="radio"){
+                                                                                                                $alternatif=$list_assesement['alternatif'];
+                                                                                                                $no_alt=1;
+                                                                                                                foreach($alternatif as $alternatif_list){
+                                                                                                                    $alt_value=$alternatif_list['value'];
+                                                                                                                    $alt_display=$alternatif_list['display'];
+                                                                                                                    if($DetailAssesmentArry['response']['code']==200){
+                                                                                                                        if($value_fix==$alt_value){
+                                                                                                                            echo '<div class="form-check">';
+                                                                                                                            echo '  <input class="form-check-input" checked type="radio" name="form_value" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                            echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                            echo '</div>';
+                                                                                                                        }else{
+                                                                                                                            echo '<div class="form-check">';
+                                                                                                                            echo '  <input class="form-check-input" type="radio" name="form_value" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                            echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                            echo '</div>';
+                                                                                                                        }
+                                                                                                                    }else{
+                                                                                                                        echo '<div class="form-check">';
+                                                                                                                        echo '  <input class="form-check-input" type="radio" name="form_value" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                        echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                        echo '</div>';
+                                                                                                                    }
+                                                                                                                    $no_alt++;
+                                                                                                                }
+                                                                                                            }else{
+                                                                                                                if($form_type=="checkbox"){
+                                                                                                                    $alternatif = $list_assesement['alternatif'];
+                                                                                                                    $no_alt = 1;
+
+                                                                                                                    foreach($alternatif as $alternatif_list){
+                                                                                                                        $alt_value = $alternatif_list['value'];
+                                                                                                                        $alt_display = $alternatif_list['display'];
+
+                                                                                                                        if ($DetailAssesmentArry['response']['code'] == 200) {
+                                                                                                                            // Pastikan 'assesment_value' terdefinisi dan adalah array
+                                                                                                                            if (isset($DetailAssesmentArry['metadata']['assesment_value']) && is_array($DetailAssesmentArry['metadata']['assesment_value'])) {
+                                                                                                                                if (in_array($alt_value, $DetailAssesmentArry['metadata']['assesment_value'])) {
+                                                                                                                                    echo '<div class="form-check">';
+                                                                                                                                    echo '  <input class="form-check-input" checked type="checkbox" name="form_value[]" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                                    echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                                    echo '</div>';
+                                                                                                                                } else {
+                                                                                                                                    echo '<div class="form-check">';
+                                                                                                                                    echo '  <input class="form-check-input" type="checkbox" name="form_value[]" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                                    echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                                    echo '</div>';
+                                                                                                                                }
+                                                                                                                            } else {
+                                                                                                                                // Jika 'assesment_value' tidak ada atau bukan array, tampilkan checkbox tidak tercentang
+                                                                                                                                echo '<div class="form-check">';
+                                                                                                                                echo '  <input class="form-check-input" type="checkbox" name="form_value[]" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                                echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                                echo '</div>';
+                                                                                                                            }
+                                                                                                                        } else {
+                                                                                                                            echo '<div class="form-check">';
+                                                                                                                            echo '  <input class="form-check-input" type="checkbox" name="form_value[]" id="'.$id_event_assesment_form.'_'.$no_alt.'" value="'.$alternatif_list['value'].'">';
+                                                                                                                            echo '  <label class="form-check-label" for="'.$id_event_assesment_form.'_'.$no_alt.'"><small>'.$alternatif_list['display'].'</small></label>';
+                                                                                                                            echo '</div>';
+                                                                                                                        }
+
+                                                                                                                        $no_alt++;
+                                                                                                                    }
+
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        ?>
+                                                                                        <small>
+                                                                                            <code class="text-dark"><?php echo $komentar; ?></code>
+                                                                                        </small>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-md-12" id="NotifikasiAssesment<?php echo $id_event_assesment_form; ?>">
+                                                                                        <!-- Notifikasi Pendaftaran Akan Muncul Disini -->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer border-0">
+                                                                                <button type="submit" class="css-button-fully-rounded--green" id="ButtonAssesment<?php echo $id_event_assesment_form; ?>">
+                                                                                    <i class="bi bi-save"></i> Simpan
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                            <?php
+                                                            $no++;
+                                                        }
+                                                        echo '';
+                                                        echo '      </div>';
+                                                        echo '  </div>';
+                                                        echo '</div>';
+                                                    }
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+<?php
+                }
+            }
+        }
+    }
+?>
+

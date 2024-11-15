@@ -51,7 +51,41 @@
                                                     echo '<li><a href="" class="active">Reset Password</a></li>';
                                                     echo '<li><a href="index.php?Page=Login">Login</a></li>';
                                                 }else{
-                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                    if($_GET['Page']=="DetailEvent"){
+                                                        echo '<li><a href="index.php">Beranda</a></li>';
+                                                        echo '<li><a href="" class="active">Detail Event</a></li>';
+                                                        if(empty($_SESSION['id_member_login'])){
+                                                            echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                        }else{
+                                                            echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                        }
+                                                    }else{
+                                                        if($_GET['Page']=="DetailPendaftaranEvent"){
+                                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                                            echo '<li><a href="" class="active">Detail Pendaftaran</a></li>';
+                                                            if(empty($_SESSION['id_member_login'])){
+                                                                echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                            }else{
+                                                                echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                            }
+                                                        }else{
+                                                            if($_GET['Page']=="RiwayatEvent"){
+                                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                                echo '<li><a href="" class="active">Riwayat Event</a></li>';
+                                                                if(empty($_SESSION['id_member_login'])){
+                                                                    echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                }else{
+                                                                    echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                }
+                                                            }else{
+                                                                if($_GET['Page']=="Profil"){
+                                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                                }else{
+                                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -73,7 +107,8 @@
                             echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
                         }else{
                             if($_GET['Page']=="Profil"){
-                                echo '<li><a href="index.php?Page=Profil" class="active">Profil</a></li>';
+                                echo '<li><a href="" class="active">Profil</a></li>';
+                                echo '<li><a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalLogout">Logout</a></li>';
                             }
                         }
                     }

@@ -24,6 +24,7 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <!-- =======================================================
     * Template Name: Selecao
     * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/

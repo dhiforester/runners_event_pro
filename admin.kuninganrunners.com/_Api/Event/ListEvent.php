@@ -54,35 +54,7 @@
                         $resultEvent = $QryEvent->get_result();
                         
                         while ($DataEvent = $resultEvent->fetch_assoc()) {
-                            $poster = !empty($DataEvent['poster']) ? "$base_url/assets/img/Poster/{$DataEvent['poster']}" : "";
-                            $rute = !empty($DataEvent['rute']) ? "$base_url/assets/img/Rute/{$DataEvent['rute']}" : "";
                             $id_event=$DataEvent['id_event'];
-                            //Buat List Kategori
-                            $kategori=[];
-                            $QryKategori = $Conn->prepare("SELECT * FROM event_kategori WHERE id_event >= ? ORDER BY id_event_kategori ASC");
-                            $QryKategori->bind_param("s", $id_event);
-                            $QryKategori->execute();
-                            $ResultKategori = $QryKategori->get_result();
-                            while ($DataKategori = $ResultKategori->fetch_assoc()) {
-                                $id_event_kategori=$DataKategori['id_event_kategori'];
-                                $kategori_list=$DataKategori['kategori'];
-                                if(empty($DataKategori['deskripsi'])){
-                                    $deskripsi_list="";
-                                }else{
-                                    $deskripsi_list=$DataKategori['deskripsi'];
-                                }
-                                if(empty($DataKategori['biaya_pendaftaran'])){
-                                    $biaya_pendaftaran_list="";
-                                }else{
-                                    $biaya_pendaftaran_list=$DataKategori['biaya_pendaftaran'];
-                                }
-                                $kategori[] = [
-                                    "id_event_kategori" => $id_event_kategori,
-                                    "kategori" => $kategori_list,
-                                    "deskripsi" => $deskripsi_list,
-                                    "biaya_pendaftaran" => $biaya_pendaftaran_list
-                                ];
-                            }
                             // Add to array
                             $metadata[] = [
                                 "id_event" => $DataEvent['id_event'] ?? null,
@@ -91,10 +63,7 @@
                                 "mulai_pendaftaran" => $DataEvent['mulai_pendaftaran'] ?? null,
                                 "selesai_pendaftaran" => $DataEvent['selesai_pendaftaran'] ?? null,
                                 "nama_event" => $DataEvent['nama_event'] ?? null,
-                                "keterangan" => $DataEvent['keterangan'] ?? null,
-                                "poster" => $poster,
-                                "rute" => $rute,
-                                "kategori" => $kategori
+                                "keterangan" => $DataEvent['keterangan'] ?? null
                             ];
                         }
                         
