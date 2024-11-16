@@ -562,5 +562,24 @@
         // Mengonversi gambar ke format base64
         return base64_encode($image_data);
     }
+    //Sensor Email
+    function SensorEmail($email) {
+        // Pisahkan bagian username dan domain
+        list($username, $domain) = explode("@", $email);
 
+        // Ambil 2 huruf awal dari username dan gabungkan dengan **
+        $masked_username = substr($username, 0, 2) . '**';
+
+        // Gabungkan dengan domain untuk menghasilkan email yang dimodifikasi
+        $masked_email = $masked_username . '@' . $domain;
+        return $masked_email;
+    }
+    //Sensor Kontak
+    function SensorKontak($kontak) {
+       // Ambil panjang nomor kontak
+        $length = strlen($kontak);
+        // Ganti 3 digit terakhir dengan ***
+        $masked_kontak = substr($kontak, 0, $length - 3) . '***';
+        return $masked_kontak;
+    }
 ?>

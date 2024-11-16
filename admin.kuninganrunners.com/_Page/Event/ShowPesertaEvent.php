@@ -184,6 +184,18 @@
                                     $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
                                     //Jumlah Riwayat Transaksi
                                     $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
+                                    //Sensor Email Peserta
+                                    $email_sensor=SensorEmail($email);
+                                    //Buka Kontak Member
+                                    $kontak=GetDetailData($Conn,'member','id_member',$id_member,'kontak');
+                                    //Sensor Kontak Jika Ada
+                                    if(!empty($kontak)){
+                                        $sensor_kontak=SensorKontak($kontak);
+                                    }else{
+                                        $sensor_kontak="-";
+                                    }
+                                    //Hitung Assesment
+                                    $JumlahAssesment = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_assesment FROM event_assesment WHERE id_event_peserta='$id_event_peserta'"));
                             ?>
                                 <div class="list-group-item list-group-item-action" aria-current="true">
                                     <div class="d-flex w-100 justify-content-between">
@@ -222,21 +234,31 @@
                                         <div class="col-md-4">
                                             <div class="row mb-3">
                                                 <div class="col col-md-4">
-                                                    <small>Email</small>
+                                                    <small>Nama</small>
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small>
-                                                        <code class="text text-grayish"><?php echo "$email"; ?></code>
+                                                        <code class="text text-grayish"><?php echo "$nama"; ?></code>
                                                     </small>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col col-md-4">
-                                                    <small>Tgl.Daftar</small>
+                                                    <small>Email</small>
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small>
-                                                        <code class="text text-grayish"><?php echo "$TanggalDaftar"; ?></code>
+                                                        <code class="text text-grayish"><?php echo "$email_sensor"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col col-md-4">
+                                                    <small>Kontak</small>
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <small>
+                                                        <code class="text text-grayish"><?php echo "$sensor_kontak"; ?></code>
                                                     </small>
                                                 </div>
                                             </div>
@@ -262,15 +284,47 @@
                                                     </small>
                                                 </div>
                                             </div>
+                                            <div class="row mb-3">
+                                                <div class="col col-md-4">
+                                                    <small>Tgl.Daftar</small>
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <small>
+                                                        <code class="text text-grayish"><?php echo "$TanggalDaftar"; ?></code>
+                                                    </small>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
+                                            <div class="row mb-3">
+                                                <div class="col col-md-4">
+                                                    <small>Assesment</small>
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <small>
+                                                        <?php 
+                                                            if(empty($JumlahAssesment)){
+                                                                echo '<code class="text-danger">Tidak Ada</code>';
+                                                            }else{
+                                                                echo '<code class="text-grayish">'.$JumlahAssesment.' Record</code>';
+                                                            }
+                                                        ?>
+                                                    </small>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3">
                                                 <div class="col col-md-4">
                                                     <small>Transaksi</small>
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small>
-                                                        <code class="text text-grayish"><?php echo "$JumlahRiwayatTransaksi Record"; ?></code>
+                                                        <?php 
+                                                            if(empty($JumlahRiwayatTransaksi)){
+                                                                echo '<code class="text-danger">Tidak Ada</code>';
+                                                            }else{
+                                                                echo '<code class="text-grayish">'.$JumlahRiwayatTransaksi.' Record</code>';
+                                                            }
+                                                        ?>
                                                     </small>
                                                 </div>
                                             </div>
