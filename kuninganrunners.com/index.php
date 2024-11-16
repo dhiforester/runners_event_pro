@@ -1,4 +1,6 @@
 <?php
+    //Zona Waktu
+    date_default_timezone_set("Asia/Jakarta");
     session_start();
     include "_Config/Connection.php";
     //Memanggil xtoken pertama kali

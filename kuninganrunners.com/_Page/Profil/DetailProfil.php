@@ -39,6 +39,9 @@
         if(empty($foto)){
             $foto="assets/img/No-Image.png";
         }
+        //Format Tanggal
+        $strtotime=strtotime($datetime);
+        $TanggalDaftar=date('d/m/Y H:i',$strtotime);
 ?>
         <section id="service-details" class="service-details section">
             <div class="container">
@@ -89,8 +92,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="box_custome">
+                            <div class="box_custome_header">
+                                <h4><i class="bi bi-arrow-right-circle"></i> Lanjutan</h4>
+                            </div>
+                            <div class="services-list mt-4">
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalUbahPassword">
+                                    <i class="bi bi-key"></i><span>Ubah Password</span>
+                                </a>
+                                <a href="index.php?Page=RiwayatEvent">
+                                    <i class="bi bi-arrow-right-circle"></i><span>Riwayat Event</span>
+                                </a>
+                                <a href="javascript:void(0);">
+                                    <i class="bi bi-arrow-right-circle"></i><span>Riwayat Pembelian</span>
+                                </a>
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalLogout">
+                                    <i class="bi bi-lock"></i><span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <div class="box_custome">
                             <div class="box_custome_header">
                                 <h4 class="text-dark">
@@ -216,6 +238,20 @@
                                         </small>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col col-md-4">
+                                        <small>Tgl.Daftar</small>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <small>
+                                            <code class="text-dark">
+                                                <?php
+                                                    echo "$TanggalDaftar";
+                                                ?>
+                                            </code>
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="box_custome_footer">
                                 <div class="row mt-3">
@@ -225,27 +261,6 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                        <div class="box_custome">
-                            <div class="box_custome_header">
-                                <h4><i class="bi bi-arrow-right-circle"></i> Lanjutan</h4>
-                            </div>
-                            <div class="services-list mt-4">
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalUbahPassword">
-                                    <i class="bi bi-key"></i><span>Ubah Password</span>
-                                </a>
-                                <a href="index.php?Page=RiwayatEvent">
-                                    <i class="bi bi-arrow-right-circle"></i><span>Riwayat Event</span>
-                                </a>
-                                <a href="javascript:void(0);">
-                                    <i class="bi bi-arrow-right-circle"></i><span>Riwayat Pembelian</span>
-                                </a>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalLogout">
-                                    <i class="bi bi-lock"></i><span>Logout</span>
-                                </a>
                             </div>
                         </div>
                     </div>

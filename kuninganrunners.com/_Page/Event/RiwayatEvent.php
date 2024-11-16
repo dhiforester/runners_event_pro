@@ -124,7 +124,11 @@
                                                 </div>
                                                 <div class="row mb-3">
                                                     <div class="col col-md-4"><small>Status</small></div>
-                                                    <div class="col col-md-8"><small><code class="text-dark"><?php echo "$email"; ?></code></small></div>
+                                                    <div class="col col-md-8">
+                                                        <small>
+                                                            <code class="text-dark"><?php echo "$status"; ?></code>
+                                                        </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -79,3 +79,16 @@ $('.ProsesAssesment').on('submit', function(e) {
         }
     });
 });
+// Menampilkan Form Pembayaran
+$('#ModalBayarEvent').on('show.bs.modal', function (e) {
+    var kode_transaksi = $(e.relatedTarget).data('id');
+    $('#FormBayarEvent').html("Loading...");
+    $.ajax({
+        type        : 'POST',
+        url         : '_Page/Event/FormBayarEvent.php',
+        data        : { kode_transaksi: kode_transaksi },
+        success     : function(data) {
+            $('#FormBayarEvent').html(data);
+        }
+    });
+});

@@ -315,15 +315,15 @@
                                                                                     <?php
                                                                                         //Apabila Belum Terisi
                                                                                         if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
-                                                                                            echo '<code class="text-dark">Belum Diisi</code>';
+                                                                                            echo '<code class="text-warning">Belum Diisi</code>';
                                                                                         }else{
                                                                                             if($status_assesment=="Pending"){
-                                                                                                echo '<code class="text-warning">Dalam peninjauan</code>';
+                                                                                                echo '<code class="text-info">Dalam peninjauan</code>';
                                                                                             }else{
                                                                                                 if($status_assesment=="Refisi"){
                                                                                                     echo '<code class="text-danger">Perlu Tindakan</code>';
                                                                                                 }else{
-                                                                                                    echo '<code class="text-success">Selesai</code>';
+                                                                                                    echo '<code class="text-primary">Selesai</code>';
                                                                                                 }
                                                                                             }
                                                                                         }
@@ -364,7 +364,7 @@
                                                                             <div class="row mb-3">
                                                                                 <div class="col col-md-4">
                                                                                     <button type="button" class="btn btn-sm btn-outline-secondary btn-block w-100" data-bs-toggle="modal" data-bs-target="#ModalAssesment<?php echo "$id_event_assesment_form"; ?>">
-                                                                                        <i class="bi bi-pencil"></i> Assesment
+                                                                                        <i class="bi bi-pencil"></i> Isi Assesment
                                                                                     </button>
                                                                                 </div>
                                                                             </div>
@@ -529,6 +529,91 @@
                                                     }
                                                 }
                                             ?>
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <b>Transaksi & Pembayaran</b><br>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <?php
+                                                        //Cek Data Transaksi Peserta
+                                                        $GetDetailTransaksi=DetailTransaksiPeserta($url_server,$xtoken,$email_member,$id_member_login,$id_event_peserta);
+                                                        $detail_transaksi_arry=json_decode($GetDetailTransaksi,true);
+                                                        if($detail_transaksi_arry['response']['code']!==200){
+                                                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                                            echo '  <small>';
+                                                            echo '      '.$detail_transaksi_arry['response']['message'].'';
+                                                            echo '  </small>';
+                                                            echo '</div>';
+                                                        }else{
+                                                            $metadata_transaksi=$detail_transaksi_arry['metadata'];
+                                                            $kode_transaksi=$metadata_transaksi['kode_transaksi'];
+                                                            $raw_member=$metadata_transaksi['raw_member'];
+                                                            $kategori=$metadata_transaksi['kategori'];
+                                                            $datetime=$metadata_transaksi['datetime'];
+                                                            $jumlah=$metadata_transaksi['jumlah'];
+                                                            $status_pembayaran=$metadata_transaksi['status'];
+                                                            //Format Nominal
+                                                            $jumlah_format=formatRupiah($jumlah);
+                                                            //Routing Label Status
+                                                            if($status_pembayaran=="Lunas"){
+                                                                $LabelStatusPembayaran='<code class="text-success"><i class="bi bi-check-circle"></i> Lunas</code>';
+                                                            }else{
+                                                                $LabelStatusPembayaran='<code class="text-danger"><i class="bi bi-clock-history"></i> Pending</code>';
+                                                            }
+                                                            $strtotime_transaksi=strtotime($datetime);
+                                                            $tanggal_transaksi=date('d/m/Y H:i T',$strtotime_transaksi);
+                                                            //Tampilkan Data
+                                                            echo '<div class="row mb-3">';
+                                                            echo '  <div class="col-md-4"><small>Kode Transaksi</small></div>';
+                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$kode_transaksi.'</code></small></div>';
+                                                            echo '</div>';
+                                                            echo '<div class="row mb-3">';
+                                                            echo '  <div class="col-md-4"><small>Tgl.Transaksi</small></div>';
+                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$tanggal_transaksi.'</code></small></div>';
+                                                            echo '</div>';
+                                                            echo '<div class="row mb-3">';
+                                                            echo '  <div class="col-md-4"><small>Jumlah/Nominal</small></div>';
+                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$jumlah_format.'</code></small></div>';
+                                                            echo '</div>';
+                                                            echo '<div class="row mb-3">';
+                                                            echo '  <div class="col-md-4"><small>Status Pembayaran</small></div>';
+                                                            echo '  <div class="col-md-8"><small>'.$LabelStatusPembayaran.'</small></div>';
+                                                            echo '</div>';
+                                                            //Apabila Status Masih Pending
+                                                            if($status_pembayaran!=="Lunas"){
+                                                                //Tampilkan Petunjuk Pembayaran
+                                                                echo '<div class="row mb-3">';
+                                                                echo '  <div class="col-md-12">';
+                                                                echo '      <div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                                                                echo '          <small>';
+                                                                echo '              Berikut ini langkah-langkah pembayaran yang perlu anda ketahui :';
+                                                                echo '              <ol>';
+                                                                echo '                  <li>Klik pada tombol <i>Bayar Sekarang</i> pada bagian akhir halaman.</li>';
+                                                                echo '                  <li>Sistem akan menampilkan pesan <i>Popup</i> yang berisi kode transaksi dan uraian pembayaran.</li>';
+                                                                echo '                  <li>Klik pada tombol <i>Lanjutkan Pembayaran</i> kemudian pilih metode pembayaran yang anda inginkan.</li>';
+                                                                echo '                  <li>Ikuti petunjuk pembayaran sesuai metode yang anda pilih.</li>';
+                                                                echo '                  <li>Setelah anda menyelesaikan pembayaran, silahkan refresh halaman ini untuk mengetahui pembaharuan status pendaftaran anda.</li>';
+                                                                echo '                  <li>Apabila terdapat kendala dalam proses pembayaran tersebut, silahkan hubungi kami pada kontak yang ada pada halaman beranda.</li>';
+                                                                echo '              </ol>';
+                                                                echo '          </small>';
+                                                                echo '      </div>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                                //Tampilkan Tombol
+                                                                echo '<div class="row mb-3">';
+                                                                echo '  <div class="col-md-12">';
+                                                                echo '      <button type="button" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalBayarEvent" data-id="'.$kode_transaksi.'">';
+                                                                echo '          <i class="bi bi-coin"></i> Bayar Sekarang';
+                                                                echo '      </button>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                            }
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
