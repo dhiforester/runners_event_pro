@@ -58,6 +58,18 @@
                         //Membuka Tentang
                         $JudulTentang=GetDetailData($Conn, 'web_tentang', 'id_web_tentang', '1', 'judul');
                         $PreviewTentang=GetDetailData($Conn, 'web_tentang', 'id_web_tentang', '1', 'tentang');
+                        //Pengaturan Payment
+                        $api_key = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'api_key');
+                        $server_key = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'server_key');
+                        $production = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'production');
+                        $api_payment_url =GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'api_payment_url');
+                        $urll_call_back=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','urll_call_back');
+                        $id_marchant=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','id_marchant');
+                        $client_key=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','client_key');
+                        $snap_url=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','snap_url');
+                        $production=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','production');
+                        $aktif_payment_gateway=GetDetailData($Conn,'setting_payment','id_setting_payment ','1','aktif_payment_gateway');
+                        //Buat Array Konten Tentang
                         $KontenTentang = [
                             "judul" => $JudulTentang,
                             "preview" => $PreviewTentang,
@@ -67,6 +79,16 @@
                             "alamat" => $alamat_bisnis,
                             "email" => $email_bisnis,
                             "telepon" => $telepon_bisnis
+                        ];
+                        //Menampilkan Pengaturan Payment
+                        $payment_setting = [
+                            "api_key" => $api_key,
+                            "production" => $production,
+                            "api_payment_url" => $api_payment_url,
+                            "client_key" => $client_key,
+                            "snap_url" => $snap_url,
+                            "production" => $production,
+                            "aktif_payment_gateway" => $aktif_payment_gateway
                         ];
                         //Mempersiapkan Metadata
                         $metadata = [
@@ -78,7 +100,8 @@
                             "keyword" => $web_keyword,
                             "x-author" => $web_author,
                             "tentang" => $KontenTentang,
-                            "kontak" => $KontakWeb
+                            "kontak" => $KontakWeb,
+                            "payment_setting" => $payment_setting
                         ];
                         
                         //menyimpan Log
