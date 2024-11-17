@@ -12,10 +12,11 @@
                         echo '<li><a href="#hero" class="active">Beranda</a></li>';
                         echo '<li><a href="#about">Tentang</a></li>';
                         echo '<li><a href="#call-to-action">Kontak</a></li>';
-                        echo '<li><a href="#portfolio">Galeri</a></li>';
+                        echo '<li><a href="#blog-posts">Galeri</a></li>';
                         echo '<li><a href="#testimonials">Testimoni</a></li>';
                         echo '<li><a href="#faq">FAQ</a></li>';
-                        echo '<li><a href="#product">Merchandise</a></li>';
+                        echo '<li><a href="#event">Event</a></li>';
+                        echo '<li><a href="#product">Merch</a></li>';
                     }else{
                         if($_GET['Page']=="Galeri"){
                             echo '<li><a href="index.php">Beranda</a></li>';

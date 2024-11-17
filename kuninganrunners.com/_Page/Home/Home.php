@@ -39,6 +39,17 @@
                 <small><?php echo "$tentang_preview"; ?></small>
             </div>
         </div>
+        <div class="row mb-3 mt-3">
+            <div class="col-md-12 text-center">
+                <?php
+                    if(empty($_SESSION['id_member_login'])){
+                        echo '<a href="index.php?Page=Pendaftaran" class="button_more">';
+                        echo '  Daftar Menjadi Member Sekarang';
+                        echo '</a>';
+                    }
+                ?>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -46,32 +57,53 @@
 <section id="call-to-action" class="call-to-action section dark-background">
     <div class="container">
         <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="col-md-12 text-center text-xl-start">
-                <h3>Kontak Kami</h3>
+            <div class="col-md-4 mb-3 text-center">
+                <h2>Kontak Kami</h2>
+                <div class="row mb-3 mt-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-md-12 text-center"><b><small>Alamat</small></b></div>
+                    <div class="col-md-12 text-center"><small><?php echo "$kontak_alamat"; ?></small></div>
+                </div>
+                <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-md-12 text-center"><b><small>Email</small></b></div>
+                    <div class="col-md-12 text-center"><small><?php echo "$kontak_email"; ?></small></div>
+                </div>
+                <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-md-12 text-center"><b><small>Kontak </small></b></div>
+                    <div class="col-md-12 text-center"><small><?php echo "$kontak_telepon"; ?></small></div>
+                </div>
             </div>
-            <!-- <div class="col-xl-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle" href="https://www.instagram.com/kuningan_runners/" target="_blank">
-                    <i class="bi bi-instagram"></i> Instagram
-                </a>
-            </div> -->
-        </div>
-        <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="col-md-2"><b><small>Alamat/Operasional</small></b></div>
-            <div class="col-md-10"><small><?php echo "$kontak_alamat"; ?></small></div>
-        </div>
-        <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="col-md-2"><b><small>Alamat Email</small></b></div>
-            <div class="col-md-10"><small><?php echo "$kontak_email"; ?></small></div>
-        </div>
-        <div class="row mb-3" data-aos="zoom-in" data-aos-delay="100">
-            <div class="col-md-2"><b><small>Telepon/WA </small></b></div>
-            <div class="col-md-10"><small><?php echo "$kontak_telepon"; ?></small></div>
+            <div class="col-md-8 text-center mb-3">
+                <h2 class="mb-3">Media Sosial</h2>
+                <div class="row mt-3">
+                    <div class="col-md-12 text-center">
+                        <?php
+                            $DataMedsos=WebMediaSosial($url_server,$xtoken);
+                            $medsos_arry=json_decode($DataMedsos,true);
+                            if($medsos_arry['response']['code']!==200){
+                                echo '<div class="alert alert-primary alert-dismissible fade show" role="alert">';
+                                echo '  <small>'.$medsos_arry['response']['message'].'</small>';
+                                echo '</div>';
+                            }else{
+                                foreach($medsos_arry['metadata'] as $medsos_list) {
+                                    $nama_medsos =$medsos_list['nama_medsos'];
+                                    $logo = $medsos_list['logo']; // Base64 dari server harus valid
+                                    $url_medsos = htmlspecialchars($medsos_list['url_medsos'], ENT_QUOTES, 'UTF-8');
+                                
+                                    echo '<a href="' . $url_medsos . '" title="' . $nama_medsos . '">';
+                                    echo '  <img src="' . $logo . '" alt="' . $nama_medsos . '" class="medsos-logo">';
+                                    echo '</a>';
+                                }
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ALBUM -->
-<section id="portfolio" class="portfolio section">
+<section id="blog-posts" class="blog-posts section">
     <div class="container section-title" data-aos="fade-up">
         <h2>Album</h2>
         <p>Dokumentasi Kegiatan</p>
@@ -291,6 +323,24 @@
         </div>
     </div>
 </section>
+    <!-- KONTAK -->
+    <section id="Event-Runner" class="Event-Runner section dark-background">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Event Runner's</h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 <section id="product" class="team section">
     <div class="container section-title" data-aos="fade-up">
         <h2>Merchandise</h2>

@@ -54,12 +54,18 @@
                         
                         while ($DataMedsos = $ResultMedsos->fetch_assoc()) {
                             $logo=$DataMedsos['logo'];
-                            $logo_url="$base_url/assets/img/Medsos/$logo";
+                            $logo_path = "$base_url/assets/img/Medsos/$logo";
+                            // Membaca konten file
+                            $file_content = file_get_contents($logo_path);
+                            // Encode ke base64
+                            $base64_logo = base64_encode($file_content);
+                            // Format string base64 sebagai data URI
+                            $base64_image = "data:image/png;base64,$base64_logo";
                             // Add to array
                             $metadata[] = [
                                 "nama_medsos" => $DataMedsos['nama_medsos'] ?? null,
                                 "url_medsos" => $DataMedsos['url_medsos'] ?? null,
-                                "logo" => $logo_url
+                                "logo" => $base64_image
                             ];
                         }
                         

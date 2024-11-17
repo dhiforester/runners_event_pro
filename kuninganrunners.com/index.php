@@ -128,10 +128,32 @@
                         }else if($Page=="DetailPendaftaranEvent"){
                             include "_Page/Event/DetailPendaftaranEvent.php";
                             include "_Page/Event/ModalEvent.php";
+                        }else if($Page=="Galeri"){
+                            include "_Page/Galeri/Galeri.php";
                         }
                     }
                     include "_Partial/Modal.php";
                 ?>
+                <!-- Footer Section -->
+                <section id="footer_section" class="footer_section section dark-background mt-4">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPrivacyPolicy">
+                                <small>Privacy Policy</small>
+                            </a>
+                            |
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTermOfService">
+                                <small>Term Of Service</small>
+                            </a>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <span>Copyright</span> <strong><?php echo $title_web; ?></strong> <span>All Rights Reserved</span>
+                            <div class="credits">
+                                Designed by <a href="https://parasilva.tech/"><?php echo $author_web; ?></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
             <footer id="footer" class="footer dark-background">
                 <!-- <p>
@@ -150,25 +172,7 @@
                         </a>
                     </div>
                 </p> -->
-                <div class="row mt-4 mb-4">
-                    <div class="col-md-12 text-center">
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPrivacyPolicy">
-                            Privacy Policy
-                        </a>
-                        |
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTermOfService">
-                            Term Of Service
-                        </a>
-                    </div>
-                </div>
-                <span>Copyright</span> <strong><?php echo $title_web; ?></strong> <span>All Rights Reserved</span>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you've purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                    Designed by <a href="https://parasilva.tech/"><?php echo $author_web; ?></a>
-                </div>
+                
             </footer>
             <!-- Scroll Top -->
             <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -207,7 +211,11 @@
                                         if($_GET['Page']=="DetailEvent"||$_GET['Page']=="DetailPendaftaranEvent"){
                                             echo '<script src="_Page/Event/Event.js"></script>';
                                         }else{
-                                            
+                                            if($_GET['Page']=="Galeri"){
+                                                echo '<script src="_Page/Galeri/Galeri.js"></script>';
+                                            }else{
+                                                
+                                            }
                                         }
                                     }
                                 }

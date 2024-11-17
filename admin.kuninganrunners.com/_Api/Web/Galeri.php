@@ -60,12 +60,15 @@
                                 $datetime=$DataGaleri['datetime'];
                                 $nama_galeri=$DataGaleri['nama_galeri'];
                                 $file_galeri=$DataGaleri['file_galeri'];
-                                $image_path="$base_url/ImageReader.php?dir=Galeri&fl=$file_galeri";
+                                $image_path="$base_url/assets/img/Galeri/$file_galeri";
+                                $new_width=500;
+                                $new_height=500;
+                                $image_base64=resizeImage($image_path, $new_width, $new_height);
                                 // Add to array
                                 $metadata[] = [
                                     "datetime" => $datetime,
                                     "nama_galeri" => $nama_galeri,
-                                    "image" => $image_path
+                                    "image" => $image_base64
                                 ];
                             }
                             
