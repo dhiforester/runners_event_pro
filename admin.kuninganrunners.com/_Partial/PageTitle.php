@@ -231,6 +231,15 @@
             echo '  </ol>';
             echo '</nav>';
         }
+        if($_GET['Page']=="Viewer"){
+            echo '<h1><a href=""><i class="bi bi-eye"></i> Web Viewer</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Web Viewer</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="Help"){
             echo '<h1><a href=""><i class="bi bi-question"></i> Bantuan</a></h1>';
             echo '<nav>';

@@ -61,5 +61,8 @@
         if($Page=="Aktivitas"){
             include "_Page/Aktivitas/ModalAktivitas.php";
         }
+        if($Page=="Viewer"){
+            include "_Page/Viewer/ModalViewer.php";
+        }
     }
 ?>

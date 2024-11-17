@@ -64,6 +64,9 @@
         if($Page=="Aktivitas"){
             echo '<script type="text/javascript" src="_Page/Aktivitas/Aktivitas.js"></script>';
         }
+        if($Page=="Viewer"){
+            echo '<script type="text/javascript" src="_Page/Viewer/Viewer.js"></script>';
+        }
         if($Page=="Help"){
             echo '<script type="text/javascript" src="_Page/Help/Help.js"></script>';
         }

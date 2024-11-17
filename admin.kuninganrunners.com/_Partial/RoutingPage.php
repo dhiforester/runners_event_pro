@@ -66,6 +66,9 @@
         if($Page=="Aktivitas"){
             include "_Page/Aktivitas/Aktivitas.php";
         }
+        if($Page=="Viewer"){
+            include "_Page/Viewer/Viewer.php";
+        }
         if($Page=="AkunPerkiraan"){
             include "_Page/AkunPerkiraan/AkunPerkiraan.php";
         }
