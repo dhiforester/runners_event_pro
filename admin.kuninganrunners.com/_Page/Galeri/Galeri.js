@@ -44,6 +44,17 @@ $(document).ready(function() {
         $(this).val(value); 
         // Tampilkan jumlah karakter saat ini
         $('#album_length').text(value.length + '/' + maxLength);
+
+        if (value.length > 1) {
+            $.ajax({
+                type 	    : 'POST',
+                url 	    : '_Page/Galeri/AlbumList.php',
+                data        : {album: value},
+                success     : function(data){
+                    $('#list_album').html(data);
+                }
+            });
+        }
     });
     $('#nama_galeri').on('input', function() {
         var value = $(this).val();

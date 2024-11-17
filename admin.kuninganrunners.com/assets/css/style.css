@@ -1308,7 +1308,7 @@ body .title_page_app {
   height: 200px;
   object-fit: cover;
   width: 100%;
-  filter: brightness(30%);
+  filter: brightness(100%);
 }
 .card .album img:hover {
   filter: brightness(40%);

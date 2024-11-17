@@ -94,7 +94,7 @@
 <div class="modal fade" id="ModalTambahGaleri" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <form action="javascript:void(0);" id="ProsesTambahGaleri">
+            <form action="javascript:void(0);" id="ProsesTambahGaleri" autocomplete="off">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Galeri</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -113,13 +113,7 @@
                                 </span>
                                 <input type="text" name="album" id="album" list="list_album" class="form-control" placeholder="Contoh: Event, Kegiatan Rutin">
                                 <datalist id="list_album">
-                                    <?php
-                                        $QryAlbum = mysqli_query($Conn, "SELECT DISTINCT album FROM web_galeri ORDER BY album ASC");
-                                        while ($DataAlbum = mysqli_fetch_array($QryAlbum)) {
-                                            $album= $DataAlbum['album'];
-                                            echo '<option value="'.$album.'">';
-                                        }
-                                    ?>
+                                    <!-- Disini Akan Menampilkan List Option Album -->
                                 </datalist>
                             </div>
                         </div>

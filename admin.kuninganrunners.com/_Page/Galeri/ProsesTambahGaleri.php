@@ -36,56 +36,60 @@
                         if(strlen($nama_galeri)>100){
                             $errors[] = 'Nama/Judul Foto tidak boleh lebih dari 100 karakter!.';
                         }else{
-                            //Validasi File
-                            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-                            $fileExtension = pathinfo($_FILES['file_galeri']['name'], PATHINFO_EXTENSION);
-                            if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
-                                $errors[] = 'Tipe file yang anda upload tidak valid!.';
+                            if (!preg_match('/^[a-zA-Z0-9-]+$/', $album)) {
+                                $errors[] = 'Nama album hanya boleh huruf dan angka. Gunakan (-) sebagai pengganti spasi';
                             }else{
-                                // Tentukan jenis file yang diperbolehkan
-                                $allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
-                                $fileType = mime_content_type($_FILES['file_galeri']['tmp_name']);
-                                if (!in_array($fileType, $allowedTypes)) {
-                                    $errors[] = 'Format file yang anda upload tidak valid!.';
+                                //Validasi File
+                                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                                $fileExtension = pathinfo($_FILES['file_galeri']['name'], PATHINFO_EXTENSION);
+                                if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+                                    $errors[] = 'Tipe file yang anda upload tidak valid!.';
                                 }else{
-                                    if($fileType=="image/jpg"){
-                                        $ext="jpg";
+                                    // Tentukan jenis file yang diperbolehkan
+                                    $allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+                                    $fileType = mime_content_type($_FILES['file_galeri']['tmp_name']);
+                                    if (!in_array($fileType, $allowedTypes)) {
+                                        $errors[] = 'Format file yang anda upload tidak valid!.';
                                     }else{
-                                        if($fileType=="image/jpeg"){
-                                            $ext="jpeg";
+                                        if($fileType=="image/jpg"){
+                                            $ext="jpg";
                                         }else{
-                                            if($fileType=="image/png"){
-                                                $ext="png";
+                                            if($fileType=="image/jpeg"){
+                                                $ext="jpeg";
                                             }else{
-                                                if($fileType=="image/gif"){
-                                                    $ext="gif";
+                                                if($fileType=="image/png"){
+                                                    $ext="png";
                                                 }else{
-                                                    $ext="";
+                                                    if($fileType=="image/gif"){
+                                                        $ext="gif";
+                                                    }else{
+                                                        $ext="";
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    $file_galeri = bin2hex(random_bytes(16)) . '.' . $ext;
-                                    $file_galeri_path = '../../assets/img/Galeri/' . $file_galeri;
-                                    if (!move_uploaded_file($_FILES['file_galeri']['tmp_name'], $file_galeri_path)) {
-                                        $errors[] = 'Gagal mengunggah foto, silakan coba lagi.';
-                                    }else{
-                                        // Insert data ke database
-                                        $query = "INSERT INTO web_galeri (album, nama_galeri, datetime, file_galeri) 
-                                            VALUES (?, ?, ?, ?)";
-                                        $stmt = $Conn->prepare($query);
-                                        $stmt->bind_param("ssss", $album, $nama_galeri, $now, $file_galeri);
-                                        if ($stmt->execute()) {
-                                            $kategori_log="Galeri";
-                                            $deskripsi_log="Tambah Galeri";
-                                            $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
-                                            if($InputLog=="Success"){
-                                                $response['success'] = true;
-                                            }else{
-                                                $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
-                                            }
+                                        $file_galeri = bin2hex(random_bytes(16)) . '.' . $ext;
+                                        $file_galeri_path = '../../assets/img/Galeri/' . $file_galeri;
+                                        if (!move_uploaded_file($_FILES['file_galeri']['tmp_name'], $file_galeri_path)) {
+                                            $errors[] = 'Gagal mengunggah foto, silakan coba lagi.';
                                         }else{
-                                            $errors[] = 'Terjadi kesalahan pada saat menambahkan data pada database!.';
+                                            // Insert data ke database
+                                            $query = "INSERT INTO web_galeri (album, nama_galeri, datetime, file_galeri) 
+                                                VALUES (?, ?, ?, ?)";
+                                            $stmt = $Conn->prepare($query);
+                                            $stmt->bind_param("ssss", $album, $nama_galeri, $now, $file_galeri);
+                                            if ($stmt->execute()) {
+                                                $kategori_log="Galeri";
+                                                $deskripsi_log="Tambah Galeri";
+                                                $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                                if($InputLog=="Success"){
+                                                    $response['success'] = true;
+                                                }else{
+                                                    $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
+                                                }
+                                            }else{
+                                                $errors[] = 'Terjadi kesalahan pada saat menambahkan data pada database!.';
+                                            }
                                         }
                                     }
                                 }

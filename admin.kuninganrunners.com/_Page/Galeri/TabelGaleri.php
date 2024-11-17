@@ -148,29 +148,7 @@
                             
                             <div class="card-body">
                                 <div class="filter">
-                                    <a class="icon text-light" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Option</h6>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
-                                                <i class="bi bi-info-circle"></i> Detail
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
-                                                <i class="bi bi-pencil"></i> Edit
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
-                                                <i class="bi bi-x"></i> Hapus
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    
                                 </div>
                                 <div class="row">
                                     <div class="col-12 mb-3">
@@ -185,6 +163,37 @@
                                                 <i class="bi bi-calendar"></i> <?php echo "$DatetimeFormat"; ?>
                                             </code><br>
                                         </small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <a class="icon" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <small>
+                                                <code class="text-primary">
+                                                    <i class="bi bi-three-dots"></i> Option
+                                                </code>
+                                            </small>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                            <li class="dropdown-header text-start">
+                                                <h6>Option</h6>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
+                                                    <i class="bi bi-info-circle"></i> Detail
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusGaleri" data-id="<?php echo "$id_web_galeri"; ?>">
+                                                    <i class="bi bi-x"></i> Hapus
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
