@@ -5,7 +5,7 @@
                 echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
                 echo '  <small>';
                 echo '      <code class="text-dark">';
-                echo '          Berikut halaman Merchandise yang digunakan untuk mengelola item barang untuk daapt dijual di Website.';
+                echo '          Berikut halaman Merchandise yang digunakan untuk mengelola item barang untuk dapat dijual di Website.';
                 echo '          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                 echo '      </code>';
                 echo '  </small>';
