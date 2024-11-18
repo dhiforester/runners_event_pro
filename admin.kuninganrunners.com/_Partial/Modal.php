@@ -28,6 +28,9 @@
         if($Page=="Merchandise"){
             include "_Page/Merchandise/ModalMerchandise.php";
         }
+        if($Page=="RegistrasiEvent"){
+            include "_Page/RegistrasiEvent/ModalRegistrasiEvent.php";
+        }
         if($Page=="Transaksi"){
             include "_Page/Transaksi/ModalTransaksi.php";
         }

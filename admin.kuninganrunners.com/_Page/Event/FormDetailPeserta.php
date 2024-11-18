@@ -62,6 +62,10 @@
                 $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
                 //Jumlah Riwayat Transaksi
                 $JumlahRiwayatTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kode_transaksi='$id_event_peserta' AND kategori='Pendaftaran'"));
+                //Menghapus Session URL back Jika Ada
+                if(!empty($_SESSION['urll_back'])){
+                    unset($_SESSION['urll_back']);
+                }
 ?>
         <input type="hidden" name="Page" value="Event">
         <input type="hidden" name="Sub" value="DetailPeserta">

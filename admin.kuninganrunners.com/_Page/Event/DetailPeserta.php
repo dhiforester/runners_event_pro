@@ -56,6 +56,13 @@
             $keyword_status="Pending";
             $JumlahAssesmentPending = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_assesment FROM event_assesment WHERE id_event_peserta='$id_event_peserta' AND status_assesment like '%$keyword_status%'"));
             
+            //Menangkap URL Back
+            if(!empty($_SESSION['urll_back'])){
+                $url_back=$_SESSION['urll_back'];
+                unset($_SESSION['urll_back']);
+            }else{
+                $url_back="index.php?Page=Event&Sub=DetailEvent&id=$id_event";
+            }
 ?>
         <input type="hidden" name="id_event_peserta" id="PutIdEventPeserta" value="<?php echo $id_event_peserta; ?>">
         <section class="section dashboard">
@@ -87,7 +94,7 @@
                                     </small>
                                 </div>
                                 <div class="col col-md-2 mb-3">
-                                    <a href="index.php?Page=Event&Sub=DetailEvent&id=<?php echo $id_event; ?>" class="btn btn-md btn-dark btn-block btn-rounded">
+                                    <a href="<?php echo $url_back; ?>" class="btn btn-md btn-dark btn-block btn-rounded">
                                         <i class="bi bi-arrow-left-circle"></i> Kembali
                                     </a>
                                 </div>

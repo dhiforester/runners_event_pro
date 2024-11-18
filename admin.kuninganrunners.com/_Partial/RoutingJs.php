@@ -31,6 +31,9 @@
         if($Page=="Merchandise"){
             echo '<script type="text/javascript" src="_Page/Merchandise/Merchandise.js"></script>';
         }
+        if($Page=="RegistrasiEvent"){
+            echo '<script type="text/javascript" src="_Page/RegistrasiEvent/RegistrasiEvent.js"></script>';
+        }
         if($Page=="Transaksi"){
             echo '<script type="text/javascript" src="_Page/Transaksi/Transaksi.js"></script>';
         }
