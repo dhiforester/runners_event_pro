@@ -42,7 +42,7 @@
                 echo '<div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-3 portfolio-item isotope-item">';
                 echo '  <article>';
                 echo '      <div class="post-img">';
-                echo '          <img src="data:image/jpeg;base64,' . $cover_album . '" class="img-fluid" alt="" width="100%">';
+                echo '          <img src="data:image/jpeg;base64,' . $cover_album . '" class="img-fluid zoomed_image" alt="" width="100%">';
                 echo '      </div>';
                 echo '      <p class="post-category">';
                 echo '          <a href="index.php?Page=Galeri&album='.$nama_album.'">'.$nama_album.'</a>';

@@ -51,7 +51,52 @@
   --surface-color: #558db1;
   --contrast-color: #ffffff;
 }
-
+.hero-background {
+  background: url('../../assets/img/hero.png') no-repeat center center !important;
+  background-size: cover !important;
+  height: 80vh; /* Tinggi elemen sesuai tinggi layar */
+  display: flex; /* Gunakan Flexbox untuk pengaturan konten di dalam elemen */
+  align-items: center; /* Posisi vertikal konten di tengah */
+  justify-content: center; /* Posisi horizontal konten di tengah */
+  color: #ffffff; /* Warna teks putih agar kontras dengan background */
+  text-align: center; /* Memastikan teks berada di tengah jika multiline */
+  overflow: hidden; /* Mencegah konten melampaui elemen */
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #558db1;
+  --contrast-color: #ffffff;
+}
+.kontak-background {
+  background: url('../../assets/img/kontak.png') no-repeat center center !important;
+  background-size: cover !important;
+  height: 80vh; /* Tinggi elemen sesuai tinggi layar */
+  display: flex; /* Gunakan Flexbox untuk pengaturan konten di dalam elemen */
+  align-items: center; /* Posisi vertikal konten di tengah */
+  justify-content: center; /* Posisi horizontal konten di tengah */
+  color: #ffffff; /* Warna teks putih agar kontras dengan background */
+  text-align: center; /* Memastikan teks berada di tengah jika multiline */
+  overflow: hidden; /* Mencegah konten melampaui elemen */
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #558db1;
+  --contrast-color: #ffffff;
+}
+.testimoni-background {
+  background: url('../../assets/img/testimoni.png') no-repeat center center !important;
+  background-size: cover !important;
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #558db1;
+  --contrast-color: #ffffff;
+}
+.event-background {
+  background: url('../../assets/img/event.png') no-repeat center center !important;
+  background-size: cover !important;
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #558db1;
+  --contrast-color: #ffffff;
+}
 /* Smooth scroll */
 :root {
   scroll-behavior: smooth;
@@ -1168,7 +1213,7 @@ section,
 --------------------------------------------------------------*/
 .testimonials .testimonial-item {
   border: 1px solid #f9f9f9;
-  background-color: #052d5c;
+  background-color: rgba(5, 45, 92, 0.8); /* Warna biru tua dengan transparansi 80% */
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   box-sizing: content-box;
   padding: 30px;
@@ -1457,14 +1502,35 @@ section,
 .team .team-member {
   background-color: var(--surface-color);
   overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  height: 100%;
+  border-radius: 12px; /* Border radius lebih lembut */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Shadow lebih tegas dan timbul */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi lembut untuk hover */
+}
+
+.team .team-member:hover {
+  transform: translateY(-5px); /* Sedikit mengangkat box */
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3); /* Shadow lebih dalam saat hover */
+  cursor: pointer; /* Menampilkan pointer saat hover */
+}
+
+.team .team-member:active {
+  transform: translateY(0); /* Kembali ke posisi awal saat di klik */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Shadow lebih kecil saat klik */
 }
 
 .team .team-member .member-img {
   position: relative;
   overflow: hidden;
+  border-radius: 12px 12px 0 0; /* Border radius hanya untuk bagian atas gambar */
+}
+
+.team .team-member .member-img img {
+  width: 100%; /* Menyesuaikan gambar ke elemen */
+  transition: transform 0.3s ease; /* Animasi pada gambar */
+}
+
+.team .team-member:hover .member-img img {
+  transform: scale(1.1); /* Zoom pada gambar saat hover */
 }
 
 .team .team-member .social {
@@ -2589,7 +2655,7 @@ section,
 }
 .button_more {
   border: 2px solid orange; /* Garis pinggir oranye */
-  border-radius: 12px; /* Membuat sudut membulat */
+  border-radius: 50px; /* Membuat sudut membulat */
   padding: 10px 20px; /* Spasi dalam tombol */
   background-color: transparent; /* Latar belakang transparan */
   color: orange; /* Warna teks */
@@ -2763,9 +2829,9 @@ html, body {
   width: 100%;
 }
 .medsos-logo {
-  width: 40px; /* Atur ukuran lebar logo */
-  height: 40px; /* Atur ukuran tinggi logo */
-  margin: 0 10px; /* Jarak horizontal antar logo */
+  width: 50px; /* Atur ukuran lebar logo */
+  height: 50px; /* Atur ukuran tinggi logo */
+  margin: 20px; /* Jarak horizontal antar logo */
   display: inline-block; /* Menyusun logo secara horizontal */
   object-fit: contain; /* Menjaga proporsi gambar */
 }
@@ -2800,4 +2866,36 @@ footer {
 .button-back:hover {
   background-color: #000000; /* Warna hitam saat hover */
   color: #ffffff; /* Warna teks putih saat hover */
+}
+.zoomed_image {
+  transition: transform 0.3s ease; /* Animasi untuk zoom */
+  object-fit: cover; /* Pastikan gambar tetap menutupi area yang ada */
+}
+
+.zoomed_image:hover {
+  transform: scale(1.2); /* Efek zoom tanpa merubah ukuran tampilan */
+  cursor: pointer; /* Menampilkan kursor pointer saat gambar dihover */
+  object-position: center; /* Fokuskan gambar ke tengah saat di zoom */
+}
+
+.card-event {
+  background-color: rgba(255, 255, 255, 0.8); /* Warna putih dengan transparansi */
+  border: 2px solid orange; /* Garis dengan warna oranye */
+  border-radius: 8px; /* Membulatkan sudut */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi untuk hover */
+}
+
+.card-event:hover {
+  transform: scale(1.05); /* Membesar sedikit saat hover */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Menambahkan efek bayangan lebih dalam */
+  cursor: pointer; /* Menampilkan pointer saat hover */
+}
+
+.card-event .card-body {
+  padding: 20px; /* Memberikan ruang lebih pada isi card */
+}
+
+.text-grayish {
+  color: #6c757d; /* Warna teks abu-abu */
 }

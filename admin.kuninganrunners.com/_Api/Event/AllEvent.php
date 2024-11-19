@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "List Album";
+    $service_name = "List Event";
 
     // Setting default response
     $code = 201;
@@ -46,70 +46,17 @@
                         $id_api_session = $DataValidasiToken['id_api_session'];
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
-                        //Hitung Jumlah Data Album Dan Properti Paging
-                        $jumlah_album=mysqli_num_rows(mysqli_query($Conn, "SELECT DISTINCT album FROM web_galeri"));
-                        if(empty($_GET['limit'])){
-                            $limit=0;
-                        }else{
-                            $limit=$_GET['limit'];
-                        }
-                        if(empty($_GET['page'])){
-                            $page=1;
-                            $posisi = 0;
-                        }else{
-                            $page=$_GET['page'];
-                            $posisi = ( $page - 1 ) * $limit;
-                        }
-                        if(empty($_GET['OrderBy'])){
-                            $OrderBy="id_web_galeri";
-                        }else{
-                            $OrderBy=$_GET['OrderBy'];
-                        }
-                        if(empty($_GET['ShortBy'])){
-                            $ShortBy="DESC";
-                        }else{
-                            $ShortBy=$_GET['ShortBy'];
-                        }
-                        if(!empty($limit)){
-                            $jumlah_halaman = ceil($jumlah_album/$limit); 
-                        }else{
-                            $jumlah_halaman =1; 
-                        }
                         
-                        
-                        // Persiapkan Query untuk Mengambil Data Album
-                        if(empty($limit)){
-                            $QryAlbum = $Conn->prepare("SELECT DISTINCT album FROM web_galeri ORDER BY $OrderBy $ShortBy");
-                        }else{
-                            $QryAlbum = $Conn->prepare("SELECT DISTINCT album FROM web_galeri ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
-                        }
-                        $QryAlbum->execute();
-                        $ResultAlbum = $QryAlbum->get_result();
-
-                        $list_album=[];
-                        while ($DataAlbum = $ResultAlbum->fetch_assoc()) {
-                            $Album=$DataAlbum['album'];
-                            $JumlahFile=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$Album'"));
-                            $file_galeri = GetDetailData($Conn, 'web_galeri', 'album', $Album, 'file_galeri');
-                            $image_path="$base_url/assets/img/Galeri/$file_galeri";
-                            $new_width=300;
-                            $new_height=300;
-                            $image_album_new=resizeImage($image_path, $new_width, $new_height);
+                        $query = mysqli_query($Conn, "SELECT id_event, tanggal_mulai, nama_event FROM event ORDER BY tanggal_mulai DESC");
+                        while ($DataEvent = mysqli_fetch_array($query)) {
                             // Add to array
-                            $list_album[] = [
-                                "album" => $Album,
-                                "galeri" => $JumlahFile,
-                                "image" => $image_album_new
+                            $metadata[] = [
+                                "id_event" => $DataEvent['id_event'] ?? null,
+                                "tanggal_mulai" => $DataEvent['tanggal_mulai'] ?? null,
+                                "nama_event" => $DataEvent['nama_event'] ?? null
                             ];
                         }
-                        // Add to array
-                        $metadata= [
-                            "jumlah_album" => $jumlah_album,
-                            "jumlah_halaman" => $jumlah_halaman,
-                            "page" => $page,
-                            "limit" => $limit,
-                            "list_album" => $list_album
-                        ];
+                        
                         //menyimpan Log
                         $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
                         if ($SimpanLog !== "Success") {

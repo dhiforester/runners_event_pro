@@ -366,6 +366,25 @@
         curl_close($curl);
         return $response;
     }
+    function WebListAllEvent($url_server,$xtoken){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Event/AllEvent.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
     function DetailEvent($url_server,$xtoken,$id_event){
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -541,5 +560,60 @@
         }
         curl_close($curl);
         return $response;
+    }
+    function WebListBarang($url_server,$xtoken,$limit,$page,$OrderBy,$ShortBy){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Merchandise/ListMerchandise.php?limit='.$limit.'&page='.$page.'&OrderBy='.$OrderBy.'&ShortBy='.$ShortBy.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function resizeImage($file, $new_width, $new_height) {
+        // Cek format gambar dan buat resource gambar
+        $image_info = getimagesize($file);
+        $mime_type = $image_info['mime'];
+    
+        if ($mime_type == 'image/jpeg') {
+            $source_image = imagecreatefromjpeg($file);
+        } elseif ($mime_type == 'image/png') {
+            $source_image = imagecreatefrompng($file);
+        } elseif ($mime_type == 'image/gif') {
+            $source_image = imagecreatefromgif($file);
+        } else {
+            die("Format gambar tidak didukung");
+        }
+    
+        // Ukuran asli gambar
+        $original_width = imagesx($source_image);
+        $original_height = imagesy($source_image);
+    
+        // Membuat gambar baru dengan ukuran yang diinginkan
+        $resized_image = imagecreatetruecolor($new_width, $new_height);
+        imagecopyresampled($resized_image, $source_image, 0, 0, 0, 0, $new_width, $new_height, $original_width, $original_height);
+    
+        // Menyimpan gambar ke output buffer
+        ob_start();
+        imagejpeg($resized_image);
+        $image_data = ob_get_contents();
+        ob_end_clean();
+    
+        // Hapus resource gambar untuk menghemat memori
+        imagedestroy($source_image);
+        imagedestroy($resized_image);
+    
+        // Mengonversi gambar ke format base64
+        return base64_encode($image_data);
     }
 ?>

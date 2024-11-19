@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "List Testimoni";
+    $service_name = "List Member";
 
     // Setting default response
     $code = 201;
@@ -46,10 +46,9 @@
                         $id_api_session = $DataValidasiToken['id_api_session'];
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
-                        
-                        $testimoni_list=[];
-                        //Hitung Jumlah Data Testimoni Dan Properti Paging
-                        $jumlah_testimoni=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_testimoni FROM web_testimoni WHERE status='Publish'"));
+                        //Hitung Jumlah Data Member Yang Active
+                        $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE status='Active'"));
+                        //Apabila Variabel Limit Kosong Maka Secara Default Akan Menampilkan 8 Data Member Terbaru
                         if(empty($_GET['limit'])){
                             $limit=0;
                         }else{
@@ -63,7 +62,7 @@
                             $posisi = ( $page - 1 ) * $limit;
                         }
                         if(empty($_GET['OrderBy'])){
-                            $OrderBy="id_web_testimoni";
+                            $OrderBy="datetime";
                         }else{
                             $OrderBy=$_GET['OrderBy'];
                         }
@@ -73,54 +72,36 @@
                             $ShortBy=$_GET['ShortBy'];
                         }
                         if(!empty($limit)){
-                            $jumlah_halaman = ceil($jumlah_testimoni/$limit); 
+                            $jumlah_halaman = ceil($jumlah_data/$limit); 
                         }else{
                             $jumlah_halaman =1; 
                         }
-                        // Persiapkan Query untuk Mengambil Data Testimoni
-                        if(empty($limit)){
-                            $QryTestimoni = $Conn->prepare("SELECT id_web_testimoni, id_member, nik_name, penilaian, testimoni, foto_profil, datetime FROM web_testimoni WHERE status='Publish' ORDER BY $OrderBy $ShortBy");
-                        }else{
-                            $QryTestimoni = $Conn->prepare("SELECT id_web_testimoni, id_member, nik_name, penilaian, testimoni, foto_profil, datetime FROM web_testimoni WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
-                        }
-                        $QryTestimoni->execute();
-                        $ResultTestimoni = $QryTestimoni->get_result();
-                        
-                        while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
-                            $id_web_testimoni=$DataTestimoni['id_web_testimoni'];
-                            $id_member=$DataTestimoni['id_member'];
-                            if(empty($DataTestimoni['nik_name'])){
-                                $nik_name="None";
+                        // Persiapkan Query untuk Mengambil Data Album
+                        $QryMember = $Conn->prepare("SELECT id_member, nama, kontak, email, foto FROM member ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
+                        $QryMember->execute();
+                        $ResultMember = $QryMember->get_result();
+                        //Buat Metadata
+                        $metadata=[];
+                        while ($DataMember = $ResultMember->fetch_assoc()) {
+                            $id_member=$DataMember['id_member'];
+                            $nama=$DataMember['nama'];
+                            $kontak=$DataMember['kontak'];
+                            $email=$DataMember['email'];
+                            $foto=$DataMember['foto'];
+                            if(!empty($foto)){
+                                $foto="$base_url/assets/img/Member/$foto";
                             }else{
-                                $nik_name=$DataTestimoni['nik_name'];
+                                $image_path="$base_url/assets/img/No-Image.png";
                             }
-                            
-                            $penilaian=$DataTestimoni['penilaian'];
-                            $testimoni=$DataTestimoni['testimoni'];
-                            if(empty($DataTestimoni['foto_profil'])){
-                                $foto_profil="";
-                            }else{
-                                $foto_profil=$DataTestimoni['foto_profil'];
-                            }
-                            $datetime=$DataTestimoni['datetime'];
-                            //Membuka Member
-                            $nama = GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
                             // Add to array
-                            $testimoni_list[] = [
-                                "id_web_testimoni" => $id_web_testimoni,
-                                "nama" => $nik_name,
-                                "penilaian" => $penilaian,
-                                "datetime" => $datetime,
-                                "foto_profil" => $foto_profil
+                            $metadata[] = [
+                                "id_member" => $id_member,
+                                "nama" => $nama,
+                                "kontak" => $kontak,
+                                "email" => $email,
+                                "foto" => $image_path
                             ];
                         }
-                        $metadata= [
-                            "jumlah_testimoni" => $jumlah_testimoni,
-                            "limit" => $limit,
-                            "page" => $page,
-                            "jumlah_halaman" => $jumlah_halaman,
-                            "testimoni_list" => $testimoni_list
-                        ];
                         //menyimpan Log
                         $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
                         if ($SimpanLog !== "Success") {

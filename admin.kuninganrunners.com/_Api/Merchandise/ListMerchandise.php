@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "List Testimoni";
+    $service_name = "List Merchandise";
 
     // Setting default response
     $code = 201;
@@ -46,10 +46,8 @@
                         $id_api_session = $DataValidasiToken['id_api_session'];
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
-                        
-                        $testimoni_list=[];
-                        //Hitung Jumlah Data Testimoni Dan Properti Paging
-                        $jumlah_testimoni=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_testimoni FROM web_testimoni WHERE status='Publish'"));
+                        //Hitung Jumlah Data Merchandise Dan Properti Paging
+                        $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_barang FROM barang"));
                         if(empty($_GET['limit'])){
                             $limit=0;
                         }else{
@@ -63,7 +61,7 @@
                             $posisi = ( $page - 1 ) * $limit;
                         }
                         if(empty($_GET['OrderBy'])){
-                            $OrderBy="id_web_testimoni";
+                            $OrderBy="id_barang";
                         }else{
                             $OrderBy=$_GET['OrderBy'];
                         }
@@ -73,53 +71,107 @@
                             $ShortBy=$_GET['ShortBy'];
                         }
                         if(!empty($limit)){
-                            $jumlah_halaman = ceil($jumlah_testimoni/$limit); 
+                            $jumlah_halaman = ceil($jumlah_data/$limit); 
                         }else{
                             $jumlah_halaman =1; 
                         }
-                        // Persiapkan Query untuk Mengambil Data Testimoni
-                        if(empty($limit)){
-                            $QryTestimoni = $Conn->prepare("SELECT id_web_testimoni, id_member, nik_name, penilaian, testimoni, foto_profil, datetime FROM web_testimoni WHERE status='Publish' ORDER BY $OrderBy $ShortBy");
-                        }else{
-                            $QryTestimoni = $Conn->prepare("SELECT id_web_testimoni, id_member, nik_name, penilaian, testimoni, foto_profil, datetime FROM web_testimoni WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
-                        }
-                        $QryTestimoni->execute();
-                        $ResultTestimoni = $QryTestimoni->get_result();
                         
-                        while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
-                            $id_web_testimoni=$DataTestimoni['id_web_testimoni'];
-                            $id_member=$DataTestimoni['id_member'];
-                            if(empty($DataTestimoni['nik_name'])){
-                                $nik_name="None";
+                        // Persiapkan Query untuk Mengambil Data Album
+                        if(empty($limit)){
+                            $QryBarang = $Conn->prepare("SELECT * FROM barang ORDER BY $OrderBy $ShortBy");
+                        }else{
+                            $QryBarang = $Conn->prepare("SELECT * FROM barang ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
+                        }
+                        $QryBarang->execute();
+                        $ResultBarang = $QryBarang->get_result();
+
+                        $list_barang=[];
+                        while ($DataBarang = $ResultBarang->fetch_assoc()) {
+                            $id_barang=$DataBarang['id_barang'];
+                            $nama_barang=$DataBarang['nama_barang'];
+                            $kategori=$DataBarang['kategori'];
+                            $satuan=$DataBarang['satuan'];
+                            $harga=$DataBarang['harga'];
+                            $stok=$DataBarang['stok'];
+                            $dimensi=$DataBarang['dimensi'];
+                            $deskripsi=$DataBarang['deskripsi'];
+                            $varian=$DataBarang['varian'];
+                            $datetime=$DataBarang['datetime'];
+                            $updatetime=$DataBarang['updatetime'];
+                            $foto=$DataBarang['foto'];
+                            if(!empty($foto)){
+                                $image_path="$base_url/assets/img/Marchandise/$foto";
                             }else{
-                                $nik_name=$DataTestimoni['nik_name'];
+                                $image_path="$base_url/assets/img/No-Image.png";
                             }
                             
-                            $penilaian=$DataTestimoni['penilaian'];
-                            $testimoni=$DataTestimoni['testimoni'];
-                            if(empty($DataTestimoni['foto_profil'])){
-                                $foto_profil="";
-                            }else{
-                                $foto_profil=$DataTestimoni['foto_profil'];
+                            //Ubah Data Json Ke Array
+                            $dimensi=json_decode($dimensi,true);
+                            $varian_arry=json_decode($varian,true);
+                            //Buka Data Varian
+                            $varian_data= [];
+                            foreach($varian_arry as $varian_list){
+                                if(!empty($varian_list['foto_varian'])){
+                                    $path_foto_varian=''.$base_url.'/assets/img/Marchandise/'.$varian_list['foto_varian'].'';
+                                }else{
+                                    $path_foto_varian="$base_url/assets/img/No-Image.png";
+                                }
+                                if(!empty($varian_list['id_varian'])){
+                                    $id_varian=$varian_list['id_varian'];
+                                }else{
+                                    $id_varian="";
+                                }
+                                if(!empty($varian_list['nama_varian'])){
+                                    $nama_varian=$varian_list['nama_varian'];
+                                }else{
+                                    $nama_varian="";
+                                }
+                                if(!empty($varian_list['stok_varian'])){
+                                    $stok_varian=$varian_list['stok_varian'];
+                                }else{
+                                    $stok_varian="";
+                                }
+                                if(!empty($varian_list['harga_varian'])){
+                                    $harga_varian=$varian_list['harga_varian'];
+                                }else{
+                                    $harga_varian="";
+                                }
+                                if(!empty($varian_list['keterangan_varian'])){
+                                    $keterangan_varian=$varian_list['keterangan_varian'];
+                                }else{
+                                    $keterangan_varian="";
+                                }
+                                $varian_data[]= [
+                                    "id_varian" => $id_varian,
+                                    "foto_varian" => $path_foto_varian,
+                                    "nama_varian" => $nama_varian,
+                                    "stok_varian" => $stok_varian,
+                                    "harga_varian" => $harga_varian,
+                                    "keterangan_varian" => $keterangan_varian,
+                                ];
                             }
-                            $datetime=$DataTestimoni['datetime'];
-                            //Membuka Member
-                            $nama = GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
                             // Add to array
-                            $testimoni_list[] = [
-                                "id_web_testimoni" => $id_web_testimoni,
-                                "nama" => $nik_name,
-                                "penilaian" => $penilaian,
+                            $list_barang[] = [
+                                "id_barang" => $id_barang,
+                                "nama_barang" => $nama_barang,
+                                "kategori" => $kategori,
+                                "satuan" => $satuan,
+                                "harga" => $harga,
+                                "stok" => $stok,
+                                "dimensi" => $dimensi,
+                                "varian" => $varian_data,
                                 "datetime" => $datetime,
-                                "foto_profil" => $foto_profil
+                                "updatetime" => $updatetime,
+                                "image" => $image_path
                             ];
                         }
+                        // Add to array
                         $metadata= [
-                            "jumlah_testimoni" => $jumlah_testimoni,
-                            "limit" => $limit,
-                            "page" => $page,
+                            "jumlah_data" => $jumlah_data,
                             "jumlah_halaman" => $jumlah_halaman,
-                            "testimoni_list" => $testimoni_list
+                            "page" => $page,
+                            "limit" => $limit,
+                            "list_barang" => $list_barang
                         ];
                         //menyimpan Log
                         $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);

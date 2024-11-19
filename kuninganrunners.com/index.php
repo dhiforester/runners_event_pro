@@ -130,6 +130,10 @@
                             include "_Page/Event/ModalEvent.php";
                         }else if($Page=="Galeri"){
                             include "_Page/Galeri/Galeri.php";
+                        }else if($Page=="Merch"){
+                            include "_Page/Merch/Merch.php";
+                        }else if($Page=="DetailMerch"){
+                            include "_Page/Merch/DetailMerch.php";
                         }
                     }
                     include "_Partial/Modal.php";
@@ -214,7 +218,11 @@
                                             if($_GET['Page']=="Galeri"){
                                                 echo '<script src="_Page/Galeri/Galeri.js"></script>';
                                             }else{
-                                                
+                                                if($_GET['Page']=="Merch"){
+                                                    echo '<script src="_Page/Merch/Merch.js"></script>';
+                                                }else{
+                                                    
+                                                }
                                             }
                                         }
                                     }
