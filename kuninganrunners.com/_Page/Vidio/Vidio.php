@@ -1,69 +1,41 @@
-<?php
-    session_start();
-    include "../../_Config/Connection.php";
-    include "../../_Config/GlobalFunction.php";
-    //Menangkan xtoken dari session
-    if(empty($_SESSION['xtoken'])){
-        echo '<div class="card mb-3">';
-        echo '  <div class="card-body text-center text-danger">';
-        echo '      <small>Tidak Ada Sesi Token</small>';
-        echo '  </div>';
-        echo '</div>';
-    }else{
-        $xtoken=$_SESSION['xtoken'];
-        //Buka Fungsi List Barang
-        $limit=4;
-        if(empty($_GET['page'])){
-            $page=1;
-        }else{
-            $page=$_GET['page'];
-        }
-        $OrderBy="datetime";
-        $ShortBy="DESC";
-        $WebDataVidio=WebListVidio($url_server,$xtoken,$limit,$page,$OrderBy,$ShortBy);
-        $WebDataVidio=json_decode($WebDataVidio, true);
-        if($WebDataVidio['response']['code']!==200){
-            echo '<div class="card mb-3">';
-            echo '  <div class="card-body text-center text-danger">';
-            echo '      <small>'.$WebDataVidio['response']['message'].'</small>';
-            echo '  </div>';
-            echo '</div>';
-        }else{
-            $jumlah_data=count($WebDataVidio['metadata']);
-            if(empty($jumlah_data)){
-                echo '<div class="card mb-3">';
-                echo '  <div class="card-body text-center text-danger">';
-                echo '      <small>Belum Ada Data Yang Ditampilkan</small>';
-                echo '  </div>';
-                echo '</div>';
-            }else{
-                $metadata=$WebDataVidio['metadata'];
-                $list_vidio_arry=$metadata['list_vidio'];
-                foreach($list_vidio_arry as $list_vidio){
-                    $id_web_vidio=$list_vidio['id_web_vidio'];
-                    $sumber_vidio=$list_vidio['sumber_vidio'];
-                    $title_vidio=$list_vidio['title_vidio'];
-                    $deskripsi=$list_vidio['deskripsi'];
-                    $datetime=$list_vidio['datetime'];
-                    $thumbnail=$list_vidio['thumbnail'];
-?>
-                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <a href="javascript:void(0);" class="team-member" data-bs-toggle="modal" data-bs-target="#ModalDetailVidio" data-id="<?php echo $id_web_vidio; ?>">
-                        <div class="member-img">
-                            <img src="<?php echo "$thumbnail"; ?>" class="img-fluid" alt="">
-                        </div>
-                        <div class="member-info">
-                            <h4><?php echo $title_vidio; ?></h4>
-                            <span><?php echo $datetime; ?></span>
-                        </div>
-                    </a>
-                </div>
-<?php
-                }
-            }
-        }
-    }
-?>
-<script>
-    
-</script>
+<div class="sub-page-title dark-background">
+</div>
+<section id="vidio" class="team section">
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col-md-12 text-center mb-3">
+                <h4>
+                    <i class="bi bi-youtube"></i> Konten Vidio
+                </h4>
+                <small>
+                    Menampilkan Semua Konten Vidio
+                </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12 mb-3">
+
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-12 text-center">
+                <a href="index.php" class="button button-back mb-4">
+                    <i class="bi bi-chevron-left"></i> Kembali Ke Beranda
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row mb-3">
+            <div class="col-md-12 mb-3">
+                <form action="javascript:void(0);" id="ProsesFilter">
+                    <input type="hidden" name="page" id="put_page">
+                    <input type="hidden" name="limit" value="8">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="MenampilkanListVidio">
+        <!-- List March Akan Ditampilkan Disini -->
+    </div>
+</section>

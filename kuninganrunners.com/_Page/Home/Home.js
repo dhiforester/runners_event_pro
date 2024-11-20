@@ -80,7 +80,7 @@ function ShowVidio() {
     $('#ShowVidio').html('Loading...');
     $.ajax({
         type    : 'POST',
-        url     : '_Page/Vidio/Vidio.php',
+        url     : '_Page/Vidio/VidioHome.php',
         success: function(data) {
             $('#ShowVidio').html(data);
         }

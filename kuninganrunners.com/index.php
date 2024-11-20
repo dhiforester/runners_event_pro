@@ -136,7 +136,7 @@
                         }else if($Page=="DetailMerch"){
                             include "_Page/Merch/DetailMerch.php";
                         }else if($Page=="Vidio"){
-                            include "_Page/Vidio/VidioHome.php";
+                            include "_Page/Vidio/Vidio.php";
                             include "_Page/Vidio/ModalVidio.php";
                         }else if($Page=="Testimoni"){
                             include "_Page/Testimoni/Testimoni.php";
@@ -231,7 +231,11 @@
                                                     if($_GET['Page']=="Testimoni"){
                                                         echo '<script src="_Page/Testimoni/Testimoni.js"></script>';
                                                     }else{
-                                                        
+                                                        if($_GET['Page']=="Vidio"){
+                                                            echo '<script src="_Page/Vidio/Vidio.js"></script>';
+                                                        }else{
+                                                            
+                                                        }
                                                     }
                                                 }
                                             }
