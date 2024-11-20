@@ -1,6 +1,16 @@
-$('#KembaliKeBeranda').on('click', function() {
-    window.location.href = 'index.php'; // Ganti URL sesuai kebutuhan
-});
-$('#KembaliKeAlbum').on('click', function() {
-    window.location.href = 'index.php?Page=Galeri'; // Ganti URL sesuai kebutuhan
+//Fungsi Menampilkan Data
+function FilterAlbum() {
+    var ProsesFilter = $('#ProsesFilter').serialize();
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Galeri/TabelAlbum.php',
+        data: ProsesFilter,
+        success: function(data) {
+            $('#MenampilkanListAlbum').html(data);
+        }
+    });
+}
+$(document).ready(function() {
+    //Menampilkan Data Pertama Kali
+    FilterAlbum();
 });

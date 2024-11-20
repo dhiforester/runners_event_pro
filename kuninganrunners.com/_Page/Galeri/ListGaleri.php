@@ -16,28 +16,31 @@
         $nama_album=$_GET['album'];
 ?>
     <section id="portfolio" class="portfolio section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
+        <div class="container mb-3">
+            <div class="row mb-4">
+                <div class="col-md-12 text-center mb-4">
                     <h4>
                         <i class="bi bi-bookmark"></i> Album "<i><?php echo $nama_album; ?></i>"
                     </h4>
                     <small>
-                        Menampilkan Semua Riwayat Album Kegaiatan
+                        Menampilkan Semua Galeri Pada Album "<i><?php echo $nama_album; ?></i>"
                     </small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button type="button" class="button button-back" id="KembaliKeAlbum">
+                    <a href="index.php?Page=Galeri" class="button button-back">
                         <i class="bi bi-chevron-left"></i> Kembali Ke Album
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
-    </section>
-    <section id="portfolio" class="portfolio section">
-        <div class="container">
+        <div class="container mt-3">
+            <div class="row mb-3">
+                <div class="col-md-12 mb-3">
+
+                </div>
+            </div>
             <?php
                 //Mengatur Properti halaman
                 $NamaAlbumURL = str_replace(' ', '-', $nama_album);
@@ -65,13 +68,16 @@
                             $datetime=$metadata_list['datetime'];
                             $nama_galeri=$metadata_list['nama_galeri'];
                             $image=$metadata_list['image'];
+                            //Format Tanggal
+                            $strtotime=strtotime($datetime);
+                            $datetime_format=date('d/m/Y', $strtotime);
                             echo '<div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-3 portfolio-item isotope-item">';
-                            echo '  <img src="data:image/jpeg;base64,' . $image . '" class="img-fluid" alt="" width="100%">';
+                            echo '  <img src="' . $image . '" class="img-fluid uniform-height" alt="" width="100%">';
                             echo '  <div class="portfolio-info">';
-                            echo '      <h4>';
+                            echo '      <a href="' . $image . '" title="'.$nama_galeri.' 2" data-gallery="portfolio-gallery-branding" class="glightbox">';
                             echo '          '.$nama_galeri.'';
-                            echo '      </h4>';
-                            echo '      <p>'.$datetime.'</p>';
+                            echo '      </a>';
+                            echo '      <p>'.$datetime_format.'</p>';
                             echo '  </div>';
                             echo '</div>';
                         }

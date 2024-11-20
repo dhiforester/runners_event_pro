@@ -616,6 +616,9 @@ h6 {
   [data-aos-delay] {
     transition-delay: 0 !important;
   }
+  .uniform-height {
+    height: 150px; /* Tinggi lebih kecil untuk perangkat mobile */
+}
 }
 
 /*--------------------------------------------------------------
@@ -2923,4 +2926,11 @@ footer {
   border-radius: 50%; /* Membuat gambar berbentuk lingkaran */
   object-fit: cover; /* Mengatur konten gambar agar tidak terdistorsi */
   border: 2px solid #ccc; /* Tambahkan border opsional */
+}
+.uniform-height {
+  width: 100%; /* Lebar penuh dari kolom */
+  height: 250px; /* Tinggi seragam, sesuaikan sesuai kebutuhan */
+  object-fit: cover; /* Memastikan rasio tetap */
+  object-position: center; /* Pusatkan area penting dari gambar */
+  border-radius: 8px; /* Opsional: Membuat sudut gambar melengkung */
 }

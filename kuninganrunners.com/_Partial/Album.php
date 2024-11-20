@@ -45,9 +45,14 @@
                 echo '          <img src="data:image/jpeg;base64,' . $cover_album . '" class="img-fluid zoomed_image" alt="" width="100%">';
                 echo '      </div>';
                 echo '      <p class="post-category">';
-                echo '          <a href="index.php?Page=Galeri&album='.$nama_album.'">'.$nama_album.'</a>';
+                echo '          <b class="text text-dark">'.$nama_album.'</b>';
                 echo '      </p>';
-                echo '      <small>'.$jumlah_galeri.' Galeri</small>';
+                echo '      <small class="text text-grayish"><i class="bi bi-image"></i> '.$jumlah_galeri.' Galeri</small><br>';
+                echo '      <a href="index.php?Page=Galeri&album='.$nama_album.'">';
+                echo '          <small>';
+                echo '              <code class="text text-primary"><i class="bi bi-three-dots"></i> Lihat Galeri</code>';
+                echo '          </small>';
+                echo '      </a>';
                 echo '  </article>';
                 echo '</div>';
             }
