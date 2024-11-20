@@ -92,6 +92,7 @@
                     if(empty($_GET['Page'])){
                         include "_Page/Home/Home.php";
                         include "_Page/Home/ModalHome.php";
+                        include "_Page/Vidio/ModalVidio.php";
                     }else{
                         $Page=$_GET['Page'];
                         if($Page=="Login"){
@@ -134,6 +135,9 @@
                             include "_Page/Merch/Merch.php";
                         }else if($Page=="DetailMerch"){
                             include "_Page/Merch/DetailMerch.php";
+                        }else if($Page=="Vidio"){
+                            include "_Page/Vidio/VidioHome.php";
+                            include "_Page/Vidio/ModalVidio.php";
                         }
                     }
                     include "_Partial/Modal.php";

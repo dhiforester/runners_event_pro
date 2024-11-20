@@ -91,7 +91,7 @@ $(document).ready(function() {
     $('#ProsesTambahGaleri').on('submit', function(e) {
         e.preventDefault();
         // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
-        $('#ButtonTambahMedsos').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
+        $('#ButtonTambahGaleri').html('<i class="bi bi-save"></i> Loading..').prop('disabled', true);
         // Membuat objek FormData
         var formData = new FormData(this);
         // Mengirim data melalui AJAX

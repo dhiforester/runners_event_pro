@@ -40,6 +40,9 @@
         if($Page=="Galeri"){
             include "_Page/Galeri/ModalGaleri.php";
         }
+        if($Page=="Vidio"){
+            include "_Page/Vidio/ModalVidio.php";
+        }
         if($Page=="Testimoni"){
             include "_Page/Testimoni/ModalTestimoni.php";
         }

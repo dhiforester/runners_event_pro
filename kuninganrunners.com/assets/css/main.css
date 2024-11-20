@@ -2899,3 +2899,28 @@ footer {
 .text-grayish {
   color: #6c757d; /* Warna teks abu-abu */
 }
+
+
+/* Member */
+.card-member {
+  background-color: transparent;
+  border: 2px solid orange; /* Garis dengan warna oranye */
+  border-radius: 8px; /* Membulatkan sudut */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi untuk hover */
+}
+
+.card-member:hover {
+  transform: scale(1.05); /* Membesar sedikit saat hover */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Menambahkan efek bayangan lebih dalam */
+  cursor: pointer; /* Menampilkan pointer saat hover */
+}
+
+.card-member .card-body {
+  padding: 20px; /* Memberikan ruang lebih pada isi card */
+}
+.image_member {
+  border-radius: 50%; /* Membuat gambar berbentuk lingkaran */
+  object-fit: cover; /* Mengatur konten gambar agar tidak terdistorsi */
+  border: 2px solid #ccc; /* Tambahkan border opsional */
+}

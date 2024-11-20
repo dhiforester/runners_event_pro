@@ -77,7 +77,7 @@
                             $jumlah_halaman =1; 
                         }
                         // Persiapkan Query untuk Mengambil Data Album
-                        $QryMember = $Conn->prepare("SELECT id_member, nama, kontak, email, foto FROM member ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
+                        $QryMember = $Conn->prepare("SELECT id_member, nama, kontak, email, datetime, foto FROM member WHERE status='Active' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $limit");
                         $QryMember->execute();
                         $ResultMember = $QryMember->get_result();
                         //Buat Metadata
@@ -87,9 +87,10 @@
                             $nama=$DataMember['nama'];
                             $kontak=$DataMember['kontak'];
                             $email=$DataMember['email'];
+                            $tanggal_daftar=$DataMember['datetime'];
                             $foto=$DataMember['foto'];
                             if(!empty($foto)){
-                                $foto="$base_url/assets/img/Member/$foto";
+                                $image_path="$base_url/assets/img/Member/$foto";
                             }else{
                                 $image_path="$base_url/assets/img/No-Image.png";
                             }
@@ -99,6 +100,7 @@
                                 "nama" => $nama,
                                 "kontak" => $kontak,
                                 "email" => $email,
+                                "datetime" => $tanggal_daftar,
                                 "foto" => $image_path
                             ];
                         }

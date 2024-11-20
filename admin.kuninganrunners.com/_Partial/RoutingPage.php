@@ -39,6 +39,9 @@
         if($Page=="Galeri"){
             include "_Page/Galeri/Galeri.php";
         }
+        if($Page=="Vidio"){
+            include "_Page/Vidio/Vidio.php";
+        }
         if($Page=="Testimoni"){
             include "_Page/Testimoni/Testimoni.php";
         }

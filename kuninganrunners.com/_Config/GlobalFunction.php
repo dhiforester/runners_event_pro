@@ -580,6 +580,63 @@
         curl_close($curl);
         return $response;
     }
+    function WebListMember($url_server,$xtoken,$limit,$page,$OrderBy,$ShortBy){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Member/ListMember.php?limit='.$limit.'&page='.$page.'&OrderBy='.$OrderBy.'&ShortBy='.$ShortBy.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function WebListVidio($url_server,$xtoken,$limit,$page,$OrderBy,$ShortBy){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Vidio/ListVidio.php?limit='.$limit.'&page='.$page.'&OrderBy='.$OrderBy.'&ShortBy='.$ShortBy.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    function WebDetailVidio($url_server,$xtoken,$id){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/Vidio/DetailVidio.php?id='.$id.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
     function resizeImage($file, $new_width, $new_height) {
         // Cek format gambar dan buat resource gambar
         $image_info = getimagesize($file);
@@ -615,5 +672,25 @@
     
         // Mengonversi gambar ke format base64
         return base64_encode($image_data);
+    }
+    //Sensor Email
+    function SensorEmail($email) {
+        // Pisahkan bagian username dan domain
+        list($username, $domain) = explode("@", $email);
+
+        // Ambil 2 huruf awal dari username dan gabungkan dengan **
+        $masked_username = substr($username, 0, 2) . '**';
+
+        // Gabungkan dengan domain untuk menghasilkan email yang dimodifikasi
+        $masked_email = $masked_username . '@' . $domain;
+        return $masked_email;
+    }
+    //Sensor Kontak
+    function SensorKontak($kontak) {
+       // Ambil panjang nomor kontak
+        $length = strlen($kontak);
+        // Ganti 3 digit terakhir dengan ***
+        $masked_kontak = substr($kontak, 0, $length - 3) . '***';
+        return $masked_kontak;
     }
 ?>

@@ -172,7 +172,7 @@
     </div>
 </section>
 <!-- List All Event -->
-<section id="Event-Runner" class="Event-Runner section event-background">
+<section id="event" class="event section event-background">
     <div class="container section-title" data-aos="fade-up">
         <h2>Event Runner's</h2>
         <p>Kalender Event</p>
@@ -198,6 +198,36 @@
         <div class="row mb-4 mt-4">
             <div class="col-md-12 text-center">
                 <a href="index.php?Page=Merch" class="button_more">
+                    Lihat Selengkapnya
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- List Member Baru -->
+<section id="member-baru" class="member-baru section event-background">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Member Baru</h2>
+    </div>
+    <div class="container">
+        <div class="row" id="ShowMemberList">
+        </div>
+    </div>
+</section>
+<!-- Konten Vidio -->
+<section id="vidio" class="team section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Konten Vidio</h2>
+    </div>
+    <div class="container">
+        <div class="row mb-4" id="ShowVidio">
+            <!-- List March Akan Ditampilkan Disini -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mb-4 mt-4">
+            <div class="col-md-12 text-center">
+                <a href="index.php?Page=Vidio" class="button_more">
                     Lihat Selengkapnya
                 </a>
             </div>

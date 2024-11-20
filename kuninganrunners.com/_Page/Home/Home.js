@@ -64,6 +64,28 @@ function ShowMerchandise() {
         }
     });
 }
+//Fungsi Menampilkan List Member Baru
+function ShowMemberList() {
+    $('#ShowMemberList').html('Loading...');
+    $.ajax({
+        type    : 'POST',
+        url     : '_Partial/Member.php',
+        success: function(data) {
+            $('#ShowMemberList').html(data);
+        }
+    });
+}
+//Fungsi Menampilkan List Vidio
+function ShowVidio() {
+    $('#ShowVidio').html('Loading...');
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Vidio/Vidio.php',
+        success: function(data) {
+            $('#ShowVidio').html(data);
+        }
+    });
+}
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     //Proses Penanganan Konten Tentang Kami
@@ -103,4 +125,23 @@ $(document).ready(function() {
     ShowFaq();
     ShowEventAll();
     ShowMerchandise();
+    ShowMemberList();
+    ShowVidio();
+    //Ketika Modal Detail
+    $('#ModalDetailVidio').on('show.bs.modal', function (e) {
+        var id_web_vidio = $(e.relatedTarget).data('id');
+        $('#FormDetailVidio').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Vidio/FormDetail.php',
+            data        : {id_web_vidio: id_web_vidio},
+            success     : function(data){
+                $('#FormDetailVidio').html(data);
+            }
+        });
+    });
+    $('#ModalDetailVidio').on('hidden.bs.modal', function (e) {
+        // Kosongkan konten form detail
+        $('#FormDetailVidio').html(""); 
+    });
 });
