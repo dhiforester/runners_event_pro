@@ -618,7 +618,10 @@ h6 {
   }
   .uniform-height {
     height: 150px; /* Tinggi lebih kecil untuk perangkat mobile */
-}
+  }
+  .image_testimoni {
+    height: 150px; /* Tinggi lebih kecil untuk perangkat mobile */
+  }
 }
 
 /*--------------------------------------------------------------
@@ -2930,6 +2933,13 @@ footer {
 .uniform-height {
   width: 100%; /* Lebar penuh dari kolom */
   height: 250px; /* Tinggi seragam, sesuaikan sesuai kebutuhan */
+  object-fit: cover; /* Memastikan rasio tetap */
+  object-position: center; /* Pusatkan area penting dari gambar */
+  border-radius: 8px; /* Opsional: Membuat sudut gambar melengkung */
+}
+.image_testimoni {
+  width: 150px; /* Lebar penuh dari kolom */
+  height: 150px; /* Tinggi seragam, sesuaikan sesuai kebutuhan */
   object-fit: cover; /* Memastikan rasio tetap */
   object-position: center; /* Pusatkan area penting dari gambar */
   border-radius: 8px; /* Opsional: Membuat sudut gambar melengkung */

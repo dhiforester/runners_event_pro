@@ -10,7 +10,7 @@
         include "../_Config/GlobalFunction.php";
         //Mengatur Properti halaman
         $page_testimoni=1;
-        $limit_testimoni=8;
+        $limit_testimoni=12;
         $WebTestimoni=WebTestimoni($url_server,$xtoken,$page_testimoni,$limit_testimoni);
         $WebTestimoni=json_decode($WebTestimoni, true);
         if($WebTestimoni['response']['code']!==200){
@@ -50,7 +50,7 @@
                             </div>
                             <p>
                                 <button type="button" class="btn btn-sm btn-warning btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalDetailTestimoni" data-id="<?php echo "$id_web_testimoni"; ?>">
-                                    Lihat
+                                    Baca Komentar
                                 </button>
                             </p>
                         </div>

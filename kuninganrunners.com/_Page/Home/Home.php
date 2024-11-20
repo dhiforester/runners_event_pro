@@ -146,7 +146,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <a href="" class="button_more">
+                <a href="index.php?Page=Testimoni" class="button_more">
                     Lihat Selengkapnya
                 </a>
             </div>
