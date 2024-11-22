@@ -69,7 +69,7 @@
                     if (in_array(pathinfo($foto_path, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg', 'gif'])) {
                         echo '<div class="row mb-3">';
                         echo '  <div class="col-md-12 text-center">';
-                        echo '      <img src="' . htmlspecialchars($foto_url) . '" alt="Foto Barang" class="rounded-circle" width="200px">';
+                        echo '      <img src="' . htmlspecialchars($foto_url) . '" alt="Foto Barang" class="rounded-circle" width="200px" height="200px">';
                         echo '  </div>';
                         echo '</div>';
                     } else {

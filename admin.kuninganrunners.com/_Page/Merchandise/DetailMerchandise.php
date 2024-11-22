@@ -37,6 +37,7 @@
         $deskripsi=GetDetailData($Conn,'barang','id_barang',$id_barang,'deskripsi');
         $foto=GetDetailData($Conn,'barang','id_barang',$id_barang,'foto');
         $varian=GetDetailData($Conn,'barang','id_barang',$id_barang,'varian');
+        $marketplace=GetDetailData($Conn,'barang','id_barang',$id_barang,'marketplace');
         $datetime=GetDetailData($Conn,'barang','id_barang',$id_barang,'datetime');
         $updatetime=GetDetailData($Conn,'barang','id_barang',$id_barang,'updatetime');
         //Format Harga
@@ -154,7 +155,7 @@
                                             <div class="row mt-3 mb-3">
                                                 <div class="col-md-10"></div>
                                                 <div class="col-md-2">
-                                                    <button type="button" class="btn btn-md btn-outline-primary btn-rounded btn-block" data-bs-toggle="modal" data-bs-target="#ModalTambahVarian" data-id="<?php echo "$id_barang"; ?>">
+                                                    <button type="button" class="btn btn-md btn-primary btn-rounded btn-block" data-bs-toggle="modal" data-bs-target="#ModalTambahVarian" data-id="<?php echo "$id_barang"; ?>">
                                                         <i class="bi bi-plus"></i> Tambah Varian
                                                     </button>
                                                 </div>
@@ -170,10 +171,26 @@
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingTreeDetail">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTreeDetail" aria-expanded="false" aria-controls="flush-collapseTreeDetail">
-                                            <b>3. Riwayat Penjualan</b>
+                                            <b>3. Marketplace Link</b>
                                         </button>
                                     </h2>
                                     <div id="flush-collapseTreeDetail" class="accordion-collapse collapse" aria-labelledby="flush-headingTreeDetail" data-bs-parent="#accordionFlushDetail">
+                                        <div class="accordion-body">
+                                            <div class="row mt-4 mb-4">
+                                                <div class="col-md-12 mt-4 mb-4" id="ShowMarketplace">
+                                                    <!-- Menampilkan List Riwayat Penjualan Barang -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFourDetail">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFourDetail" aria-expanded="false" aria-controls="flush-collapseFourDetail">
+                                            <b>4. Riwayat Penjualan</b>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFourDetail" class="accordion-collapse collapse" aria-labelledby="flush-headingFourDetail" data-bs-parent="#accordionFlushDetail">
                                         <div class="accordion-body">
                                             <div class="row">
                                                 <div class="col-md-12 text-center" id="ShowRiwayatPenjualan">

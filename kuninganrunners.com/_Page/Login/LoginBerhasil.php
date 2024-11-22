@@ -36,8 +36,24 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-12">
+                            <?php
+                                //Apabila Sebelumnya Mempunyai URL Back
+                                if(!empty($_SESSION['url_back'])){
+                                    $url_back=$_SESSION['url_back'];
+                                    echo '<a href="'.$url_back.'" class="button_keranjang">';
+                                    echo '  <i class="bi bi-chevron-left"></i> Kembali Ke Sebelumnya';
+                                    echo '</a>';
+
+                                    //Hapus Session
+                                    unset($_SESSION['url_back']);
+                                }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
                             <a href="index.php?Page=Profil" class="button_back_to_login">
-                                <i class="bi bi-person-circle"></i> Ke Halaman Profil
+                                <i class="bi bi-person-circle"></i> Halaman Profil Anda
                             </a>
                         </div>
                     </div>

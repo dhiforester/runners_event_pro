@@ -43,6 +43,9 @@ function ShowDetailBarang() {
 function ShowVarianProduk() {
     LoadDataProduk('ShowVarianProduk', '#ShowVarianProduk');
 }
+function ShowMarketplace() {
+    LoadDataProduk('ShowMarketplace', '#ShowMarketplace');
+}
 function ShowRiwayatPenjualan() {
     LoadDataProduk('ShowRiwayatPenjualan', '#ShowRiwayatPenjualan');
 }
@@ -98,6 +101,7 @@ $(document).ready(function() {
     ShowFotoBarang();
     ShowDetailBarang();
     ShowVarianProduk();
+    ShowMarketplace();
     ShowRiwayatPenjualan();
     //Ketika Keyword By Diubah
     $('#keyword_by').change(function(){

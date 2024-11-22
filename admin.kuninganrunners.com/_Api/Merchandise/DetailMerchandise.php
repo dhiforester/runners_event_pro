@@ -65,10 +65,11 @@
                                 $deskripsi=GetDetailData($Conn,'barang','id_barang',$id_barang,'deskripsi');
                                 $foto=GetDetailData($Conn,'barang','id_barang',$id_barang,'foto');
                                 $varian=GetDetailData($Conn,'barang','id_barang',$id_barang,'varian');
+                                $marketplace=GetDetailData($Conn,'barang','id_barang',$id_barang,'marketplace');
                                 $datetime=GetDetailData($Conn,'barang','id_barang',$id_barang,'datetime');
                                 $updatetime=GetDetailData($Conn,'barang','id_barang',$id_barang,'updatetime');
                                 if(!empty($foto)){
-                                    $image_path="$base_url/assets/img/Marchandise/$foto";
+                                    $image_path="$base_url/_Api/Merchandise/ImageProxy.php?foto=$foto";
                                 }else{
                                     $image_path="$base_url/assets/img/No-Image.png";
                                 }
@@ -80,7 +81,7 @@
                                 $varian_data= [];
                                 foreach($varian_arry as $varian_list){
                                     if(!empty($varian_list['foto_varian'])){
-                                        $path_foto_varian=''.$base_url.'/assets/img/Marchandise/'.$varian_list['foto_varian'].'';
+                                        $path_foto_varian=''.$base_url.'/_Api/Merchandise/ImageProxy.php?foto='.$varian_list['foto_varian'].'';
                                     }else{
                                         $path_foto_varian="$base_url/assets/img/No-Image.png";
                                     }
@@ -118,10 +119,17 @@
                                         "keterangan_varian" => $keterangan_varian,
                                     ];
                                 }
+                                //Buka Data Marketplace
+                                if(!empty($marketplace)){
+                                    $marketplace=json_decode($marketplace, true);
+                                }else{
+                                    $marketplace="";
+                                }
                                 $metadata= [
                                     "id_barang" => $id_barang,
                                     "nama_barang" => $nama_barang,
                                     "kategori" => $kategori,
+                                    "deskripsi" => $deskripsi,
                                     "satuan" => $satuan,
                                     "harga" => $harga,
                                     "stok" => $stok,
@@ -129,6 +137,7 @@
                                     "datetime" => $datetime,
                                     "updatetime" => $updatetime,
                                     "varian" => $varian_data,
+                                    "marketplace" => $marketplace,
                                     "image" => $image_path,
                                 ];
                                 //menyimpan Log

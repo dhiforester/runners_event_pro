@@ -22,6 +22,7 @@
             //Proses hapus data peserta Event
             $HapusPeserta = mysqli_query($Conn, "DELETE FROM event_peserta WHERE id_event_peserta='$id_event_peserta'") or die(mysqli_error($Conn));
             if ($HapusPeserta) {
+                $HapusTransaksi = mysqli_query($Conn, "DELETE FROM transaksi WHERE kode_transaksi='$id_event_peserta'") or die(mysqli_error($Conn));
                 $kategori_log="Event";
                 $deskripsi_log="Hapus Peserta Event";
                 $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);

@@ -1,0 +1,127 @@
+$(document).ready(function () {
+    function calculateSubtotal() {
+        var ProsesTambahTransaksi=$('#ProsesTambahTransaksi').serialize();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Keranjang/ProsesHitungSubtotal.php',
+            data    : ProsesTambahTransaksi,
+            success: function(data) {
+                $('#Subtotal').html(data);
+            }
+        });
+    }
+
+    $('input[name="item_keranjang[]"]').on('change', function () {
+        calculateSubtotal();
+    });
+});
+//Ketika Modal Edit Keranjang Muncul
+$('#ModalEditKeranjang').on('show.bs.modal', function (e) {
+    var GetData = $(e.relatedTarget).data('id');
+    $('#FormEditKeranjang').html("Loading...");
+    $.ajax({
+        type        : 'POST',
+        url         : '_Page/Keranjang/FormEditKeranjang.php',
+        data        : { GetData: GetData },
+        success     : function(data) {
+            $('#FormEditKeranjang').html(data);
+            $('#NotifikasiEditKeranjang').html('');
+        }
+    });
+});
+// Proses Edit Keranjang
+$('#ProsesEditKeranjang').on('submit', function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $('#ButtonEditKeranjang').html('Loading...').prop('disabled', true);
+
+    $.ajax({
+        url             : '_Page/Keranjang/ProsesEditKeranjang.php',
+        type            : 'POST',
+        data            : formData,
+        contentType     : false,
+        processData     : false,
+        success: function (response) {
+            $('#ButtonEditKeranjang').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            var result;
+            try {
+                // Mencoba untuk parse JSON
+                result = JSON.parse(response);
+            } catch (e) {
+                $('#NotifikasiEditKeranjang').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                // Keluar dari fungsi jika JSON tidak valid
+                return;
+            }
+            if (result.code === 200) {
+                //Reset Form
+                $('#ProsesEditKeranjang')[0].reset();
+                //Tutup Modal
+                $('#ModalEditKeranjang').modal('hide');
+                // Menampilkan swal pemberitahuan
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Keranjang Berhasil Diubah.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Reload halaman setelah swal ditutup
+                        location.reload();
+                    }
+                });
+            } else {
+                // Menampilkan pesan kesalahan dari server
+                $('#NotifikasiEditKeranjang').html('<div class="alert alert-danger"><small><code class="text-dark">' + result.message + '</code></small></div>');
+            }
+        },
+        error: function () {
+            $('#ButtonEditKeranjang').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            $('#NotifikasiEditKeranjang').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
+        }
+    });
+});
+// Proses Tambah Transaksi
+$('#ProsesTambahTransaksi').on('submit', function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $('#ButtonTambahTransaksi').html('Loading...').prop('disabled', true);
+
+    $.ajax({
+        url             : '_Page/Keranjang/ProsesTambahTransaksi.php',
+        type            : 'POST',
+        data            : formData,
+        contentType     : false,
+        processData     : false,
+        success: function (response) {
+            $('#ButtonTambahTransaksi').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            var result;
+            try {
+                // Mencoba untuk parse JSON
+                result = JSON.parse(response);
+            } catch (e) {
+                $('#NotifikasiTambahTransaksi').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                // Keluar dari fungsi jika JSON tidak valid
+                return;
+            }
+            if (result.code === 200) {
+                // Menangkap Kode Transaksi
+                var kode_transaksi = result.kode_transaksi;
+
+                if (kode_transaksi && kode_transaksi.trim() !== "") {
+                    // Redirect ke URL dengan kode transaksi
+                    location.href = "index.php?Page=DetailTransaksi&kode=" + encodeURIComponent(kode_transaksi);
+                } else {
+                    // Menampilkan pesan error jika kode_transaksi kosong
+                    $('#NotifikasiTambahTransaksi').html('<div class="alert alert-danger"><small><code class="text-dark">Kode transaksi tidak valid.</code></small></div>');
+                }
+            } else {
+                // Menampilkan pesan kesalahan dari server
+                $('#NotifikasiTambahTransaksi').html('<div class="alert alert-danger"><small><code class="text-dark">' + result.message + '</code></small></div>');
+            }
+        },
+        error: function () {
+            $('#ButtonTambahTransaksi').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+            $('#NotifikasiTambahTransaksi').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
+        }
+    });
+});

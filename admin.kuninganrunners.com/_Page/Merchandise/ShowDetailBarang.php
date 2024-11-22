@@ -96,137 +96,123 @@
                 }
 ?>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="row mb-3">
-                            <div class="col col-md-6">
-                                <small>Nama Merchandise</small>
+                            <div class="col col-md-12">
+                                <b><?php echo $nama_barang; ?></b>
                             </div>
-                            <div class="col col-md-6">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <small>Deskripsi</small>
+                            </div>
+                            <div class="col-md-12">
                                 <small>
-                                    <code class="text text-grayish"><?php echo $nama_barang; ?></code>
+                                    <code class="text text-grayish">
+                                        <?php echo "$deskripsi"; ?>
+                                    </code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Kategori</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $kategori; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Satuan</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $satuan; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Tersedia</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $stok; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Harga</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $HargaFormat; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Datetime Creat</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $DatetimeFormat; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col col-md-6">
+                            <div class="col col-md-3">
                                 <small>Updatetime</small>
                             </div>
-                            <div class="col col-md-6">
+                            <div class="col col-md-9">
                                 <small>
                                     <code class="text text-grayish"><?php echo $UpdatetimeFormat; ?></code>
                                 </small>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="row mb-3 mt-3">
-                            <div class="col col-md-6">
-                                <small>Berat</small>
+                            <div class="col col-md-3">
+                                <small>Dimensi/Ukuran</small>
                             </div>
-                            <div class="col col-md-6">
-                                <small>
-                                    <code class="text text-grayish">
-                                        <?php echo "$berat Kg"; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col col-md-6">
-                                <small>Panjang</small>
-                            </div>
-                            <div class="col col-md-6">
-                                <small>
-                                    <code class="text text-grayish">
-                                        <?php echo "$panjang Cm"; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col col-md-6">
-                                <small>Lebar</small>
-                            </div>
-                            <div class="col col-md-6">
-                                <small>
-                                    <code class="text text-grayish">
-                                        <?php echo "$lebar Cm"; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col col-md-6">
-                                <small>Tinggi</small>
-                            </div>
-                            <div class="col col-md-6">
-                                <small>
-                                    <code class="text text-grayish">
-                                        <?php echo "$tinggi Cm"; ?>
-                                    </code>
-                                </small>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col col-md-12">
-                                <small>Deskripsi</small>
-                            </div>
-                            <div class="col col-md-12">
-                                <small>
-                                    <code class="text text-grayish">
-                                        <?php echo "$deskripsi"; ?>
-                                    </code>
-                                </small>
+                            <div class="col col-md-9">
+                                <ul>
+                                    <li>
+                                        <small class="text text-grayish">Berat :</small>
+                                        <small>
+                                            <code class="text text-grayish">
+                                                <?php echo "$berat Kg"; ?>
+                                            </code>
+                                        </small>
+                                    </li>
+                                    <li>
+                                        <small class="text text-grayish">Panjang :</small>
+                                        <small>
+                                            <code class="text text-grayish">
+                                                <?php echo "$panjang Cm"; ?>
+                                            </code>
+                                        </small>
+                                    </li>
+                                    <li>
+                                        <small class="text text-grayish">Lebar :</small>
+                                        <small>
+                                            <code class="text text-grayish">
+                                                <?php echo "$lebar Cm"; ?>
+                                            </code>
+                                        </small>
+                                    </li>
+                                    <li>
+                                        <small class="text text-grayish">Tinggi :</small>
+                                        <small>
+                                            <code class="text text-grayish">
+                                                <?php echo "$tinggi Cm"; ?>
+                                            </code>
+                                        </small>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

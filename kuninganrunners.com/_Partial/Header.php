@@ -21,6 +21,11 @@
                         if($_GET['Page']=="Galeri"){
                             echo '<li><a href="index.php">Beranda</a></li>';
                             echo '<li><a href="index.php?Page=Galeri" class="active">Galeri</a></li>';
+                            if(empty($_SESSION['id_member_login'])){
+                                echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                            }else{
+                                echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                            }
                         }else{
                             if($_GET['Page']=="Pendaftaran"){
                                 echo '<li><a href="index.php">Beranda</a></li>';
@@ -79,10 +84,82 @@
                                                                     echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
                                                                 }
                                                             }else{
-                                                                if($_GET['Page']=="Profil"){
+                                                                if($_GET['Page']=="Merch"){
                                                                     echo '<li><a href="index.php">Beranda</a></li>';
+                                                                    echo '<li><a href="" class="active">List Merchandise</a></li>';
+                                                                    if(empty($_SESSION['id_member_login'])){
+                                                                        echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                    }else{
+                                                                        echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                    }
                                                                 }else{
-                                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                                    if($_GET['Page']=="DetailMerch"){
+                                                                        echo '<li><a href="index.php">Beranda</a></li>';
+                                                                        echo '<li><a href="index.php?Page=Merch">List Merchandise</a></li>';
+                                                                        echo '<li><a href="" class="active">Detail Merchandise</a></li>';
+                                                                        if(empty($_SESSION['id_member_login'])){
+                                                                            echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                        }else{
+                                                                            echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                        }
+                                                                    }else{
+                                                                        if($_GET['Page']=="Keranjang"){
+                                                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                                                            echo '<li><a href="" class="active">Keranjang</a></li>';
+                                                                            if(empty($_SESSION['id_member_login'])){
+                                                                                echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                            }else{
+                                                                                echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                            }
+                                                                        }else{
+                                                                            if($_GET['Page']=="RiwayatTransaksi"){
+                                                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                echo '<li><a href="" class="active">Riwayat Transaksi</a></li>';
+                                                                                if(empty($_SESSION['id_member_login'])){
+                                                                                    echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                                }else{
+                                                                                    echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                                }
+                                                                            }else{
+                                                                                if($_GET['Page']=="DetailTransaksi"){
+                                                                                    echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                    echo '<li><a href="index.php?Page=RiwayatTransaksi">Riwayat Transaksi</a></li>';
+                                                                                    echo '<li><a href="" class="active">Detail Transaksi</a></li>';
+                                                                                    if(empty($_SESSION['id_member_login'])){
+                                                                                        echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                                    }else{
+                                                                                        echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                                    }
+                                                                                }else{
+                                                                                    if($_GET['Page']=="Testimoni"){
+                                                                                        echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                        echo '<li><a href="" class="active">Testimoni</a></li>';
+                                                                                        if(empty($_SESSION['id_member_login'])){
+                                                                                            echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                                        }else{
+                                                                                            echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                                        }
+                                                                                    }else{
+                                                                                        if($_GET['Page']=="Vidio"){
+                                                                                            echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                            echo '<li><a href="" class="active">Vidio</a></li>';
+                                                                                            if(empty($_SESSION['id_member_login'])){
+                                                                                                echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                                                                            }else{
+                                                                                                echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                                                                            }
+                                                                                        }else{
+                                                                                            if($_GET['Page']=="Profil"){
+                                                                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                            }else{
+                                                                                                echo '<li><a href="index.php">Beranda</a></li>';
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }

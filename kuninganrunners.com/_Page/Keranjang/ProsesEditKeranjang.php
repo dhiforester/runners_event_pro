@@ -4,7 +4,6 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     date_default_timezone_set("Asia/Jakarta");
-    $id_event_peserta ="";
     //Apabila Session Datetime expired tidak ada
     if(empty($_SESSION['datetime_expired'])){
         // Apabila Session X token tidak ada
@@ -60,18 +59,10 @@
         $_SESSION['datetime_expired'] = $datetime_expired;
         $_SESSION['xtoken'] = $xtoken;
         // Validasi data input tidak boleh kosong
-        if (empty($_POST['id_event'])) {
-            $ValidasiKelengkapanData="ID Event tidak boleh kosong! Anda wajib mengisi form tersebut.";
+        if (empty($_POST['id_transaksi_keranjang'])) {
+            $ValidasiKelengkapanData="ID Keranjang tidak boleh kosong! Anda wajib mengisi form tersebut.";
         }else{
-            if (empty($_POST['email'])) {
-                $ValidasiKelengkapanData="Email tidak boleh kosong! Anda wajib mengisi form tersebut.";
-            }else{
-                if (empty($_POST['id_event_kategori'])) {
-                    $ValidasiKelengkapanData="Kategori event tidak boleh kosong! Anda wajib mengisi form tersebut.";
-                }else{
-                    $ValidasiKelengkapanData="Valid";
-                }
-            }
+            $ValidasiKelengkapanData="Valid";
         }
         if($ValidasiKelengkapanData!=="Valid"){
             $message =$ValidasiKelengkapanData;
@@ -104,15 +95,20 @@
                         $message =$ValidasiSessionMember;
                         $code =201; 
                     }else{
+                        if (empty($_POST['qty'])) {
+                            $qty=0;
+                        }else{
+                            $qty=$_POST['qty'];
+                        }
                         // Bersihkan Variabel Sebelum Dikirim
-                        $id_event = validateAndSanitizeInput($_POST['id_event']);
+                        $id_transaksi_keranjang = validateAndSanitizeInput($_POST['id_transaksi_keranjang']);
+                        $qty = validateAndSanitizeInput($qty);
                         $email =$_SESSION['email'];
                         $id_member_login =$_SESSION['id_member_login'];
-                        $id_event_kategori = validateAndSanitizeInput($_POST['id_event_kategori']);
                         //Persiapan Mengirim Data Ke Server
                         $curl = curl_init();
                         curl_setopt_array($curl, array(
-                            CURLOPT_URL => $url_server . '/_Api/Event/PendaftaranEvent.php',
+                            CURLOPT_URL => $url_server . '/_Api/Merchandise/EditKeranjang.php',
                             CURLOPT_RETURNTRANSFER => true,
                             CURLOPT_ENCODING => '',
                             CURLOPT_MAXREDIRS => 10,
@@ -123,8 +119,8 @@
                             CURLOPT_POSTFIELDS => json_encode(array(
                                 "email" => $email,
                                 "id_member_login" => $id_member_login,
-                                "id_event" => $id_event,
-                                "id_event_kategori" => $id_event_kategori
+                                "id_transaksi_keranjang" => $id_transaksi_keranjang,
+                                "qty" => $qty
                             )),
                             CURLOPT_HTTPHEADER => array(
                                 'x-token: ' . $xtoken,
@@ -151,10 +147,8 @@
                                     $message =$arry['response']['message'];
                                     $code =201; 
                                 }else{
-                                    $_SESSION['notifikasi_proses']="Pendaftaran Event Berhasil!";
                                     $message=$arry['response']['message'];
                                     $code =$arry['response']['code'];
-                                    $id_event_peserta =$arry['metadata']['id_event_peserta'];
                                 }
                             }
                         }
@@ -166,7 +160,6 @@
     }
     //Membuat Array
     $response=[
-        "id_event_peserta" => "$id_event_peserta",
         "message" => "$message",
         "code"=> $code
     ];

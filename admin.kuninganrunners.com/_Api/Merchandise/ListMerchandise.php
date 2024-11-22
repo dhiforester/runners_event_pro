@@ -100,7 +100,7 @@
                             $updatetime=$DataBarang['updatetime'];
                             $foto=$DataBarang['foto'];
                             if(!empty($foto)){
-                                $image_path="$base_url/assets/img/Marchandise/$foto";
+                                $image_path="$base_url/_Api/Merchandise/ImageProxy.php?foto=$foto";
                             }else{
                                 $image_path="$base_url/assets/img/No-Image.png";
                             }
@@ -112,7 +112,8 @@
                             $varian_data= [];
                             foreach($varian_arry as $varian_list){
                                 if(!empty($varian_list['foto_varian'])){
-                                    $path_foto_varian=''.$base_url.'/assets/img/Marchandise/'.$varian_list['foto_varian'].'';
+                                    $foto_varian=$varian_list['foto_varian'];
+                                    $path_foto_varian="$base_url/_Api/Merchandise/ImageProxy.php?foto=$foto_varian";
                                 }else{
                                     $path_foto_varian="$base_url/assets/img/No-Image.png";
                                 }

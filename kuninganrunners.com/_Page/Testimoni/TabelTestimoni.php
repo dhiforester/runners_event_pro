@@ -93,11 +93,13 @@
             echo '          <div class="container">';
             echo '              <div class="d-flex justify-content-center">';
             echo '                  <ul>';
-            for ($i=1; $i <=$jumlah_halaman; $i++) { 
-                if($i==$page){
-                    echo '<li><a href="javascript:void(0);" class="page active">'.$i.'</a></li>';
-                }else{
-                    echo '<li><a href="javascript:void(0);" class="page">'.$i.'</a></li>';
+            if($jumlah_halaman>1){
+                for ($i=1; $i <=$jumlah_halaman; $i++) { 
+                    if($i==$page){
+                        echo '<li><a href="javascript:void(0);" class="page active">'.$i.'</a></li>';
+                    }else{
+                        echo '<li><a href="javascript:void(0);" class="page">'.$i.'</a></li>';
+                    }
                 }
             }
             echo '                  </ul>';

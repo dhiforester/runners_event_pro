@@ -77,6 +77,20 @@
             $kontak_alamat=ShowTrueContent($WebSetting['metadata']['kontak']['alamat']);
             $kontak_email=ShowTrueContent($WebSetting['metadata']['kontak']['email']);
             $kontak_telepon=ShowTrueContent($WebSetting['metadata']['kontak']['telepon']);
+            //Check Session Login Jika Ada
+            if(!empty($_SESSION['id_member_login'])){
+                //Jika Session Sudah Expired
+                if($_SESSION['login_expired']<date('Y-m-d H:i:s')){
+                    unset($_SESSION['id_member_login']); // Hapus id_member_login
+                    unset($_SESSION['login_expired']);  // Hapus login_expired
+                    unset($_SESSION['email']);  // Hapus email
+                }else{
+                    //Jika Masih Ada Session Maka Lakukan Pembaharuan Data
+                    $email_member=$_SESSION['email'];
+                    $id_member_login=$_SESSION['id_member_login'];
+                    $UpdateSessionMemberLogin=UpdateSessionMemberLogin($url_server,$xtoken,$email_member,$id_member_login);
+                }
+            }
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -135,12 +149,22 @@
                             include "_Page/Merch/Merch.php";
                         }else if($Page=="DetailMerch"){
                             include "_Page/Merch/DetailMerch.php";
+                            include "_Page/Merch/ModalMerch.php";
                         }else if($Page=="Vidio"){
                             include "_Page/Vidio/Vidio.php";
                             include "_Page/Vidio/ModalVidio.php";
                         }else if($Page=="Testimoni"){
                             include "_Page/Testimoni/Testimoni.php";
                             include "_Page/Testimoni/ModalTestimoni.php";
+                        }else if($Page=="Keranjang"){
+                            include "_Page/Keranjang/Keranjang.php";
+                            include "_Page/Keranjang/ModalKeranjang.php";
+                        }else if($Page=="RiwayatTransaksi"){
+                            include "_Page/Transaksi/Transaksi.php";
+                            include "_Page/Transaksi/ModalTransaksi.php";
+                        }else if($Page=="DetailTransaksi"){
+                            include "_Page/Transaksi/DetailTransaksi.php";
+                            include "_Page/Transaksi/ModalTransaksi.php";
                         }
                     }
                     include "_Partial/Modal.php";
@@ -199,6 +223,7 @@
             <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
             <script src="assets/js/main.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <?php
                 //script jquery berdasarkan halaman (page)
                 if(empty($_GET['Page'])){
@@ -228,13 +253,25 @@
                                                 if($_GET['Page']=="Merch"){
                                                     echo '<script src="_Page/Merch/Merch.js"></script>';
                                                 }else{
-                                                    if($_GET['Page']=="Testimoni"){
-                                                        echo '<script src="_Page/Testimoni/Testimoni.js"></script>';
+                                                    if($_GET['Page']=="DetailMerch"){
+                                                        echo '<script src="_Page/Merch/Merch.js"></script>';
                                                     }else{
-                                                        if($_GET['Page']=="Vidio"){
-                                                            echo '<script src="_Page/Vidio/Vidio.js"></script>';
+                                                        if($_GET['Page']=="Testimoni"){
+                                                            echo '<script src="_Page/Testimoni/Testimoni.js"></script>';
                                                         }else{
-                                                            
+                                                            if($_GET['Page']=="Vidio"){
+                                                                echo '<script src="_Page/Vidio/Vidio.js"></script>';
+                                                            }else{
+                                                                if($_GET['Page']=="Keranjang"){
+                                                                    echo '<script src="_Page/Keranjang/Keranjang.js"></script>';
+                                                                }else{
+                                                                    if($_GET['Page']=="Transaksi"){
+                                                                        echo '<script src="_Page/Transaksi/Transaksi.js"></script>';
+                                                                    }else{
+                                                                        
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 }

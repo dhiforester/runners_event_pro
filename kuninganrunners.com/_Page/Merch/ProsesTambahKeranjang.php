@@ -60,17 +60,13 @@
         $_SESSION['datetime_expired'] = $datetime_expired;
         $_SESSION['xtoken'] = $xtoken;
         // Validasi data input tidak boleh kosong
-        if (empty($_POST['id_event'])) {
-            $ValidasiKelengkapanData="ID Event tidak boleh kosong! Anda wajib mengisi form tersebut.";
+        if (empty($_POST['id_barang'])) {
+            $ValidasiKelengkapanData="ID Barang tidak boleh kosong! Anda wajib mengisi form tersebut.";
         }else{
-            if (empty($_POST['email'])) {
-                $ValidasiKelengkapanData="Email tidak boleh kosong! Anda wajib mengisi form tersebut.";
+            if (empty($_POST['qty'])) {
+                $ValidasiKelengkapanData="Jumlah/Kuantitas tidak boleh kosong! Anda wajib mengisi form tersebut.";
             }else{
-                if (empty($_POST['id_event_kategori'])) {
-                    $ValidasiKelengkapanData="Kategori event tidak boleh kosong! Anda wajib mengisi form tersebut.";
-                }else{
-                    $ValidasiKelengkapanData="Valid";
-                }
+                $ValidasiKelengkapanData="Valid";
             }
         }
         if($ValidasiKelengkapanData!=="Valid"){
@@ -104,15 +100,21 @@
                         $message =$ValidasiSessionMember;
                         $code =201; 
                     }else{
+                        if (empty($_POST['id_varian'])) {
+                            $id_varian="";
+                        }else{
+                            $id_varian=$_POST['id_varian'];
+                        }
                         // Bersihkan Variabel Sebelum Dikirim
-                        $id_event = validateAndSanitizeInput($_POST['id_event']);
+                        $id_barang = validateAndSanitizeInput($_POST['id_barang']);
+                        $qty = validateAndSanitizeInput($_POST['qty']);
                         $email =$_SESSION['email'];
                         $id_member_login =$_SESSION['id_member_login'];
-                        $id_event_kategori = validateAndSanitizeInput($_POST['id_event_kategori']);
+                        $id_varian = validateAndSanitizeInput($id_varian);
                         //Persiapan Mengirim Data Ke Server
                         $curl = curl_init();
                         curl_setopt_array($curl, array(
-                            CURLOPT_URL => $url_server . '/_Api/Event/PendaftaranEvent.php',
+                            CURLOPT_URL => $url_server . '/_Api/Merchandise/Merchandise-Tambah-Keranjang.php',
                             CURLOPT_RETURNTRANSFER => true,
                             CURLOPT_ENCODING => '',
                             CURLOPT_MAXREDIRS => 10,
@@ -123,8 +125,9 @@
                             CURLOPT_POSTFIELDS => json_encode(array(
                                 "email" => $email,
                                 "id_member_login" => $id_member_login,
-                                "id_event" => $id_event,
-                                "id_event_kategori" => $id_event_kategori
+                                "id_barang" => $id_barang,
+                                "id_varian" => $id_varian,
+                                "qty" => $qty
                             )),
                             CURLOPT_HTTPHEADER => array(
                                 'x-token: ' . $xtoken,
@@ -151,10 +154,8 @@
                                     $message =$arry['response']['message'];
                                     $code =201; 
                                 }else{
-                                    $_SESSION['notifikasi_proses']="Pendaftaran Event Berhasil!";
                                     $message=$arry['response']['message'];
                                     $code =$arry['response']['code'];
-                                    $id_event_peserta =$arry['metadata']['id_event_peserta'];
                                 }
                             }
                         }
@@ -166,7 +167,7 @@
     }
     //Membuat Array
     $response=[
-        "id_event_peserta" => "$id_event_peserta",
+        "id_barang" => "$id_barang",
         "message" => "$message",
         "code"=> $code
     ];

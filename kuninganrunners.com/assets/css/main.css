@@ -2712,7 +2712,25 @@ section,
   background-color: rgb(255, 255, 255); /* Warna lebih muda saat di-hover */
   color: rgb(160, 160, 160); /* Teks oranye saat di-hover */
 }
+.button_keranjang {
+  display: block; /* Lebar penuh */
+  width: 100%; /* Sesuaikan lebar dengan kontainer */
+  border: 2px solid rgb(6, 150, 61);
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: rgb(255, 255, 255); /* Warna awal oranye */
+  color: rgb(6, 150, 61); /* Warna teks putih */
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+.button_keranjang:hover {
+  background-color: rgb(194, 245, 170); /* Warna awal oranye */
+  color: rgb(6, 150, 61); /* Warna teks putih */
+  border: 2px solid rgb(6, 150, 61);
+}
 .sub-page-title {
   color: var(--default-color);
   background-color: var(--background-color);
@@ -2776,7 +2794,14 @@ body {
   color: #555;
   font-size: 0.9em;
 }
-
+/* Gaya untuk gambar di dalam box */
+.box_image {
+  display: block; /* Menghapus ruang ekstra di bawah gambar */
+  width: 100%; /* Memenuhi lebar container */
+  height: auto; /* Mempertahankan rasio aspek */
+  object-fit: cover; /* Memastikan gambar memenuhi area */
+  border-radius: 10px; /* Selaras dengan box */
+}
 .button_save {
   font-size:15px;
   font-family:Arial;
@@ -2870,6 +2895,24 @@ footer {
 }
 
 .button-back:hover {
+  background-color: #000000; /* Warna hitam saat hover */
+  color: #ffffff; /* Warna teks putih saat hover */
+}
+
+.button_back_responsif {
+  background-color: #ffffff; /* Warna putih */
+  border: 2px solid #000000; /* Garis pinggir hitam */
+  border-radius: 8px; /* Border radius lembut */
+  color: #000000; /* Warna teks hitam */
+  padding: 8px 16px; /* Padding tombol sesuai ukuran btn-md */
+  font-size: 14px; /* Ukuran font sesuai btn-md */
+  font-weight: bold; /* Teks tebal */
+  cursor: pointer; /* Tanda panah berubah menjadi tangan saat hover */
+  transition: background-color 0.3s, color 0.3s; /* Animasi transisi */
+  box-sizing: border-box; /* Menjaga padding dalam lebar total */
+}
+
+.button_back_responsif:hover {
   background-color: #000000; /* Warna hitam saat hover */
   color: #ffffff; /* Warna teks putih saat hover */
 }

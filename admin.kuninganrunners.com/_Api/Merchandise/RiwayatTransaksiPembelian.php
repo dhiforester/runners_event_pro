@@ -7,7 +7,7 @@
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
-    $service_name = "Detail Member";
+    $service_name = "Riwayat Transaksi Pembelian";
 
     // Setting default response
     $code = 201;
@@ -33,7 +33,7 @@
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
                 } else {
-                     // Validasi id_member_login tidak boleh kosong
+                    // Validasi id_member_login tidak boleh kosong
                     if (!isset($Tangkap['id_member_login'])) {
                         $keterangan = "ID Member Login Tidak Boleh Kosong";
                     } else {
@@ -69,6 +69,7 @@
                                 if (!empty($DataMember['id_member'])) {
                                     $id_member=$DataMember['id_member'];
                                     $datetime_expired=$DataMember['datetime_expired'];
+                                    
                                     //Cek Apakah Sessi Login Sudah Berakhir?
                                     if($datetime_expired<$now){
                                         $keterangan = "Sessi Login Sudah Berakhir";
@@ -79,68 +80,37 @@
                                         if($email_member!==$email){
                                             $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
                                         }else{
-                                            // Buka Data Member
-                                            $nama=GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
-                                            $kontak=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kontak');
-                                            $provinsi=GetDetailData($Conn, 'member', 'id_member', $id_member, 'provinsi');
-                                            $kabupaten=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kabupaten');
-                                            $kecamatan=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kecamatan');
-                                            $desa=GetDetailData($Conn, 'member', 'id_member', $id_member, 'desa');
-                                            $kode_pos=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kode_pos');
-                                            $rt_rw=GetDetailData($Conn, 'member', 'id_member', $id_member, 'rt_rw');
-                                            $datetime=GetDetailData($Conn, 'member', 'id_member', $id_member, 'datetime');
-                                            $status=GetDetailData($Conn, 'member', 'id_member', $id_member, 'status');
-                                            $sumber=GetDetailData($Conn, 'member', 'id_member', $id_member, 'sumber');
-                                            $foto=GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
-                                            if(!empty($foto)){
-                                                $path_foto="../../assets/img/Member/$foto";
-                                                if (file_exists($path_foto)) {
-                                                    $foto_base64="$base_url/_Api/Member/FotoProxy.php?foto=$foto";
-                                                } else {
-                                                    $foto_base64="";
-                                                }
-                                            }else{
-                                                $foto_base64="";
+                                            //Buka Riwayat Transaksi
+                                            $QryTransaksi = mysqli_query($Conn, "SELECT*FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian'");
+                                            while ($DataTransaksi = mysqli_fetch_array($QryTransaksi)) {
+                                                $kode_transaksi= $DataTransaksi['kode_transaksi'];
+                                                $raw_member= $DataTransaksi['raw_member'];
+                                                $datetime= $DataTransaksi['datetime'];
+                                                $jumlah= $DataTransaksi['jumlah'];
+                                                $status= $DataTransaksi['status'];
+                                                //Ubah Raw Member
+                                                $raw_member=json_decode($raw_member, true);
+                                                //Buka Data Pengiriman
+                                                $no_resi=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'no_resi');
+                                                $kurir=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'kurir');
+                                                $status_pengiriman=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'status_pengiriman');
+                                                $datetime_pengiriman=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime');
+                                                $transaksi_pengiriman= [
+                                                    "no_resi" => $no_resi,
+                                                    "kurir" => $kurir,
+                                                    "status_pengiriman" => $status_pengiriman,
+                                                    "datetime_pengiriman" => $datetime_pengiriman
+                                                ];
+                                                //Buat Transaksi Rincian
+                                                $metadata[]= [
+                                                    "kode_transaksi" => $kode_transaksi,
+                                                    "raw_member" => $raw_member,
+                                                    "pengiriman" => $transaksi_pengiriman,
+                                                    "datetime" => $datetime,
+                                                    "jumlah" => $jumlah,
+                                                    "status" => $status
+                                                ];
                                             }
-                                            //Menghitung Riwayat Transaksi
-                                            $jumlah_keranjang = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi_keranjang FROM transaksi_keranjang WHERE id_member='$id_member'"));
-                                            $jumlah_pendaftaran_event = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_member='$id_member'"));
-                                            $jumlah_transaksi_pembelian = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian'"));
-                                            $transaksi_pendaftaran_menunggu = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE id_member='$id_member' AND kategori='Pendaftaran' AND status='Pending'"));
-                                            //Menghitung Jumlah Transaksi Pembelian Menunggu Pembayaran
-                                            $transaksi_pembelian_menunggu=0;
-                                            if(!empty($jumlah_transaksi_pembelian)){
-                                                $query_transaksi = mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian' AND status='Pending'");
-                                                while ($data_transaksi = mysqli_fetch_array($query_transaksi)) {
-                                                    $kode_transaksi= $data_transaksi['kode_transaksi'];
-                                                    //Cek apakah Ada Pada Data transaksi_payment
-                                                    $id_transaksi_payment=GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'id_transaksi_payment');
-                                                    if(!empty($id_transaksi_payment)){
-                                                        $transaksi_pembelian_menunggu=$transaksi_pembelian_menunggu+1;
-                                                    }
-                                                }
-                                            }
-                                            $metadata = [
-                                                "nama" => $nama,
-                                                "kontak" => $kontak,
-                                                "email" => $email,
-                                                "provinsi" => $provinsi,
-                                                "kabupaten" => $kabupaten,
-                                                "kecamatan" => $kecamatan,
-                                                "desa" => $desa,
-                                                "kode_pos" => $kode_pos,
-                                                "rt_rw" => $rt_rw,
-                                                "datetime" => $datetime,
-                                                "status" => $status,
-                                                "sumber" => $sumber,
-                                                "jumlah_keranjang" => $jumlah_keranjang,
-                                                "jumlah_pendaftaran_event" => $jumlah_pendaftaran_event,
-                                                "jumlah_transaksi_pembelian" => $jumlah_transaksi_pembelian,
-                                                "transaksi_pendaftaran_menunggu" => $transaksi_pendaftaran_menunggu,
-                                                "transaksi_pembelian_menunggu" => $transaksi_pembelian_menunggu,
-                                                "foto" => $foto_base64,
-                                            ];
-                                            
                                             //menyimpan Log
                                             $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
                                             if ($SimpanLog !== "Success") {

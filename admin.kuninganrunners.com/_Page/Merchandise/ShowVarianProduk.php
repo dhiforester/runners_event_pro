@@ -54,52 +54,90 @@
                         $stok_varian=$ListVarian['stok_varian'];
                         $keterangan_varian=$ListVarian['keterangan_varian'];
                         $foto_varian=$ListVarian['foto_varian'];
+                        if(!empty($foto_varian)){
+                            $foto_varian_path="assets/img/Marchandise/$foto_varian";
+                        }else{
+                            $foto_varian_path="assets/img/no_image.jpg";
+                        }
                         $HargaVarianFormat='Rp ' . number_format($harga_varian, 2, ',', '.');
 ?>
                         <div class="list-group-item list-group-item-action" aria-current="true">
-                            <div class="d-flex w-100 justify-content-between">
-                                <small class="mb-1 text-dark"><?php echo "$no. $nama_varian"; ?></small>
-                                <small>
-                                    <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Option</h6>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
-                                                <i class="bi bi-info-circle"></i> Detail
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
-                                                <i class="bi bi-pencil"></i> Edit
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
-                                                <i class="bi bi-trash"></i> Hapus
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </small>
+                            <div class="row">
+                                <div class="col-md-3 text-center mb-3">
+                                    <img src="<?php echo "$foto_varian_path"; ?>" alt="<?php echo "$foto_varian_path"; ?>" class="rounded-circle" width="150px" height="150px">
+                                </div>
+                                <div class="col-md-9 mb-3">
+                                    <div class="row mb-3">
+                                        <div class="col col-md-3">
+                                            <small>Nama Varian</small>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <small><code class="text text-grayish"><?php echo "$nama_varian"; ?></code></small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-3">
+                                            <small>ID Varian</small>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <small><code class="text text-grayish"><?php echo "$id_varian"; ?></code></small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-3">
+                                            <small>Harga</small>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <small><code class="text text-grayish"><?php echo "$HargaVarianFormat"; ?></code></small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-3">
+                                            <small>Stok</small>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <small><code class="text text-grayish"><?php echo "$stok_varian $satuan"; ?></code></small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-md-3">
+                                            <small>Keterangan</small>
+                                        </div>
+                                        <div class="col col-md-9">
+                                            <small><code class="text text-grayish"><?php echo "$keterangan_varian"; ?></code></small>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <small>
+                                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-sm btn-outline-grayish btn-rounded">
+                                                    <i class="bi bi-three-dots"></i> Option
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                    <li class="dropdown-header text-start">
+                                                        <h6>Option</h6>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetailVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
+                                                            <i class="bi bi-info-circle"></i> Detail
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEditVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
+                                                            <i class="bi bi-pencil"></i> Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusVarian" data-id="<?php echo "$id_barang-$id_varian"; ?>">
+                                                            <i class="bi bi-trash"></i> Hapus
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <ul>
-                                <li>
-                                    <small>
-                                        <code class="text text-dark">Harga : </code>
-                                        <code class="text text-grayish"><?php echo "$HargaVarianFormat"; ?></code>
-                                    </small>
-                                </li>
-                                <li>
-                                    <small>
-                                        <code class="text text-dark">Stok : </code>
-                                        <code class="text text-grayish"><?php echo "$stok_varian $satuan"; ?></code>
-                                    </small>
-                                </li>
-                            </ul>
-                            
                         </div>
 <?php 
                         $no++;
