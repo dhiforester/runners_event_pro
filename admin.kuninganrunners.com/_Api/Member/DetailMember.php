@@ -107,6 +107,7 @@
                                             $jumlah_pendaftaran_event = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_member='$id_member'"));
                                             $jumlah_transaksi_pembelian = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian'"));
                                             $transaksi_pendaftaran_menunggu = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE id_member='$id_member' AND kategori='Pendaftaran' AND status='Pending'"));
+                                            $testimoni = mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_testimoni FROM web_testimoni WHERE id_member='$id_member'"));
                                             //Menghitung Jumlah Transaksi Pembelian Menunggu Pembayaran
                                             $transaksi_pembelian_menunggu=0;
                                             if(!empty($jumlah_transaksi_pembelian)){
@@ -138,6 +139,7 @@
                                                 "jumlah_transaksi_pembelian" => $jumlah_transaksi_pembelian,
                                                 "transaksi_pendaftaran_menunggu" => $transaksi_pendaftaran_menunggu,
                                                 "transaksi_pembelian_menunggu" => $transaksi_pembelian_menunggu,
+                                                "testimoni" => $testimoni,
                                                 "foto" => $foto_base64,
                                             ];
                                             

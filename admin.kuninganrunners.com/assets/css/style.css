@@ -1249,7 +1249,11 @@ h6 {
 .error-404 .btn:hover {
   background: #3e4f6f;
 }
-
+@media (max-width: 576px) {
+  .email-text {
+      font-size: 9px !important; /* Ukuran font lebih kecil */
+  }
+}
 @media (min-width: 992px) {
   .error-404 img {
     max-width: 50%;

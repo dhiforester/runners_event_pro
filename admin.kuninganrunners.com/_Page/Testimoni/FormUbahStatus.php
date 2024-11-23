@@ -58,28 +58,26 @@
         <input type="hidden" name="id_web_testimoni" value="<?php echo $id_web_testimoni; ?>">
         <div class="row mb-3">
             <div class="col-md-12">
-                <label for="penilaian_edit">
-                    <small>Penilaian</small>
+                <label for="status_edit">
+                    <small>Status Testimoni</small>
                 </label>
-                <select name="penilaian" id="penilaian_edit" class="form-control">
-                    <option <?php if($penilaian==""){echo "selected";} ?> value="">Pilih</option>
-                    <option <?php if($penilaian=="5"){echo "selected";} ?> value="5">Sangat Baik</option>
-                    <option <?php if($penilaian=="4"){echo "selected";} ?> value="4">Baik</option>
-                    <option <?php if($penilaian=="3"){echo "selected";} ?> value="3">Sedang</option>
-                    <option <?php if($penilaian=="2"){echo "selected";} ?> value="2">Kurang</option>
-                    <option <?php if($penilaian=="1"){echo "selected";} ?> value="1">Buruk</option>
+                <select name="status" id="status_edit" class="form-control">
+                    <option <?php if($status==""){echo "selected";} ?> value="">Pilih</option>
+                    <option <?php if($status=="Publish"){echo "selected";} ?> value="Publish">Publish</option>
+                    <option <?php if($status=="Draft"){echo "selected";} ?> value="Draft">Draft</option>
                 </select>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-12">
-                <label for="testimoni_edit">
-                    <small>Testimoni</small>
-                </label>
-                <textarea name="testimoni" id="testimoni_edit" class="form-control"><?php echo $testimoni; ?></textarea>
-                <small>
-                    <code class="text text-grayish" id="testimoni_edit_length"><?php echo $testimoni_length; ?>/500</code>
-                </small>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="PemberitahuanEmail" name="PemberitahuanEmail" checked="" value="1">
+                    <label class="form-check-label" for="PemberitahuanEmail">
+                        <small>
+                            <code class="text text-grayish">Beritahu Member Atas Perubahan Ini</code>
+                        </small>
+                    </label>
+                </div>
             </div>
         </div>
 <?php

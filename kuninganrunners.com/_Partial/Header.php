@@ -39,8 +39,12 @@
                                 }else{
                                     if($_GET['Page']=="Pendaftaran-Berhasil"){
                                         echo '<li><a href="index.php">Beranda</a></li>';
-                                        echo '<li><a href="index.php?Page=Login">Login</a></li>';
-                                        echo '<li><a href="" class="active">Pendaftaran</a></li>';
+                                        echo '<li><a href="" class="active">Verifikasi Akun</a></li>';
+                                        if(empty($_SESSION['id_member_login'])){
+                                            echo '<li><a href="index.php?Page=Login" class="">Login/Daftar</a></li>';
+                                        }else{
+                                            echo '<li><a href="index.php?Page=Profil" class="">Profil</a></li>';
+                                        }
                                     }else{
                                         if($_GET['Page']=="Selesai"){
                                             echo '<li><a href="index.php">Beranda</a></li>';

@@ -283,3 +283,93 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalKirimTestimoni" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesKirimTestimoni">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-send"></i> Kirim Survey
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="penilaian">Penilaian Tentang Website Kami</label>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="penilaian" id="penilaian-5" value="5">
+                                <label class="form-check-label" for="penilaian-5">
+                                    <small class="credit">
+                                        <code class="text-dark">
+                                            Website berjalan dengan sempurna, proses mudah dan sangat membantu.
+                                        </code>
+                                    </small>
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="penilaian" id="penilaian-4" value="4">
+                                <label class="form-check-label" for="penilaian-4">
+                                    <small class="credit">
+                                        <code class="text-dark">
+                                            Website berjalan dengan baik walapun terdapat kendala dalam beberapa proses.
+                                        </code>
+                                    </small>
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="penilaian" id="penilaian-3" value="3">
+                                <label class="form-check-label" for="penilaian-3">
+                                    <small class="credit">
+                                        <code class="text-dark">
+                                            Website berjalan kurang baik dan terdapat sedikit kendala dalam beberapa proses.
+                                        </code>
+                                    </small>
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="penilaian" id="penilaian-2" value="2">
+                                <label class="form-check-label" for="penilaian-2">
+                                    <small class="credit">
+                                        <code class="text-dark">
+                                            Website berjalan kurang baik dan terdapat banyak sekali kendala dalam beberapa proses.
+                                        </code>
+                                    </small>
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="penilaian" id="penilaian-1" value="1">
+                                <label class="form-check-label" for="penilaian-1">
+                                    <small class="credit">
+                                        <code class="text-dark">
+                                            Website berjalan sangat buruk dan terdapat banyak sekali kendala dalam beberapa proses sehingga tidak layak digunakan.
+                                        </code>
+                                    </small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="testimoni">Saran Dan Kritik</label>
+                            <textarea name="testimoni" id="testimoni" class="form-control"></textarea>
+                            <small>
+                                <code class="text text-grayish" id="testimoni_length">0/500</code>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12" id="NotifikasiKirimTestimoni">
+                            <!-- Notifikasi Kirim Testimoni Akan Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="css-button-fully-rounded--green" id="ButtonKirimTestimoni">
+                        <i class="bi bi-send"></i> Kirim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

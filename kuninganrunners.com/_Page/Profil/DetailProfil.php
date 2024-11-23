@@ -40,6 +40,7 @@
         $jumlah_transaksi_pembelian=$metadata['jumlah_transaksi_pembelian'];
         $transaksi_pendaftaran_menunggu=$metadata['transaksi_pendaftaran_menunggu'];
         $transaksi_pembelian_menunggu=$metadata['transaksi_pembelian_menunggu'];
+        $testimoni=$metadata['testimoni'];
         $foto=$metadata['foto'];
         if(empty($foto)){
             $foto="assets/img/No-Image.png";
@@ -177,6 +178,33 @@
                         </h4>
                     </div>
                     <div class="box_custome_content ">
+                        <?php
+                            if($status=="Pending"){
+                                echo '<div class="row mb-3">';
+                                echo '  <div class="col col-md-12">';
+                                echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                echo '          <small>';
+                                echo '              Anda belum melakukan verifikasi akun, silahkan lakukan verifikasi akun pada tautan ';
+                                echo '              <a href="index.php?Page=Pendaftaran-Berhasil&email='.$email_member.'">berikut ini.</a>';
+                                echo '          </small>';
+                                echo '      </div>';
+                                echo '  </div>';
+                                echo '</div>';
+                            }else{
+                                if(empty($testimoni)){
+                                    echo '<div class="row mb-3">';
+                                    echo '  <div class="col col-md-12">';
+                                    echo '      <div class="alert alert-success alert-dismissible fade show" role="alert">';
+                                    echo '          <small>';
+                                    echo '              Terima kasih telah melakukan verifikasi akun anda. Selanjutnya anda berkesempatan untuk mengisi survey penilaian (testimoni) pada tautan ';
+                                    echo '              <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalKirimTestimoni">berikut ini.</a> ';
+                                    echo '          </small>';
+                                    echo '      </div>';
+                                    echo '  </div>';
+                                    echo '</div>';
+                                }
+                            }
+                        ?>
                         <div class="row mb-3">
                             <div class="col col-md-4">
                                 <small>Nama</small>

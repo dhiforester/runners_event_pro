@@ -261,7 +261,17 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModelEditTestimoni" data-id="<?php echo "$id_web_testimoni"; ?>">
-                                            <i class="bi bi-pencil"></i> Edit
+                                            <i class="bi bi-pencil"></i> Edit Konten
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahStatus" data-id="<?php echo "$id_web_testimoni"; ?>">
+                                            <i class="bi bi-tag"></i> Ubah Status
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahFoto" data-id="<?php echo "$id_web_testimoni"; ?>">
+                                            <i class="bi bi-image"></i> Ubah Foto
                                         </a>
                                     </li>
                                     <li>

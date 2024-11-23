@@ -171,4 +171,46 @@ $(document).ready(function() {
             }
         });
     });
+    // Proses Kirim Ulang Kode Verifikasi
+    $('#ButtonKirimUlangKode').on('click', function (e) {
+        e.preventDefault();
+        var formData = new FormData($('#ProsesVerifikasiAkun')[0]); // Pastikan ID form benar
+        $('#ButtonKirimUlangKode').html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Loading...').prop('disabled', true);
+    
+        $.ajax({
+            url: '_Page/Pendaftaran/ProsesKirimUlangKode.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('#ButtonKirimUlangKode').html('<i class="bi bi-send"></i> Kirim Ulang Kode').prop('disabled', false);
+                var result;
+                try {
+                    result = JSON.parse(response);
+                    if (!result || typeof result.code === 'undefined' || typeof result.message === 'undefined') {
+                        throw new Error('Respons tidak valid');
+                    }
+                } catch (e) {
+                    $('#NotifikasiVerifikasiAkun').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                    return;
+                }
+    
+                if (result.code === 200) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Kode verifikasi berhasil dikirim ulang.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    $('#NotifikasiVerifikasiAkun').html('<div class="alert alert-danger"><small><code class="text-dark">' + result.message + '</code></small></div>');
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#ButtonKirimUlangKode').html('<i class="bi bi-send"></i> Kirim Ulang Kode').prop('disabled', false);
+                $('#NotifikasiVerifikasiAkun').html('<div class="alert alert-danger">Terjadi kesalahan: ' + xhr.status + ' ' + xhr.statusText + '</div>');
+            }
+        });
+    });
 });

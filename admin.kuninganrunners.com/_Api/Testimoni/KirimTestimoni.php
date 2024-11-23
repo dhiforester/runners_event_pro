@@ -33,9 +33,9 @@
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
                 } else {
-                    // Validasi password tidak boleh kosong
-                    if (!isset($Tangkap['password'])) {
-                        $keterangan = "Password Tidak Boleh Kosong";
+                    // Validasi id_member_login tidak boleh kosong
+                    if (!isset($Tangkap['id_member_login'])) {
+                        $keterangan = "ID Sessi Login Tidak Boleh Kosong";
                     } else {
                         // Validasi Penilaian tidak boleh kosong
                         if (!isset($Tangkap['penilaian'])) {
@@ -48,7 +48,7 @@
                                 // Buat Dalam Bentukk Variabel
                                 $xtoken = validateAndSanitizeInput($headers['x-token']);
                                 $email = validateAndSanitizeInput($Tangkap['email']);
-                                $password = validateAndSanitizeInput($Tangkap['password']);
+                                $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                                 $penilaian = validateAndSanitizeInput($Tangkap['penilaian']);
                                 $testimoni = validateAndSanitizeInput($Tangkap['testimoni']);
                                 if(strlen($testimoni)>500){
@@ -78,106 +78,119 @@
                                                     $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                                     $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                                     
-                                                    //Validasi Email Dan Password
-                                                    $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                                    $stmt->bind_param("s", $email);
+                                                    //Validasi email Dan id_member_login
+                                                    $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                                    $stmt->bind_param("s", $id_member_login);
                                                     $stmt->execute();
                                                     $result = $stmt->get_result();
                                                     $DataMember = $result->fetch_assoc();
-                                                    if ($DataMember && password_verify($password, $DataMember['password'])) {
+                                                    if (!empty($DataMember['id_member'])) {
                                                         $id_member=$DataMember['id_member'];
-                                                        //Validasi Testimoni Duplikat
-                                                        $id_web_testimoni=GetDetailData($Conn,'web_testimoni','id_member',$id_member,'id_web_testimoni');
-                                                        if(!empty($id_web_testimoni)){
-                                                            $keterangan= 'Member tersebut sudah pernah mengirimkan testimoni sebelumnya';
+                                                        $datetime_expired=$DataMember['datetime_expired'];
+                                                        //Cek Apakah Sessi Login Sudah Berakhir?
+                                                        if($datetime_expired<$now){
+                                                            $keterangan = "Sessi Login Sudah Berakhir";
                                                         }else{
-                                                            //Buka Detail Member
-                                                            $nik_name=GetDetailData($Conn,'member','id_member',$id_member,'nama');
-                                                            $foto=GetDetailData($Conn,'member','id_member',$id_member,'foto');
-                                                            if(!empty($foto)){
-                                                                $image_path="../../assets/img/Member/$foto";
-                                                                //Proses Mengubah Foto Menjadi base64
-                                                                
-                                                                // Desired width and height for the resized image
-                                                                $new_width = 200;
-                                                                $new_height = 200;
-                        
-                                                                // Check if file exists
-                                                                if (file_exists($image_path)) {
-                                                                    // Get the original image dimensions and type
-                                                                    list($width, $height, $type) = getimagesize($image_path);
-                                                                    // Create an image resource from the file based on its type
-                                                                    switch ($type) {
-                                                                        case IMAGETYPE_JPEG:
-                                                                            $src_image = imagecreatefromjpeg($image_path);
-                                                                            break;
-                                                                        case IMAGETYPE_PNG:
-                                                                            $src_image = imagecreatefrompng($image_path);
-                                                                            break;
-                                                                        case IMAGETYPE_GIF:
-                                                                            $src_image = imagecreatefromgif($image_path);
-                                                                            break;
-                                                                        default:
+                                                            //Buka Email Di Database
+                                                            $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                                            //Cek Apakah Email Sesuai
+                                                            if($email_member!==$email){
+                                                                $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
+                                                            }else{
+                                                                //Validasi Testimoni Duplikat
+                                                                $id_web_testimoni=GetDetailData($Conn,'web_testimoni','id_member',$id_member,'id_web_testimoni');
+                                                                if(!empty($id_web_testimoni)){
+                                                                    $keterangan= 'Member tersebut sudah pernah mengirimkan testimoni sebelumnya';
+                                                                }else{
+                                                                    //Buka Detail Member
+                                                                    $nik_name=GetDetailData($Conn,'member','id_member',$id_member,'nama');
+                                                                    $foto=GetDetailData($Conn,'member','id_member',$id_member,'foto');
+                                                                    if(!empty($foto)){
+                                                                        $image_path="../../assets/img/Member/$foto";
+                                                                        //Proses Mengubah Foto Menjadi base64
+                                                                        
+                                                                        // Desired width and height for the resized image
+                                                                        $new_width = 200;
+                                                                        $new_height = 200;
+                                
+                                                                        // Check if file exists
+                                                                        if (file_exists($image_path)) {
+                                                                            // Get the original image dimensions and type
+                                                                            list($width, $height, $type) = getimagesize($image_path);
+                                                                            // Create an image resource from the file based on its type
+                                                                            switch ($type) {
+                                                                                case IMAGETYPE_JPEG:
+                                                                                    $src_image = imagecreatefromjpeg($image_path);
+                                                                                    break;
+                                                                                case IMAGETYPE_PNG:
+                                                                                    $src_image = imagecreatefrompng($image_path);
+                                                                                    break;
+                                                                                case IMAGETYPE_GIF:
+                                                                                    $src_image = imagecreatefromgif($image_path);
+                                                                                    break;
+                                                                                default:
+                                                                                    $foto_profil="";
+                                                                            }
+                                                                            // Create a new true color image with the desired dimensions
+                                                                            $resized_image = imagecreatetruecolor($new_width, $new_height);
+                                
+                                                                            // Resize the image
+                                                                            imagecopyresampled($resized_image, $src_image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+                                
+                                                                            // Start output buffering to capture the output
+                                                                            ob_start();
+                                
+                                                                            // Output the resized image as JPEG to buffer
+                                                                            imagejpeg($resized_image, null, 85); // 85 is the quality level
+                                
+                                                                            // Get the contents of the buffer and encode it in Base64
+                                                                            $image_data = ob_get_clean();
+                                                                            $foto_profil = "data:image/jpeg;base64," . base64_encode($image_data);
+                                
+                                                                            // Clean up memory
+                                                                            imagedestroy($src_image);
+                                                                            imagedestroy($resized_image);
+                                                                        } else {
                                                                             $foto_profil="";
+                                                                        }
+                                                                    }else{
+                                                                        $foto_profil="";
                                                                     }
-                                                                    // Create a new true color image with the desired dimensions
-                                                                    $resized_image = imagecreatetruecolor($new_width, $new_height);
-                        
-                                                                    // Resize the image
-                                                                    imagecopyresampled($resized_image, $src_image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-                        
-                                                                    // Start output buffering to capture the output
-                                                                    ob_start();
-                        
-                                                                    // Output the resized image as JPEG to buffer
-                                                                    imagejpeg($resized_image, null, 85); // 85 is the quality level
-                        
-                                                                    // Get the contents of the buffer and encode it in Base64
-                                                                    $image_data = ob_get_clean();
-                                                                    $foto_profil = "data:image/jpeg;base64," . base64_encode($image_data);
-                        
-                                                                    // Clean up memory
-                                                                    imagedestroy($src_image);
-                                                                    imagedestroy($resized_image);
-                                                                } else {
-                                                                    $foto_profil="";
+                                                                    //Buat Variabel lainnya
+                                                                    $sumber='Website';
+                                                                    $status='Draft';
+                                                                    // Insert data ke database
+                                                                    $query = "INSERT INTO web_testimoni (id_member, nik_name, penilaian, testimoni, foto_profil, sumber, datetime, status) 
+                                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                                                    $stmt2 = $Conn->prepare($query);
+                                                                    $stmt2->bind_param("ssssssss", $id_member, $nik_name, $penilaian, $testimoni, $foto_profil, $sumber, $now, $status);
+                                                                    if ($stmt2->execute()) {
+                                                                        //Membuat Metadata
+                                                                        $metadata= [
+                                                                            "id_member" => $id_member,
+                                                                            "nik_name" => $nik_name,
+                                                                            "penilaian" => $penilaian,
+                                                                            "testimoni" => $testimoni,
+                                                                            "foto_profil" => $foto_profil,
+                                                                            "sumber" => $sumber,
+                                                                            "datetime" => $now,
+                                                                            "status" => $status
+                                                                        ];
+                                                                        //menyimpan Log
+                                                                        $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                                        if ($SimpanLog !== "Success") {
+                                                                            $keterangan = "Gagal Menyimpan Log Service";
+                                                                            $code = 201;
+                                                                        } else {
+                                                                            $keterangan = "success";
+                                                                            $code = 200;
+                                                                        }
+                                                                    }else{
+                                                                        $keterangan= 'Terjadi kesalahan pada saat menambahkan data pada database!.';
+                                                                    }
+                                                                    $stmt2->close();
                                                                 }
-                                                            }else{
-                                                                $foto_profil="";
                                                             }
-                                                            //Buat Variabel lainnya
-                                                            $sumber='Website';
-                                                            $status='Draft';
-                                                            // Insert data ke database
-                                                            $query = "INSERT INTO web_testimoni (id_member, nik_name, penilaian, testimoni, foto_profil, sumber, datetime, status) 
-                                                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                                                            $stmt2 = $Conn->prepare($query);
-                                                            $stmt2->bind_param("ssssssss", $id_member, $nik_name, $penilaian, $testimoni, $foto_profil, $sumber, $now, $status);
-                                                            if ($stmt2->execute()) {
-                                                                //Membuat Metadata
-                                                                $metadata= [
-                                                                    "id_member" => $id_member,
-                                                                    "nik_name" => $nik_name,
-                                                                    "penilaian" => $penilaian,
-                                                                    "testimoni" => $testimoni,
-                                                                    "foto_profil" => $foto_profil,
-                                                                    "sumber" => $sumber,
-                                                                    "datetime" => $now,
-                                                                    "status" => $status
-                                                                ];
-                                                                //menyimpan Log
-                                                                $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                                                if ($SimpanLog !== "Success") {
-                                                                    $keterangan = "Gagal Menyimpan Log Service";
-                                                                    $code = 201;
-                                                                } else {
-                                                                    $keterangan = "success";
-                                                                    $code = 200;
-                                                                }
-                                                            }else{
-                                                                $keterangan= 'Terjadi kesalahan pada saat menambahkan data pada database!.';
-                                                            }
-                                                            $stmt2->close();
                                                         }
                                                     }else{
                                                         $keterangan = "Kombinasi Password Dan Email Tidak Valid";

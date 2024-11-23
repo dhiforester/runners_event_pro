@@ -68,6 +68,9 @@
                     $status='<badge class="badge badge-warning">Draft</badge>';
                 }
 ?>
+        <input type="hidden" name="Page" value="Testimoni">
+        <input type="hidden" name="Sub" value="Detail">
+        <input type="hidden" name="id" value="<?php echo $id_web_testimoni; ?>">
         <div class="row mb-3">
             <div class="col col-md-12 text-center">
                 <?php

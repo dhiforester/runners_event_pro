@@ -54,32 +54,43 @@
                 $datetime=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'datetime');
                 $status=GetDetailData($Conn,'web_testimoni','id_web_testimoni',$id_web_testimoni,'status');
                 $testimoni_length=strlen($testimoni);
+                //Buka Foto Member
+                $foto=GetDetailData($Conn,'member','id_member',$id_member,'foto');
+                if(empty($foto)){
+                    $path_foto="assets/img/no_image.jpg";
+                }else{
+                    $path_foto="assets/img/Member/$foto";
+                }
 ?>
         <input type="hidden" name="id_web_testimoni" value="<?php echo $id_web_testimoni; ?>">
         <div class="row mb-3">
             <div class="col-md-12">
-                <label for="penilaian_edit">
-                    <small>Penilaian</small>
+                <label for="sumber_foto">
+                    <small>Sumber Foto</small>
                 </label>
-                <select name="penilaian" id="penilaian_edit" class="form-control">
-                    <option <?php if($penilaian==""){echo "selected";} ?> value="">Pilih</option>
-                    <option <?php if($penilaian=="5"){echo "selected";} ?> value="5">Sangat Baik</option>
-                    <option <?php if($penilaian=="4"){echo "selected";} ?> value="4">Baik</option>
-                    <option <?php if($penilaian=="3"){echo "selected";} ?> value="3">Sedang</option>
-                    <option <?php if($penilaian=="2"){echo "selected";} ?> value="2">Kurang</option>
-                    <option <?php if($penilaian=="1"){echo "selected";} ?> value="1">Buruk</option>
+                <select name="sumber_foto" id="sumber_foto" class="form-control">
+                    <option value="">Pilih</option>
+                    <option value="upload_file">Upload Manual</option>
+                    <option value="foto_profil">Foto Profil</option>
                 </select>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" id="FormUploadFile">
             <div class="col-md-12">
-                <label for="testimoni_edit">
-                    <small>Testimoni</small>
+                <label for="file_foto">
+                    <small>Upload File</small>
                 </label>
-                <textarea name="testimoni" id="testimoni_edit" class="form-control"><?php echo $testimoni; ?></textarea>
+                <input type="file" class="form-control" name="file_foto" id="file_foto">
                 <small>
-                    <code class="text text-grayish" id="testimoni_edit_length"><?php echo $testimoni_length; ?>/500</code>
+                    <code class="text text-grayish" id="notifikasi_file_foto">
+                        File maksimal 2 Mb dengan format JPG, JPEG, PNG, dan GIF
+                    </code>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3" id="FormPreviewFoto">
+            <div class="col-md-12 text-center">
+                <img src="<?php echo "$path_foto"; ?>" alt="" width="180px" height="180px" class="rounded-circle">
             </div>
         </div>
 <?php
@@ -87,3 +98,31 @@
         }
     }
 ?>
+<script>
+    $(document).ready(function () {
+        // Sembunyikan elemen pada awal
+        $('#FormUploadFile').hide();
+        $('#FormPreviewFoto').hide();
+
+        // Event ketika pilihan di dropdown berubah
+        $('#sumber_foto').on('change', function () {
+            var selectedValue = $(this).val();
+
+            if (selectedValue === 'upload_file') {
+                // Tampilkan FormUploadFile
+                $('#FormUploadFile').show();
+                // Sembunyikan FormPreviewFoto
+                $('#FormPreviewFoto').hide();
+            } else if (selectedValue === 'foto_profil') {
+                // Tampilkan FormPreviewFoto
+                $('#FormPreviewFoto').show();
+                // Sembunyikan FormUploadFile
+                $('#FormUploadFile').hide();
+            } else {
+                // Jika tidak ada pilihan yang valid
+                $('#FormUploadFile').hide();
+                $('#FormPreviewFoto').hide();
+            }
+        });
+    });
+</script>

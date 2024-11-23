@@ -22,12 +22,26 @@ function PencarianMember() {
         }
     });
 }
+//Fungsi Menampilkan Detail Testimoni
+function MenampilkanDetailTestimoni() {
+    var GetIdTestimoni = $('#GetIdTestimoni').val();
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Testimoni/ShowDetailTestimoni.php',
+        data    : {id_web_testimoni: GetIdTestimoni},
+        success: function(data) {
+            $('#MenampilkanDetailTestimoni').html(data);
+        }
+    });
+}
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     //Menampilkan Data Pertama kali
     filterAndLoadTable();
     PencarianMember();
-
+    if ($('#MenampilkanDetailTestimoni').length) {
+        MenampilkanDetailTestimoni();
+    }
     //Ketika keyword_by Diubah
     $('#keyword_by').change(function(){
         var keyword_by =$('#keyword_by').val();
@@ -160,6 +174,7 @@ $(document).ready(function() {
                     $('#NotifikasiEditTestimoni').html('');
                     $('#ModelEditTestimoni').modal('hide');
                     filterAndLoadTable();
+                    MenampilkanDetailTestimoni();
                     Swal.fire('Berhasil!', 'Testimoni Berhasil Diupdate', 'success');
                 } else {
                     // Menampilkan pesan kesalahan dari server
@@ -222,6 +237,114 @@ $(document).ready(function() {
             error: function () {
                 $('#ButtonHapusTestimoni').html('<i class="bi bi-check"></i> Ya, Hapus').prop('disabled', false);
                 $('#NotifikasiHapusTestimoni').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
+            }
+        });
+    });
+    //Ketika Modal Ubah Foto Testimoni Muncul
+    $('#ModalUbahFoto').on('show.bs.modal', function (e) {
+        var id_web_testimoni = $(e.relatedTarget).data('id');
+        $('#FormUbahFoto').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Testimoni/FormUbahFoto.php',
+            data        : {id_web_testimoni: id_web_testimoni},
+            success     : function(data){
+                $('#FormUbahFoto').html(data);
+                $('#NotifikasiUbahFoto').html('');
+            }
+        });
+    });
+    //Proses Ubah Foto
+    $('#ProsesUbahFoto').on('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#ButtonUbahFoto').html('Loading...').prop('disabled', true);
+        $.ajax({
+            url             : '_Page/Testimoni/ProsesUbahFoto.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            success: function (response) {
+                $('#ButtonUbahFoto').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                var result;
+                try {
+                    // Mencoba untuk parse JSON
+                    result = JSON.parse(response); 
+                } catch (e) {
+                    $('#NotifikasiUbahFoto').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                    // Keluar dari fungsi jika JSON tidak valid
+                    return; 
+                }
+                if (result.success) {
+                    $('#ProsesUbahFoto')[0].reset();
+                    $('#NotifikasiUbahFoto').html('');
+                    $('#ModalUbahFoto').modal('hide');
+                    filterAndLoadTable();
+                    MenampilkanDetailTestimoni();
+                    Swal.fire('Berhasil!', 'Foto Testimoni Berhasil Diubah', 'success');
+                } else {
+                    // Menampilkan pesan kesalahan dari server
+                    $('#NotifikasiUbahFoto').html('<div class="alert alert-danger">' + result.message + '</div>');
+                }
+            },
+            error: function () {
+                $('#ButtonUbahFoto').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                $('#NotifikasiUbahFoto').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
+            }
+        });
+    });
+    //Ketika Modal Ubah Status Testimoni Muncul
+    $('#ModalUbahStatus').on('show.bs.modal', function (e) {
+        var id_web_testimoni = $(e.relatedTarget).data('id');
+        $('#FormUbahStatus').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Testimoni/FormUbahStatus.php',
+            data        : {id_web_testimoni: id_web_testimoni},
+            success     : function(data){
+                $('#FormUbahStatus').html(data);
+                $('#NotifikasiUbahStatus').html('');
+            }
+        });
+    });
+    //Proses Ubah Status
+    $('#ProsesUbahStatus').on('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#ButtonUbahStatus').html('Loading...').prop('disabled', true);
+        $.ajax({
+            url             : '_Page/Testimoni/ProsesUbahStatus.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            success: function (response) {
+                $('#ButtonUbahStatus').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                var result;
+                try {
+                    // Mencoba untuk parse JSON
+                    result = JSON.parse(response); 
+                } catch (e) {
+                    $('#NotifikasiUbahStatus').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                    // Keluar dari fungsi jika JSON tidak valid
+                    return; 
+                }
+                if (result.success) {
+                    $('#ProsesUbahStatus')[0].reset();
+                    $('#NotifikasiUbahStatus').html('');
+                    $('#ModalUbahStatus').modal('hide');
+                    filterAndLoadTable();
+                    MenampilkanDetailTestimoni();
+                    Swal.fire('Berhasil!', 'Status Testimoni Berhasil Diubah', 'success');
+                } else {
+                    // Menampilkan pesan kesalahan dari server
+                    $('#NotifikasiUbahStatus').html('<div class="alert alert-danger">' + result.message + '</div>');
+                }
+            },
+            error: function () {
+                $('#ButtonUbahStatus').html('<i class="bi bi-save"></i> Simpan').prop('disabled', false);
+                $('#NotifikasiUbahStatus').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
             }
         });
     });

@@ -231,4 +231,63 @@ $(document).ready(function() {
             }
         });
     });
+    $('#testimoni').on('input', function () {
+        const maxLength = 500; // Batas maksimum karakter
+        const textLength = $(this).val().length; // Panjang teks saat ini
+        const textRemaining = maxLength - textLength; // Sisa karakter yang diizinkan
+        // Perbarui elemen id="testimoni_length"
+        $('#testimoni_length').text(`${textLength}/${maxLength}`);
+
+        // Jika panjang teks melebihi batas, potong ke maksimum karakter
+        if (textLength > maxLength) {
+            $(this).val($(this).val().substring(0, maxLength));
+            $('#testimoni_length').text(`${maxLength}/${maxLength}`);
+        }
+    });
+    // Proses Kirim Testimoni
+    $('#ProsesKirimTestimoni').on('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#ButtonKirimTestimoni').html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Loading...').prop('disabled', true);
+    
+        $.ajax({
+            url: '_Page/Profil/ProsesKirimTestimoni.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('#ButtonKirimTestimoni').html('<i class="bi bi-send"></i> Kirim').prop('disabled', false);
+                var result;
+                try {
+                    result = JSON.parse(response);
+                    if (!result || typeof result.code === 'undefined' || typeof result.message === 'undefined') {
+                        throw new Error('Respons tidak valid');
+                    }
+                } catch (e) {
+                    $('#NotifikasiKirimTestimoni').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                    return;
+                }
+                if (result.code === 200) {
+                    //Tutup Modal
+                    $('#ModalKirimTestimoni').modal('hide');
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Testimoni berhasil dikirim.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Reload halaman setelah SweetAlert ditutup
+                        location.reload();
+                    });
+                } else {
+                    $('#NotifikasiKirimTestimoni').html('<div class="alert alert-danger"><small><code class="text-dark">' + result.message + '</code></small></div>');
+                }
+            },
+            error: function (xhr, status, error) {
+                $('#ButtonKirimTestimoni').html('<i class="bi bi-send"></i> Kirim').prop('disabled', false);
+                $('#NotifikasiKirimTestimoni').html('<div class="alert alert-danger">Terjadi kesalahan: ' + xhr.status + ' ' + xhr.statusText + '</div>');
+            }
+        });
+    });
 });

@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <h4 class="text-success">
-                                    <i class="bi bi-check-circle"></i> Pendaftaran Berhasil
+                                    <i class="bi bi-check-circle"></i> Verifikasi Akun
                                 </h4>
                             </div>
                         </div>
@@ -36,6 +36,8 @@
                                     <small>
                                         Kami telah mengirimkan tautan kode verifikasi akun melalui email.
                                         Silahkan cek pada inbox atau kotak spam dan gunakan tautan tersebut untuk melanjutkan proses pendafataran.
+                                        <br>
+                                        Apabila anda tidak menerima email, silahkan kirim ulang kode verifikasi akun anda pada tombol di bawah.
                                     </small>
                                 </div>
                             </div>
@@ -73,6 +75,13 @@
                             <div class="col-md-12">
                                 <button type="submit" class="button_pendaftaran" id="ButtonVerifikasiAkun">
                                     <i class="bi bi-check-circle"></i> Konfirmasi Kode
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <button type="button" class="button_back_to_login" id="ButtonKirimUlangKode">
+                                    <i class="bi bi-send"></i> Kirim Ulang Kode
                                 </button>
                             </div>
                         </div>

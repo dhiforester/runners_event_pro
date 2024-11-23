@@ -33,14 +33,14 @@
                 if (!isset($Tangkap['email'])) {
                     $keterangan = "Email Tidak Boleh Kosong";
                 } else {
-                     // Validasi password tidak boleh kosong
-                    if (!isset($Tangkap['password'])) {
-                        $keterangan = "Password Tidak Boleh Kosong";
+                     // Validasi id_member_login tidak boleh kosong
+                    if (!isset($Tangkap['id_member_login'])) {
+                        $keterangan = "ID Sesi Login Tidak Boleh Kosong";
                     } else {
                         // Buat Dalam Bentukk Variabel
                         $xtoken = validateAndSanitizeInput($headers['x-token']);
                         $email = validateAndSanitizeInput($Tangkap['email']);
-                        $password = validateAndSanitizeInput($Tangkap['password']);
+                        $id_member_login = validateAndSanitizeInput($Tangkap['id_member_login']);
                         
                         // Validasi x-token menggunakan prepared statements
                         $stmt = $Conn->prepare("SELECT * FROM api_session WHERE xtoken = ?");
@@ -60,41 +60,54 @@
                                 $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                 $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                 
-                                //Validasi Email Dan Password
-                                $stmt = $Conn->prepare("SELECT * FROM member WHERE email = ?");
-                                $stmt->bind_param("s", $email);
+                                //Validasi email Dan id_member_login
+                                $stmt = $Conn->prepare("SELECT * FROM member_login WHERE id_member_login = ?");
+                                $stmt->bind_param("s", $id_member_login);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
                                 $DataMember = $result->fetch_assoc();
-                                if ($DataMember && password_verify($password, $DataMember['password'])) {
+                                if (!empty($DataMember['id_member'])) {
                                     $id_member=$DataMember['id_member'];
-                                    //Membuka Riwayat Testimoni
-                                    $QryTestimoni = $Conn->prepare("SELECT * FROM web_testimoni WHERE id_member = ? ORDER BY id_web_testimoni ASC");
-                                    $QryTestimoni->bind_param("s", $id_member);
-                                    $QryTestimoni->execute();
-                                    $ResultTestimoni = $QryTestimoni->get_result();
-                                    while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
-                                        $id_web_testimoni=$DataTestimoni['id_web_testimoni'];
-                                        // Add to array
-                                        $metadata[] = [
-                                            "id_web_testimoni" => $DataTestimoni['id_web_testimoni'] ?? null,
-                                            "nik_name" => $DataTestimoni['nik_name'] ?? null,
-                                            "penilaian" => $DataTestimoni['penilaian'] ?? null,
-                                            "testimoni" => $DataTestimoni['testimoni'] ?? null,
-                                            "foto_profil" => $DataTestimoni['foto_profil'] ?? null,
-                                            "sumber" => $DataTestimoni['sumber'] ?? null,
-                                            "datetime" => $DataTestimoni['datetime'] ?? null,
-                                            "status" => $DataTestimoni['status'] ?? null,
-                                        ];
-                                    }
-                                    //menyimpan Log
-                                    $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                    if ($SimpanLog !== "Success") {
-                                        $keterangan = "Gagal Menyimpan Log Service";
-                                        $code = 201;
-                                    } else {
-                                        $keterangan = "success";
-                                        $code = 200;
+                                    $datetime_expired=$DataMember['datetime_expired'];
+                                    //Cek Apakah Sessi Login Sudah Berakhir?
+                                    if($datetime_expired<$now){
+                                        $keterangan = "Sessi Login Sudah Berakhir";
+                                    }else{
+                                        //Buka Email Di Database
+                                        $email_member=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
+                                        //Cek Apakah Email Sesuai
+                                        if($email_member!==$email){
+                                            $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
+                                        }else{
+                                            //Membuka Riwayat Testimoni
+                                            $QryTestimoni = $Conn->prepare("SELECT * FROM web_testimoni WHERE id_member = ? ORDER BY id_web_testimoni ASC");
+                                            $QryTestimoni->bind_param("s", $id_member);
+                                            $QryTestimoni->execute();
+                                            $ResultTestimoni = $QryTestimoni->get_result();
+                                            while ($DataTestimoni = $ResultTestimoni->fetch_assoc()) {
+                                                $id_web_testimoni=$DataTestimoni['id_web_testimoni'];
+                                                // Add to array
+                                                $metadata[] = [
+                                                    "id_web_testimoni" => $DataTestimoni['id_web_testimoni'] ?? null,
+                                                    "nik_name" => $DataTestimoni['nik_name'] ?? null,
+                                                    "penilaian" => $DataTestimoni['penilaian'] ?? null,
+                                                    "testimoni" => $DataTestimoni['testimoni'] ?? null,
+                                                    "foto_profil" => $DataTestimoni['foto_profil'] ?? null,
+                                                    "sumber" => $DataTestimoni['sumber'] ?? null,
+                                                    "datetime" => $DataTestimoni['datetime'] ?? null,
+                                                    "status" => $DataTestimoni['status'] ?? null,
+                                                ];
+                                            }
+                                            //menyimpan Log
+                                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                            if ($SimpanLog !== "Success") {
+                                                $keterangan = "Gagal Menyimpan Log Service";
+                                                $code = 201;
+                                            } else {
+                                                $keterangan = "success";
+                                                $code = 200;
+                                            }
+                                        }
                                     }
                                 }else{
                                     $keterangan = "Kombinasi Password Dan Email Tidak Valid";
