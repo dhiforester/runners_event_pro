@@ -5,11 +5,13 @@
         include "_Page/Error/NoAccess.php";
     }else{
         //Buka Data Pengaturan Transaksi Pendaftaran
+        $expired_time_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','expired_time');
         $ppn_pph_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','ppn_pph');
         $biaya_layanan_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','biaya_layanan');
         $potongan_lainnya_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','potongan_lainnya');
         $biaya_lainnya_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','biaya_lainnya');
         //Buka Data Pengaturan Transaksi Penjualan
+        $expired_time_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','expired_time');
         $ppn_pph_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','ppn_pph');
         $biaya_layanan_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','biaya_layanan');
         $potongan_lainnya_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','potongan_lainnya');
@@ -48,6 +50,19 @@
                                         </div>
                                         <form action="javascript:void(0);" id="ProsesTransaksiPendaftaran" class="mt-4">
                                             <input type="hidden" name="kategori" value="Pendaftaran">
+                                            <div class="row mb-3 mt-4">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="expired_time_pendaftaran">Durasi Expired (Jam)</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" step="1" class="form-control" name="expired_time" id="expired_time_pendaftaran" value="<?php echo "$expired_time_pendaftaran"; ?>">
+                                                    <small>
+                                                        <code class="text text-grayish">
+                                                            Durasi waktu transaksi expired jika tidak diselesaikan oleh member.
+                                                        </code>
+                                                    </small>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3 mt-4">
                                                 <div class="col-md-4">
                                                     <label class="form-label" for="ppn_pph_pendaftaran">PPN (%)</label>
@@ -169,6 +184,19 @@
                                         </div>
                                         <form action="javascript:void(0);" id="ProsesTransaksiPenjualan" class="mt-4">
                                             <input type="hidden" name="kategori" value="Penjualan">
+                                            <div class="row mb-3 mt-4">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="expired_time_penjualan">Durasi Expired (Jam)</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="number" min="0" step="1" class="form-control" name="expired_time" id="expired_time_penjualan" value="<?php echo "$expired_time_penjualan"; ?>">
+                                                    <small>
+                                                        <code class="text text-grayish">
+                                                            Durasi waktu transaksi expired jika tidak diselesaikan oleh member.
+                                                        </code>
+                                                    </small>
+                                                </div>
+                                            </div>
                                             <div class="row mb-3 mt-4">
                                                 <div class="col-md-4">
                                                     <label class="form-label" for="ppn_pph_penjualan">PPN (%)</label>
