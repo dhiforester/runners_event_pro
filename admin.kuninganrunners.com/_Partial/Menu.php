@@ -127,12 +127,12 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"||$PageMenu=="RegionalData"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"||$PageMenu=="RegionalData"||$PageMenu=="SettingTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-gear"></i>
                     <span>Pengaturan</span><i class="bi bi-chevron-down ms-auto">
                 </i>
             </a>
-            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"||$PageMenu=="RegionalData"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="components-nav" class="nav-content collapse <?php if($PageMenu=="SettingGeneral"||$PageMenu=="SettingEmail"||$PageMenu=="SettingPayment"||$PageMenu=="ApiKey"||$PageMenu=="RegionalData"||$PageMenu=="SettingTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=SettingGeneral" class="<?php if($PageMenu=="SettingGeneral"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Pengaturan Umum</span>
@@ -156,6 +156,11 @@
                 <li>
                     <a href="index.php?Page=RegionalData" class="<?php if($PageMenu=="RegionalData"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Wilayah</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?Page=SettingTransaksi" class="<?php if($PageMenu=="SettingTransaksi"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Transaksi</span>
                     </a>
                 </li>
             </ul>

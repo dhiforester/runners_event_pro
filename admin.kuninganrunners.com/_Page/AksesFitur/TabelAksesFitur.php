@@ -168,18 +168,13 @@
                                     </a>
                                 </b>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <ul>
                                     <li>
                                         <small>
                                             Kategori : <code class="text text-grayish"><?php echo $kategori; ?></code>
                                         </small>
                                     </li>
-                                    
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul>
                                     <li>
                                         <small>
                                             Kode : <code class="text text-grayish"><?php echo $kode; ?></code>

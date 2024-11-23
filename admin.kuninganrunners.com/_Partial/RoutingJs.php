@@ -67,6 +67,9 @@
         if($Page=="RegionalData"){
             echo '<script type="text/javascript" src="_Page/RegionalData/RegionalData.js"></script>';
         }
+        if($Page=="SettingTransaksi"){
+            echo '<script type="text/javascript" src="_Page/SettingTransaksi/SettingTransaksi.js"></script>';
+        }
         if($Page=="Aktivitas"){
             echo '<script type="text/javascript" src="_Page/Aktivitas/Aktivitas.js"></script>';
         }

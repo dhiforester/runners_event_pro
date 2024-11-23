@@ -63,6 +63,9 @@
         if($Page=="RegionalData"){
             include "_Page/RegionalData/RegionalData.php";
         }
+        if($Page=="SettingTransaksi"){
+            include "_Page/SettingTransaksi/SettingTransaksi.php";
+        }
         if($Page=="Help"){
             include "_Page/Help/Help.php";
         }
