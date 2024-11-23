@@ -49,41 +49,49 @@
                 echo '</div>';
             } else {
                 $foto = GetDetailData($Conn, 'member', 'id_member', $id_member, 'foto');
-                $foto_path = __DIR__ . "/../../assets/img/Member/" . basename($foto);
-                $foto_url = "$base_url/assets/img/Member/" . basename($foto);
-
-                // Pastikan file foto ada dan merupakan file yang aman untuk ditampilkan
-                if (!file_exists($foto_path)) {
+                if(empty($foto)){
                     echo '<div class="row mb-3">';
-                    echo '  <div class="col-md-12">';
-                    echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
-                    echo '          <small class="credit">';
-                    echo '              <code class="text-dark">';
-                    echo '                  Foto tidak ditemukan pada directory yang dimaksud: ' . htmlspecialchars($foto_path) . '';
-                    echo '              </code>';
-                    echo '          </small>';
-                    echo '      </div>';
+                    echo '  <div class="col-md-12 text-center">';
+                    echo '      <img src="assets/img/no_image.jpg" alt="Poster Event" width="100%">';
                     echo '  </div>';
                     echo '</div>';
-                } else {
-                    if (in_array(pathinfo($foto_path, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg', 'gif'])) {
-                        echo '<div class="row mb-3">';
-                        echo '  <div class="col-md-12 text-center">';
-                        echo '      <img src="' . htmlspecialchars($foto_url) . '" alt="Poster Event" width="100%">';
-                        echo '  </div>';
-                        echo '</div>';
-                    } else {
+                }else{
+                    $foto_path = __DIR__ . "/../../assets/img/Member/" . basename($foto);
+                    $foto_url = "$base_url/assets/img/Member/" . basename($foto);
+
+                    // Pastikan file foto ada dan merupakan file yang aman untuk ditampilkan
+                    if (!file_exists($foto_path)) {
                         echo '<div class="row mb-3">';
                         echo '  <div class="col-md-12">';
                         echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
                         echo '          <small class="credit">';
                         echo '              <code class="text-dark">';
-                        echo '                  Foto memiliki format tidak didukung.';
+                        echo '                  Foto tidak ditemukan pada directory yang dimaksud: ' . htmlspecialchars($foto_path) . '';
                         echo '              </code>';
                         echo '          </small>';
                         echo '      </div>';
                         echo '  </div>';
                         echo '</div>';
+                    } else {
+                        if (in_array(pathinfo($foto_path, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg', 'gif'])) {
+                            echo '<div class="row mb-3">';
+                            echo '  <div class="col-md-12 text-center">';
+                            echo '      <img src="' . htmlspecialchars($foto_url) . '" alt="Poster Event" width="100%">';
+                            echo '  </div>';
+                            echo '</div>';
+                        } else {
+                            echo '<div class="row mb-3">';
+                            echo '  <div class="col-md-12">';
+                            echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
+                            echo '          <small class="credit">';
+                            echo '              <code class="text-dark">';
+                            echo '                  Foto memiliki format tidak didukung.';
+                            echo '              </code>';
+                            echo '          </small>';
+                            echo '      </div>';
+                            echo '  </div>';
+                            echo '</div>';
+                        }
                     }
                 }
             }
