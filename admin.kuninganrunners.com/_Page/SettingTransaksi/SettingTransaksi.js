@@ -76,7 +76,48 @@ $(document).ready(function() {
     $(document).on('click', '.hapus_biaya_lainnya_penjualan', function() {
         $(this).closest('.input-group').remove();
     });
-    
+    //Apabila provinsi diubah maka tampilkan kabupaten (asal pengiriman)
+    $(document).on('input', '#asal_pengiriman_provinsi', function() {
+        var asal_pengiriman_provinsi = $('#asal_pengiriman_provinsi').val();
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/TransaksiPenjualan/ListWilayahKabupaten.php',
+            data        : { propinsi: asal_pengiriman_provinsi },
+            success     : function(data) {
+                $('#asal_pengiriman_kabupaten').html(data);
+            }
+        });
+        $('#asal_pengiriman_kecamatan').html('<option>-Kecamatan-</option>');
+        $('#asal_pengiriman_desa').html('<option>-Desa/Kelurahan-</option>');
+    });
+    //Apabila kabupaten diubah maka tampilkan kabupaten (asal pengiriman)
+    $(document).on('input', '#asal_pengiriman_kabupaten', function() {
+        var asal_pengiriman_provinsi = $('#asal_pengiriman_provinsi').val();
+        var asal_pengiriman_kabupaten = $('#asal_pengiriman_kabupaten').val();
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/TransaksiPenjualan/ListWilayahKecamatan.php',
+            data        : { propinsi: asal_pengiriman_provinsi, kabupaten: asal_pengiriman_kabupaten },
+            success     : function(data) {
+                $('#asal_pengiriman_kecamatan').html(data);
+            }
+        });
+        $('#asal_pengiriman_desa').html('<option>-Desa/Kelurahan-</option>');
+    });
+    //Apabila kecamatan diubah maka tampilkan kabupaten (asal pengiriman)
+    $(document).on('input', '#asal_pengiriman_kecamatan', function() {
+        var asal_pengiriman_provinsi = $('#asal_pengiriman_provinsi').val();
+        var asal_pengiriman_kabupaten = $('#asal_pengiriman_kabupaten').val();
+        var asal_pengiriman_kecamatan = $('#asal_pengiriman_kecamatan').val();
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/TransaksiPenjualan/ListWilayahDesa.php',
+            data        : { propinsi: asal_pengiriman_provinsi, kabupaten: asal_pengiriman_kabupaten, kecamatan: asal_pengiriman_kecamatan },
+            success     : function(data) {
+                $('#asal_pengiriman_desa').html(data);
+            }
+        });
+    });
     // -----------------------------------------------------------------------------------------------
 
     //Proses Simpan Pengaturan Pendaftaran

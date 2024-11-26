@@ -31,8 +31,8 @@
         if($Page=="RegistrasiEvent"){
             include "_Page/RegistrasiEvent/ModalRegistrasiEvent.php";
         }
-        if($Page=="Transaksi"){
-            include "_Page/Transaksi/ModalTransaksi.php";
+        if($Page=="TransaksiPenjualan"){
+            include "_Page/TransaksiPenjualan/ModalTransaksiPenjualan.php";
         }
         if($Page=="KontenUtama"){
             include "_Page/KontenUtama/ModalKontenUtama.php";

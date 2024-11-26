@@ -60,19 +60,19 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="OrderMerchandise"||$PageMenu=="LogPayment"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#transaksi-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="TransaksiPenjualan"||$PageMenu=="LogPayment"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#transaksi-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-cash-coin"></i>
                 <span>Transaksi</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="transaksi-nav" class="nav-content collapse <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="OrderMerchandise"||$PageMenu=="LogPayment"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="transaksi-nav" class="nav-content collapse <?php if($PageMenu=="RegistrasiEvent"||$PageMenu=="TransaksiPenjualan"||$PageMenu=="LogPayment"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="index.php?Page=RegistrasiEvent" class="<?php if($PageMenu=="RegistrasiEvent"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Registrasi Event</span>
                     </a>
                 </li>
                 <li>
-                    <a href="index.php?Page=OrderMerchandise" class="<?php if($PageMenu=="OrderMerchandise"){echo "active";} ?>">
-                        <i class="bi bi-circle"></i><span>Order Merchandise</span>
+                    <a href="index.php?Page=TransaksiPenjualan" class="<?php if($PageMenu=="TransaksiPenjualan"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Penjualan Merch</span>
                     </a>
                 </li>
                 <li>

@@ -65,6 +65,58 @@
                     }
                     $biaya_lainnya=json_encode($biaya_lainnya);
                 }
+                //Pengiriman
+                if(empty($_POST['asal_pengiriman_nama'])){
+                    $asal_pengiriman_nama="";
+                }else{
+                    $asal_pengiriman_nama=$_POST['asal_pengiriman_nama'];
+                }
+                if(empty($_POST['asal_pengiriman_provinsi'])){
+                    $provinsi="";
+                }else{
+                    $provinsi=$_POST['asal_pengiriman_provinsi'];
+                }
+                if(empty($_POST['asal_pengiriman_kabupaten'])){
+                    $kabupaten="";
+                }else{
+                    $kabupaten=$_POST['asal_pengiriman_kabupaten'];
+                }
+                if(empty($_POST['asal_pengiriman_kecamatan'])){
+                    $kecamatan="";
+                }else{
+                    $kecamatan=$_POST['asal_pengiriman_kecamatan'];
+                }
+                if(empty($_POST['asal_pengiriman_desa'])){
+                    $desa="";
+                }else{
+                    $desa=$_POST['asal_pengiriman_desa'];
+                }
+                if(empty($_POST['asal_pengiriman_rt_rw'])){
+                    $rt_rw="";
+                }else{
+                    $rt_rw=$_POST['asal_pengiriman_rt_rw'];
+                }
+                if(empty($_POST['asal_pengiriman_kode_pos'])){
+                    $kode_pos="";
+                }else{
+                    $kode_pos=$_POST['asal_pengiriman_kode_pos'];
+                }
+                if(empty($_POST['asal_pengiriman_kontak'])){
+                    $kontak="";
+                }else{
+                    $kontak=$_POST['asal_pengiriman_kontak'];
+                }
+                $pengiriman_raw=[
+                    "nama_pengirim"=> $asal_pengiriman_nama,
+                    "provinsi"=> $provinsi,
+                    "kabupaten"=> $kabupaten,
+                    "kecamatan"=> $kecamatan,
+                    "desa"=> $desa,
+                    "rt_rw"=> $rt_rw,
+                    "kode_pos"=> $kode_pos,
+                    "kontak"=> $kontak,
+                ];
+                $pengiriman_json=json_encode($pengiriman_raw);
                 //Bersihkan Variabel
                 $kategori=validateAndSanitizeInput($kategori);
                 $expired_time=validateAndSanitizeInput($expired_time);
@@ -74,16 +126,18 @@
                         biaya_layanan = ?, 
                         potongan_lainnya = ?, 
                         biaya_lainnya = ?,
-                        expired_time = ?
+                        expired_time = ?,
+                        pengiriman = ?
                 WHERE kategori = ?";
                 // Menyiapkan statement
                 $stmt = $Conn->prepare($sql);
-                $stmt->bind_param('ssssss', 
+                $stmt->bind_param('sssssss', 
                     $ppn_pph, 
                     $biaya_layanan, 
                     $potongan_lainnya, 
                     $biaya_lainnya,
                     $expired_time,
+                    $pengiriman_json,
                     $kategori
                 );
                 // Eksekusi statement dan cek apakah berhasil

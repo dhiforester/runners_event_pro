@@ -106,7 +106,7 @@
                 echo '<div class="card">';
                 echo '  <div class="card-body text-center">';
                 echo '      <code class="text-danger">';
-                echo '          Tidak Ada Data Merchandise Yang Dapat Ditampilkan';
+                echo '          Tidak Ada Data Yang Dapat Ditampilkan';
                 echo '      </code>';
                 echo '  </div>';
                 echo '</div>';

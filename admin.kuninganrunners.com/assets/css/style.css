@@ -1253,6 +1253,9 @@ h6 {
   .email-text {
       font-size: 9px !important; /* Ukuran font lebih kecil */
   }
+  .mobile-text {
+    font-size: 11px !important; /* Ukuran font lebih kecil */
+  }
 }
 @media (min-width: 992px) {
   .error-404 img {

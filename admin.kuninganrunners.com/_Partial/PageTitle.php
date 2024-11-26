@@ -105,57 +105,13 @@
             echo '  </ol>';
             echo '</nav>';
         }
-        if($_GET['Page']=="Transaksi"){
-            if(empty($_GET['Sub'])){
-                echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';
-                echo '<nav>';
-                echo '  <ol class="breadcrumb">';
-                echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                echo '      <li class="breadcrumb-item active">Transaksi</li>';
-                echo '  </ol>';
-                echo '</nav>';
-            }else{
-                $Sub=$_GET['Sub'];
-                if($Sub=="TambahTransaksi"){
-                    echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';
-                    echo '<nav>';
-                    echo '  <ol class="breadcrumb">';
-                    echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                    echo '      <li class="breadcrumb-item"><a href="index.php?Page=Transaksi">Transaksi</a></li>';
-                    echo '      <li class="breadcrumb-item active">Tambah Transaksi</li>';
-                    echo '  </ol>';
-                    echo '</nav>';
-                }else{
-                    if($Sub=="DetailTransaksi"){
-                        echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';
-                        echo '<nav>';
-                        echo '  <ol class="breadcrumb">';
-                        echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                        echo '      <li class="breadcrumb-item"><a href="index.php?Page=Transaksi">Transaksi</a></li>';
-                        echo '      <li class="breadcrumb-item active">Detail Transaksi</li>';
-                        echo '  </ol>';
-                        echo '</nav>';
-                    }else{
-                        if($Sub=="EditTransaksi"){
-                            echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi</a></h1>';
-                            echo '<nav>';
-                            echo '  <ol class="breadcrumb">';
-                            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-                            echo '      <li class="breadcrumb-item"><a href="index.php?Page=Transaksi">Transaksi</a></li>';
-                            echo '      <li class="breadcrumb-item active">Edit Transaksi</li>';
-                            echo '  </ol>';
-                            echo '</nav>';
-                        }
-                    }
-                }
-            }
-        }
-        if($_GET['Page']=="RekapTransaksi"){
-            echo '<h1><a href=""><i class="bi bi-cart-check"></i> Rekap Transaksi</a></h1>';
+        
+        if($_GET['Page']=="TransaksiPenjualan"){
+            echo '<h1><a href=""><i class="bi bi-cart-check"></i> Transaksi Penjualan</a></h1>';
             echo '<nav>';
             echo '  <ol class="breadcrumb">';
             echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
-            echo '      <li class="breadcrumb-item active">Rekap Transaksi</li>';
+            echo '      <li class="breadcrumb-item active">Transaksi Penjualan</li>';
             echo '  </ol>';
             echo '</nav>';
         }

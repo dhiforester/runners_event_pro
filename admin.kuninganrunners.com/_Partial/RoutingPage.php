@@ -27,11 +27,8 @@
         if($Page=="RegistrasiEvent"){
             include "_Page/RegistrasiEvent/RegistrasiEvent.php";
         }
-        if($Page=="Transaksi"){
-            include "_Page/Transaksi/Transaksi.php";
-        }
-        if($Page=="RekapTransaksi"){
-            include "_Page/RekapTransaksi/RekapTransaksi.php";
+        if($Page=="TransaksiPenjualan"){
+            include "_Page/TransaksiPenjualan/TransaksiPenjualan.php";
         }
         if($Page=="KontenUtama"){
             include "_Page/KontenUtama/KontenUtama.php";

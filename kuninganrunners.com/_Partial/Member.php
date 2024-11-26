@@ -48,10 +48,6 @@
                     $email=$list_member['email'];
                     $foto=$list_member['foto'];
                     $datetime=$list_member['datetime'];
-                    //Mengubah Gambar
-                    $new_width=500;
-                    $new_height=500;
-                    $ImageBase64=resizeImage($foto, $new_width, $new_height);
                     //Format Email Dan Kontak
                     if(!empty($kontak)){
                         $kontak=SensorKontak($kontak);
@@ -66,13 +62,19 @@
                     //Format Tanggal Daftar
                     $strtotime=strtotime($datetime);
                     $tanggal_daftar=date('d/m/Y H:i', $strtotime);
+                    //Format Foto
+                    if(empty($foto)){
+                        $foto_path="assets/img/No-Image.png";
+                    }else{
+                        $foto_path=$foto;
+                    }
 ?>
                 <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
                     <div class="card mb-3 card-member" id="">
                         <div class="card-body" >
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <img src="data:image/jpeg;base64,<?php echo "$ImageBase64"; ?>" class="image_member" width="100px" height="100px">
+                                    <img src="<?php echo "$foto_path"; ?>" class="image_member" width="100px" height="100px">
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <small class="text text-light"><?php echo $nama; ?></small><br>

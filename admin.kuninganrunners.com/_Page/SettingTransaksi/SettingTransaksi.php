@@ -16,6 +16,27 @@
         $biaya_layanan_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','biaya_layanan');
         $potongan_lainnya_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','potongan_lainnya');
         $biaya_lainnya_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','biaya_lainnya');
+        $pengiriman=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','pengiriman');
+        if(!empty($pengiriman)){
+            $pengiriman_arry=json_decode($pengiriman,true);
+            $nama_pengirim=$pengiriman_arry['nama_pengirim'];
+            $provinsi_pengirim=$pengiriman_arry['provinsi'];
+            $kabupaten_pengirim=$pengiriman_arry['kabupaten'];
+            $kecamatan_pengirim=$pengiriman_arry['kecamatan'];
+            $desa_pengirim=$pengiriman_arry['desa'];
+            $rt_rw_pengirim=$pengiriman_arry['rt_rw'];
+            $kode_pos_pengirim=$pengiriman_arry['kode_pos'];
+            $kontak_pengirim=$pengiriman_arry['kontak'];
+        }else{
+            $nama_pengirim="";
+            $provinsi_pengirim="";
+            $kabupaten_pengirim="";
+            $kecamatan_pengirim="";
+            $desa_pengirim="";
+            $rt_rw_pengirim="";
+            $kode_pos_pengirim="";
+            $kontak_pengirim="";
+        }
 ?>
     <section class="section dashboard">
         <div class="row">
@@ -285,6 +306,150 @@
                                                                     </button>
                                                                 </div>
                                                             <?php }} ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="pengiriman">Informasi Pengiriman</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-person-add"></i>
+                                                                </span>
+                                                                <input type="text" name="asal_pengiriman_nama" id="asal_pengiriman_nama" class="form-control" placeholder="Nama Pengirim" value="<?php echo $nama_pengirim; ?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-pin-map"></i>
+                                                                </span>
+                                                                <select name="asal_pengiriman_provinsi" id="asal_pengiriman_provinsi" class="form-control">
+                                                                    <option value="">-Provinsi-</option>
+                                                                    <?php
+                                                                        $query = mysqli_query($Conn, "SELECT id_wilayah, propinsi FROM wilayah WHERE kategori='Propinsi'");
+                                                                        while ($data = mysqli_fetch_array($query)) {
+                                                                            $id_wilayah= $data['id_wilayah'];
+                                                                            $propinsi= $data['propinsi'];
+                                                                            if($provinsi_pengirim==$propinsi){
+                                                                                echo '<option selected value="'.$propinsi.'">'.$propinsi.'</option>';
+                                                                            }else{
+                                                                                echo '<option value="'.$propinsi.'">'.$propinsi.'</option>';
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-pin-map"></i>
+                                                                </span>
+                                                                <select name="asal_pengiriman_kabupaten" id="asal_pengiriman_kabupaten" class="form-control">
+                                                                    <option value="">-Kab/Kota-</option>
+                                                                    <?php
+                                                                        if(!empty($provinsi_pengirim)){
+                                                                            $query = mysqli_query($Conn, "SELECT id_wilayah, kabupaten FROM wilayah WHERE kategori='Kabupaten' AND propinsi='$provinsi_pengirim'");
+                                                                                while ($data = mysqli_fetch_array($query)) {
+                                                                                    $id_wilayah= $data['id_wilayah'];
+                                                                                    $kabupaten= $data['kabupaten'];
+                                                                                    if($kabupaten_pengirim==$kabupaten){
+                                                                                        echo '<option selected value="'.$kabupaten.'">'.$kabupaten.'</option>';
+                                                                                    }else{
+                                                                                        echo '<option value="'.$kabupaten.'">'.$kabupaten.'</option>';
+                                                                                    }
+                                                                                }
+                                                                        }
+                                                                        
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-pin-map"></i>
+                                                                </span>
+                                                                <select name="asal_pengiriman_kecamatan" id="asal_pengiriman_kecamatan" class="form-control">
+                                                                    <option value="">-Kecamatan-</option>
+                                                                    <?php
+                                                                        if(!empty($kabupaten_pengirim)){
+                                                                            $query = mysqli_query($Conn, "SELECT id_wilayah, kecamatan FROM wilayah WHERE kategori='Kecamatan' AND propinsi='$provinsi_pengirim' AND kabupaten='$kabupaten_pengirim'");
+                                                                            while ($data = mysqli_fetch_array($query)) {
+                                                                                $id_wilayah= $data['id_wilayah'];
+                                                                                $kecamatan= $data['kecamatan'];
+                                                                                if($kecamatan_pengirim==$kecamatan){
+                                                                                    echo '<option selected value="'.$kecamatan.'">'.$kecamatan.'</option>';
+                                                                                }else{
+                                                                                    echo '<option value="'.$kecamatan.'">'.$kecamatan.'</option>';
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-pin-map"></i>
+                                                                </span>
+                                                                <select name="asal_pengiriman_desa" id="asal_pengiriman_desa" class="form-control">
+                                                                    <option value="">-Desa/Kelurahan-</option>
+                                                                    <?php
+                                                                        if(!empty($kecamatan_pengirim)){
+                                                                            $query = mysqli_query($Conn, "SELECT id_wilayah, desa FROM wilayah WHERE kategori='desa' AND propinsi='$provinsi_pengirim' AND kabupaten='$kabupaten_pengirim' AND kecamatan='$kecamatan_pengirim'");
+                                                                            while ($data = mysqli_fetch_array($query)) {
+                                                                                $id_wilayah= $data['id_wilayah'];
+                                                                                $desa= $data['desa'];
+                                                                                if($desa_pengirim==$desa){
+                                                                                    echo '<option selected value="'.$desa.'">'.$desa.'</option>';
+                                                                                }else{
+                                                                                    echo '<option value="'.$desa.'">'.$desa.'</option>';
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-map"></i>
+                                                                </span>
+                                                                <input type="text" name="asal_pengiriman_rt_rw" id="asal_pengiriman_rt_rw" class="form-control" placeholder="Jalan, Nomor, RT/RW" value="<?php echo $rt_rw_pengirim; ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <small class="credit">
+                                                                        <i class="bi bi-signpost"></i>
+                                                                    </small>
+                                                                </span>
+                                                                <input type="text" name="asal_pengiriman_kode_pos" id="asal_pengiriman_kode_pos" class="form-control" placeholder="Kode Pos" value="<?php echo $kode_pos_pengirim; ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="input-group mb-3">
+                                                                <span class="input-group-text">
+                                                                    <i class="bi bi-phone"></i>
+                                                                </span>
+                                                                <input type="text" name="asal_pengiriman_kontak" id="asal_pengiriman_kontak" class="form-control" placeholder="Nomor Kontak (62)" value="<?php echo $kontak_pengirim; ?>">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

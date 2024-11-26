@@ -92,7 +92,7 @@
                             if(!empty($foto)){
                                 $image_path="$base_url/assets/img/Member/$foto";
                             }else{
-                                $image_path="$base_url/assets/img/No-Image.png";
+                                $image_path="";
                             }
                             // Add to array
                             $metadata[] = [

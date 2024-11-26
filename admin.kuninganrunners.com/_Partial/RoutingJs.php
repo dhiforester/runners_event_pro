@@ -34,8 +34,8 @@
         if($Page=="RegistrasiEvent"){
             echo '<script type="text/javascript" src="_Page/RegistrasiEvent/RegistrasiEvent.js"></script>';
         }
-        if($Page=="Transaksi"){
-            echo '<script type="text/javascript" src="_Page/Transaksi/Transaksi.js"></script>';
+        if($Page=="TransaksiPenjualan"){
+            echo '<script type="text/javascript" src="_Page/TransaksiPenjualan/TransaksiPenjualan.js"></script>';
         }
         if($Page=="RekapTransaksi"){
             echo '<script type="text/javascript" src="_Page/RekapTransaksi/RekapTransaksi.js"></script>';

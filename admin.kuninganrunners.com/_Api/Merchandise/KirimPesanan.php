@@ -3,7 +3,6 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/SettingGeneral.php";
-
     // Time Zone
     date_default_timezone_set("Asia/Jakarta");
     $now = date('Y-m-d H:i:s');
@@ -174,8 +173,45 @@
                                                             "rt_rw" => $rt_rw,
                                                         ];
                                                         $raw_member=json_encode($raw_member);
-                                                        $status_transaksi="Pending";
+                                                        $status_transaksi="Menunggu";
                                                         $kategori_transaksi="Pembelian";
+                                                        $ongkir=0;
+                                                        //Buka Pengaturan transaksi
+                                                        $ppn_pph_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','ppn_pph');
+                                                        $biaya_layanan_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','biaya_layanan');
+                                                        $potongan_lainnya_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','potongan_lainnya');
+                                                        $biaya_lainnya_penjualan=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','biaya_lainnya');
+                                                        //Hitung PPN
+                                                        if(!empty($ppn_pph_penjualan)){
+                                                            $ppn_pph_rp=$total*($ppn_pph_penjualan/100);
+                                                            $ppn_pph_rp=round($ppn_pph_rp);
+                                                        }else{
+                                                            $ppn_pph_rp=0;
+                                                        }
+                                                        
+                                                        //Menghitung Potongan Lainnya
+                                                        if(!empty($potongan_lainnya_penjualan)){
+                                                            $potongan_lainnya_rp=0;
+                                                            $potongan_lainnya_penjualan_arry=json_decode($potongan_lainnya_penjualan, true);
+                                                            foreach ($potongan_lainnya_penjualan_arry as $potongan_lainnya_penjualan_list) {
+                                                                $nominal_potongan=$potongan_lainnya_penjualan_list['nominal_potongan'];
+                                                                $potongan_lainnya_rp=$potongan_lainnya_rp+$nominal_potongan;
+                                                            }
+                                                        }else{
+                                                            $potongan_lainnya_rp=0;
+                                                        }
+                                                        //Menghitung Biaya Lainnya
+                                                        if(!empty($biaya_lainnya_penjualan)){
+                                                            $biaya_lainnya_rp=0;
+                                                            $biaya_lainnya_penjualan_arry=json_decode($biaya_lainnya_penjualan, true);
+                                                            foreach ($biaya_lainnya_penjualan_arry as $biaya_lainnya_penjualan_list) {
+                                                                $nominal_biaya=$biaya_lainnya_penjualan_list['nominal_biaya'];
+                                                                $biaya_lainnya_rp=$biaya_lainnya_rp+$nominal_biaya;
+                                                            }
+                                                        }else{
+                                                            $biaya_lainnya_rp=0;
+                                                        }
+                                                        $subtotal=($total+$ppn_pph_rp+$biaya_layanan_penjualan+$biaya_lainnya_rp)-$potongan_lainnya_rp;
                                                         //Simpan Transaksi
                                                         $query = "INSERT INTO transaksi (
                                                             kode_transaksi, 
@@ -183,19 +219,31 @@
                                                             raw_member, 
                                                             kategori, 
                                                             datetime,
+                                                            tagihan, 
+                                                            ongkir, 
+                                                            ppn_pph, 
+                                                            biaya_layanan, 
+                                                            biaya_lainnya, 
+                                                            potongan_lainnya, 
                                                             jumlah,
                                                             status
                                                         ) 
-                                                        VALUES (?, ?, ?, ?, ?, ?, ?)";
+                                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                                                         $stmt = $Conn->prepare($query);
                                                         $stmt->bind_param(
-                                                            "sssssss", 
+                                                            "sssssssssssss", 
                                                             $kode_transaksi, 
                                                             $id_member, 
                                                             $raw_member, 
                                                             $kategori_transaksi, 
                                                             $now, 
                                                             $total, 
+                                                            $ongkir, 
+                                                            $ppn_pph_rp, 
+                                                            $biaya_layanan_penjualan, 
+                                                            $biaya_lainnya_penjualan, 
+                                                            $potongan_lainnya_penjualan, 
+                                                            $subtotal, 
                                                             $status_transaksi
                                                         );
                                                         if ($stmt->execute()) {
@@ -254,9 +302,6 @@
                                                                 }
                                                                 //Buat Json
                                                                 $uraian_transaksi = [
-                                                                    "kategori" => "Item Barang",
-                                                                    "id_barang" => $id_barang,
-                                                                    "nama_barang" => $nama_barang,
                                                                     "id_varian" => $id_varian,
                                                                     "nama_varian" => $nama_varian
                                                                 ];
@@ -267,19 +312,21 @@
                                                                 $query = "INSERT INTO transaksi_rincian (
                                                                     kode_transaksi, 
                                                                     id_member, 
-                                                                    kategori, 
-                                                                    uraian_transaksi, 
+                                                                    id_barang, 
+                                                                    nama_barang, 
+                                                                    varian, 
                                                                     harga,
                                                                     qty,
                                                                     jumlah
                                                                 ) 
-                                                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                                                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                                                                 $stmt = $Conn->prepare($query);
                                                                 $stmt->bind_param(
-                                                                    "sssssss", 
+                                                                    "ssssssss", 
                                                                     $kode_transaksi, 
                                                                     $id_member, 
-                                                                    $kategori_transaksi, 
+                                                                    $id_barang, 
+                                                                    $nama_barang, 
                                                                     $uraian_transaksi, 
                                                                     $harga, 
                                                                     $qty, 
