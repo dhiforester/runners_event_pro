@@ -935,7 +935,7 @@
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesTambahTransaksiEvent" autocomplete="off">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Tambah Pembayaran</h5>
+                    <h5 class="modal-title text-dark"><i class="bi bi-plus"></i> Buat Tagihan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -1318,7 +1318,7 @@
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesEditTransaksi" autocomplete="off">
                 <div class="modal-header">
-                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Ubah/Edit Transaksi</h5>
+                    <h5 class="modal-title text-dark"><i class="bi bi-pencil"></i> Ubah/Edit Tagihan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

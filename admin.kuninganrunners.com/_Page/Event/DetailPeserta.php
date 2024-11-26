@@ -130,20 +130,25 @@
                                         </button>
                                     </h2>
                                     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body mb-4"  id="ShowAssesmentPeserta">
-                                            <!-- Show Riwayat Pembayaran Event -->
+                                        <div class="accordion-body mb-4">
+                                            <div class="row mt-4">
+                                                <div class="col-md-12"   id="ShowAssesmentPeserta">
+                                                    <!-- Show Riwayat Pembayaran Event -->
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingTwo">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                            3. Informasi Pembayaran
+                                            3. Transaksi & Pembayaran
                                         </button>
                                     </h2>
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 mt-4">
                                                 <div class="col-md-12" id="ShowRiwayatPembayaranEvent">
                                                     <!-- Show Riwayat Pembayaran Event -->
                                                 </div>

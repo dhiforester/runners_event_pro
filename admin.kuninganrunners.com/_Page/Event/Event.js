@@ -163,6 +163,35 @@ function ShowRiwayatPembayaranEvent() {
         });
     }
 }
+//Berikut ini adalah fungsi untuk menghitung jumlah pada form tambah transaksi pendaftaran
+function hitung_jumlah_transaksi() {
+    var ProsesTambahTransaksiEvent = $('#ProsesTambahTransaksiEvent').serialize();
+    // Cek apakah id_event tidak kosong atau undefined
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Event/ProsesHitungJumlahTransaksi.php',
+        data: ProsesTambahTransaksiEvent,
+        success: function (response) {
+            result = JSON.parse(response);
+            var jumlah_transaksi=result.jumlah;
+            $('#jumlah_transaksi').val(jumlah_transaksi);
+        }
+    });
+}
+function hitung_jumlah_transaksi_edit() {
+    var ProsesEditTransaksi = $('#ProsesEditTransaksi').serialize();
+    // Cek apakah id_event tidak kosong atau undefined
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Event/ProsesHitungJumlahTransaksi.php',
+        data: ProsesEditTransaksi,
+        success: function (response) {
+            result = JSON.parse(response);
+            var jumlah_transaksi=result.jumlah;
+            $('#jumlah_transaksi_edit').val(jumlah_transaksi);
+        }
+    });
+}
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     //Menampilkan Data Pertama kali

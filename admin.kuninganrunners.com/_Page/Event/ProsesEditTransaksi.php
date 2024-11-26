@@ -46,53 +46,98 @@
                             }
                             if(empty($_POST['last_name'])){
                                 $last_name="";
-                                $nama="$first_name";
+                                $nama_member="$first_name";
                             }else{
                                 $last_name=$_POST['last_name'];
-                                $nama="$first_name $last_name";
+                                $nama_member="$first_name $last_name";
                             }
                             if(empty($_POST['biaya_pendaftaran'])){
                                 $biaya_pendaftaran="0";
                             }else{
                                 $biaya_pendaftaran=$_POST['biaya_pendaftaran'];
                             }
+                            if(!empty($_POST['ppn'])){
+                                $ppn=$_POST['ppn'];
+                            }else{
+                                $ppn=0;
+                            }
+                            if(!empty($_POST['biaya_layanan'])){
+                                $biaya_layanan=$_POST['biaya_layanan'];
+                            }else{
+                                $biaya_layanan=0;
+                            }
+                            //Membuat Raw biaya dan potongan lain-lain
+                            $nama_biaya = $_POST['nama_biaya'] ?? []; // Array nama_biaya
+                            $nominal_biaya = $_POST['nominal_biaya'] ?? []; // Array nominal_biaya
+                            $nama_potongan = $_POST['nama_potongan'] ?? []; // Array nama_potongan
+                            $nominal_potongan = $_POST['nominal_potongan'] ?? []; // Array nominal_potongan
+    
+                            // Inisialisasi total dan JSON list
+                            $total_biaya = 0;
+                            $total_potongan = 0;
+                            $json_biaya = [];
+                            $json_potongan = [];
+    
+                            // Proses data biaya
+                            foreach ($nama_biaya as $index => $nama) {
+                                $nominal = isset($nominal_biaya[$index]) ? (int)$nominal_biaya[$index] : 0;
+                                $total_biaya += $nominal;
+                                $json_biaya[] = [
+                                    'nama_biaya' => $nama,
+                                    'nominal_biaya' => $nominal,
+                                ];
+                            }
+    
+                            // Proses data potongan
+                            foreach ($nama_potongan as $index => $nama) {
+                                $nominal = isset($nominal_potongan[$index]) ? (int)$nominal_potongan[$index] : 0;
+                                $total_potongan += $nominal;
+                                $json_potongan[] = [
+                                    'nama_potongan' => $nama,
+                                    'nominal_potongan' => $nominal,
+                                ];
+                            }
+                            // Konversi ke JSON
+                            $json_biaya = json_encode($json_biaya);
+                            $json_potongan = json_encode($json_potongan);
                             //Bersihkan Variabel
                             $kode_transaksi=validateAndSanitizeInput($kode_transaksi);
-                            $kode_transaksi=validateAndSanitizeInput($kode_transaksi);
-                            $nama=validateAndSanitizeInput($nama);
+                            $nama_member=validateAndSanitizeInput($nama_member);
                             $email=validateAndSanitizeInput($email);
                             $kontak=validateAndSanitizeInput($kontak);
                             $biaya_pendaftaran=validateAndSanitizeInput($biaya_pendaftaran);
                             $kategori="Pendaftaran";
-                            $status="Pending";
                             //Membuat Raw Member
                             $raw_member = [
                                 "id_member" => $id_member,
-                                "nama" => $nama,
+                                "nama" => $nama_member,
                                 "first_name" => $first_name,
                                 "last_name" => $last_name,
                                 "email" => $email,
                                 "kontak" => $kontak
                             ];
                             $raw_member=json_encode($raw_member, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                            $jumlah_total_transaksi=($biaya_pendaftaran+$ppn+$biaya_layanan+$total_biaya)-$total_potongan;
                             //Proses Update
                             $sql = "UPDATE transaksi SET 
-                                    id_member = ?, 
                                     raw_member = ?, 
-                                    kategori = ?, 
-                                    kode_transaksi = ?, 
-                                    jumlah = ?, 
-                                    status = ?
+                                    tagihan = ?, 
+                                    ppn_pph = ?, 
+                                    biaya_layanan = ?, 
+                                    biaya_lainnya = ?, 
+                                    potongan_lainnya = ?, 
+                                    jumlah = ?
                             WHERE kode_transaksi = ?";
                             // Menyiapkan statement
                             $stmt = $Conn->prepare($sql);
-                            $stmt->bind_param('sssssss', 
-                                $id_member, 
+                            $stmt->bind_param('ssssssss', 
                                 $raw_member, 
-                                $kategori,
-                                $kode_transaksi,
                                 $biaya_pendaftaran,
-                                $status,
+                                $ppn,
+                                $biaya_layanan,
+                                $json_biaya,
+                                $json_potongan,
+                                $jumlah_total_transaksi,
                                 $kode_transaksi
                             );
                             // Eksekusi statement dan cek apakah berhasil

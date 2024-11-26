@@ -134,7 +134,7 @@
                     $raw_member= $data['raw_member'];
                     $jumlah= $data['jumlah'];
                     $status= $data['status'];
-                    //Hitung Varian
+                    //Buka Raw Member
                     $raw_member_arry=json_decode($raw_member, true);
                     $NamaMember=$raw_member_arry['nama'];
                     $EmailMember=$raw_member_arry['email'];
