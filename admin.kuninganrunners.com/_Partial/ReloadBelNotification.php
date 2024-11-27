@@ -25,7 +25,8 @@
             $JumlahTinjauanPesertaEvent=$JumlahTinjauanPesertaEvent+1;
         }
     }
-    $JumlahNotifikasi=$JumlahEventTidakAdaKategori+$JumlahPesertaBaru+$JumlahPembayaranBaru+$JumlahTinjauanPesertaEvent;
+    $JumlahPembelianMenunggu=mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kategori='Pembelian' AND status='Menunggu'"));
+    $JumlahNotifikasi=$JumlahEventTidakAdaKategori+$JumlahPesertaBaru+$JumlahPembayaranBaru+$JumlahTinjauanPesertaEvent+$JumlahPembelianMenunggu;
     //Apabila ada notifgikasi
     if(!empty($JumlahNotifikasi)){
         echo '<i class="bi bi-bell"></i>';

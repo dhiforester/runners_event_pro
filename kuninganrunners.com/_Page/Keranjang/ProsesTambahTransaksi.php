@@ -64,7 +64,23 @@
             if (empty($_POST['item_keranjang'])) {
                 $ValidasiKelengkapanData="Item Keranjang tidak boleh kosong! Anda harus memilih item keranjang terlebih dulu.";
             }else{
-                $ValidasiKelengkapanData="Valid";
+                if (empty($_POST['desa'])) {
+                    $ValidasiKelengkapanData="Silahkan lengkapi alamat pengiriman terlebih dulu";
+                }else{
+                    if (empty($_POST['rt_rw'])) {
+                        $ValidasiKelengkapanData="Detail alamat tidak boleh kosong. Berikan keterangan alamat untuk pengiriman yang valid.";
+                    }else{
+                        if (empty($_POST['nama_member'])) {
+                            $ValidasiKelengkapanData="Nama member tidak boleh kosong";
+                        }else{
+                            if (empty($_POST['kontak_member'])) {
+                                $ValidasiKelengkapanData="Kontak member tidak boleh kosong. Lengkapi profil anda terlebih dulu";
+                            }else{
+                                $ValidasiKelengkapanData="Valid";
+                            }
+                        }
+                    }
+                }
             }
             if($ValidasiKelengkapanData!=="Valid"){
                 $message =$ValidasiKelengkapanData;
@@ -99,6 +115,15 @@
                         }else{
                             $item_keranjang=$_POST['item_keranjang'];
                             $email =$_SESSION['email'];
+                            $id_wilayah =$_POST['desa'];
+                            $rt_rw =$_POST['rt_rw'];
+                            if(empty($_POST['kode_pos'])){
+                                $kode_pos="";
+                            }else{
+                                $kode_pos=$_POST['kode_pos'];
+                            }
+                            $nama_member=$_POST['nama_member'];
+                            $kontak_member=$_POST['kontak_member'];
                             $id_member_login =$_SESSION['id_member_login'];
                             //Buat Aray Item Keranjang
                             $list_keranjang=[];
@@ -107,6 +132,14 @@
                                 $id_transaksi_keranjang=$explode[0];
                                 $list_keranjang[]=$id_transaksi_keranjang;
                             }
+                            //Membuat Raw Alamat Pengiriman
+                            $pengiriman=[
+                                "id_wilayah" => $id_wilayah,
+                                "rt_rw" => $rt_rw,
+                                "kode_pos" => $kode_pos,
+                                "nama" => $nama_member,
+                                "kontak" => $kontak_member,
+                            ];
                             //Persiapan Mengirim Data Ke Server
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
@@ -121,7 +154,8 @@
                                 CURLOPT_POSTFIELDS => json_encode(array(
                                     "email" => $email,
                                     "id_member_login" => $id_member_login,
-                                    "list_keranjang" => $list_keranjang
+                                    "list_keranjang" => $list_keranjang,
+                                    "pengiriman" => $pengiriman,
                                 )),
                                 CURLOPT_HTTPHEADER => array(
                                     'x-token: ' . $xtoken,

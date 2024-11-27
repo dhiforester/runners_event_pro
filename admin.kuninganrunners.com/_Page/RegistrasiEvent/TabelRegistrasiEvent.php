@@ -226,7 +226,7 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col col-md-4">
-                                            <small>Biaya Daftar</small>
+                                            <small>Jumlah Tagihan</small>
                                         </div>
                                         <div class="col col-md-8">
                                             <small>

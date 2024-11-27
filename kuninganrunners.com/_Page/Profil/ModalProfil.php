@@ -147,10 +147,13 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="rt_rw">RT/RW/Gang</label>
+                            <label for="rt_rw">Alamat</label>
                         </div>
                         <div class="col-md-8">
                             <input type="text" name="rt_rw" id="rt_rw" class="form-control" value="<?php echo "$rt_rw"; ?>">
+                            <small>
+                                <code class="text text-grayish">Nomor Rumah, Jalan/Gang, RT/RW</code>
+                            </small>
                         </div>
                     </div>
                     <div class="row mb-3">

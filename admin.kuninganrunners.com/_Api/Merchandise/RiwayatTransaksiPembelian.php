@@ -81,11 +81,17 @@
                                             $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
                                         }else{
                                             //Buka Riwayat Transaksi
-                                            $QryTransaksi = mysqli_query($Conn, "SELECT*FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian'");
+                                            $QryTransaksi = mysqli_query($Conn, "SELECT*FROM transaksi WHERE id_member='$id_member' AND kategori='Pembelian' ORDER BY datetime DESC");
                                             while ($DataTransaksi = mysqli_fetch_array($QryTransaksi)) {
                                                 $kode_transaksi= $DataTransaksi['kode_transaksi'];
                                                 $raw_member= $DataTransaksi['raw_member'];
                                                 $datetime= $DataTransaksi['datetime'];
+                                                $tagihan= $DataTransaksi['tagihan'];
+                                                $ongkir= $DataTransaksi['ongkir'];
+                                                $ppn_pph= $DataTransaksi['ppn_pph'];
+                                                $biaya_layanan= $DataTransaksi['biaya_layanan'];
+                                                $biaya_lainnya= $DataTransaksi['biaya_lainnya'];
+                                                $potongan_lainnya= $DataTransaksi['potongan_lainnya'];
                                                 $jumlah= $DataTransaksi['jumlah'];
                                                 $status= $DataTransaksi['status'];
                                                 //Ubah Raw Member
@@ -101,13 +107,19 @@
                                                     "status_pengiriman" => $status_pengiriman,
                                                     "datetime_pengiriman" => $datetime_pengiriman
                                                 ];
+                                                //Hitung Jumlah Rincian
+                                                $jumlah_rincian = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi_rincian FROM transaksi_rincian WHERE kode_transaksi='$kode_transaksi'"));
+                                                //Hitung Jumlah Pembayaran
+                                                $jumlah_payment = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi_payment FROM transaksi_payment WHERE kode_transaksi='$kode_transaksi'"));
                                                 //Buat Transaksi Rincian
                                                 $metadata[]= [
                                                     "kode_transaksi" => $kode_transaksi,
                                                     "raw_member" => $raw_member,
                                                     "pengiriman" => $transaksi_pengiriman,
                                                     "datetime" => $datetime,
+                                                    "rincian" => $jumlah_rincian,
                                                     "jumlah" => $jumlah,
+                                                    "payment" => $jumlah_payment,
                                                     "status" => $status
                                                 ];
                                             }

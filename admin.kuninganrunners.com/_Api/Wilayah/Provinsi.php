@@ -48,7 +48,7 @@
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         $Kategori="Propinsi";
                         // Persiapkan Query untuk Mengambil Data Provinsi
-                        $QryWilayah = $Conn->prepare("SELECT * FROM wilayah WHERE kategori = ? ORDER BY propinsi ASC");
+                        $QryWilayah = $Conn->prepare("SELECT id_wilayah, propinsi FROM wilayah WHERE kategori = ? ORDER BY propinsi ASC");
                         $QryWilayah->bind_param("s", $Kategori);
                         $QryWilayah->execute();
                         $ResultWilayah = $QryWilayah->get_result();

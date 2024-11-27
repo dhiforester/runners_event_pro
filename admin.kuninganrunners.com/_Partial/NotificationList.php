@@ -26,7 +26,9 @@
             $JumlahTinjauanPesertaEvent=$JumlahTinjauanPesertaEvent+1;
         }
     }
-    $JumlahNotifikasi=$JumlahEventTidakAdaKategori+$JumlahPesertaBaru+$JumlahPembayaranBaru+$JumlahTinjauanPesertaEvent;
+    //Menghitung Jumlah Pembelian Menunggu Verifikasi
+    $JumlahPembelianMenunggu=mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kategori='Pembelian' AND status='Menunggu'"));
+    $JumlahNotifikasi=$JumlahEventTidakAdaKategori+$JumlahPesertaBaru+$JumlahPembayaranBaru+$JumlahTinjauanPesertaEvent+$JumlahPembelianMenunggu;
     //Apabila Tidak ada notifgikasi
     if(empty($JumlahNotifikasi)){
         echo '<li class="dropdown-header">';
@@ -77,6 +79,17 @@
                 }
             }
             
+        }
+        //Menampilkan Pembelian Menunggu
+        if(!empty($JumlahPembelianMenunggu)){
+            echo '<li><hr class="dropdown-divider"></li>';
+            echo '<li class="notification-item">';
+            echo '  <i class="bi bi-exclamation-circle text-danger"></i>';
+            echo '  <div>';
+            echo '      <h4><a href="index.php?Page=TransaksiPenjualan">'.$JumlahPembelianMenunggu.' Pembelian</a></h4>';
+            echo '      <p>Pembelian Menunggu Validasi.</p>';
+            echo '  </div>';
+            echo '</li>';
         }
     }
 ?>

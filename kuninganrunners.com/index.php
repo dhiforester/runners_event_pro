@@ -265,7 +265,7 @@
                                                                 if($_GET['Page']=="Keranjang"){
                                                                     echo '<script src="_Page/Keranjang/Keranjang.js"></script>';
                                                                 }else{
-                                                                    if($_GET['Page']=="Transaksi"){
+                                                                    if($_GET['Page']=="Transaksi"||$_GET['Page']=="DetailTransaksi"){
                                                                         echo '<script src="_Page/Transaksi/Transaksi.js"></script>';
                                                                     }else{
                                                                         

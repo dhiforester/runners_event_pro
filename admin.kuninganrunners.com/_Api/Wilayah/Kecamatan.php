@@ -54,7 +54,7 @@
                             if(!empty($kabupaten)){
                                 $kategori="Kecamatan";
                                 // Persiapkan Query untuk Mengambil Data Provinsi
-                                $QryWilayah = $Conn->prepare("SELECT * FROM wilayah WHERE kategori = ? AND kabupaten = ? ORDER BY kecamatan ASC");
+                                $QryWilayah = $Conn->prepare("SELECT id_wilayah, kecamatan FROM wilayah WHERE kategori = ? AND kabupaten = ? ORDER BY kecamatan ASC");
                                 $QryWilayah->bind_param("ss", $kategori, $kabupaten);
                                 $QryWilayah->execute();
                                 $ResultWilayah = $QryWilayah->get_result();

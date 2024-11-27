@@ -207,80 +207,80 @@
                         ?>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Nama</small>
+                                <small class="mobile-text">Nama</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetName"><?php echo $nama; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Kontak (HP)</small>
+                                <small class="mobile-text">Kontak (HP)</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetKontak"><?php echo $kontak; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Email</small>
+                                <small class="mobile-text">Email</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetEmail"><?php echo $email; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Provinsi</small>
+                                <small class="mobile-text">Provinsi</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetProvinsi"><?php echo $provinsi; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Kabupaten/Kota</small>
+                                <small class="mobile-text">Kabupaten/Kota</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetKabupaten"><?php echo $kabupaten; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Kecamatan</small>
+                                <small class="mobile-text">Kecamatan</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetKecamatan"><?php echo $kecamatan; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Desa/Kelurahan</small>
+                                <small class="mobile-text">Desa/Kelurahan</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text text-dark" id="GetDesa"><?php echo $desa; ?></code>
                                 </small>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>RT/RW</small>
+                                <small class="mobile-text">Alamat</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <?php 
                                         if(empty($rt_rw)){
                                             echo '<code class="text text-danger" id="GetRtRw">None</code>';
@@ -293,10 +293,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Kode Pos</small>
+                                <small class="mobile-text">Kode Pos</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <?php 
                                         if(empty($kode_pos)){
                                             echo '<code class="text text-danger" id="GetKodePos">None</code>';
@@ -309,10 +309,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Status</small>
+                                <small class="mobile-text">Status</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <?php
                                         if($status=="Active"){
                                             echo '<code class="text-success" id="GetStatus">'.$status.'</code>';
@@ -325,10 +325,10 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col col-md-4">
-                                <small>Tgl.Daftar</small>
+                                <small class="mobile-text">Tgl.Daftar</small>
                             </div>
                             <div class="col col-md-8">
-                                <small>
+                                <small class="mobile-text">
                                     <code class="text-dark">
                                         <?php
                                             echo "$TanggalDaftar";

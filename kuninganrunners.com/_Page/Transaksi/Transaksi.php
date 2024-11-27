@@ -26,12 +26,12 @@
             //Sebelum Menampilkan Halaman Login, Lakukan Validasi Terhadap Session id_member_login
             //Apabila Session Tidak Ada
             if(empty($_SESSION['id_member_login'])&&empty($_SESSION['id_member_login'])){
-                $_SESSION['url_back']="index.php?Page=Keranjang";
+                $_SESSION['url_back']="index.php?Page=RiwayatTransaksi";
                 include "_Page/Profil/no_access_member.php";
             }else{
                 //Apabila Session Sudah Expired
                 if($_SESSION['login_expired']<date('Y-m-d H:i:s')){
-                    $_SESSION['url_back']="index.php?Page=Keranjang";
+                    $_SESSION['url_back']="index.php?Page=RiwayatTransaksi";
                     include "_Page/Profil/no_access_member.php";
                 }else{
                 //Perpanjang Session Akses Member
@@ -116,7 +116,9 @@
                                         $raw_member=$list_transaksi['raw_member'];
                                         $pengiriman=$list_transaksi['pengiriman'];
                                         $datetime=$list_transaksi['datetime'];
+                                        $rincian=$list_transaksi['rincian'];
                                         $jumlah=$list_transaksi['jumlah'];
+                                        $payment=$list_transaksi['payment'];
                                         $status=$list_transaksi['status'];
                                         //Format Tanggal Transaksi
                                         $strtotime=strtotime($datetime);
@@ -126,18 +128,22 @@
                                         //Buka Nomor Resi
                                         if(!empty($pengiriman)){
                                             if(empty($pengiriman['no_resi'])){
-                                                $no_resi="Tidak Ada";
+                                                $no_resi="";
                                             }else{
                                                 $no_resi=$pengiriman['no_resi'];
                                             }
                                         }else{
-                                            $no_resi="Tidak Ada";
+                                            $no_resi="";
                                         }
                                         //Inisiasi status
                                         if($status=="Lunas"){
                                             $LabelStatus='<code class="text text-success"><i class="bi bi-check-circle"></i> Lunas</code>';
                                         }else{
-                                            $LabelStatus='<code class="text text-danger"><i class="bi bi-clock-history"></i> Pending</code>';
+                                            if($status=="Menunggu"){
+                                                $LabelStatus='<code class="text text-danger"><i class="bi bi-clock"></i> Menunggu Validasi</code>';
+                                            }else{
+                                                $LabelStatus='<code class="text text-warning"><i class="bi bi-coin"></i> Menunggu Pembayaran</code>';
+                                            }
                                         }
                                         //Sensor Kode Transaksi
                                         // Trim untuk menghilangkan spasi di awal/akhir
@@ -164,10 +170,10 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col col-md-4">
-                                                                <small>Kode Transaksi</small>
+                                                                <small class="mobile-text">Kode Transaksi</small>
                                                             </div>
                                                             <div class="col col-md-8">
-                                                                <small>
+                                                                <small class="mobile-text">
                                                                     <code class="text text-grayish">
                                                                         <?php echo "$kode_transaksi_terformat"; ?>
                                                                     </code>
@@ -176,10 +182,22 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col col-md-4">
-                                                                <small>Jumlah Tagihan</small>
+                                                                <small class="mobile-text">Rincian</small>
                                                             </div>
                                                             <div class="col col-md-8">
-                                                                <small>
+                                                                <small class="mobile-text">
+                                                                    <code class="text text-grayish">
+                                                                        <?php echo "$rincian Item"; ?>
+                                                                    </code>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col col-md-4">
+                                                                <small class="mobile-text">Jumlah Tagihan</small>
+                                                            </div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text">
                                                                     <code class="text text-grayish">
                                                                         <?php echo "$jumlah"; ?>
                                                                     </code>
@@ -190,25 +208,51 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col col-md-4">
-                                                                <small>No.Resi</small>
+                                                                <small class="mobile-text">Pembayaran</small>
                                                             </div>
                                                             <div class="col col-md-8">
-                                                                <small>
-                                                                    <code class="text text-grayish">
-                                                                        <?php echo "$no_resi"; ?>
-                                                                    </code>
+                                                                <small class="mobile-text">
+                                                                    <?php
+                                                                        if(empty($payment)){
+                                                                            echo '<code class="text text-danger">';
+                                                                            echo '  Tidak Ada';
+                                                                            echo '</code>';
+                                                                        }else{
+                                                                            echo '<code class="text text-grayish">';
+                                                                            echo '  '.$payment.' Record';
+                                                                            echo '</code>';
+                                                                        }
+                                                                    ?>
                                                                 </small>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col col-md-4">
-                                                                <small>Status Transaksi</small>
+                                                                <small class="mobile-text">No.Resi</small>
                                                             </div>
                                                             <div class="col col-md-8">
-                                                                <small>
-                                                                    <code class="text text-grayish">
-                                                                        <?php echo "$LabelStatus"; ?>
-                                                                    </code>
+                                                                <small class="mobile-text">
+                                                                    <?php
+                                                                        if(empty($no_resi)){
+                                                                            echo '<code class="text text-danger">';
+                                                                            echo '  Tidak Ada';
+                                                                            echo '</code>';
+                                                                        }else{
+                                                                            echo '<code class="text text-grayish">';
+                                                                            echo '  '.$no_resi.'';
+                                                                            echo '</code>';
+                                                                        }
+                                                                    ?>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col col-md-4">
+                                                                <small class="mobile-text">Status Transaksi</small>
+                                                            </div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text">
+                                                                    <?php echo "$LabelStatus"; ?>
                                                                 </small>
                                                             </div>
                                                         </div>

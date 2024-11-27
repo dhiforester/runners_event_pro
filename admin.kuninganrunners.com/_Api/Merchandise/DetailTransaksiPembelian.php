@@ -94,8 +94,18 @@
                                                     $raw_member = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'raw_member');
                                                     $kategori = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'kategori');
                                                     $datetime_transaksi = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'datetime');
-                                                    $jumlah = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'jumlah');
+                                                    $tagihan = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'tagihan');
+                                                    $ongkir = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'ongkir');
+                                                    $ppn_pph = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'ppn_pph');
+                                                    $biaya_layanan = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'biaya_layanan');
+                                                    $biaya_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'biaya_lainnya');
+                                                    $potongan_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'potongan_lainnya');
+                                                    $jumlah_total = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'jumlah');
                                                     $status = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'status');
+                                                    //Ubah Biaya lain-lain menjadi arry
+                                                    $biaya_lainnya_arry=json_decode($biaya_lainnya,true);
+                                                    //Ubah Potongan lain-lain menjadi arry
+                                                    $potongan_lainnya_arry=json_decode($potongan_lainnya,true);
                                                     //Ubah Raw Member Menjadi Array
                                                     $raw_member=json_decode($raw_member, true);
                                                     //Buka Data Rincian
@@ -103,48 +113,66 @@
                                                     $QryTransaksiRincian = mysqli_query($Conn, "SELECT*FROM transaksi_rincian WHERE kode_transaksi='$kode_transaksi'");
                                                     while ($DataTransaksiRincian = mysqli_fetch_array($QryTransaksiRincian)) {
                                                         $id_transaksi_rincian= $DataTransaksiRincian['id_transaksi_rincian'];
-                                                        $uraian_transaksi= $DataTransaksiRincian['uraian_transaksi'];
+                                                        $id_barang= $DataTransaksiRincian['id_barang'];
+                                                        $nama_barang= $DataTransaksiRincian['nama_barang'];
+                                                        $varian= $DataTransaksiRincian['varian'];
                                                         $harga= $DataTransaksiRincian['harga'];
                                                         $qty= $DataTransaksiRincian['qty'];
                                                         $jumlah= $DataTransaksiRincian['jumlah'];
                                                         //Ubah Uraian Menjadi Array
-                                                        $uraian_transaksi=json_decode($uraian_transaksi, true);
+                                                        $varian=json_decode($varian, true);
                                                         //Buat Transaksi Rincian
                                                         $transaksi_rincian[]= [
                                                             "id_transaksi_rincian" => $id_transaksi_rincian,
-                                                            "uraian_transaksi" => $uraian_transaksi,
+                                                            "id_barang" => $id_barang,
+                                                            "nama_barang" => $nama_barang,
+                                                            "varian" => $varian,
                                                             "harga" => $harga,
                                                             "qty" => $qty,
                                                             "jumlah" => $jumlah
                                                         ];
                                                     }
                                                     //Buka Transaksi Payment
-                                                    $id_transaksi_payment = GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'id_transaksi_payment');
-                                                    $order_id = GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'order_id');
-                                                    $snap_token = GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'snap_token');
-                                                    $datetime_payment = GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'datetime');
-                                                    $status_payment = GetDetailData($Conn, 'transaksi_payment', 'kode_transaksi', $kode_transaksi, 'status');
-                                                    //Buat Transaksi Payment
-                                                    $transaksi_payment= [
-                                                        "id_transaksi_payment" => $id_transaksi_payment,
-                                                        "order_id" => $order_id,
-                                                        "snap_token" => $snap_token,
-                                                        "datetime" => $datetime_payment,
-                                                        "status" => $status_payment
-                                                    ];
+                                                    $transaksi_payment=[];
+                                                    $QryPayment = mysqli_query($Conn, "SELECT*FROM transaksi_payment WHERE kode_transaksi='$kode_transaksi'");
+                                                    while ($DataPayment = mysqli_fetch_array($QryPayment)) {
+                                                        $id_transaksi_payment =$DataPayment['id_transaksi_payment'];
+                                                        $order_id =$DataPayment['order_id'];
+                                                        $snap_token =$DataPayment['snap_token'];
+                                                        $datetime_payment =$DataPayment['datetime'];
+                                                        $status_payment =$DataPayment['status'];
+                                                        //Buat Transaksi Payment
+                                                        $transaksi_payment[]= [
+                                                            "id_transaksi_payment" => $id_transaksi_payment,
+                                                            "order_id" => $order_id,
+                                                            "snap_token" => $snap_token,
+                                                            "datetime" => $datetime_payment,
+                                                            "status" => $status_payment
+                                                        ];
+                                                    }
                                                     //Buka Transaksi Pengiriman
                                                     $id_transaksi_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'id_transaksi_pengiriman');
                                                     $no_resi = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'no_resi');
                                                     $kurir = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'kurir');
+                                                    $asal_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'asal_pengiriman');
+                                                    $tujuan_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'tujuan_pengiriman');
+                                                    $ongkir = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'ongkir');
                                                     $status_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'status_pengiriman');
-                                                    $datetime = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime');
+                                                    $datetime_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime_pengiriman');
+                                                    $link_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'link_pengiriman');
+                                                    //Ubah Asal Pengiriman Menjadi Arry
+                                                    $asal_pengiriman_arry=json_decode($asal_pengiriman,true);
+                                                    $tujuan_pengiriman_arry=json_decode($tujuan_pengiriman,true);
                                                     //Buat Transaksi Payment
                                                     $transaksi_pengiriman= [
                                                         "id_transaksi_pengiriman" => $id_transaksi_pengiriman,
                                                         "no_resi" => $no_resi,
                                                         "kurir" => $kurir,
+                                                        "asal_pengiriman" => $asal_pengiriman_arry,
+                                                        "tujuan_pengiriman" => $tujuan_pengiriman_arry,
                                                         "status_pengiriman" => $status_pengiriman,
-                                                        "datetime" => $datetime
+                                                        "datetime_pengiriman" => $datetime_pengiriman,
+                                                        "link_pengiriman" => $link_pengiriman
                                                     ];
                                                     $metadata = [
                                                         "kode_transaksi" => $kode_transaksi,
@@ -152,7 +180,13 @@
                                                         "raw_member" => $raw_member,
                                                         "kategori" => $kategori,
                                                         "datetime" => $datetime_transaksi,
-                                                        "jumlah" => $jumlah,
+                                                        "tagihan" => $tagihan,
+                                                        "ongkir" => $ongkir,
+                                                        "ppn_pph" => $ppn_pph,
+                                                        "biaya_layanan" => $biaya_layanan,
+                                                        "biaya_lainnya" => $biaya_lainnya_arry,
+                                                        "potongan_lainnya" => $potongan_lainnya_arry,
+                                                        "jumlah" => $jumlah_total,
                                                         "status" => $status,
                                                         "transaksi_rincian" => $transaksi_rincian,
                                                         "transaksi_payment" => $transaksi_payment,

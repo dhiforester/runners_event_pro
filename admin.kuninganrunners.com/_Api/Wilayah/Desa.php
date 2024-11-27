@@ -53,8 +53,8 @@
                             $kecamatan=GetDetailWilayah($Conn, 'wilayah', 'Kecamatan', $id_kecamatan);
                             if(!empty($kecamatan)){
                                 $kategori="desa";
-                                // Persiapkan Query untuk Mengambil Data Provinsi
-                                $QryWilayah = $Conn->prepare("SELECT * FROM wilayah WHERE kategori = ? AND kecamatan = ? ORDER BY desa ASC");
+                                // Persiapkan Query untuk Mengambil Data Desa
+                                $QryWilayah = $Conn->prepare("SELECT id_wilayah, desa FROM wilayah WHERE kategori = ? AND kecamatan = ? ORDER BY desa ASC");
                                 $QryWilayah->bind_param("ss", $kategori, $kecamatan);
                                 $QryWilayah->execute();
                                 $ResultWilayah = $QryWilayah->get_result();

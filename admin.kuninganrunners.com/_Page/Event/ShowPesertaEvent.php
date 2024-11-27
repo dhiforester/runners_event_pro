@@ -6,7 +6,7 @@
     include "../../_Config/SettingGeneral.php";
     //Validasi Kelengkapan Data
     if (empty($SessionIdAkses)) {
-        echo '<div class="row mb-3">';
+        echo '<div class="row mb-2">';
         echo '  <div class="col-md-12 text-center">';
         echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
         echo '          <small class="credit">';
@@ -19,7 +19,7 @@
         echo '</div>';
     } else {
         if (empty($_POST['id_event_peserta'])) {
-            echo '<div class="row mb-3">';
+            echo '<div class="row mb-2">';
             echo '  <div class="col-md-12 text-center">';
             echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
             echo '          <small class="credit">';
@@ -35,7 +35,7 @@
             // Validasi apakah data event ada di database
             $id_event_validasi = GetDetailData($Conn, 'event', 'id_event', $id_event, 'id_event');
             if (empty($id_event_validasi)) {
-                echo '<div class="row mb-3">';
+                echo '<div class="row mb-2">';
                 echo '  <div class="col-md-12 text-center">';
                 echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
                 echo '          <small class="credit">';
@@ -120,7 +120,7 @@
                 }
                 //Apabila Tidak Ada Data Peserta
                 if (empty($jml_data)) {
-                    echo '<div class="row mb-3">';
+                    echo '<div class="row mb-2">';
                     echo '  <div class="col-md-12 text-center">';
                     echo '      <div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
                     echo '          <small class="credit">';
@@ -232,7 +232,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Nama</small>
                                                 </div>
@@ -242,7 +242,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Email</small>
                                                 </div>
@@ -252,7 +252,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Kontak</small>
                                                 </div>
@@ -264,7 +264,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Kategori</small>
                                                 </div>
@@ -274,7 +274,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Biaya</small>
                                                 </div>
@@ -284,7 +284,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Tgl.Daftar</small>
                                                 </div>
@@ -296,7 +296,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Assesment</small>
                                                 </div>
@@ -312,7 +312,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Transaksi</small>
                                                 </div>
@@ -328,7 +328,7 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col col-md-4">
                                                     <small>Status</small>
                                                 </div>

@@ -819,6 +819,9 @@ section,
   .hero h2 {
     font-size: 28px;
   }
+  .mobile-text{
+    font-size: 11px;
+  }
 }
 
 .hero .hero-waves {
@@ -2671,6 +2674,25 @@ section,
   transition: background-color 0.3s, color 0.3s; /* Efek transisi */
 }
 
+.button_batal {
+  display: block; /* Lebar penuh */
+  width: 100%; /* Sesuaikan lebar dengan kontainer */
+  border: 2px solid rgb(255, 51, 0);
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: rgb(235, 99, 9); /* Warna awal oranye */
+  color: white; /* Warna teks putih */
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button_batal:hover {
+  background-color: #ffad99; /* Warna lebih muda saat di-hover */
+  color: rgb(255, 0, 0); /* Teks oranye saat di-hover */
+}
+
 .button_more:hover {
   background-color: orange; /* Latar belakang oranye saat di-hover */
   color: white; /* Warna teks putih saat di-hover */
@@ -2986,4 +3008,12 @@ footer {
   object-fit: cover; /* Memastikan rasio tetap */
   object-position: center; /* Pusatkan area penting dari gambar */
   border-radius: 8px; /* Opsional: Membuat sudut gambar melengkung */
+}
+
+/* membuat garis putus-putus */
+.border-dashed-bottom {
+  border-bottom: 1px dashed #505050;
+}
+.border-dashed-top {
+  border-top: 1px dashed #505050;
 }

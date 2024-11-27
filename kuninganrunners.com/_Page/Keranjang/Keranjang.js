@@ -15,6 +15,86 @@ $(document).ready(function () {
         calculateSubtotal();
     });
 });
+function ShowAlamatFirstTime(id_propinsi,kabupaten_member,kecamatan_member,desa_member) {
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Keranjang/ListKabupaten.php',
+        data    : {id_propinsi: id_propinsi, kabupaten_member: kabupaten_member},
+        success: function(data) {
+            $('#kabupaten_pengiriman').html(data);
+            //Setelah Kabupaten Muncul tangkap id_kabupaten nya
+            var id_kabupaten=$('#kabupaten_pengiriman').val();
+            $.ajax({
+                type    : 'POST',
+                url     : '_Page/Keranjang/ListKecamatan.php',
+                data    : {id_kabupaten: id_kabupaten, kecamatan_member: kecamatan_member},
+                success: function(data) {
+                    $('#kecamatan_pengiriman').html(data);
+                    //Setelah Kecamatan Muncul tangkap id_kecamatan nya
+                    var id_kecamatan=$('#kecamatan_pengiriman').val();
+                    $.ajax({
+                        type    : 'POST',
+                        url     : '_Page/Keranjang/ListDesa.php',
+                        data    : {id_kecamatan: id_kecamatan, desa_member: desa_member},
+                        success: function(data) {
+                            $('#desa_pengiriman').html(data);
+                            //Selesai
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+$(document).ready(function () {
+    //Menampilkan kabupaten_pengiriman Pertama kali
+    var id_propinsi=$('#provinsi_pengiriman').val();
+    var kabupaten_member=$('#PutKabupatenMember').val();
+    var kecamatan_member=$('#PutKecamatanMember').val();
+    var desa_member=$('#PutDesaMember').val();
+    ShowAlamatFirstTime(id_propinsi,kabupaten_member,kecamatan_member,desa_member);
+    //Apabila Provinsi Diubah Maka Reset Form Kabupaten, Kecamatan, dan Desa
+    $('#provinsi_pengiriman').on('change', function() {
+        var id_propinsi = $(this).val();
+        var id_kabupaten=$('#kabupaten_pengiriman').val();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Keranjang/ListKabupaten.php',
+            data    : {id_propinsi: id_propinsi},
+            success: function(data) {
+                $('#kabupaten_pengiriman').html(data);
+            }
+        });
+        $('#kecamatan_pengiriman').html('<option value="">Pilih</option>');
+        $('#desa_pengiriman').html('<option value="">Pilih</option>');
+    });
+    //Apabila kabupaten Diubah Maka Reset Form Kecamatan, dan Desa
+    $('#kabupaten_pengiriman').on('change', function() {
+        var id_kabupaten = $(this).val();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Keranjang/ListKecamatan.php',
+            data    : {id_propinsi: id_propinsi, id_kabupaten: id_kabupaten},
+            success: function(data) {
+                $('#kecamatan_pengiriman').html(data);
+            }
+        });
+        $('#desa_pengiriman').html('<option value="">Pilih</option>');
+    });
+    //Apabila kecamatan Diubah Maka Reset Form Desa
+    $('#kecamatan_pengiriman').on('change', function() {
+        var id_kecamatan = $(this).val();
+        $.ajax({
+            type    : 'POST',
+            url     : '_Page/Keranjang/ListDesa.php',
+            data    : {id_kecamatan: id_kecamatan},
+            success: function(data) {
+                $('#desa_pengiriman').html(data);
+            }
+        });
+    });
+});
+
 //Ketika Modal Edit Keranjang Muncul
 $('#ModalEditKeranjang').on('show.bs.modal', function (e) {
     var GetData = $(e.relatedTarget).data('id');
