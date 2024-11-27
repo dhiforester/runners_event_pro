@@ -92,3 +92,55 @@ $('#ModalBayarEvent').on('show.bs.modal', function (e) {
         }
     });
 });
+// Proses Batalkan Pendaftaran Event
+$('#ProsesPembatalanEvent').on('submit', function (e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    $('#ButtonPembatalanEvent').html('Loading...').prop('disabled', true);
+
+    $.ajax({
+        url             : '_Page/Event/ProsesPembatalanEvent.php',
+        type            : 'POST',
+        data            : formData,
+        contentType     : false,
+        processData     : false,
+        success: function (response) {
+            $('#ButtonPembatalanEvent').html('<i class="bi bi-check-circle"></i> Ya, Batalkan').prop('disabled', false);
+            var result;
+            try {
+                // Mencoba untuk parse JSON
+                result = JSON.parse(response);
+            } catch (e) {
+                $('#NotifikasiPembatalanEvent').html('<div class="alert alert-danger">Gagal memproses respons dari server.</div>');
+                // Keluar dari fungsi jika JSON tidak valid
+                return;
+            }
+            if (result.code === 200) {
+                //Apabila Berhasil
+                $('#NotifikasiPembatalanEvent').html('');
+                //1.Tutup Modal
+                $('#ModalPembatalanEvent').modal('hide');
+                //2. Tampilkan Swal
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Pendaftaran Anda Berhasil Dibatalkan',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //3. Reload halaman setelah swal ditutup
+                        window.location.href = "index.php?Page=RiwayatEvent";
+                    }
+                });
+                $('#ButtonPembatalanEvent').html('<i class="bi bi-check-circle"></i> Ya, Batalkan').prop('disabled', false);
+            } else {
+                // Menampilkan pesan kesalahan dari server
+                $('#NotifikasiPembatalanEvent').html('<div class="alert alert-danger"><small><code class="text-dark">' + result.message + '</code></small></div>');
+            }
+        },
+        error: function () {
+            $('#ButtonPembatalanEvent').html('<i class="bi bi-check-circle"></i> Ya, Batalkan').prop('disabled', false);
+            $('#NotifikasiPembatalanEvent').html('<div class="alert alert-danger">Terjadi kesalahan, coba lagi nanti.</div>');
+        }
+    });
+});

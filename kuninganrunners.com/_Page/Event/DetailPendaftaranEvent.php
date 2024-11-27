@@ -93,6 +93,20 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                        if(!empty($_SESSION['notifikasi_proses'])){
+                                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                                            echo '  '.$_SESSION['notifikasi_proses'].'';
+                                            echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                                            echo '</div><br>';
+                                            //Hapus Session
+                                            unset($_SESSION['notifikasi_proses']);
+                                        }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
                                     <div class="box_custome">
                                         <div class="services-list">
@@ -105,107 +119,118 @@
                                             <a href="index.php?Page=RiwayatEvent">
                                                 <i class="bi bi-clock-history"></i><span>Riwayat Event</span>
                                             </a>
-                                            <a href="index.php?Page=KalenderEvent">
-                                                <i class="bi bi-calendar"></i><span>Kalender Event</span>
-                                            </a>
+                                            <?php
+                                                //Apabila Status Masih Mending, Perbolehkan untuk menghapus
+                                                if($status=="Pending"){
+                                                    echo '<a href="javascript:void(0);" class="text-danger" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalPembatalanEvent">';
+                                                    echo '  <i class="bi bi-x-circle"></i><span> Batalkan</span>';
+                                                    echo '</a>';
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="box_custome">
                                         <div class="box_custome_content">
-                                            <div class="row mb-3">
+                                            <div class="row mb-2">
                                                 <div class="col-md-12">
                                                     <b>Informasi Umum Pendaftaran</b>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Kode Pendaftaran</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">ID.Reg</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$id_event_peserta"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php 
+                                                            // Ambil 5 digit terakhir
+                                                            $last_five_digits = substr($id_event_peserta, -5);
+                                                            // Gabungkan dengan tiga tanda bintang
+                                                            $formatted_id = '***' . $last_five_digits;
+                                                            echo "$formatted_id"; 
+                                                        ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Nama Event</small>
+                                            <div class="row mb-2">
+                                                <div class="col col col-md-4">
+                                                    <small class="credit mobile-text">Event</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$nama_event"; ?></code>
+                                                <div class="col col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$nama_event"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Nama Peserta</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Kategori</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$nama"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$kategori_nama"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Email Peserta</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Peserta</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$email"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$nama"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Kategori</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Email</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$kategori_nama"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$email"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Biaya Pendaftaran</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Biaya</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$biaya_pendaftaran_format"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-dark text-decoration-underline">
+                                                        <?php echo "$biaya_pendaftaran_format"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Status</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Status</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text">
                                                         <?php 
                                                             if($status=="Pending"){
-                                                                echo '<code>Pending</code>';
+                                                                echo '<span class="text-danger">Pending</span>';
                                                             }else{
-                                                                echo '<code class="text-success">'.$status.'</code>';
+                                                                echo '<span class="text-success">'.$status.'</span>';
                                                             }
                                                         ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-4">
-                                                    <small>Tanggal Pendaftaran</small>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Tgl Daftar</small>
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <small>
-                                                        <code class="text-dark"><?php echo "$tangaal_daftar_format"; ?></code>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$tangaal_daftar_format"; ?>
                                                     </small>
                                                 </div>
                                             </div>
-                                            <div class="row mb-3">
+                                            <div class="row mb-3 mt-4">
                                                 <div class="col-md-12">
                                                     <b>Assesment Pendaftaran</b><br>
                                                     <small>

@@ -32,11 +32,11 @@
                                     $biaya_pendaftaran=$list_kategori['biaya_pendaftaran'];
                                     //Format Rupiah
                                     $BiayaPendaftaran="Rp " . number_format($biaya_pendaftaran, 0, ',', '.');
-                                    echo '<div class="form-check">';
+                                    echo '<div class="form-check mb-3">';
                                     echo '  <input class="form-check-input" type="radio" name="id_event_kategori" id="id_event_kategori'.$id_event_kategori.'" value="'.$id_event_kategori.'">';
                                     echo '  <label class="form-check-label" for="id_event_kategori'.$id_event_kategori.'">';
-                                    echo '      '.$nama_kategori.' ('.$BiayaPendaftaran.')<br>';
-                                    echo '      <small>'.$deskripsi.'</small>';
+                                    echo '      <small>'.$nama_kategori.' ('.$BiayaPendaftaran.')</small><br>';
+                                    echo '      <small><code class="text text-grayish">'.$deskripsi.'</code></small>';
                                     echo '  </label>';
                                     echo '</div>';
                                 }
@@ -74,6 +74,48 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalPembatalanEvent" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesPembatalanEvent">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-trash"></i> Batalkan Pendaftaran
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12" id="FormPembatalanEvent">
+                            <!-- Form Pembatalan Pendaftaran Event Akan Muncul Disini -->
+                            <?php 
+                                echo '<input type="hidden" name="id_event_peserta" value="'.$id_event_peserta.'">';
+                                echo '<img src="assets/img/batalkan_transaksi.png" width="100%">';
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <small>Apakah anda yakin akan membatalkan pendaftaran pada event ini?</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12 mb-3 text-center" id="NotifikasiPembatalanEvent">
+                            <!-- Notifikasi Pembatalan Event -->
+                        </div>
+                        <div class="col-md-12 mb-3 text-center">
+                            <button type="submit" class="button_more" id="ButtonPembatalanEvent">
+                                <i class="bi bi-check-circle"></i> Ya, Batalkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

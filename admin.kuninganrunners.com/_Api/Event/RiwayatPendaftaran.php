@@ -80,7 +80,7 @@
                                         //Apakah Yang Bersangkutan Punya Riwayat Event?
                                         $ValidasiRiwayatEvent = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_member='$id_member'"));
                                         if(empty($ValidasiRiwayatEvent)){
-                                            $keterangan = "Member Tersebut Tidak Memiliki Riwayat Ikut Serta Dalam Event";
+                                            $keterangan = "Anda Belum Memiliki Riwayat Ikut Serta Dalam Event Apapun";
                                         }else{
                                             // Persiapkan Query untuk Mengambil Data Event
                                             $QryEvent = $Conn->prepare("SELECT * FROM event_peserta WHERE id_member = ? ORDER BY id_event_peserta DESC");

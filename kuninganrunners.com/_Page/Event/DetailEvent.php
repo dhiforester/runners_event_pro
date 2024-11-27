@@ -1,7 +1,7 @@
 <!-- Page Title -->
 <div class="sub-page-title dark-background">
 </div>
-<section id="service-details mt-5" class="service-details section">
+<section id="service-details" class="service-details section">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center mb-3">
@@ -13,16 +13,18 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-12 mb-3">
-
-            </div>
-        </div>
         <div class="row mb-4">
             <div class="col-md-12 text-center">
-                <a href="index.php" class="button button-back mb-4">
-                    <i class="bi bi-chevron-left"></i> Kembali Ke Beranda
-                </a>
+                <div class="btn-group">
+                    <a href="index.php" class="btn btn-sm btn-outline-dark">
+                        <i class="bi bi-house"></i> Beranda
+                    </a>
+                    <?php if(!empty($_SESSION['id_member_login'])){ ?>
+                        <a href="index.php?Page=Profil" class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-person-circle"></i> Profil
+                        </a>
+                    <?php } ?>
+                </div>
             </div>
         </div>
     </div>
@@ -82,147 +84,140 @@
             $strtotime2=strtotime($tanggal_selesai);
             $strtotime3=strtotime($mulai_pendaftaran);
             $strtotime4=strtotime($selesai_pendaftaran);
-            $tanggal_mulai_format=date('d/m/Y H:i',$strtotime1);
+            $tanggal_mulai_format=date('d F Y (H:i T)',$strtotime1);
             $tanggal_selesai_format=date('d/m/Y H:i',$strtotime2);
-            $mulai_pendaftaran_format=date('d/m/Y H:i',$strtotime3);
-            $selesai_pendaftaran_format=date('d/m/Y H:i',$strtotime4);
+            $mulai_pendaftaran_format=date('d/m/Y (H:i T)',$strtotime3);
+            $selesai_pendaftaran_format=date('d/m/Y( H:i T)',$strtotime4);
             //Mengubah Image Ke base 64
             $image_data = base64_encode(file_get_contents($poster));
             $base64_image = "data:image/png;base64,$image_data";
 ?>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="box_custome">
                             <div class="box_custome_header">
                                 <h4>
-                                    <i class="bi bi-image"></i> Poster Event
-                                </h4>
-                            </div>
-                            <div class="box_custome_content">
-                                <img src="<?php echo $base64_image; ?>" alt="" class="img-fluid" width="100%">
-                            </div>
-                        </div>
-                        <?php
-                            //Apabila Belum Login
-                            if(empty($_SESSION['id_member_login'])){
-                                echo '<div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
-                                echo '  <small class="credit">';
-                                echo '      Untuk dapat mengikuti event ini, anda harus';
-                                echo '      <a href="index.php?Page=Login">Login/Daftar</a> ';
-                                echo '      terlebih dulu.';
-                                echo '  </small>';
-                                echo '</div>';
-                                //Buatkan Session url_back untuk kembali ke halaman ini
-                                $_SESSION['url_back']="index.php?Page=DetailEvent&id=$id_event";
-                            }else{
-                                //Cek Apakah Member Sudah mendaftar Untuk Event Ini
-                                $id_member_login=$_SESSION['id_member_login'];
-                                $email=$_SESSION['email'];
-                                $RiwayatEvent=RiwayatEventMember($url_server,$xtoken,$email,$id_member_login);
-                                $RiwayatEventArry=json_decode($RiwayatEvent, true);
-                                if(empty(count($RiwayatEventArry['metadata']))){
-                                    echo '  <a href="javascript:void(0);" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalPendaftaranEvent">';
-                                    echo '      <i class="bi bi-pencil"></i> Form Pendaftaran';
-                                    echo '  </a>';
-                                }
-                            }
-                        ?>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="box_custome">
-                            <div class="box_custome_header">
-                                <h4>
-                                    <i class="bi bi-info-circle"></i> Detail Event
+                                    <?php echo "$nama_event"; ?>
                                 </h4>
                             </div>
                             <div class="box_custome_content">
                                 <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Nama/Judul Event</small>
+                                    <div class="col-md-3 mb-3">
+                                        <img src="<?php echo $base64_image; ?>" alt="" class="img-fluid" width="100%">
                                     </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$nama_event"; ?></code>
-                                        </small>
+                                    <div class="col-md-9 mb-3">
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <small>Keterangan/Deskripsi</small>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <small>
+                                                    <code class="text text-grayish"><?php echo "$keterangan"; ?></code>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <small>Pelaksanaan</small>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <small>
+                                                    <code class="text-grayish"><?php echo "$tanggal_mulai_format"; ?></code>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <small>Pendaftaran</small>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <small>
+                                                    <code class="text-grayish"><?php echo "$mulai_pendaftaran_format - $selesai_pendaftaran_format"; ?></code>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <small>Kategori Event</small>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <small class="credit">
+                                                    <code class="text-grayish">
+                                                        <ol>
+                                                            <?php
+                                                                foreach($kategori as $list_kategori){
+                                                                    $nama_kategori=$list_kategori['kategori'];
+                                                                    $deskripsi=$list_kategori['deskripsi'];
+                                                                    $biaya_pendaftaran=$list_kategori['biaya_pendaftaran'];
+                                                                    //Format Rupiah
+                                                                    $BiayaPendaftaran="Rp " . number_format($biaya_pendaftaran, 0, ',', '.');
+                                                                    echo '<li class="mb-3">';
+                                                                    echo '  '.$nama_kategori.'<br>';
+                                                                    echo '  <small>'.$deskripsi.'</small><br>';
+                                                                    echo '  <small>Baiaya Pendafataran : <span class="text-info">'.$BiayaPendaftaran.'</span></small><br>';
+                                                                    echo '';
+                                                                    echo '</li>';
+                                                                }
+                                                            ?>
+                                                        </ol>
+                                                    </code>
+                                                </small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Keterangan/Deskripsi</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$keterangan"; ?></code>
-                                        </small>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                            //Apabila Belum Login
+                                            if(empty($_SESSION['id_member_login'])){
+                                                echo '<div class="alert alert-danger border-1 alert-dismissible fade show" role="alert">';
+                                                echo '  <small class="credit">';
+                                                echo '      Untuk dapat mengikuti event ini, anda harus';
+                                                echo '      <a href="index.php?Page=Login">Login/Daftar</a> ';
+                                                echo '      terlebih dulu.';
+                                                echo '  </small>';
+                                                echo '</div>';
+                                                //Buatkan Session url_back untuk kembali ke halaman ini
+                                                $_SESSION['url_back']="index.php?Page=DetailEvent&id=$id_event";
+                                            }else{
+                                                //Cek Apakah Member Sudah mendaftar Untuk Event Ini
+                                                $id_member_login=$_SESSION['id_member_login'];
+                                                $email=$_SESSION['email'];
+                                                $RiwayatEvent=RiwayatEventMember($url_server,$xtoken,$email,$id_member_login);
+                                                $RiwayatEventArry=json_decode($RiwayatEvent, true);
+                                                if(empty(count($RiwayatEventArry['metadata']))){
+                                                    echo '  <a href="javascript:void(0);" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalPendaftaranEvent">';
+                                                    echo '      <i class="bi bi-pencil"></i> Form Pendaftaran';
+                                                    echo '  </a>';
+                                                }else{
+                                                    $ada=0;
+                                                    $id_event_peserta="";
+                                                    foreach($RiwayatEventArry['metadata'] as $ListRiwayatEvent){
+                                                        $id_event_peserta=$ListRiwayatEvent['id_event_peserta'];
+                                                        $event=$ListRiwayatEvent['event'];
+                                                        $id_event_list=$event['id_event'];
+                                                        if($id_event_list==$id_event){
+                                                            $ada=$ada+1;
+                                                            $id_event_peserta=$ListRiwayatEvent['id_event_peserta'];
+                                                        }
+                                                    }
+                                                    if(empty($ada)){
+                                                        echo '  <a href="javascript:void(0);" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalPendaftaranEvent">';
+                                                        echo '      <i class="bi bi-pencil"></i> Form Pendaftaran';
+                                                        echo '  </a>';
+                                                    }else{
+                                                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                                                        echo '  <small>Anda sudah terdaftar untuk event ini!</small>';
+                                                        echo '  <small>Lihat detail status pendaftaran anda pada <a href="index.php?Page=DetailPendaftaranEvent&id='.$id_event_peserta.'">tautan ini</a></small>';
+                                                        echo '</div>';
+                                                    }
+                                                }
+                                            }
+                                        ?>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Pendaftaran (Mulai)</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$tanggal_mulai_format"; ?></code>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Pendaftaran (Selesai)</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$tanggal_selesai_format"; ?></code>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Pelaksanaan (Mulai)</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$mulai_pendaftaran_format"; ?></code>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <small>Pelaksanaan (Selesai)</small>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <small>
-                                            <code class="text-dark"><?php echo "$selesai_pendaftaran_format"; ?></code>
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box_custome">
-                            <div class="box_custome_header">
-                                <h4>
-                                    <i class="bi bi-tag"></i> Kategori Event
-                                </h4>
-                            </div>
-                            <div class="box_custome_content">
-                                <ol>
-                                    <?php
-                                        foreach($kategori as $list_kategori){
-                                            $nama_kategori=$list_kategori['kategori'];
-                                            $deskripsi=$list_kategori['deskripsi'];
-                                            $biaya_pendaftaran=$list_kategori['biaya_pendaftaran'];
-                                            //Format Rupiah
-                                            $BiayaPendaftaran="Rp " . number_format($biaya_pendaftaran, 0, ',', '.');
-                                            echo '<li class="mb-3">';
-                                            echo '  '.$nama_kategori.'<br>';
-                                            echo '  <small>'.$deskripsi.'</small><br>';
-                                            echo '  <small>Baiaya Pendafataran : <span class="text-info">'.$BiayaPendaftaran.'</span></small><br>';
-                                            echo '';
-                                            echo '</li>';
-                                        }
-                                    ?>
-                                </ol>
                             </div>
                         </div>
                         <div class="box_custome">
