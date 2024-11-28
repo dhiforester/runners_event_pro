@@ -144,4 +144,7 @@ $(document).ready(function() {
         // Kosongkan konten form detail
         $('#FormDetailVidio').html(""); 
     });
+
+
+
 });

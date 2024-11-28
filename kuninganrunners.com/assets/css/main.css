@@ -3017,3 +3017,15 @@ footer {
 .border-dashed-top {
   border-top: 1px dashed #505050;
 }
+
+/* Membuat Badge badge  */
+.custom-badge-success {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 0.75rem; /* Ukuran font */
+  font-weight: 400; /* Tebal font */
+  color: #4ac47d; /* Warna teks */
+  border: 1px solid #4ac47d; /* Garis pinggir */
+  border-radius: 12px; /* Radius lengkung */
+  transition: all 0.3s ease; /* Animasi transisi */
+}

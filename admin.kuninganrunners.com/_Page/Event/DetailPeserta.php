@@ -101,6 +101,21 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                        if(empty($JumlahRiwayatTransaksi)){
+                                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                            echo '  <small class="mobile-text">';
+                                            echo '      Data Pendaftaran Peserta Ini Membutuhkan Peninjauan!';
+                                            echo '      Lakukan Tahapan ';
+                                            echo '      <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalInfoPeninjauan">Berikut Ini</a>';
+                                            echo '  </small>';
+                                            echo '</div>';
+                                        }
+                                    ?>
+                                </div>
+                            </div>
                             <div class="accordion accordion-flush" id="accordionFlushExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingOne">

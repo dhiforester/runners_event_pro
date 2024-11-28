@@ -1403,3 +1403,60 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalInfoPeninjauan" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-info-circle"></i> Info Peninjauan Peserta
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <small>
+                            Peninjauan peserta event dilakukan untuk menyeleksi peserta yang memenuhi syarat dan ketentuan penyelenggaraan kegiatan.
+                            Syarat dan ketentuan yang berlaku mungkin akan berbeda dalam setiap event yang dilaksanakan. 
+                            Oleh sebab itu, perlu adanya assesment serta validasi kelengkapan data peserta yang dilakukan secara manual oleh admin yang 
+                            berwenang. Proses seleksi peserta perlu dilakukan dengan tahapan sebagai berikut :
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <small>
+                            <ol>
+                                <li class="mb-2">
+                                    Periksa status peserta pada data member, apakah yang bersangkutan sudah melakukan 
+                                    validasi email sebagai salah satu bukti kepemilikan data informasi yang sah.
+                                </li>
+                                <li class="mb-2">
+                                    Pastikan bahwa peserta telah mendaftar pada event dan kategori yang tepat. 
+                                    Hal ini mungkin memiliki cara khusus apabila pada setiap kategori peserta memiliki syarat yang telah ditetapkan panitia.
+                                </li>
+                                <li class="mb-2">
+                                    Apabila pada event ini diperlukan assesment khusus yang harus diisi oleh peserta secara mandiri, 
+                                    pastikan keaslian dan keabsahan informasi yang diberikan.
+                                </li>
+                                <li class="mb-2">
+                                    Apabila semua syarat telah terpenuhi, admin atau panitia bisa menambahkan data pembayaran pada <i>Tab Pembayaran</i>
+                                    pada bagian akhir halaman ini.
+                                </li>
+                                <li class="mb-2">
+                                    Pastikan uraian pembayaran sudah sesuai. Apabila proses berhasil, 
+                                    peserta akan memperoleh link pembayaran pada akun membership sesuai jumlah nominal tagihan.
+                                </li>
+                            </ol>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

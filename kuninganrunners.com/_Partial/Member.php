@@ -78,15 +78,9 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <small class="text text-light"><?php echo $nama; ?></small><br>
-                                    <small class="text text-light">
-                                        <?php echo $tanggal_daftar; ?>
-                                    </small><br>
-                                    <small class="text text-light">
-                                        <code><?php echo $email; ?></code>
-                                    </small><br>
-                                    <small class="text text-light">
-                                        <code><?php echo $kontak; ?></code>
-                                    </small><br>
+                                    <small class="mobile-text text-light">
+                                        <code><?php echo $tanggal_daftar; ?></code>
+                                    </small>
                                 </div>
                             </div>
                         </div>

@@ -1,136 +1,144 @@
 <!-- Page Title -->
-<div class="sub-page-title dark-background">
-</div>
+<div class="sub-page-title dark-background"></div>
 <!-- End Page Title -->
-<?php
-    if(empty($_SESSION['id_member_login'])&&empty($_SESSION['id_member_login'])){
-        include "_Page/Profil/no_access_member.php";
-    }else{
-        //Apabila Session Sudah Expired
-        if($_SESSION['login_expired']<date('Y-m-d H:i:s')){
-            include "_Page/Profil/no_access_member.php";
-        }else{
-            //Perpanjang Session Akses Member
-            $email_member=$_SESSION['email'];
-            $id_member_login=$_SESSION['id_member_login'];
-            $UpdateSessionMemberLogin=UpdateSessionMemberLogin($url_server,$xtoken,$email_member,$id_member_login);
+<section id="service-details" class="service-details section">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-md-12 text-center">
+                <h4>
+                    <i class="bi bi-info-circle"></i> Detail Pendaftaran
+                </h4>
+                <small>Uraian dan informasi lengkap mengenai status pendaftaran event</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                    //Menampilkan Notifikasi Proses
+                    if(!empty($_SESSION['notifikasi_proses'])){
+                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                        echo '  '.$_SESSION['notifikasi_proses'].'';
+                        echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                        echo '</div><br>';
+                        //Hapus Session Notifikasi Proses
+                        unset($_SESSION['notifikasi_proses']);
+                    }
+                ?>
+            </div>
+        </div>
+        <?php
             //Apabila ID Tidak Ada
             if(empty($_GET['id'])){
-                echo '<section id="service-details mt-5" class="service-details section">';
-                echo '  <div class="container">';
-                echo '      <div class="row gy-5">';
-                echo '          <div class="col-md-4"></div>';
-                echo '              <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">';
-                echo '                  <div class="service-box">';
-                echo '                      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                echo '                          <small>';
-                echo '                              ID Peserta Event Tidak Boleh Kosong!';
-                echo '                          </small>';
-                echo '                      </div>';
-                echo '                  </div>';
-                echo '              </div>';
-                echo '          <div class="col-md-4"></div>';
-                echo '      </div>';
-                echo '  </div>';
-                echo '</section>';
+                include "_Page/Error/no_id.php";
             }else{
                 //Buat Variabel
                 $id_event_peserta=$_GET['id'];
-                //Bersihkan Variabel
-                $id_event_peserta=validateAndSanitizeInput($id_event_peserta);
-                //Buka Detail Event Peserta
-                $GetDetailEventPeserta=DetailEventPeserta($url_server,$xtoken,$id_event_peserta);
-                $response=json_decode($GetDetailEventPeserta,true);
-                //Apabila Terjadi Kesalahan Pada Saat Memperpanjang Session
-                if($response['response']['code']!==200){
-                    echo '<section id="service-details mt-5" class="service-details section">';
-                    echo '  <div class="container">';
-                    echo '      <div class="row gy-5">';
-                    echo '          <div class="col-md-4"></div>';
-                    echo '              <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">';
-                    echo '                  <div class="service-box">';
-                    echo '                      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                    echo '                          <small>';
-                    echo '                              '.$response['response']['message'].'';
-                    echo '                          </small>';
-                    echo '                      </div>';
-                    echo '                  </div>';
-                    echo '              </div>';
-                    echo '          <div class="col-md-4"></div>';
-                    echo '      </div>';
-                    echo '  </div>';
-                    echo '</section>';
+                //Bersihkan id
+                $id_event_peserta=validateAndSanitizeInput($_GET['id']);
+                if(empty($_SESSION['id_member_login'])&&empty($_SESSION['id_member_login'])){
+                    include "_Page/Error/no_access.php";
+                    $_SESSION['url_back']="index.php?Page=DetailPendaftaranEvent&id=$id_event_peserta";
                 }else{
-                    $metadata=$response['metadata'];
-                    //Buka Informasi Pendaftaran Event
-                    $id_event=$metadata['id_event'];
-                    $id_event_kategori=$metadata['id_event_kategori'];
-                    $nama=$metadata['nama'];
-                    $email=$metadata['email'];
-                    $biaya_pendaftaran=$metadata['biaya_pendaftaran'];
-                    $datetime=$metadata['datetime'];
-                    $status=$metadata['status'];
-                    $kategori=$metadata['kategori'];
-                    $event=$metadata['event'];
-                    //Buka Detail Kategori
-                    $kategori_nama=$kategori['kategori'];
-                    $deskripsi=$kategori['deskripsi'];
-                    $strtotime1=strtotime($datetime);
-                    $tangaal_daftar_format=date('d/m/Y H:i',$strtotime1);
-                    //Buka Informasi Event
-                    $nama_event=$event['nama_event'];
-                    //Format Biaya Pendaftaran
-                    $biaya_pendaftaran_format=formatRupiah($biaya_pendaftaran);
-?>
-                    <section id="service-details" class="service-details section">
+                    //Apabila Session Sudah Expired
+                    if($_SESSION['login_expired']<date('Y-m-d H:i:s')){
+                        include "_Page/Error/no_access.php";
+                        $_SESSION['url_back']="index.php?Page=DetailPendaftaranEvent&id=$id_event_peserta";
+                    }else{
+                        //Perpanjang Session Akses Member
+                        $email_member=$_SESSION['email'];
+                        $id_member_login=$_SESSION['id_member_login'];
+                        $UpdateSessionMemberLogin=UpdateSessionMemberLogin($url_server,$xtoken,$email_member,$id_member_login);
+                        //Bersihkan Variabel
+                        $id_event_peserta=validateAndSanitizeInput($id_event_peserta);
+                        //Buka Detail Event Peserta
+                        $GetDetailEventPeserta=DetailEventPeserta($url_server,$xtoken,$id_event_peserta);
+                        $response=json_decode($GetDetailEventPeserta,true);
+                        //Apabila Terjadi Kesalahan Pada Saat Memperpanjang Session
+                        if($response['response']['code']!==200){
+                            echo '<div class="row">';
+                            echo '  <div class="col-md-4"></div>';
+                            echo '      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">';
+                            echo '                  <div class="service-box">';
+                            echo '                      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                            echo '                          <small>';
+                            echo '                              '.$response['response']['message'].'';
+                            echo '                          </small>';
+                            echo '                      </div>';
+                            echo '                  </div>';
+                            echo '      </div>';
+                            echo '  <div class="col-md-4"></div>';
+                            echo '</div>';
+                        }else{
+                            $metadata=$response['metadata'];
+                            //Buka Informasi Pendaftaran Event
+                            $id_event=$metadata['id_event'];
+                            $id_event_kategori=$metadata['id_event_kategori'];
+                            $nama=$metadata['nama'];
+                            $email=$metadata['email'];
+                            $biaya_pendaftaran=$metadata['biaya_pendaftaran'];
+                            $datetime=$metadata['datetime'];
+                            $status=$metadata['status'];
+                            $kategori=$metadata['kategori'];
+                            $event=$metadata['event'];
+                            //Buka Detail Kategori
+                            $kategori_nama=$kategori['kategori'];
+                            $deskripsi=$kategori['deskripsi'];
+                            $strtotime1=strtotime($datetime);
+                            $tangaal_daftar_format=date('d/m/Y',$strtotime1);
+                            $jam_daftar_format=date('H:i T',$strtotime1);
+                            //Buka Informasi Event
+                            $nama_event=$event['nama_event'];
+                            //Format Biaya Pendaftaran
+                            $biaya_pendaftaran_format=formatRupiah($biaya_pendaftaran);
+                            //Format Email
+                            // Pisahkan bagian sebelum dan sesudah @
+                            list($username, $domain) = explode('@', $email);
+                            // Ambil 3 digit terakhir dari username
+                            $last_three_chars = substr($username, -3);
+                            // Gabungkan tanda bintang, 3 digit terakhir, dan domain
+                            $formatted_email = '***' . $last_three_chars . '@' . $domain;
+        ?>
                         <div class="container">
-                            <div class="row mb-3">
-                                <div class="col-md-12 text-center">
-                                    <h4>
-                                        <i class="bi bi-info-circle"></i> Detail Pendaftaran
-                                    </h4>
-                                    <small>Uraian dan informasi lengkap mengenai status pendaftaran event</small>
+                            <div class="row">
+                                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                                    <a href="index.php?Page=Profil">
+                                        <div class="box_custome">
+                                            <div class="services-list text-center">
+                                                <i class="bi bi-person-circle"></i> <small class="mobile-text">Profil</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                                    <a href="index.php?Page=DetailEvent&id=<?php echo "$id_event"; ?>">
+                                        <div class="box_custome">
+                                            <div class="services-list text-center">
+                                                <i class="bi bi-info-circle"></i> <small class="mobile-text">Detail Event</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                                    <a href="index.php?Page=RiwayatEvent">
+                                        <div class="box_custome">
+                                            <div class="services-list text-center">
+                                                <i class="bi bi-clock-history"></i> <small class="mobile-text">Riwayat Event</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-xxl-3 col-lg-3 col-md-3 col-sm-6 col-6">
+                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPembatalanEvent">
+                                        <div class="box_custome">
+                                            <div class="services-list text-center">
+                                                <i class="bi bi-x-circle"></i><small class="mobile-text"> Batalkan</small>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?php
-                                        if(!empty($_SESSION['notifikasi_proses'])){
-                                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
-                                            echo '  '.$_SESSION['notifikasi_proses'].'';
-                                            echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                                            echo '</div><br>';
-                                            //Hapus Session
-                                            unset($_SESSION['notifikasi_proses']);
-                                        }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-                                    <div class="box_custome">
-                                        <div class="services-list">
-                                            <a href="index.php?Page=Profil">
-                                                <i class="bi bi-person-circle"></i> <span>Profil</span>
-                                            </a>
-                                            <a href="index.php?Page=DetailEvent&id=<?php echo "$id_event"; ?>">
-                                                <i class="bi bi-info-circle"></i> <span>Detail Event</span>
-                                            </a>
-                                            <a href="index.php?Page=RiwayatEvent">
-                                                <i class="bi bi-clock-history"></i><span>Riwayat Event</span>
-                                            </a>
-                                            <?php
-                                                //Apabila Status Masih Mending, Perbolehkan untuk menghapus
-                                                if($status=="Pending"){
-                                                    echo '<a href="javascript:void(0);" class="text-danger" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalPembatalanEvent">';
-                                                    echo '  <i class="bi bi-x-circle"></i><span> Batalkan</span>';
-                                                    echo '</a>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
                                     <div class="box_custome">
                                         <div class="box_custome_content">
                                             <div class="row mb-2">
@@ -190,13 +198,13 @@
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small class="credit mobile-text text-grayish">
-                                                        <?php echo "$email"; ?>
+                                                        <?php echo "$formatted_email"; ?>
                                                     </small>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
                                                 <div class="col col-md-4">
-                                                    <small class="credit mobile-text">Biaya</small>
+                                                    <small class="credit mobile-text">Biaya Daftar</small>
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small class="credit mobile-text text-dark text-decoration-underline">
@@ -222,11 +230,21 @@
                                             </div>
                                             <div class="row mb-2">
                                                 <div class="col col-md-4">
-                                                    <small class="credit mobile-text">Tgl Daftar</small>
+                                                    <small class="credit mobile-text">Tanggal Daftar</small>
                                                 </div>
                                                 <div class="col col-md-8">
                                                     <small class="credit mobile-text text-grayish">
                                                         <?php echo "$tangaal_daftar_format"; ?>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Jam Daftar</small>
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php echo "$jam_daftar_format"; ?>
                                                     </small>
                                                 </div>
                                             </div>
@@ -577,10 +595,17 @@
                                                             $raw_member=$metadata_transaksi['raw_member'];
                                                             $kategori=$metadata_transaksi['kategori'];
                                                             $datetime=$metadata_transaksi['datetime'];
-                                                            $jumlah=$metadata_transaksi['jumlah'];
+                                                            $subtotal=$metadata_transaksi['subtotal'];
+                                                            $ongkir=$metadata_transaksi['ongkir'];
+                                                            $ppn_pph=$metadata_transaksi['ppn_pph'];
+                                                            $biaya_layanan=$metadata_transaksi['biaya_layanan'];
+                                                            $biaya_lainnya=$metadata_transaksi['biaya_lainnya'];
+                                                            $potongan_lainnya=$metadata_transaksi['potongan_lainnya'];
+                                                            $total=$metadata_transaksi['jumlah'];
                                                             $status_pembayaran=$metadata_transaksi['status'];
                                                             //Format Nominal
-                                                            $jumlah_format=formatRupiah($jumlah);
+                                                            $subtotal_format="Rp " . number_format($subtotal, 0, ',', '.');
+                                                            $total_format="Rp " . number_format($total, 0, ',', '.');
                                                             //Routing Label Status
                                                             if($status_pembayaran=="Lunas"){
                                                                 $LabelStatusPembayaran='<code class="text-success"><i class="bi bi-check-circle"></i> Lunas</code>';
@@ -588,31 +613,156 @@
                                                                 $LabelStatusPembayaran='<code class="text-danger"><i class="bi bi-clock-history"></i> Pending</code>';
                                                             }
                                                             $strtotime_transaksi=strtotime($datetime);
-                                                            $tanggal_transaksi=date('d/m/Y H:i T',$strtotime_transaksi);
+                                                            $tanggal_transaksi=date('d/m/Y',$strtotime_transaksi);
+                                                            $jam_transaksi=date('H:i T',$strtotime_transaksi);
+                                                            //Masking Kode Transaksi
+                                                            $last_five_digits = substr($kode_transaksi, -5);
+                                                            $kode_transaksi_format = '***' . $last_five_digits;
+                                                            
                                                             //Tampilkan Data
-                                                            echo '<div class="row mb-3">';
-                                                            echo '  <div class="col-md-4"><small>Kode Transaksi</small></div>';
-                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$kode_transaksi.'</code></small></div>';
+                                                            echo '<div class="row mb-2">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">ID Pembayaran</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-grayish">';
+                                                            echo '              '.$kode_transaksi_format.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
                                                             echo '</div>';
-                                                            echo '<div class="row mb-3">';
-                                                            echo '  <div class="col-md-4"><small>Tgl.Transaksi</small></div>';
-                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$tanggal_transaksi.'</code></small></div>';
+                                                            echo '<div class="row mb-2">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">Tanggal</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-grayish">';
+                                                            echo '              '.$tanggal_transaksi.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
                                                             echo '</div>';
-                                                            echo '<div class="row mb-3">';
-                                                            echo '  <div class="col-md-4"><small>Jumlah/Nominal</small></div>';
-                                                            echo '  <div class="col-md-8"><small><code class="text-dark">'.$jumlah_format.'</code></small></div>';
+                                                            echo '<div class="row mb-2">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">Jam</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-grayish">';
+                                                            echo '              '.$jam_transaksi.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
                                                             echo '</div>';
-                                                            echo '<div class="row mb-3">';
-                                                            echo '  <div class="col-md-4"><small>Status Pembayaran</small></div>';
-                                                            echo '  <div class="col-md-8"><small>'.$LabelStatusPembayaran.'</small></div>';
+                                                            echo '<div class="row mb-2">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">Status</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-grayish">';
+                                                            echo '              '.$LabelStatusPembayaran.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
+                                                            echo '</div>';
+                                                            echo '<div class="row mb-2">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">Subtotal</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-grayish">';
+                                                            echo '              '.$subtotal_format.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
+                                                            echo '</div>';
+                                                            //Apabila Ada PPN
+                                                            if(!empty($ppn_pph)){
+                                                                $ppn_persen=($ppn_pph/$subtotal)*100;
+                                                                $ppn_persen=round($ppn_persen);
+                                                                $ppn_pph_format="Rp " . number_format($ppn_pph, 0, ',', '.');
+                                                                echo '<div class="row mb-2">';
+                                                                echo '  <div class="col col-md-4"><small class="mobile-text">PPN ('.$ppn_persen.' %)</small></div>';
+                                                                echo '  <div class="col col-md-8 text-end">';
+                                                                echo '      <small class="mobile-text">';
+                                                                echo '          <code class="text-grayish">';
+                                                                echo '              '.$ppn_pph_format.'';
+                                                                echo '          </code>';
+                                                                echo '      </small>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                            }
+                                                            //Apabila Ada Biaya Layanan
+                                                            if(!empty($biaya_layanan)){
+                                                                $biaya_layanan_format="Rp " . number_format($biaya_layanan, 0, ',', '.');
+                                                                echo '<div class="row mb-2">';
+                                                                echo '  <div class="col col-md-4"><small class="mobile-text">Biaya Layanan</small></div>';
+                                                                echo '  <div class="col col-md-8 text-end">';
+                                                                echo '      <small class="mobile-text">';
+                                                                echo '          <code class="text-grayish">';
+                                                                echo '              '.$biaya_layanan_format.'';
+                                                                echo '          </code>';
+                                                                echo '      </small>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
+                                                            }
+                                                            //Apabila Ada Biaya Lain-lain
+                                                            if(!empty($biaya_lainnya)){
+                                                                if(!empty(count($biaya_lainnya))){
+                                                                    echo '<div class="row mb-2 mt-3">';
+                                                                    echo '  <div class="col col-md-12"><small class="mobile-text">Biaya Lain-lain</small></div>';
+                                                                    echo '</div>';
+                                                                    foreach ($biaya_lainnya as $biaya_lainnya_list) {
+                                                                        $nama_biaya=$biaya_lainnya_list['nama_biaya'];
+                                                                        $nominal_biaya=$biaya_lainnya_list['nominal_biaya'];
+                                                                        $nominal_biaya_format="Rp " . number_format($nominal_biaya, 0, ',', '.');
+                                                                        echo '<div class="row mb-2">';
+                                                                        echo '  <div class="col col-md-4"><small class="mobile-text text-grayish">- '.$nama_biaya.'</small></div>';
+                                                                        echo '  <div class="col col-md-8 text-end">';
+                                                                        echo '      <small class="mobile-text">';
+                                                                        echo '          <code class="text-grayish">';
+                                                                        echo '              '.$nominal_biaya_format.'';
+                                                                        echo '          </code>';
+                                                                        echo '      </small>';
+                                                                        echo '  </div>';
+                                                                        echo '</div>';
+                                                                    }
+                                                                }
+                                                            }
+                                                            //Apabila Ada Potongan Lain-lain
+                                                            if(!empty($potongan_lainnya)){
+                                                                if(!empty(count($potongan_lainnya))){
+                                                                    echo '<div class="row mb-2 mt-3">';
+                                                                    echo '  <div class="col col-md-12"><small class="mobile-text">Biaya Lain-lain</small></div>';
+                                                                    echo '</div>';
+                                                                    foreach ($potongan_lainnya as $potongan_lainnya_list) {
+                                                                        $nama_potongan=$potongan_lainnya_list['nama_potongan'];
+                                                                        $nominal_potongan=$potongan_lainnya_list['nominal_potongan'];
+                                                                        $nominal_potongan_format="- Rp " . number_format($nominal_potongan, 0, ',', '.');
+                                                                        echo '<div class="row mb-2">';
+                                                                        echo '  <div class="col col-md-4"><small class="mobile-text text-grayish">- '.$nama_potongan.'</small></div>';
+                                                                        echo '  <div class="col col-md-8 text-end">';
+                                                                        echo '      <small class="mobile-text">';
+                                                                        echo '          <code class="text-danger">';
+                                                                        echo '              '.$nominal_potongan_format.'';
+                                                                        echo '          </code>';
+                                                                        echo '      </small>';
+                                                                        echo '  </div>';
+                                                                        echo '</div>';
+                                                                    }
+                                                                }
+                                                            }
+                                                            echo '<div class="row mb-2 border-dashed-bottom border-dashed-top">';
+                                                            echo '  <div class="col col-md-4"><small class="mobile-text">Total</small></div>';
+                                                            echo '  <div class="col col-md-8 text-end">';
+                                                            echo '      <small class="mobile-text">';
+                                                            echo '          <code class="text-dark text-decoration-underline">';
+                                                            echo '              '.$total_format.'';
+                                                            echo '          </code>';
+                                                            echo '      </small>';
+                                                            echo '  </div>';
                                                             echo '</div>';
                                                             //Apabila Status Masih Pending
                                                             if($status_pembayaran!=="Lunas"){
                                                                 //Tampilkan Petunjuk Pembayaran
-                                                                echo '<div class="row mb-3">';
+                                                                echo '<div class="row mb-3 mt-3">';
                                                                 echo '  <div class="col-md-12">';
                                                                 echo '      <div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                                                                echo '          <small>';
+                                                                echo '          <small class="mobile-text">';
                                                                 echo '              Berikut ini langkah-langkah pembayaran yang perlu anda ketahui :';
                                                                 echo '              <ol>';
                                                                 echo '                  <li>Klik pada tombol <i>Bayar Sekarang</i> pada bagian akhir halaman.</li>';
@@ -634,6 +784,15 @@
                                                                 echo '      </button>';
                                                                 echo '  </div>';
                                                                 echo '</div>';
+                                                            }else{
+                                                                echo '<div class="row mb-3 mt-5">';
+                                                                echo '  <div class="col-md-12 text-center">';
+                                                                echo '      <h1 class="text-success"><i class="bi bi-check-circle"></i></h1>';
+                                                                echo '      <small class="mobile-text text-success">';
+                                                                echo '          Anda sudah menyelesaikan pendaftaran event ini.';
+                                                                echo '      </small>';
+                                                                echo '  </div>';
+                                                                echo '</div>';
                                                             }
                                                         }
                                                     ?>
@@ -643,12 +802,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
 <?php
                 }
             }
         }
     }
 ?>
+    </div>
+</section>
 

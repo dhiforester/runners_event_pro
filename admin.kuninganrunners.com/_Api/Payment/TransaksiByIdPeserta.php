@@ -83,21 +83,35 @@
                                         //Apakah Yang Bersangkutan Punya Riwayat Transaksi
                                         $kode_transaksi = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'kode_transaksi');
                                         if(empty($kode_transaksi)){
-                                            $keterangan = "Tidak Ada Data Transaksi. Pendaftaran Peserta Masih Dalam Peninjauan";
+                                            $keterangan = "Belum Ada Data Tagihan Pembayaran. Pendaftaran Peserta Masih Dalam Peninjauan";
                                         }else{
                                             $raw_member = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'raw_member');
                                             $kategori = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'kategori');
                                             $datetime = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'datetime');
+                                            $subtotal = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'tagihan');
+                                            $ongkir = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'ongkir');
+                                            $ppn_pph = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'ppn_pph');
+                                            $biaya_layanan = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'biaya_layanan');
+                                            $biaya_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'biaya_lainnya');
+                                            $potongan_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'potongan_lainnya');
                                             $jumlah = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'jumlah');
                                             $status = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $id_event_peserta, 'status');
                                             //Konversi JSON Raw Ke Array
                                             $raw_member_arry =json_decode($raw_member, true);
+                                            $biaya_lainnya_arry =json_decode($biaya_lainnya, true);
+                                            $potongan_lainnya_arry =json_decode($potongan_lainnya, true);
                                             //Apabila Ada Data Transaksi
                                             $metadata= [
                                                 "kode_transaksi" => $kode_transaksi,
                                                 "raw_member" => $raw_member_arry,
                                                 "kategori" => $kategori,
                                                 "datetime" => $datetime,
+                                                "subtotal" => $subtotal,
+                                                "ongkir" => $ongkir,
+                                                "ppn_pph" => $ppn_pph,
+                                                "biaya_layanan" => $biaya_layanan,
+                                                "biaya_lainnya" => $biaya_lainnya_arry,
+                                                "potongan_lainnya" => $potongan_lainnya_arry,
                                                 "jumlah" => $jumlah,
                                                 "status" => $status
                                             ];

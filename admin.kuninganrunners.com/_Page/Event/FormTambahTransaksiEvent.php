@@ -252,6 +252,17 @@
                 <input type="number" min="0" readonly name="jumlah" id="jumlah_transaksi" class="form-control" value="<?php echo "$jumlah"; ?>">
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="kirim_email" id="KirimEmailPemberitahuan" checked="" value="Ya">
+                        <label class="form-check-label" for="KirimEmailPemberitahuan">
+                            Kirim email pemberitahuan kepada member
+                        </label>
+                </div>
+            </div>
+        </div>
         <script>
             // Tambah baris form untuk biaya_lainnya_penjualan
             $('#tambah_biaya_lainnya').click(function() {

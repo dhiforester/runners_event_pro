@@ -47,10 +47,10 @@
                 echo '      <p class="post-category">';
                 echo '          <b class="text text-dark">'.$nama_album.'</b>';
                 echo '      </p>';
-                echo '      <small class="text text-grayish"><i class="bi bi-image"></i> '.$jumlah_galeri.' Galeri</small><br>';
+                echo '      <small class="mobile-text text text-grayish"><i class="bi bi-image"></i> '.$jumlah_galeri.' Galeri</small><br>';
                 echo '      <a href="index.php?Page=Galeri&album='.$nama_album.'">';
                 echo '          <small>';
-                echo '              <code class="text text-primary"><i class="bi bi-three-dots"></i> Lihat Galeri</code>';
+                echo '              <code class="text text-primary"><i class="bi bi-three-dots"></i> Lihat</code>';
                 echo '          </small>';
                 echo '      </a>';
                 echo '  </article>';

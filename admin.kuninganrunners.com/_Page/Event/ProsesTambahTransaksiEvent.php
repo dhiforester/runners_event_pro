@@ -3,6 +3,7 @@
     include "../../_Config/Connection.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+    include "../../_Config/SettingEmail.php";
     date_default_timezone_set('Asia/Jakarta');
     $now=date('Y-m-d H:i:s');
     $date=date('Y-m-d');
@@ -60,6 +61,11 @@
                             $biaya_layanan=$_POST['biaya_layanan'];
                         }else{
                             $biaya_layanan=0;
+                        }
+                        if(!empty($_POST['kirim_email'])){
+                            $kirim_email=$_POST['kirim_email'];
+                        }else{
+                            $kirim_email="";
                         }
                         //Membuat Raw biaya dan potongan lain-lain
                         $nama_biaya = $_POST['nama_biaya'] ?? []; // Array nama_biaya
@@ -164,6 +170,80 @@
                             $status
                         );
                         if ($stmt->execute()) {
+                            //Apakah Kirim Email
+                            if($kirim_email=="Ya"){
+                                //Mengirim Email
+                                $id_event=GetDetailData($Conn,'event_peserta','id_event_peserta',$kode_transaksi,'id_event');
+                                $nama_event=GetDetailData($Conn,'event','id_event',$id_event,'nama_event');
+                                //URL Website
+                                $base_url_website=GetDetailData($Conn,'web_setting','id_web_setting','1','base_url');
+                                $pesan = <<<HTML
+<!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Link Pembayaran Pendaftaran Event</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+            }
+            p {
+                margin: 0 0 15px;
+            }
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <p>Kepada Yth. <strong>$nama_member</strong>,</p>
+        <p>Kami telah menyelesaikan peninjauan terhadap pendaftaran yang sudah Anda kirim pada event <em>$nama_event</em>.</p>
+        <p>Untuk tahapan selanjutnya, silakan masuk ke akun member Anda pada halaman website, kemudian pilih riwayat pendaftaran event.</p>
+        <p>Pilih event yang Anda ikuti, lalu temukan tombol pembayaran pada bagian akhir halaman.</p>
+        <p>
+            Atau Anda juga bisa langsung mengunjungi tautan berikut ini: <br>
+            <a href="$base_url_website/index.php?Page=DetailPendaftaranEvent&id=$kode_transaksi">$base_url_website/index.php?Page=DetailPendaftaranEvent&id=$kode_transaksi</a>
+        </p>
+        <p>Demikian pemberitahuan dari kami, terima kasih atas kepercayaan Anda.</p>
+    </body>
+</html>
+HTML;
+                                    $ch = curl_init();
+                                    $headers = array(
+                                        'Content-Type: Application/JSON',          
+                                        'Accept: Application/JSON'     
+                                    );
+                                    $arr = array(
+                                        "subjek" => "Link Pembayaran Pendaftaran Event",
+                                        "email_asal" => "$email_gateway",
+                                        "password_email_asal" => "$password_gateway",
+                                        "url_provider" => "$url_provider",
+                                        "nama_pengirim" => "$nama_pengirim",
+                                        "email_tujuan" => "$email",
+                                        "nama_tujuan" => "$nama_member",
+                                        "pesan" => "$pesan",
+                                        "port" => "$port_gateway"
+                                    );
+                                    $json = json_encode($arr);
+                                    curl_setopt($ch, CURLOPT_URL, "$url_service");
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                    curl_setopt($ch, CURLOPT_TIMEOUT, 1000); 
+                                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    $content = curl_exec($ch);
+                                    $err = curl_error($ch);
+                                    curl_close($ch);
+                                    $get =json_decode($content, true);
+                            }
                             $kategori_log="Event";
                             $deskripsi_log="Tambah Transaksi Peserta Event";
                             $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);

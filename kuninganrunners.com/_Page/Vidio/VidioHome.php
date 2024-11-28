@@ -62,15 +62,17 @@
                     $deskripsi=$list_vidio['deskripsi'];
                     $datetime=$list_vidio['datetime'];
                     $thumbnail=$list_vidio['thumbnail'];
+                    //Format Datetime
+                    $datetime_format=date('d/m/Y', strtotime($datetime));
 ?>
-                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-delay="100">
                     <a href="javascript:void(0);" class="team-member" data-bs-toggle="modal" data-bs-target="#ModalDetailVidio" data-id="<?php echo $id_web_vidio; ?>">
                         <div class="member-img">
                             <img src="<?php echo "$thumbnail"; ?>" class="img-fluid" alt="">
                         </div>
                         <div class="member-info">
                             <h4><?php echo $title_vidio; ?></h4>
-                            <span><?php echo $datetime; ?></span>
+                            <span><?php echo $datetime_format; ?></span>
                         </div>
                     </a>
                 </div>

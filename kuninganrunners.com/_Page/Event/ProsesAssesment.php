@@ -176,7 +176,7 @@
                                         $message =$arry['response']['message'];
                                         $code =201; 
                                     }else{
-                                        $_SESSION['notifikasi_proses']="Ubah Profil Member Berhasil!";
+                                        $_SESSION['notifikasi_proses']="Pengisian Assesment Pendaftaran Event Berhasil!";
                                         $message=$arry['response']['message'];
                                         $code =$arry['response']['code'];
                                     }

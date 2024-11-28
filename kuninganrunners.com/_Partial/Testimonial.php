@@ -40,7 +40,7 @@
                         <div class="testimonial-item text-center">
                             <img src="<?php echo "$foto_profil"; ?>" class="testimonial-img" alt="">
                             <h3><?php echo "$nama"; ?></h3>
-                            <h4><?php echo "$datetime_format"; ?></h4>
+                            <h4 class="text-mobile"><?php echo "$datetime_format"; ?></h4>
                             <div class="stars">
                                 <?php
                                     for ($i = 1; $i <= $penilaian; $i++) {

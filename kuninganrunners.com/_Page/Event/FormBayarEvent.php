@@ -133,11 +133,28 @@
                         //Apabila Berhasil Buka Metadata
                         $snap_token_metadata=$snap_token_arry['metadata'];
                         //Buka Snap Token
-                        $kode_transaksi=$snap_token_metadata['kode_transaksi'];
                         $order_id=$snap_token_metadata['order_id'];
                         $snap_token=$snap_token_metadata['snap_token'];
                         $datetime=$snap_token_metadata['datetime'];
                         $status=$snap_token_metadata['status'];
+                        //Buka Transaksi
+                        $DetailTransaksi=DetailTransaksiPeserta($url_server,$xtoken,$email_member,$id_member_login,$kode_transaksi);
+                        $detail_transaksi_arry=json_decode($DetailTransaksi, true);
+                        if($detail_transaksi_arry['response']['code']!==200){
+                            echo '<div class="row">';
+                            echo '  <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">';
+                            echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                            echo '          <small>';
+                            echo '              Error Transaksi '.$kode_transaksi.': '.$detail_transaksi_arry['response']['message'].'';
+                            echo '          </small>';
+                            echo '      </div>';
+                            echo '  </div>';
+                            echo '</div>';
+                        }else{
+                            //Buka Data Transaksi
+                            $metadata=$detail_transaksi_arry['metadata'];
+                            $jumlah_total=$metadata['jumlah'];
+                            $jumlah_total_format='Rp ' . number_format($jumlah_total, 0, ',', '.');
 ?>
                     <html>
                         <head>
@@ -148,57 +165,19 @@
                         </head>
                         <body>
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <small>Kode Transaksi</small>
+                                <div class="col-md-12 text-center mb-3">
+                                    <small>Jumlah Pembayaran</small>
                                 </div>
-                                <div class="col-md-8">
-                                    <small>
-                                        <code class="text text-dark">
-                                            <?php echo "$kode_transaksi"; ?>
-                                        </code>
-                                    </small>
+                                <div class="col-md-12 text-center">
+                                    <h1>
+                                        <?php echo "$jumlah_total_format"; ?>
+                                    </h1>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <small>Order ID</small>
-                                </div>
-                                <div class="col-md-8">
-                                    <small>
-                                        <code class="text text-dark">
-                                            <?php echo "$order_id"; ?>
-                                        </code>
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <small>Datetime</small>
-                                </div>
-                                <div class="col-md-8">
-                                    <small>
-                                        <code class="text text-dark">
-                                            <?php echo "$datetime"; ?>
-                                        </code>
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <small>Snap Token</small>
-                                </div>
-                                <div class="col-md-8">
-                                    <small>
-                                        <code class="text text-dark">
-                                            <?php echo "$snap_token"; ?>
-                                        </code>
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-12">
-                                    <button id="pay-button" class="btn btn-md btn-block btn-success btn-rounded">
-                                        <i class="bi bi-arrow-right-circle"></i> Lanjutkan Pembayaran
+                                <div class="col-md-12 text-center">
+                                    <button id="pay-button" class="button_more">
+                                        <i class="bi bi-arrow-right-circle"></i> Pilih Metode Pembayaran
                                     </button>
                                 </div>
                             </div>
@@ -237,6 +216,7 @@
                     </html>
 
 <?php
+                        }
                     }
                 }
             }

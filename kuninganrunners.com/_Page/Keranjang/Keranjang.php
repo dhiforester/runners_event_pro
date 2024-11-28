@@ -113,15 +113,22 @@
                                 $keranjang=$metadata['keranjang'];
                                 if(empty($keranjang)){
                                     echo '<div class="row">';
-                                    echo '  <div class="col-md-12" data-aos="fade-up" data-aos-delay="100">';
-                                    echo '      <div class="service-box">';
-                                    echo '          <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                                    echo '              <small>';
-                                    echo '                  Belum Ada Item Barang Pada Keranjang Anda. Silahkan tambahkan item Merchandise terlebih dulu.';
-                                    echo '              </small>';
-                                    echo '          </div>';
+                                    echo '  <div class="col-md-3"></div>';
+                                    echo '  <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">';
+                                    echo '      <img src="assets/img/no_data.png" class="" width="100%">';
+                                    echo '  </div>';
+                                    echo '  <div class="col-md-3"></div>';
+                                    echo '</div>';
+                                    echo '<div class="row">';
+                                    echo '  <div class="col-md-3"></div>';
+                                    echo '  <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">';
+                                    echo '      <div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                                    echo '          <small>';
+                                    echo '              Belum Ada Item Barang Pada Keranjang Anda. Silahkan tambahkan item Merchandise terlebih dulu.';
+                                    echo '          </small>';
                                     echo '      </div>';
                                     echo '  </div>';
+                                    echo '  <div class="col-md-3"></div>';
                                     echo '</div>';
                                 }else{
                                     
