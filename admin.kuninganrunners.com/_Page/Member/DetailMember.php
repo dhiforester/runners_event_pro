@@ -127,8 +127,8 @@
                                     </h2>
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-12 text-center" id="ShowRiwayatEvent">
+                                            <div class="row mt-3">
+                                                <div class="col-md-12" id="ShowRiwayatEvent">
                                                     <!-- Menampilkan List Riwayat Event -->
                                                 </div>
                                             </div>
@@ -143,8 +143,36 @@
                                     </h2>
                                     <div id="flush-collapseTree" class="accordion-collapse collapse" aria-labelledby="flush-headingTree" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-12 text-center" id="ShowRiwayatPembelian">
+                                            <div class="row mt-3">
+                                                <div class="col-md-12" id="ShowRiwayatPembelian">
+                                                    <!-- Menampilkan List Riwayat Pembelian -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                            4. Riwayat Login
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <div class="row mt-3">
+                                                <div class="col-md-12 mt-4 text-end">
+                                                    <button type="button" class="btn btn-md btn-outline-dark btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalFilterRiwayatLogin">
+                                                        <i class="bi bi-filter-circle"></i> Shorting
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12 mt-4" id="ShowGrafikRiwayatLogin">
+                                                    <!-- Menampilkan List Riwayat Pembelian -->
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12 mt-4" id="ShowRiwayatLogin">
                                                     <!-- Menampilkan List Riwayat Pembelian -->
                                                 </div>
                                             </div>

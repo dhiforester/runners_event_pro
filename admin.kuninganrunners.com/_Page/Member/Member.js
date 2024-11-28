@@ -46,6 +46,61 @@ function ShowRiwayatEvent() {
 function ShowRiwayatPembelian() {
     loadMemberData('ShowRiwayatPembelian', '#ShowRiwayatPembelian');
 }
+function ShowRiwayatLogin() {
+    var ProsesFilterRiwayatLogin = $('#ProsesFilterRiwayatLogin').serialize();
+
+    // Ajax untuk menampilkan grafik dengan ApexCharts
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Member/ShowGrafikRiwayatLogin.php',
+        data: ProsesFilterRiwayatLogin,
+        dataType: 'json', // Pastikan server mengirimkan data dalam format JSON
+        success: function(data) {
+            // Konfigurasi grafik ApexCharts
+            var options = {
+                chart: {
+                    type: 'line', // Tipe grafik: line, bar, area, dll.
+                    height: 350
+                },
+                title: {
+                    text: 'Grafik Riwayat Login',
+                    align: 'center'
+                },
+                xaxis: {
+                    categories: data.labels // Label kategori dari server
+                },
+                yaxis: {
+                    title: {
+                        text: 'Jumlah Login'
+                    }
+                },
+                series: [{
+                    name: 'Login',
+                    data: data.values // Data nilai dari server
+                }]
+            };
+
+            // Render grafik
+            var chart = new ApexCharts(document.querySelector("#ShowGrafikRiwayatLogin"), options);
+            chart.render();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error loading chart data:', error);
+        }
+    });
+
+    // Ajax untuk menampilkan riwayat login
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Member/ShowRiwayatLogin.php',
+        data: ProsesFilterRiwayatLogin,
+        success: function(data) {
+            $('#ShowRiwayatLogin').html(data);
+        }
+    });
+}
+
+
 function updateCharacterLength(inputSelector, lengthSelector, maxLength) {
     $(inputSelector).on('input', function() {
         var value = $(this).val();
@@ -461,4 +516,70 @@ $(document).ready(function() {
             }
         });
     });
+});
+//Ketika Modal Detail Peserta Event
+$('#ModalDetailEventPeserta').on('show.bs.modal', function (e) {
+    var id_event_peserta = $(e.relatedTarget).data('id');
+    $('#FormDetailEventPeserta').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Member/FormDetailEventPeserta.php',
+        data        : {id_event_peserta: id_event_peserta},
+        success     : function(data){
+            $('#FormDetailEventPeserta').html(data);
+        }
+    });
+});
+//Ketika Modal Detail Muncul
+$('#ModalDetailTransaksi').on('show.bs.modal', function (e) {
+    var kode_transaksi = $(e.relatedTarget).data('id');
+    $('#FormDetailTransaksi').html("Loading...");
+    $.ajax({
+        type        : 'POST',
+        url         : '_Page/TransaksiPenjualan/FormDetail.php',
+        data        : { kode_transaksi: kode_transaksi },
+        success     : function(data) {
+            $('#FormDetailTransaksi').html(data);
+        }
+    });
+});
+
+//Menangkap id_member
+$(document).ready(function() {
+    // Menangkap id_member
+    var GetIdMember = $('#GetIdMember').val();
+
+    if (GetIdMember !== "") {
+        // Tempelkan id_member ke dalam form
+        $('#PutIdMemberFilter').val(GetIdMember);
+
+        // Fungsi untuk mengatur visibilitas form bulan berdasarkan periode
+        function toggleFormBulan() {
+            var periode_riwayat = $('#periode_riwayat').val();
+            if (periode_riwayat === "Bulanan") {
+                $('#FormBulan').hide(); // Sembunyikan form bulan
+            } else {
+                $('#FormBulan').show(); // Tampilkan form bulan
+            }
+        }
+
+        // Jalankan fungsi saat halaman pertama kali dimuat
+        toggleFormBulan();
+
+        // Event listener untuk perubahan pada periode_riwayat
+        $('#periode_riwayat').on('change', function() {
+            toggleFormBulan();
+        });
+
+        // Menampilkan data pertama kali
+        ShowRiwayatLogin();
+        //Event Submit
+        $('#ProsesFilterRiwayatLogin').submit(function(){
+            $('#ShowGrafikRiwayatLogin').html('Loading...');
+            $('#ShowRiwayatLogin').html('Loading...');
+            ShowRiwayatLogin();
+            //Tutup Modal
+            $('#ModalFilterRiwayatLogin').modal('hide');
+        });
+    }
 });
