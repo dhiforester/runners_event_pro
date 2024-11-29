@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -21,15 +21,13 @@
                                 </div>
                                 <div class="ps-3">
                                     <h4><?php echo $JumlahMember;?></h4>
-                                    <small class="text text-grayish">
-                                        Member
-                                    </small>
+                                    <span class="text text-grayish small pt-1">Member</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -44,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -59,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="col col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">

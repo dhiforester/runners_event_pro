@@ -205,6 +205,15 @@
             echo '  </ol>';
             echo '</nav>';
         }
+        if($_GET['Page']=="LaporanTransaksi"){
+            echo '<h1><a href=""><i class="bi bi-cart-check"></i> Laporan Transaksi</a></h1>';
+            echo '<nav>';
+            echo '  <ol class="breadcrumb">';
+            echo '      <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>';
+            echo '      <li class="breadcrumb-item active">Laporan Transaksi</li>';
+            echo '  </ol>';
+            echo '</nav>';
+        }
         if($_GET['Page']=="Aktivitas"){
             echo '<h1><a href=""><i class="bi bi-record-btn"></i> Log Aktivitas</a></h1>';
             echo '<nav>';

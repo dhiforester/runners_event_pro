@@ -112,11 +112,14 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php if($PageMenu=="Aktivitas"||$PageMenu=="Viewer"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+            <a class="nav-link <?php if($PageMenu=="Aktivitas"||$PageMenu=="Viewer"||$PageMenu=="LaporanTransaksi"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "";}else{echo "collapsed";} ?>" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="javascript:void(0);">
                 <i class="bi bi-bar-chart"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="charts-nav" class="nav-content collapse <?php if($PageMenu=="Aktivitas"||$PageMenu=="Viewer"||$PageMenu=="NeracaSaldo"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
+            <ul id="charts-nav" class="nav-content collapse <?php if($PageMenu=="Aktivitas"||$PageMenu=="Viewer"||$PageMenu=="LaporanTransaksi"||$PageMenu=="LabaRugi"||$PageMenu=="RekapitulasiTransaksi"){echo "show";} ?>" data-bs-parent="#sidebar-nav">
                 <li>
+                    <a href="index.php?Page=LaporanTransaksi" class="<?php if($PageMenu=="LaporanTransaksi"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Transaksi</span>
+                    </a>
                     <a href="index.php?Page=Aktivitas" class="<?php if($PageMenu=="Aktivitas"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Log Sistem</span>
                     </a>

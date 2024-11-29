@@ -67,6 +67,9 @@
         if($Page=="SettingTransaksi"){
             include "_Page/SettingTransaksi/ModalSettingTransaksi.php";
         }
+        if($Page=="LaporanTransaksi"){
+            include "_Page/LaporanTransaksi/ModalLaporanTransaksi.php";
+        }
         if($Page=="Aktivitas"){
             include "_Page/Aktivitas/ModalAktivitas.php";
         }

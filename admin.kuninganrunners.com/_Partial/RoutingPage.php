@@ -66,8 +66,8 @@
         if($Page=="Help"){
             include "_Page/Help/Help.php";
         }
-        if($Page=="RiwayatAnggota"){
-            include "_Page/RiwayatAnggota/RiwayatAnggota.php";
+        if($Page=="LaporanTransaksi"){
+            include "_Page/LaporanTransaksi/LaporanTransaksi.php";
         }
         if($Page=="Aktivitas"){
             include "_Page/Aktivitas/Aktivitas.php";
