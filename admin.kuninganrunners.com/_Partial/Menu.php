@@ -75,11 +75,11 @@
                         <i class="bi bi-circle"></i><span>Penjualan Merch</span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index.php?Page=LogPayment" class="<?php if($PageMenu=="LogPayment"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>Log Payment</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </li>
         <li class="nav-item">
