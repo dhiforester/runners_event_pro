@@ -9,11 +9,13 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman untuk mengelola bantuan pengguna.';
-                    echo '  Halaman ini membantu pengembang dalam menyampaikan petunjuk penggunaan dan berbagai kendala yang mungkkin saja terjadi.';
-                    echo '  Buat berbagai artikel yang berkaitan dengan cara penggunaan aplikasi sehingga membantu pengguna dalam memahami aplikasi lebih cepat.';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                    echo '  <small class="mobile-text">';
+                    echo '      Berikut ini adalah halaman untuk mengelola bantuan pengguna.';
+                    echo '      Halaman ini membantu pengembang dalam menyampaikan petunjuk penggunaan dan berbagai kendala yang mungkin saja terjadi.';
+                    echo '      Buat berbagai dokumentasi yang berkaitan dengan cara penggunaan aplikasi sehingga membantu pengguna dalam memahami aplikasi lebih cepat.';
+                    echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '  </small>';
                     echo '</div>';
                 ?>
             </div>
@@ -26,12 +28,12 @@
                             <div class="col-md-6 mt-3">
                                 <b class="card-title">Kelola Data Bantuan</b>
                             </div>
-                            <div class="col-md-2 mt-3">
+                            <div class="col col-md-2 mt-3">
                                 <a class="btn btn-md btn-outline-grayish btn-rounded w-100" href="index.php?Page=Help&Sub=HelpHome">
                                     <i class="bi bi-eye"></i> Preview
                                 </a>
                             </div>
-                            <div class="col-md-2 mt-3">
+                            <div class="col col-md-2 mt-3">
                                 <a class="btn btn-md btn-outline-dark btn-rounded w-100" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalFilter">
                                     <i class="bi bi-filter"></i> Filter
                                 </a>
