@@ -13,7 +13,11 @@
     if (empty($SessionIdAkses)) {
         $errors[] = 'Sesi akses sudah berakhir, silahkan login ulang!.';
     }
-
+    //Pengaturan json sertifikat
+    $file_path_setting = 'setting_sertifikat.json';
+    if (!file_exists($file_path_setting)) {
+        $errors[] = 'File pengaturan sertifikat event tidak ditemukan pada directory yang seharusnya.';
+    }
     // Validasi data input
     if (empty($_POST['tanggal_mulai'])) { $errors[] = 'Tanggal mulai harus diisi.'; }
     if (empty($_POST['tanggal_selesai'])) { $errors[] = 'Tanggal selesai harus diisi.'; }
@@ -116,14 +120,15 @@
     $tanggal_selesai = validateAndSanitizeInput($tanggal_selesai);
     $tanggal_mulai_pendaftaran = validateAndSanitizeInput($tanggal_mulai_pendaftaran);
     $tanggal_selesai_pendaftaran = validateAndSanitizeInput($tanggal_selesai_pendaftaran);
-
+    //Pengaturan sertifikat default
+    $sertifikat = file_get_contents($file_path_setting);
     // Insert data ke database
     $query = "INSERT INTO event (id_event, tanggal_mulai, tanggal_selesai, mulai_pendaftaran, selesai_pendaftaran, 
-            nama_event, keterangan, poster, rute) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            nama_event, keterangan, poster, rute, sertifikat) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $Conn->prepare($query);
-    $stmt->bind_param("sssssssss", $id_event, $tanggal_mulai, $tanggal_selesai, $tanggal_mulai_pendaftaran, 
-                        $tanggal_selesai_pendaftaran, $nama_event, $keterangan, $poster_name, $rute_name);
+    $stmt->bind_param("ssssssssss", $id_event, $tanggal_mulai, $tanggal_selesai, $tanggal_mulai_pendaftaran, 
+                        $tanggal_selesai_pendaftaran, $nama_event, $keterangan, $poster_name, $rute_name, $sertifikat);
 
     if ($stmt->execute()) {
         $kategori_log = "Event";
@@ -137,6 +142,5 @@
     } else {
         $response['message'] = 'Gagal menyimpan data, coba lagi.';
     }
-
     echo json_encode($response);
 ?>

@@ -217,6 +217,39 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingSix">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                                            6. Sertifikat
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body mb-3">
+                                            <form action="javascript:void(0);" id="ProsesUbahSertifikat">
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12" id="ShowDataSertifikat">
+                                                        <!-- Menampilkan data pembuatan sertifikat -->
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12" id="NotifikasiUbahSertifikat">
+                                                        <!-- Notifikasi Ubah Sertifikat -->
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-3 text-center">
+                                                        <button type="submit" class="btn btn-md btn-outline-success btn-rounded mb-2" id="ButtonUbahSertifikat">
+                                                            <i class="bi bi-save"></i> Simpan Pengaturan
+                                                        </button>
+                                                        <a href="javascript:void(0);" class="btn btn-md btn-outline-dark btn-rounded mb-2" data-bs-toggle="modal" data-bs-target="#ModalPreviewSertifikat" data-id="<?php echo "$id_event"; ?>">
+                                                            <i class="bi bi-eye-fill"></i> Lihat Hasilnya
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

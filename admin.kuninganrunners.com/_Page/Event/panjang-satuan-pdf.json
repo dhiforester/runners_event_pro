@@ -1,0 +1,20 @@
+{
+    "units": [
+        {
+            "name": "Pixel",
+            "value": "px"
+        },
+        {
+            "name": "Centimeter",
+            "value": "cm"
+        },
+        {
+            "name": "Millimeter",
+            "value": "mm"
+        },
+        {
+            "name": "Inches",
+            "value": "in"
+        }
+    ]
+}

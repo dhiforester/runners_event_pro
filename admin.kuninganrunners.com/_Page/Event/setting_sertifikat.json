@@ -1,0 +1,50 @@
+{
+    "canvas": {
+        "wide": {
+            "unit": "px",
+            "value": "800"
+        },
+        "length": {
+            "unit": "px",
+            "value": "533"
+        },
+        "margin-top": {
+            "unit": "cm",
+            "value": "0"
+        },
+        "margin-left": {
+            "unit": "cm",
+            "value": "0"
+        },
+        "margin-right": {
+            "unit": "cm",
+            "value": "0"
+        },
+        "margin-bottom": {
+            "unit": "cm",
+            "value": "0"
+        }
+    },
+    "publish": "Tidak",
+    "qr_code": {
+        "correction": "QR_ECLEVEL_M",
+        "pixel_block": "10"
+    },
+    "background_image": "",
+    "participant_name": {
+        "font-size": {
+            "unit": "pt",
+            "value": "12"
+        },
+        "font-color": "#000000",
+        "font-style": "italic",
+        "text-align": "center",
+        "font-family": "'Times New Roman', Times, serif",
+        "font-weight": "normal",
+        "font-decoration": "none"
+    },
+    "margin_top_content": {
+        "unit": "px",
+        "value": "50"
+    }
+}

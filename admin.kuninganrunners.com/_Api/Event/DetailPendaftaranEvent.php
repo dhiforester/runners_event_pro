@@ -70,6 +70,8 @@
                                 $tanggal_selesai =GetDetailData($Conn,'event','id_event',$id_event,'tanggal_selesai');
                                 $mulai_pendaftaran =GetDetailData($Conn,'event','id_event',$id_event,'mulai_pendaftaran');
                                 $selesai_pendaftaran =GetDetailData($Conn,'event','id_event',$id_event,'selesai_pendaftaran');
+                                $sertifikat_event =GetDetailData($Conn,'event','id_event',$id_event,'sertifikat');
+                                $sertifikat_event_arry=json_decode($sertifikat_event,true);
                                 //Buka Kategori
                                 $NamaKategori =GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');
                                 $deskripsi =GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'deskripsi');
@@ -87,7 +89,8 @@
                                     "tanggal_mulai" => $tanggal_mulai,
                                     "tanggal_selesai" => $tanggal_selesai,
                                     "mulai_pendaftaran" => $mulai_pendaftaran,
-                                    "selesai_pendaftaran" => $selesai_pendaftaran
+                                    "selesai_pendaftaran" => $selesai_pendaftaran,
+                                    "sertifikat" => $sertifikat_event_arry
                                 ];
                                 $metadata= [
                                     "id_event" => $id_event,

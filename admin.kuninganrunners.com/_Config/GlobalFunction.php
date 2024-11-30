@@ -582,4 +582,30 @@
         $masked_kontak = substr($kontak, 0, $length - 3) . '***';
         return $masked_kontak;
     }
+    // Fungsi untuk konversi unit ke milimeter (contoh konversi sederhana)
+    function convertToMm($value, $unit) {
+        switch (strtolower($unit)) {
+            case 'cm': // Centimeter ke milimeter
+                return $value * 10;
+            case 'in': // Inci ke milimeter
+                return $value * 25.4;
+            case 'px': // Piksel ke milimeter (asumsi 96 DPI)
+                return $value * 25.4 / 96;
+            default: // Anggap sudah dalam milimeter
+                return $value;
+        }
+    }
+    // Fungsi untuk konversi unit ke pixel (atau sesuai kebutuhan)
+    function convertToPx($value, $unit) {
+        switch (strtolower($unit)) {
+            case 'cm': // Centimeter ke pixel (asumsi 96 DPI)
+                return $value * 37.7952755906;
+            case 'in': // Inci ke pixel (asumsi 96 DPI)
+                return $value * 96;
+            case 'mm': // Milimeter ke pixel
+                return $value * 3.77952755906;
+            default: // Anggap sudah dalam pixel
+                return $value;
+        }
+    }
 ?>

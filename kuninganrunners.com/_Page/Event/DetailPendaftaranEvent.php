@@ -97,6 +97,8 @@
                             $last_three_chars = substr($username, -3);
                             // Gabungkan tanda bintang, 3 digit terakhir, dan domain
                             $formatted_email = '***' . $last_three_chars . '@' . $domain;
+                            //Buka Sertifikat event
+                            $sertifikat=$event['sertifikat'];
         ?>
                         <div class="container">
                             <div class="row">
@@ -245,6 +247,25 @@
                                                 <div class="col col-md-8">
                                                     <small class="credit mobile-text text-grayish">
                                                         <?php echo "$jam_daftar_format"; ?>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col col-md-4">
+                                                    <small class="credit mobile-text">Sertifikat</small>
+                                                </div>
+                                                <div class="col col-md-8">
+                                                    <small class="credit mobile-text text-grayish">
+                                                        <?php 
+                                                            $sertifikat_publish=$sertifikat['publish'];
+                                                            if($sertifikat_publish!=="Ya"){
+                                                                echo '<code>Belum Ada</code>';
+                                                            }else{
+                                                                echo '<a href="'.$url_server.'/Sertifikat.php?id='.$id_event_peserta.'" target="_blank">';
+                                                                echo '  <i class="bi bi-file-pdf"></i> Download Disini';
+                                                                echo '</a>';
+                                                            } 
+                                                        ?>
                                                     </small>
                                                 </div>
                                             </div>

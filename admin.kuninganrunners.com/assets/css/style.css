@@ -1320,3 +1320,13 @@ body .title_page_app {
 .card .album img:hover {
   filter: brightness(40%);
 }
+
+#FormPreviewSertifikat iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#FormPreviewSertifikat {
+  height: calc(100vh - 120px); /* Sesuaikan dengan tinggi header dan footer modal */
+}

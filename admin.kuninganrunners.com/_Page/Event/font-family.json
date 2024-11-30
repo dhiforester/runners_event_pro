@@ -1,0 +1,64 @@
+{
+    "fonts": [
+        {
+            "name": "Arial",
+            "value": "Arial, sans-serif"
+        },
+        {
+            "name": "Verdana",
+            "value": "Verdana, Geneva, sans-serif"
+        },
+        {
+            "name": "Tahoma",
+            "value": "Tahoma, Geneva, sans-serif"
+        },
+        {
+            "name": "Times New Roman",
+            "value": "'Times New Roman', Times, serif"
+        },
+        {
+            "name": "Georgia",
+            "value": "Georgia, serif"
+        },
+        {
+            "name": "Courier New",
+            "value": "'Courier New', Courier, monospace"
+        },
+        {
+            "name": "Lucida Console",
+            "value": "'Lucida Console', Monaco, monospace"
+        },
+        {
+            "name": "Comic Sans MS",
+            "value": "'Comic Sans MS', cursive, sans-serif"
+        },
+        {
+            "name": "Impact",
+            "value": "Impact, Charcoal, sans-serif"
+        },
+        {
+            "name": "Roboto",
+            "value": "'Roboto', sans-serif"
+        },
+        {
+            "name": "Open Sans",
+            "value": "'Open Sans', sans-serif"
+        },
+        {
+            "name": "Lato",
+            "value": "'Lato', sans-serif"
+        },
+        {
+            "name": "Montserrat",
+            "value": "'Montserrat', sans-serif"
+        },
+        {
+            "name": "Poppins",
+            "value": "'Poppins', sans-serif"
+        },
+        {
+            "name": "Raleway",
+            "value": "'Raleway', sans-serif"
+        }
+    ]
+}

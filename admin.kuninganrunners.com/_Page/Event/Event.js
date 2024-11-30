@@ -192,6 +192,23 @@ function hitung_jumlah_transaksi_edit() {
         }
     });
 }
+function ShowDataSertifikat() {
+    var id_event = $('#GetIdEvent').val();
+    // Cek apakah id_event tidak kosong atau undefined
+    if (id_event) { 
+        $.ajax({
+            type: 'POST',
+            url: '_Page/Event/ShowDataSertifikat.php',
+            data: { id_event: id_event },
+            success: function(data) {
+                $('#ShowDataSertifikat').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error ShowDataSertifikat:', error);
+            }
+        });
+    }
+}
 //Menampilkan Data Pertama Kali
 $(document).ready(function() {
     //Menampilkan Data Pertama kali
@@ -206,6 +223,7 @@ $(document).ready(function() {
     ShowDetailPesertaEvent();
     ShowAssesmentPeserta();
     ShowRiwayatPembayaranEvent();
+    ShowDataSertifikat();
 
     //Ketika keyword_by Diubah
     $('#keyword_by').change(function(){
@@ -1498,6 +1516,54 @@ $(document).ready(function() {
             data        : { kode_transaksi: kode_transaksi },
             success     : function(data) {
                 $('#FormLogPembayaran').html(data);
+            }
+        });
+    });
+    //Proses Menyimpan Pengaturan Sertifikat
+    $('#ProsesUbahSertifikat').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#ButtonUbahSertifikat').html('<i class="bi bi-check"></i> Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Event/ProsesUbahSertifikat.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    ShowDataSertifikat();
+                    $('#NotifikasiUbahSertifikat').html('');
+                    $('#ButtonUbahSertifikat').html('<i class="bi bi-save"></i> Simpan Pengaturan').prop('disabled', false);
+                    Swal.fire('Berhasil!', 'Pengaturan Sertifikat Berhasil Disimpan', 'success');
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiUbahSertifikat').html('<div class="alert alert-danger">' + response.message + '</div>');
+                    $('#ButtonUbahSertifikat').html('<i class="bi bi-save"></i> Simpan Pengaturan').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiUbahSertifikat').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+                $('#ButtonUbahSertifikat').html('<i class="bi bi-save"></i> Simpan Pengaturan').prop('disabled', false);
+            }
+        });
+    });
+    // Modal Preview Sertifikat
+    $('#ModalPreviewSertifikat').on('show.bs.modal', function (e) {
+        var id_event = $(e.relatedTarget).data('id');
+        $('#FormPreviewSertifikat').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormPreviewSertifikat.php',
+            data        : { id_event: id_event },
+            success     : function(data) {
+                $('#FormPreviewSertifikat').html(data);
             }
         });
     });

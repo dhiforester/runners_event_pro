@@ -1,0 +1,48 @@
+{
+    "units": [
+        {
+            "name": "Pixel",
+            "value": "px"
+        },
+        {
+            "name": "Em",
+            "value": "em"
+        },
+        {
+            "name": "Rem",
+            "value": "rem"
+        },
+        {
+            "name": "Percentage",
+            "value": "%"
+        },
+        {
+            "name": "Viewport Width",
+            "value": "vw"
+        },
+        {
+            "name": "Viewport Height",
+            "value": "vh"
+        },
+        {
+            "name": "Centimeter",
+            "value": "cm"
+        },
+        {
+            "name": "Millimeter",
+            "value": "mm"
+        },
+        {
+            "name": "Inches",
+            "value": "in"
+        },
+        {
+            "name": "Point",
+            "value": "pt"
+        },
+        {
+            "name": "Pica",
+            "value": "pc"
+        }
+    ]
+}
