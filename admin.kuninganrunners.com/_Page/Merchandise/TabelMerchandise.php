@@ -168,6 +168,13 @@
                         $HargaFormat="$HargaFormat1-$HargaFormat2";
                         $LabelVarian='<badge class="badge badge-info">Tersedia '.$JumlahVarian.'</badge>';
                     }
+                    //Item Terjual
+                    $JumlahTotalItem = mysqli_fetch_assoc(
+                        mysqli_query($Conn, "SELECT SUM(qty) AS total_qty FROM transaksi_rincian WHERE id_barang='$id_barang'")
+                    )['total_qty'];
+                    if(empty($JumlahTotalItem)){
+                        $JumlahTotalItem=0;
+                    }
         ?>
                     <div class="card hover-shadow">
                         <div class="card-body">
@@ -256,11 +263,11 @@
                                 <div class="col-md-4">
                                     <div class="row">
                                         <div class="col col-md-4">
-                                            <small>Datetime</small>
+                                            <small>Item Terjual</small>
                                         </div>
                                         <div class="col col-md-8">
                                             <small>
-                                                <code class="text text-grayish"><?php echo "$DatetimeFormat"; ?></code>
+                                                <code class="text text-grayish"><?php echo "$JumlahTotalItem $satuan"; ?></code>
                                             </small>
                                         </div>
                                     </div>

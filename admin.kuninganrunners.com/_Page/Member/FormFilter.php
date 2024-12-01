@@ -7,10 +7,11 @@
         if($keyword_by=="provinsi"){
             echo '<select type="text" name="keyword" id="keyword" class="form-control">';
             echo '  <option value="">Pilih</option>';
-            $QryProv = mysqli_query($Conn, "SELECT DISTINCT propinsi FROM member ORDER BY propinsi ASC");
+            $QryProv = mysqli_query($Conn, "SELECT DISTINCT provinsi FROM member ORDER BY provinsi ASC");
             while ($DataProv = mysqli_fetch_array($QryProv)) {
-                $ListProvinsi= $DataProv['propinsi'];
-                echo '<option value="'.$ListProvinsi.'">'.$ListProvinsi.'</option>';
+                $ListProvinsi= $DataProv['provinsi'];
+                $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE provinsi='$ListProvinsi'"));
+                echo '<option value="'.$ListProvinsi.'">'.$ListProvinsi.' ('.$jumlah_data.')</option>';
             }
             echo '</select>';
         }else{
@@ -20,7 +21,8 @@
                 $Qry = mysqli_query($Conn, "SELECT DISTINCT kabupaten FROM member ORDER BY kabupaten ASC");
                 while ($Data = mysqli_fetch_array($Qry)) {
                     $ListKabupaten= $Data['kabupaten'];
-                    echo '<option value="'.$ListKabupaten.'">'.$ListKabupaten.'</option>';
+                    $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE kabupaten='$ListKabupaten'"));
+                    echo '<option value="'.$ListKabupaten.'">'.$ListKabupaten.' ('.$jumlah_data.')</option>';
                 }
                 echo '</select>';
             }else{
@@ -30,7 +32,8 @@
                     $Qry = mysqli_query($Conn, "SELECT DISTINCT kecamatan FROM member ORDER BY kecamatan ASC");
                     while ($Data = mysqli_fetch_array($Qry)) {
                         $ListKecamatan= $Data['kecamatan'];
-                        echo '<option value="'.$ListKecamatan.'">'.$ListKecamatan.'</option>';
+                        $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE kecamatan='$ListKecamatan'"));
+                        echo '<option value="'.$ListKecamatan.'">'.$ListKecamatan.' ('.$jumlah_data.')</option>';
                     }
                     echo '</select>';
                 }else{
@@ -40,7 +43,8 @@
                         $Qry = mysqli_query($Conn, "SELECT DISTINCT desa FROM member ORDER BY desa ASC");
                         while ($Data = mysqli_fetch_array($Qry)) {
                             $ListDesa= $Data['desa'];
-                            echo '<option value="'.$ListDesa.'">'.$ListDesa.'</option>';
+                            $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE desa='$ListDesa'"));
+                            echo '<option value="'.$ListDesa.'">'.$ListDesa.' ('.$jumlah_data.')</option>';
                         }
                         echo '</select>';
                     }else{
@@ -53,7 +57,8 @@
                                 $Qry = mysqli_query($Conn, "SELECT DISTINCT status FROM member ORDER BY status ASC");
                                 while ($Data = mysqli_fetch_array($Qry)) {
                                     $status= $Data['status'];
-                                    echo '<option value="'.$status.'">'.$status.'</option>';
+                                    $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE status='$status'"));
+                                    echo '<option value="'.$status.'">'.$status.' ('.$jumlah_data.')</option>';
                                 }
                                 echo '</select>';
                             }else{
@@ -63,7 +68,8 @@
                                     $Qry = mysqli_query($Conn, "SELECT DISTINCT sumber FROM member ORDER BY sumber ASC");
                                     while ($Data = mysqli_fetch_array($Qry)) {
                                         $sumber= $Data['sumber'];
-                                        echo '<option value="'.$sumber.'">'.$sumber.'</option>';
+                                        $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_member FROM member WHERE sumber='$sumber'"));
+                                        echo '<option value="'.$sumber.'">'.$sumber.' ('.$jumlah_data.')</option>';
                                     }
                                     echo '</select>';
                                 }else{

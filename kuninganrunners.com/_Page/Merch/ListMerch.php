@@ -69,9 +69,9 @@
                     $new_height=500;
                     $ImageBase64=resizeImage($image, $new_width, $new_height);
                     //Format Rupiah
-                    $harga_format='Rp ' . number_format($harga, 2, ',', '.');
+                    $harga_format='Rp ' . number_format($harga, 0, ',', '.');
 ?>
-                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex align-items-stretch mb-4">
                     <a href="index.php?Page=DetailMerch&id=<?php echo $id_barang; ?>" class="team-member">
                         <div class="member-img">
                             <img src="<?php echo "data:image/jpeg;base64,$ImageBase64"; ?>" class="img-fluid" alt="">

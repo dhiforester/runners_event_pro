@@ -1,6 +1,7 @@
 //Fungsi Menampilkan List Event All
 function ShowMerchandiseList() {
     var page=$('#put_page').val();
+    $('#ShowMerchandiseList').html('<div class="row"><div class="col-md-12 mb-5 text-center">Loading...</div></div><div class="row"><div class="col-md-12 mb-5 text-center">Loading...</div></div>');
     $.ajax({
         type    : 'POST',
         url     : '_Page/Merch/ListMerch.php',

@@ -10,7 +10,8 @@
             $Qry = mysqli_query($Conn, "SELECT DISTINCT album FROM web_galeri ORDER BY album ASC");
             while ($Data = mysqli_fetch_array($Qry)) {
                 $List= $Data['album'];
-                echo '<option value="'.$List.'">'.$List.'</option>';
+                $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$List'"));
+                echo '<option value="'.$List.'">'.$List.' ('.$jumlah_data.')</option>';
             }
             echo '</select>';
         }else{

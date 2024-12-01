@@ -140,7 +140,10 @@
                         </div>
                         <div class="col col-md-8">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="kategori" id="kategori">
+                                <input type="text" class="form-control" name="kategori" id="kategori" list="kategori_list">
+                                <datalist id="kategori_list">
+                                    <!-- List Kategori Akan Muncul Disini -->
+                                </datalist>
                                 <span class="input-group-text" id="inputGroupPrepend">
                                     <small>
                                         <code class="text text-grayish" id="kategori_length">0/20</code>
@@ -162,7 +165,10 @@
                         </div>
                         <div class="col col-md-8">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="satuan" id="satuan">
+                                <input type="text" class="form-control" name="satuan" id="satuan" list="satuan_list">
+                                <datalist id="satuan_list">
+                                    <!-- List Satuan Akan Muncul Disini -->
+                                </datalist>
                                 <span class="input-group-text" id="inputGroupPrepend">
                                     <small>
                                         <code class="text text-grayish" id="satuan_length">0/10</code>

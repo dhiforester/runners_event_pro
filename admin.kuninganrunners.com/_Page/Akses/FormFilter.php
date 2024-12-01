@@ -10,7 +10,8 @@
             $query = mysqli_query($Conn, "SELECT DISTINCT akses FROM akses ORDER BY akses DESC");
             while ($data = mysqli_fetch_array($query)) {
                 $akses= $data['akses'];
-                echo '  <option value="'.$akses.'">'.$akses.'</option>';
+                $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM akses WHERE akses='$akses'"));
+                echo '  <option value="'.$akses.'">'.$akses.' ('.$jumlah_data.')</option>';
             }
             echo '</select>';
         }else{

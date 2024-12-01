@@ -10,7 +10,8 @@
             $Qry = mysqli_query($Conn, "SELECT DISTINCT kategori FROM barang ORDER BY kategori ASC");
             while ($Data = mysqli_fetch_array($Qry)) {
                 $List= $Data['kategori'];
-                echo '<option value="'.$List.'">'.$List.'</option>';
+                $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_barang FROM barang WHERE kategori='$List'"));
+                echo '<option value="'.$List.'">'.$List.' ('.$jumlah_data.')</option>';
             }
             echo '</select>';
         }else{
@@ -20,7 +21,8 @@
                 $Qry = mysqli_query($Conn, "SELECT DISTINCT satuan FROM barang ORDER BY satuan ASC");
                 while ($Data = mysqli_fetch_array($Qry)) {
                     $List= $Data['satuan'];
-                    echo '<option value="'.$List.'">'.$List.'</option>';
+                    $jumlah_data=mysqli_num_rows(mysqli_query($Conn, "SELECT id_barang FROM barang WHERE satuan='$List'"));
+                    echo '<option value="'.$List.'">'.$List.' ('.$jumlah_data.')</option>';
                 }
                 echo '</select>';
             }else{

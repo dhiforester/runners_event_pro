@@ -192,8 +192,8 @@
                                     </h2>
                                     <div id="flush-collapseFourDetail" class="accordion-collapse collapse" aria-labelledby="flush-headingFourDetail" data-bs-parent="#accordionFlushDetail">
                                         <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-md-12 text-center" id="ShowRiwayatPenjualan">
+                                            <div class="row mt-4">
+                                                <div class="col-md-12" id="ShowRiwayatPenjualan">
                                                     <!-- Menampilkan List Riwayat Penjualan Barang -->
                                                 </div>
                                             </div>

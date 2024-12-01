@@ -38,12 +38,12 @@
                 <form action="javascript:void(0);" id="ProsesTambahMarketplace">
                     <input type="hidden" name="id_barang" value="<?php echo $id_barang; ?>">
                     <div class="row mb-3">
-                        <div class="col-md-10 text-left"></div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-md btn-outline-primary btn-block" id="add_row">
                                 <i class="bi bi-plus"></i> Tambah Baris
                             </button>
                         </div>
+                        <div class="col-md-10 text-left"></div>
                     </div>
                     <div class="row mb-3" id="ListForm">
                         <?php

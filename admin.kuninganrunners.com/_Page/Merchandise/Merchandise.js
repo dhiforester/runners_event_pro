@@ -31,7 +31,26 @@ function LoadDataProduk(endpoint, targetElement) {
         $(targetElement).html('<p>ID Barang tidak tersedia.</p>');
     }
 }
-
+//Fungsi Menampilkan Data List Kategori
+function ShowKategoriList() {
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Merchandise/kategori_list.php',
+        success     : function(data){
+            $('#kategori_list').html(data);
+        }
+    });
+}
+//Fungsi Menampilkan Data List Satuan
+function ShowSatuanList() {
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Merchandise/Satuan_list.php',
+        success     : function(data){
+            $('#satuan_list').html(data);
+        }
+    });
+}
 // Fungsi untuk memuat data yang berbeda
 function ShowFotoBarang() {
     LoadDataProduk('ShowFotoBarang', '#ShowFotoBarang');
@@ -151,6 +170,11 @@ $(document).ready(function() {
                 validasiMessage.text('File sudah valid dan sesuai persyaratan.').css('color', 'green');
             }
         }
+    });
+    //Ketika Modal Tambah Mach Muncul
+    $('#ModalTambahMerchandise').on('show.bs.modal', function (e) {
+        ShowKategoriList();
+        ShowSatuanList();
     });
     //Proses Tambah Marchandise
     $('#ProsesTambahMerchandise').on('submit', function (e) {

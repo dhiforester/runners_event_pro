@@ -86,7 +86,16 @@
                 </div>
                 <div class="col col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="kategori" id="kategori_edit" value="<?php echo "$kategori"; ?>">
+                        <input type="text" class="form-control" name="kategori" id="kategori_edit" list="kategori_edit_list" value="<?php echo "$kategori"; ?>">
+                        <datalist id="kategori_edit_list">
+                            <?php
+                                $query = mysqli_query($Conn, "SELECT DISTINCT kategori FROM barang ORDER BY kategori ASC");
+                                while ($data = mysqli_fetch_array($query)) {
+                                    $kategori= $data['kategori'];
+                                    echo '  <option value="'.$kategori.'"></option>';
+                                }
+                            ?>
+                        </datalist>
                         <span class="input-group-text" id="inputGroupPrepend">
                             <small>
                                 <code class="text text-grayish" id="kategori_edit_length"><?php echo "$kategori_edit_length"; ?>/20</code>
@@ -108,7 +117,16 @@
                 </div>
                 <div class="col col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="satuan" id="satuan_edit" value="<?php echo "$satuan"; ?>">
+                        <input type="text" class="form-control" name="satuan" id="satuan_edit" list="satuan_edit_list" value="<?php echo "$satuan"; ?>">
+                        <datalist id="satuan_edit_list">
+                            <?php
+                                $query = mysqli_query($Conn, "SELECT DISTINCT satuan FROM barang ORDER BY satuan ASC");
+                                while ($data = mysqli_fetch_array($query)) {
+                                    $satuan= $data['satuan'];
+                                    echo '  <option value="'.$satuan.'"></option>';
+                                }
+                            ?>
+                        </datalist>
                         <span class="input-group-text" id="inputGroupPrepend">
                             <small>
                                 <code class="text text-grayish" id="satuan_edit_length"><?php echo "$satuan_edit_length"; ?>/10</code>

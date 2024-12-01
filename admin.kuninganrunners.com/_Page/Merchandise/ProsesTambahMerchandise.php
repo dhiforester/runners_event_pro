@@ -183,15 +183,42 @@
                         'tinggi' => $tinggi 
                     ];
                     $varian_arry=[];
+                    $marketplace_arry=[];
                     // Mengonversi array menjadi JSON
                     $dimensi = json_encode($dimensi_arry, JSON_PRETTY_PRINT);
                     $varian = json_encode($varian_arry, JSON_PRETTY_PRINT);
-                    $marketplace="";
+                    $marketplace = json_encode($marketplace_arry, JSON_PRETTY_PRINT);
+                    
                     // Insert data ke database
-                    $query = "INSERT INTO barang (nama_barang, kategori, satuan, harga, stok, dimensi, deskripsi, foto, varian, marketplace, datetime, updatetime) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    $query = "INSERT INTO barang (
+                        nama_barang, 
+                        kategori, 
+                        satuan, 
+                        harga, 
+                        stok, 
+                        dimensi, 
+                        deskripsi, 
+                        foto, 
+                        varian, 
+                        marketplace, 
+                        datetime, 
+                        updatetime
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $Conn->prepare($query);
-                    $stmt->bind_param("ssssssssssss", $nama_barang, $kategori, $satuan, $harga, $stok, $dimensi, $deskripsi, $foto, $varian, $marketplace, $datetime, $updatetime);
+                    $stmt->bind_param("ssssssssssss", 
+                        $nama_barang, 
+                        $kategori, 
+                        $satuan, 
+                        $harga, 
+                        $stok, 
+                        $dimensi, 
+                        $deskripsi, 
+                        $foto, 
+                        $varian, 
+                        $marketplace, 
+                        $datetime, 
+                        $updatetime
+                    );
                     if ($stmt->execute()) {
                         //Menyimpan Log
                         $kategori_log="Merchandise";
