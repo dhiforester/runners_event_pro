@@ -9,11 +9,13 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman pengaturan umum aplikasi.';
-                    echo '  Pada halaman ini anda bisa mengatur properti aplikasi sesuai yang anda inginkan dari mulai judul, deskripsi, informasi kontak dan logo.';
-                    echo '  Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                    echo '  <small class="mobile-text">';
+                    echo '      Berikut ini adalah halaman pengaturan umum aplikasi.';
+                    echo '      Pada halaman ini anda bisa mengatur properti aplikasi sesuai yang anda inginkan dari mulai judul, deskripsi, informasi kontak dan logo.';
+                    echo '      Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
+                    echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '  </small>';
                     echo '</div>';
                 ?>
             </div>

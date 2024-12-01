@@ -20,14 +20,12 @@
             <div class="col-md-12">
                 <?php
                     echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                    echo '  <small>';
-                    echo '      <code class="text-dark">';
+                    echo '  <small class="mobile-text">';
                     echo '          Berikut ini adalah halaman pengaturan payment gateway menggunakan provider <b>Midtrans</b>.';
                     echo '          Pada halaman ini anda bisa mengatur parameter payment gateway yang dibutuhkan.';
                     echo '          Periksa kembali pengaturan yang anda gunakan agar aplikasi berjalan dengan baik.';
                     echo '          Baca panduan integrasi pada <a href="https://docs.midtrans.com/docs/snap-snap-integration-guide">Link Berikut</a> ini.';
                     echo '          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                    echo '      </code>';
                     echo '  </small>';
                     echo '</div>';
                 ?>

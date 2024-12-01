@@ -9,14 +9,12 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <small>
-                        <code class="text text-dark">
-                            Berikut ini adalah halaman untuk mengelola data API key. 
-                            API key adalah sebuah kode unik yang berfungsi untuk memvalidasi penggunan service yang tersedia.
-                            Pada halaman ini, anda bisa menambahkan data API key dan melihat log aktivitas penggunaannya.
-                            Lebih lanjut silahkan lihat dokumentasi 
-                            <a href="https://www.postman.com/rsuelsyifa/kuningan-runners/collection/5uknkuv/restful-api-basics-blueprint" target="_blank">postman berikut ini</a>.
-                        </code>
+                    <small class="mobile-text">
+                        Berikut ini adalah halaman untuk mengelola data API key. 
+                        API key adalah sebuah kode unik yang berfungsi untuk memvalidasi penggunan service yang tersedia.
+                        Pada halaman ini, anda bisa menambahkan data API key dan melihat log aktivitas penggunaannya.
+                        Lebih lanjut silahkan lihat dokumentasi 
+                        <a href="https://www.postman.com/rsuelsyifa/kuningan-runners/collection/5uknkuv/restful-api-basics-blueprint" target="_blank">postman berikut ini</a>.
                     </small>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

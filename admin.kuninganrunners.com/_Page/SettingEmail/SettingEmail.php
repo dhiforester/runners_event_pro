@@ -10,11 +10,13 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman pengaturan email gateway.';
-                    echo '  Apabila pengaturan ini berfungsi dengan baik maka sistem akan menggunakan parameter ini untuk melakukan pengirian data dalam beberapa fitur.';
-                    echo '  Lakukan pengujian (Test) untuk memastikan bahwa parameter yang digunakan sudah sesuai.';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                    echo '  <small class="mobile-text">';
+                    echo '      Berikut ini adalah halaman pengaturan email gateway.';
+                    echo '      Apabila pengaturan ini berfungsi dengan baik maka sistem akan menggunakan parameter ini untuk melakukan pengirian data dalam beberapa fitur.';
+                    echo '      Lakukan pengujian (Test) untuk memastikan bahwa parameter yang digunakan sudah sesuai.';
+                    echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '  </small>';
                     echo '</div>';
                 ?>
             </div>
