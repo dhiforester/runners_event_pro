@@ -118,57 +118,57 @@
     </script>
     <div class="row mb-4">
         <div class="col-md-12">
-            <ol>
-                <?php
-                    if(empty($jml_data)){
-                        echo '<li class="row mb-3">';
-                        echo '  <div class="col-md-12 text-center text-danger">';
-                        echo '      Tidak Ada Data Bantuan Yang Dapat Ditampilkan';
-                        echo '  </div>';
-                        echo '</li>';
-                    }else{
-                        $no = 1+$posisi;
-                        //KONDISI PENGATURAN MASING FILTER
-                        if(empty($keyword_by)){
-                            if(empty($keyword)){
-                                $query = mysqli_query($Conn, "SELECT*FROM help WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                            }else{
-                                $query = mysqli_query($Conn, "SELECT*FROM help WHERE $whereClause  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                            }
+            <?php
+                if(empty($jml_data)){
+                    echo '<div class="row mb-3">';
+                    echo '  <div class="col-md-12 text-center text-danger">';
+                    echo '      Tidak Ada Data Bantuan Yang Dapat Ditampilkan';
+                    echo '  </div>';
+                    echo '</div>';
+                }else{
+                    $no = 1+$posisi;
+                    //KONDISI PENGATURAN MASING FILTER
+                    if(empty($keyword_by)){
+                        if(empty($keyword)){
+                            $query = mysqli_query($Conn, "SELECT*FROM help WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                         }else{
-                            if(empty($keyword)){
-                                $query = mysqli_query($Conn, "SELECT*FROM help  WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                            }else{
-                                $query = mysqli_query($Conn, "SELECT*FROM help WHERE ($keyword_by like '%$keyword%') AND (status='Publish') ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                            }
+                            $query = mysqli_query($Conn, "SELECT*FROM help WHERE $whereClause  ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
                         }
-                        while ($data = mysqli_fetch_array($query)) {
-                            $id_help= $data['id_help'];
-                            $author= $data['author'];
-                            $judul= $data['judul'];
-                            $kategori= $data['kategori'];
-                            $deskripsi= $data['deskripsi'];
-                            $datetime_creat= $data['datetime_creat'];
-                            $datetime_update= $data['datetime_update'];
-                            $status= $data['status'];
-                            //Format Tangga
-                            $strtotime1=strtotime($datetime_creat);
-                            $strtotime2=strtotime($datetime_update);
-                            $TanggalCreatFormat=date('d/m/Y H:i:s T',$strtotime1);
-                            $TanggalUpdateFormat=date('d/m/Y H:i:s T',$strtotime2);
-                ?>
-                        <li class="mb-4">
+                    }else{
+                        if(empty($keyword)){
+                            $query = mysqli_query($Conn, "SELECT*FROM help  WHERE status='Publish' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                        }else{
+                            $query = mysqli_query($Conn, "SELECT*FROM help WHERE ($keyword_by like '%$keyword%') AND (status='Publish') ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                        }
+                    }
+                    while ($data = mysqli_fetch_array($query)) {
+                        $id_help= $data['id_help'];
+                        $author= $data['author'];
+                        $judul= $data['judul'];
+                        $kategori= $data['kategori'];
+                        $deskripsi= $data['deskripsi'];
+                        $datetime_creat= $data['datetime_creat'];
+                        $datetime_update= $data['datetime_update'];
+                        $status= $data['status'];
+                        //Format Tangga
+                        $strtotime1=strtotime($datetime_creat);
+                        $strtotime2=strtotime($datetime_update);
+                        $TanggalCreatFormat=date('d/m/Y H:i:s T',$strtotime1);
+                        $TanggalUpdateFormat=date('d/m/Y H:i:s T',$strtotime2);
+            ?>
+                    <div class="row mb-3 border-1 border-bottom">
+                        <div class="col-md-12 mb-2">
                             <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalPreview" data-id="<?php echo "$id_help"; ?>">
-                                <?php echo "$judul"; ?>
+                                <?php echo "$no. $judul"; ?>
                             </a><br>
                             <small class="credit">
                                 <code class="text text-grayish">
                                     <i class="text-dark">Kategori :</i> <?php echo "$kategori"; ?>
                                 </code>
                             </small>
-                        </li>
-                <?php $no++;}} ?>
-            </ol>
+                        </div>
+                    </div>
+            <?php $no++;}} ?>
         </div>
     </div>
     <div class="row mb-3">
@@ -191,13 +191,13 @@
                         $prev=$page-1;
                     }
                 ?>
-                <button class="btn btn-sm btn-outline-info" id="PrevPage" value="<?php echo $prev;?>">
+                <button class="btn btn-sm btn-grayish" id="PrevPage" value="<?php echo $prev;?>">
                     <i class="bi bi-chevron-left"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-info">
+                <button class="btn btn-sm btn-outline-grayish">
                     <?php echo "$page/$JmlHalaman"; ?>
                 </button>
-                <button class="btn btn-sm btn-outline-info" id="NextPage" value="<?php echo $next;?>">
+                <button class="btn btn-sm btn-grayish" id="NextPage" value="<?php echo $next;?>">
                     <i class="bi bi-chevron-right"></i>
                 </button>
             </div>

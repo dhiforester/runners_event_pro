@@ -25,20 +25,25 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row mb-3">
-                            <div class="col-md-6 mt-3">
+                            <div class="col-md-4 mt-3">
                                 <b class="card-title">Kelola Data Bantuan</b>
                             </div>
-                            <div class="col col-md-2 mt-3">
+                            <div class="col-6 col-md-2 mt-3">
                                 <a class="btn btn-md btn-outline-grayish btn-rounded w-100" href="index.php?Page=Help&Sub=HelpHome">
                                     <i class="bi bi-eye"></i> Preview
                                 </a>
                             </div>
-                            <div class="col col-md-2 mt-3">
+                            <div class="col-6 col-md-2 mt-3">
                                 <a class="btn btn-md btn-outline-dark btn-rounded w-100" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalFilter">
                                     <i class="bi bi-filter"></i> Filter
                                 </a>
                             </div>
-                            <div class="col-md-2 mt-3">
+                            <div class="col-6 col-md-2 mt-3">
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalListKategori" class="btn btn-md btn-info btn-block btn-rounded">
+                                    <i class="bi bi-tag"></i> Kategori
+                                </a>
+                            </div>
+                            <div class="col-6 col-md-2 mt-3">
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalTambahBantuan" class="btn btn-md btn-primary btn-block btn-rounded">
                                     <i class="bi bi-save"></i> Tambah
                                 </a>

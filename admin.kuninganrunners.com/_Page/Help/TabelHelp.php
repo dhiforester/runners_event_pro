@@ -151,8 +151,8 @@
                 //Format Tangga
                 $strtotime1=strtotime($datetime_creat);
                 $strtotime2=strtotime($datetime_update);
-                $TanggalCreatFormat=date('d/m/Y H:i:s T',$strtotime1);
-                $TanggalUpdateFormat=date('d/m/Y H:i:s T',$strtotime2);
+                $TanggalCreatFormat=date('d/m/Y H:i T',$strtotime1);
+                $TanggalUpdateFormat=date('d/m/Y H:i T',$strtotime2);
     ?>
                 <div class="row mb-3 border-1 border-bottom">
                     <div class="col-md-12 mb-2">

@@ -21,11 +21,13 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-                    echo '  Berikut ini adalah halaman form untuk merubah data bantuan pengguna.';
-                    echo '  Tulis informasi secara lengkap dengan judul yang mewakili keseluruhan isi konten.';
-                    echo '  Gunakan juga kalimat yang sering dicari sehingga pengguna dapat menemukan informasi yang sesuai';
-                    echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                    echo '  <small class="mobile-text">';
+                    echo '      Berikut ini adalah halaman form untuk merubah data bantuan pengguna.';
+                    echo '      Tulis informasi secara lengkap dengan judul yang mewakili keseluruhan isi konten.';
+                    echo '      Gunakan juga kalimat yang sering dicari sehingga pengguna dapat menemukan informasi yang sesuai';
+                    echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                    echo '  </small>';
                     echo '</div>';
                 ?>
             </div>
@@ -43,61 +45,57 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="judul">Judul Bantuan</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" name="judul" id="judul" class="form-control" value="<?php echo "$judul"; ?>">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="kategori">Kategori Bantuan</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" name="kategori" id="kategori" list="ListCategori" class="form-control" value="<?php echo "$kategori"; ?>">
-                                <datalist id="ListCategori">
-                                    <?php
-                                        //Tampilkan list categori help
-                                        $QryKategori = mysqli_query($Conn, "SELECT DISTINCT kategori FROM help ORDER BY kategori ASC");
-                                        while ($DataKategori = mysqli_fetch_array($QryKategori)) {
-                                            $kategori_list=$DataKategori['kategori'];
-                                            echo '<option value="'.$kategori_list.'">';
-                                        }
-                                    ?>
-                                </datalist>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-info-circle"></i>
+                                    </span>
+                                    <input type="text" name="judul" id="judul" class="form-control" placeholder="Judul Bantuan" value="<?php echo "$judul"; ?>">
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="status">Status</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select name="status" id="status" class="form-control">>
-                                    <option <?php if($status==""){echo "selected";} ?> value="">Pilih</option>
-                                    <option <?php if($status=="Publish"){echo "selected";} ?> value="Publish">Publish</option>
-                                    <option <?php if($status=="Draft"){echo "selected";} ?> value="Draft">Draft</option>
-                                </select>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-tag"></i>
+                                    </span>
+                                    <input type="text" name="kategori" id="kategori" list="ListCategori" class="form-control" autocomplete="off" placeholder="Kategori Bantuan" value="<?php echo "$kategori"; ?>">
+                                    <datalist id="ListCategori">
+                                        <?php
+                                            //Tampilkan list categori help
+                                            $QryKategori = mysqli_query($Conn, "SELECT DISTINCT kategori FROM help ORDER BY kategori ASC");
+                                            while ($DataKategori = mysqli_fetch_array($QryKategori)) {
+                                                $kategori_list=$DataKategori['kategori'];
+                                                echo '<option value="'.$kategori_list.'">';
+                                            }
+                                        ?>
+                                    </datalist>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="deskripsi">Isi Konten</label>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-0-circle"></i>
+                                    </span>
+                                    <select name="status" id="status" class="form-control">>
+                                        <option <?php if($status==""){echo "selected";} ?> value="">Pilih</option>
+                                        <option <?php if($status=="Publish"){echo "selected";} ?> value="Publish">Publish</option>
+                                        <option <?php if($status=="Draft"){echo "selected";} ?> value="Draft">Draft</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-9">
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
                                 <textarea name="deskripsi" id="deskripsi_edit" cols="30" rows="3" class="form-control"></textarea>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-9">
-                                <span class="text-dark">Pastikan data yang anda input sudah sesuai</span>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-9" id="NotifikasiEditHelp"></div>
+                        <div class="row mb-2">
+                            <div class="col-md-12" id="NotifikasiEditHelp"></div>
                         </div>
                     </div>
                     <div class="card-footer">

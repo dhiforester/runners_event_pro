@@ -26,6 +26,114 @@ function filterAndLoadTableBantuan() {
 $(document).ready(function() {
     filterAndLoadTable();
     filterAndLoadTableBantuan();
+
+    //Ketika Modal Kategori Muncul
+    $('#ModalListKategori').on('show.bs.modal', function (e) {
+        $('#FormListKategoriBantuan').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Help/FormListKategoriBantuan.php',
+            success     : function(data){
+                $('#FormListKategoriBantuan').html(data);
+            }
+        });
+    });
+    
+    //Modal Edit Kategori
+    $('#ModalEditKategori').on('show.bs.modal', function (e) {
+        var kategori = $(e.relatedTarget).data('id');
+        $('#FormEditKategori').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Help/FormEditKategori.php',
+            data        : {kategori: kategori},
+            success     : function(data){
+                $('#FormEditKategori').html(data);
+            }
+        });
+    });
+
+    //Proses Edit Kategori
+    $('#ProsesEditKategori').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#NotifikasiEditKategori').html('Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Help/ProsesEditKategori.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    $('#NotifikasiEditKategori').html('');
+                    $('#ModalEditKategori').modal('hide');
+                    $('#ModalListKategori').modal('show');
+                    filterAndLoadTable();
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiEditKategori').html('<div class="alert alert-danger">' + response.message + '</div>');
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiEditKategori').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+            }
+        });
+    });
+    //Modal Hapus Kategori Bantuan
+    $('#ModalHapusKategori').on('show.bs.modal', function (e) {
+        var kategori = $(e.relatedTarget).data('id');
+        $('#FormHapusKategori').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/Help/FormHapusKategori.php',
+            data        : {kategori: kategori},
+            success     : function(data){
+                $('#FormHapusKategori').html(data);
+                $('#NotifikasiHapusKategori').html("");
+            }
+        });
+    });
+    //Proses Hapus Kategori
+    $('#ProsesHapusKategori').on('submit', function(e) {
+        e.preventDefault();
+        // Mengubah teks tombol menjadi 'Loading..' dan menonaktifkan tombol
+        $('#NotifikasiHapusKategori').html('Loading..').prop('disabled', true);
+        // Membuat objek FormData
+        var formData = new FormData(this);
+        // Mengirim data melalui AJAX
+        $.ajax({
+            url             : '_Page/Help/ProsesHapusKategori.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            dataType        : 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, tutup modal dan kembalikan tombol ke semula
+                    $('#FormHapusKategori').html('');
+                    $('#NotifikasiHapusKategori').html('');
+                    $('#ModalHapusKategori').modal('hide');
+                    $('#ModalListKategori').modal('show');
+                    filterAndLoadTable();
+                } else {
+                    // Jika gagal, tampilkan notifikasi error
+                    $('#NotifikasiHapusKategori').html('<div class="alert alert-danger">' + response.message + '</div>');
+                }
+            },
+            error: function() {
+                // Jika terjadi error pada request
+                $('#NotifikasiHapusKategori').html('<div class="alert alert-danger">Terjadi kesalahan saat mengirim data.</div>');
+            }
+        });
+    });
 });
 //Ketika KeywordBy Diubah
 $('#keyword_by').change(function(){

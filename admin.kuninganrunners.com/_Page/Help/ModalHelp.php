@@ -88,6 +88,90 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalListKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-plus"></i> Kategori Bantuan
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0">
+                <div class="row">
+                    <div class="col-12" id="FormListKategoriBantuan">
+                        <!-- List Kategori Bantuan Akan Muncul Disini -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEditKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesEditKategori">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-dark">
+                        <i class="bi bi-pencil"></i> Ubah Kategori
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body border-0">
+                    <div class="row mb-2">
+                        <div class="col-12" id="FormEditKategori">
+                            <!-- List Kategori Bantuan Akan Muncul Disini -->
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12" id="NotifikasiEditKategori">
+                            <!-- Notifikasi Edit Kategori Bantuan Akan Muncul Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalListKategori">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalHapusKategori" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesHapusKategori">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-trash"></i> Hapus Kategori Bantuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3" id="FormHapusKategori"></div>
+                        <div class="col-md-12 mb-3" id="NotifikasiHapusKategori"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-rounded">
+                        <i class="bi bi-check"></i> Ya, Hapus
+                    </button>
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalListKategori">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalTambahBantuan" tabindex="-1">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
