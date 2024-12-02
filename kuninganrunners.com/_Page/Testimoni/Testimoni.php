@@ -12,14 +12,9 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-12 mb-3">
-
-            </div>
-        </div>
         <div class="row mb-4">
             <div class="col-md-12 text-center">
-                <a href="index.php" class="button button-back mb-4">
+                <a href="index.php" class="btn btn-md btn-outline-dark">
                     <i class="bi bi-chevron-left"></i> Kembali Ke Beranda
                 </a>
             </div>

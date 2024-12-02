@@ -18,10 +18,12 @@
 <div class="row mb-3">
     <div class="col-md-12">
         <?php
-            echo '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-            echo '  Berikut ini adalah halaman profil pengguna. Hanya anda yang bisa melihat informasi pada halaman ini.<br>';
-            echo '  Anda bisa mengelola informasi profil, mengubah foto dan password anda sendiri.';
-            echo '  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+            echo '  <small class="modal-text">';
+            echo '      Berikut ini adalah halaman profil pengguna. Hanya anda yang bisa melihat informasi pada halaman ini.<br>';
+            echo '      Anda bisa mengelola informasi profil, mengubah foto dan password anda sendiri.';
+            echo '      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            echo '  </small>';
             echo '</div>';
         ?>
     </div>

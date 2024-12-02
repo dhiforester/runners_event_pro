@@ -622,6 +622,26 @@ h6 {
   .image_testimoni {
     height: 150px; /* Tinggi lebih kecil untuk perangkat mobile */
   }
+
+  .image-container {
+    aspect-ratio: 1 / 1; /* Rasio 1:1 (bujur sangkar) */
+    overflow: hidden;    /* Menyembunyikan bagian gambar yang keluar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0; /* Warna background jika gambar belum termuat */
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Memastikan gambar mengisi seluruh kontainer tanpa distorsi */
+  }
+
+  .sitename{
+    font-family: 'Roguelai', sans-serif !important;
+    font-size: 10pt;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -812,6 +832,10 @@ section,
 }
 
 @media (max-width: 768px) {
+  .sitename{
+    font-family: 'Roguelai', sans-serif !important;
+    font-size: 10pt;
+  }
   .hero .carousel-container {
     min-height: 90vh;
   }
@@ -884,6 +908,10 @@ section,
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
+.about{
+  background: url('../../assets/img/bg-light-1.png') no-repeat center center !important;
+  background-size: cover !important;
+}
 .about ul {
   list-style: none;
   padding: 0;
@@ -1318,6 +1346,10 @@ section,
     position: static;
     left: auto;
   }
+  .sitename{
+    font-family: 'Roguelai', sans-serif !important;
+    font-size: 10pt;
+  }
 }
 
 /*--------------------------------------------------------------
@@ -1600,6 +1632,7 @@ section,
 /*--------------------------------------------------------------
 # Recent Posts Section
 --------------------------------------------------------------*/
+
 .recent-posts article {
   background: var(--surface-color);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -2054,12 +2087,13 @@ section,
 # Blog Posts Section
 --------------------------------------------------------------*/
 .blog-posts article {
-  background-color: var(--surface-color);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #082a5a;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 30px;
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+  border: none; /* Tidak ada garis pinggir */
 }
 
 .blog-posts .post-img {
@@ -2882,9 +2916,9 @@ html, body {
   width: 100%;
 }
 .medsos-logo {
-  width: 50px; /* Atur ukuran lebar logo */
-  height: 50px; /* Atur ukuran tinggi logo */
-  margin: 20px; /* Jarak horizontal antar logo */
+  width: 40px; /* Atur ukuran lebar logo */
+  height: 40px; /* Atur ukuran tinggi logo */
+  margin: 10px; /* Jarak horizontal antar logo */
   display: inline-block; /* Menyusun logo secara horizontal */
   object-fit: contain; /* Menjaga proporsi gambar */
 }
@@ -2950,17 +2984,19 @@ footer {
 }
 
 .card-event {
-  background-color: rgba(255, 255, 255, 0.8); /* Warna putih dengan transparansi */
-  border: 2px solid orange; /* Garis dengan warna oranye */
-  border-radius: 8px; /* Membulatkan sudut */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+  background: linear-gradient(145deg, #0e3c67, #144a80); /* Gradien biru gelap yang serasi */
+  border: 2px solid #ffd700; /* Garis emas */
+  color: white; /* Warna teks putih agar kontras */
+  border-radius: 12px; /* Membulatkan sudut */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1); /* Efek bayangan */
+  padding: 15px; /* Spasi dalam */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi untuk hover */
 }
 
 .card-event:hover {
-  transform: scale(1.05); /* Membesar sedikit saat hover */
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Menambahkan efek bayangan lebih dalam */
-  cursor: pointer; /* Menampilkan pointer saat hover */
+  transform: scale(1.03); /* Sedikit membesar saat hover */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.2); /* Efek bayangan saat hover */
+  border-color: #ffa500; /* Ubah garis menjadi oranye saat hover */
 }
 
 .card-event .card-body {
@@ -3029,3 +3065,7 @@ footer {
   border-radius: 12px; /* Radius lengkung */
   transition: all 0.3s ease; /* Animasi transisi */
 }
+article.bg_utama {
+  background: #082a5a ;
+}
+

@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a href="index.php?Page=Galeri" class="button button-back">
+                    <a href="index.php?Page=Galeri" class="btn btn-md btn-outline-dark">
                         <i class="bi bi-chevron-left"></i> Kembali Ke Album
                     </a>
                 </div>
@@ -74,7 +74,7 @@
                             echo '<div class="col-lg-3 col-md-4 col-sm-6 col-6 mb-3 portfolio-item isotope-item">';
                             echo '  <img src="' . $image . '" class="img-fluid uniform-height" alt="" width="100%">';
                             echo '  <div class="portfolio-info">';
-                            echo '      <a href="' . $image . '" title="'.$nama_galeri.' 2" data-gallery="portfolio-gallery-branding" class="glightbox">';
+                            echo '      <a href="' . $image . '" title="'.$nama_galeri.'" data-gallery="portfolio-gallery-branding" class="glightbox">';
                             echo '          '.$nama_galeri.'';
                             echo '      </a>';
                             echo '      <p>'.$datetime_format.'</p>';

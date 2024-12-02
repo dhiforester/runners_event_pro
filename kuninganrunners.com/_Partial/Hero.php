@@ -4,16 +4,7 @@
     include "../_Config/GlobalFunction.php";
 ?>
 <!-- Slide 1 -->
-<div class="carousel-item active">
-    <div class="carousel-container">
-        <h2 class="animate__animated animate__fadeInDown">Selamat Datang</h2>
-        <p class="animate__animated animate__fadeInUp">
-            Selamat datang di platform komunikasi dan informasi bagi komunitas lari Kabupaten Kuningan, Jawa Barat. 
-            Bergabunglah dengan kami untuk mendapatkan informasi terkini dan berinteraksi dengan sesama pelari
-        </p>
-        <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Selengkapnya</a>
-    </div>
-</div>
+
 <?php
     //Menangkan xtoken dari session
     if(empty($_SESSION['xtoken'])){

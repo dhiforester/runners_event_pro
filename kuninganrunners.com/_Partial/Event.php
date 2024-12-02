@@ -31,7 +31,9 @@
                         <div class="card-body" >
                             <div class="row">
                                 <div class="col-md-3">
-                                    <small><?php echo $tanggal_mulai_format; ?></small>
+                                    <small>
+                                        <i class="bi bi-calendar"></i> <?php echo $tanggal_mulai_format; ?>
+                                    </small>
                                 </div>
                                 <div class="col-md-9">
                                     <small class="text text-grayish"><?php echo $nama_event; ?></small>

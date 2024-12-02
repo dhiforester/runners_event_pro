@@ -12,7 +12,7 @@
                         echo '<li><a href="#hero" class="active">Beranda</a></li>';
                         echo '<li><a href="#about">Tentang</a></li>';
                         echo '<li><a href="#call-to-action">Kontak</a></li>';
-                        echo '<li><a href="#blog-posts">Galeri</a></li>';
+                        echo '<li><a href="#blog-posts">Album</a></li>';
                         echo '<li><a href="#testimonials">Testimoni</a></li>';
                         echo '<li><a href="#faq">FAQ</a></li>';
                         echo '<li><a href="#event">Event</a></li>';

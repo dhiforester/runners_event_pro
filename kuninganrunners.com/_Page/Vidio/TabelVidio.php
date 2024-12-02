@@ -71,7 +71,7 @@
                             <img src="<?php echo "$thumbnail"; ?>" class="img-fluid" alt="">
                         </div>
                         <div class="member-info">
-                            <h4><?php echo $title_vidio; ?></h4>
+                            <?php echo $title_vidio; ?>
                             <span><?php echo $datetime; ?></span>
                         </div>
                     </a>
