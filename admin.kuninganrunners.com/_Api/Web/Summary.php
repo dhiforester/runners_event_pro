@@ -75,7 +75,7 @@
                         while ($DataMedsos = $ResultMedsos->fetch_assoc()) {
                             $logo=$DataMedsos['logo'];
                             $logo_path = "$base_url/assets/img/Medsos/$logo";
-                            $logo_path = "$base_url/_API/Web/image-proxy-medsos.php?file=$logo";
+                            $logo_path = "$base_url/_Api/Web/image-proxy-medsos.php?file=$logo";
                             // Add to array
                             $medsos[] = [
                                 "nama_medsos" => $DataMedsos['nama_medsos'] ?? null,
@@ -95,7 +95,7 @@
                                 //Jumlah Galery
                                 $JumlahFile=mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$Album'"));
                                 $file_galeri = GetDetailData($Conn, 'web_galeri', 'album', $Album, 'file_galeri');
-                                $image_path = "$base_url/_API/Web/image-proxy-galeri.php?file=$file_galeri";
+                                $image_path = "$base_url/_Api/Web/image-proxy-galeri.php?file=$file_galeri";
                                 // Add to array
                                 $album_list[] = [
                                     "album" => $Album,
@@ -173,7 +173,7 @@
 
                         //MERCH
                         $list_barang=[];
-                        $QryBarang = $Conn->prepare("SELECT id_barang, nama_barang, harga, foto FROM barang ORDER BY id_barang DESC LIMIT 1, 4");
+                        $QryBarang = $Conn->prepare("SELECT id_barang, nama_barang, harga, foto FROM barang ORDER BY id_barang DESC LIMIT  4");
                         $QryBarang->execute();
                         $ResultBarang = $QryBarang->get_result();
                         while ($DataBarang = $ResultBarang->fetch_assoc()) {
@@ -198,7 +198,7 @@
                         
                         //MEMBER
                         $list_member=[];
-                        $QryMember = $Conn->prepare("SELECT id_member, nama, datetime, foto FROM member WHERE status='Active' ORDER BY datetime DESC LIMIT 1, 4");
+                        $QryMember = $Conn->prepare("SELECT id_member, nama, datetime, foto FROM member WHERE status='Active' ORDER BY datetime DESC LIMIT  4");
                         $QryMember->execute();
                         $ResultMember = $QryMember->get_result();
                         while ($DataMember = $ResultMember->fetch_assoc()) {
@@ -207,7 +207,7 @@
                             $datetime=$DataMember['datetime'];
                             $foto=$DataMember['foto'];
                             if(!empty($foto)){
-                                $image_path="$base_url/_API/Web/image-proxy-member.php?file=$foto";
+                                $image_path="$base_url/_Api/Web/image-proxy-member.php?file=$foto";
                             }else{
                                 $image_path="";
                             }
@@ -222,7 +222,7 @@
                         $QryMember->close();
                         //VIDIO
                         $list_vidio=[];
-                        $QryVidio = $Conn->prepare("SELECT id_web_vidio, title_vidio, sumber_vidio, thumbnail FROM web_vidio ORDER BY datetime DESC LIMIT 1, 4");
+                        $QryVidio = $Conn->prepare("SELECT id_web_vidio, title_vidio, sumber_vidio, thumbnail FROM web_vidio ORDER BY datetime DESC LIMIT  4");
                         $QryVidio->execute();
                         $ResultVidio = $QryVidio->get_result();
                         while ($DataVidio = $ResultVidio->fetch_assoc()) {
@@ -264,7 +264,7 @@
                             "event_list_all" => $event_list_all,
                             "list_barang" => $list_barang,
                             "list_member" => $list_member,
-                            "list_vidio" => $list_vidio,
+                            "list_vidio" => $list_vidio
                         ];
                         //menyimpan Log
                         $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
