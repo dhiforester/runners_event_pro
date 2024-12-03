@@ -283,7 +283,7 @@
                                             </div>
                                             <?php
                                                 //Membuka Assesment Event
-                                                $assesment=ListAssesment($url_server,$xtoken,$id_event);
+                                                $assesment=ListAssesment($url_server,$xtoken,$id_event_peserta);
                                                 $assesment_arry=json_decode($assesment, true);
                                                 if($assesment_arry['response']['code']!==200){
                                                     echo '<div class="row mb-3">';

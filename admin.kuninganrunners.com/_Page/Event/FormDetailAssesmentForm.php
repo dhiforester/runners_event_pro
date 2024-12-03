@@ -52,6 +52,7 @@
                 $mandatori=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'mandatori');
                 $alternatif=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'alternatif');
                 $komentar=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'komentar');
+                $kategori_list=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'kategori_list');
                 $JumlahData = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_assesment_form FROM event_assesment WHERE id_event_assesment_form='$id_event_assesment_form'"));
 ?>
         <div class="row mb-3">
@@ -109,6 +110,36 @@
                 <small class="credit">
                     <code class="text text-grayish"><?php echo "$komentar"; ?></code>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+        <div class="col col-md-4"><small class="credit">Kategori Event</small></div>
+            <div class="col col-md-8">
+                <?php
+                    if(!empty($kategori_list)){
+                        //Ubah Kategori Menjadi Arry
+                        $kategori_list_arry=json_decode($kategori_list,true);
+                        if(!empty($kategori_list_arry)){
+                            foreach ($kategori_list_arry as $kategori_list_row) {
+                                //Buka Nama Kategori
+                                $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$kategori_list_row,'kategori');
+                                if(!empty($kategori)){
+                                    echo '  <small class="credit">';
+                                    echo '      <code class="text text-grayish"><i class="bi bi-check-circle"></i> '.$kategori.'</code>';
+                                    echo '  </small><br>';
+                                }
+                            }
+                        }else{
+                            echo '<small class="credit">';
+                            echo '  <code class="text text-danger">Tidak Ada Kategori Yang Dipilih</code>';
+                            echo '</small>';
+                        }
+                    }else{
+                        echo '<small class="credit">';
+                        echo '  <code class="text text-danger">Tidak Ada Kategori Yang Dipilih</code>';
+                        echo '</small>';
+                    }
+                ?>
             </div>
         </div>
         <div class="row mb-3">

@@ -39,6 +39,13 @@
                         $form_type=validateAndSanitizeInput($_POST['form_type']);
                         $mandatori=validateAndSanitizeInput($_POST['mandatori']);
                         $komentar=validateAndSanitizeInput($komentar);
+                        //Penanganan Data list_kategori_assesment
+                        if(empty($_POST['list_kategori_assesment'])){
+                            $list_kategori_assesment=[];
+                        }else{
+                            $list_kategori_assesment=$_POST['list_kategori_assesment'];
+                        }
+                        $json_list_kategori = json_encode($list_kategori_assesment);
                         //Validasi Alternatif berdasarkan form_type
                         if($form_type=="checkbox"||$form_type=="radio"||$form_type=="select_option"){
                             if(empty($_POST['alternatif_value'])){
@@ -105,7 +112,8 @@
                                 form_type, 
                                 mandatori, 
                                 alternatif, 
-                                komentar
+                                komentar,
+                                kategori_list
                             ) VALUES (
                                 ?, 
                                 ?, 
@@ -113,18 +121,20 @@
                                 ?, 
                                 ?, 
                                 ?, 
+                                ?,
                                 ?
                             )";
                             $stmt = $Conn->prepare($query);
                             $stmt->bind_param(
-                                "sssssss", 
+                                "ssssssss", 
                                 $id_event_assesment_form, 
                                 $id_event, 
                                 $form_name, 
                                 $form_type, 
                                 $mandatori, 
                                 $Alternatif, 
-                                $komentar 
+                                $komentar, 
+                                $json_list_kategori 
                             );
                             if ($stmt->execute()) {
                                 $kategori_log="Event";

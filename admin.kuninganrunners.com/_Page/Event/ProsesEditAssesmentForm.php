@@ -35,6 +35,13 @@
                     $mandatori=validateAndSanitizeInput($_POST['mandatori']);
                     $komentar=validateAndSanitizeInput($komentar);
                     $form_type=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_type');
+                    //Penanganan Data list_kategori_assesment
+                    if(empty($_POST['list_kategori_assesment_edit'])){
+                        $list_kategori_assesment=[];
+                    }else{
+                        $list_kategori_assesment=$_POST['list_kategori_assesment_edit'];
+                    }
+                    $json_list_kategori = json_encode($list_kategori_assesment);
                     //Validasi Alternatif berdasarkan form_type
                     if($form_type=="checkbox"||$form_type=="radio"||$form_type=="select_option"){
                         if(empty($_POST['alternatif_value'])){
@@ -96,16 +103,18 @@
                             form_name = ?, 
                             mandatori = ?, 
                             alternatif = ?, 
-                            komentar = ?
+                            komentar = ?,
+                            kategori_list = ?
                         WHERE id_event_assesment_form = ?";
                         // Menyiapkan statement
                         $stmt = $Conn->prepare($sql);
                         $stmt->bind_param(
-                            'sssss', 
+                            'ssssss', 
                             $form_name, 
                             $mandatori, 
                             $Alternatif, 
                             $komentar,
+                            $json_list_kategori,
                             $id_event_assesment_form
                         );
                         // Eksekusi statement dan cek apakah berhasil

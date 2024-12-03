@@ -47,11 +47,13 @@
                 echo '  </div>';
                 echo '</div>';
             }else{
+                $id_event=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'id_event');
                 $form_name=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_name');
                 $form_type=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_type');
                 $mandatori=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'mandatori');
                 $alternatif=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'alternatif');
                 $komentar=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'komentar');
+                $kategori_list=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'kategori_list');
                 //Jumlah Karakter
                 $form_name_length=strlen($form_name);
                 $komentar_length=strlen($komentar);
@@ -92,6 +94,52 @@
                 <small>
                     <code id="komentar_edit_length" class="text text-grayish"><?php echo $komentar_length; ?>/500</code>
                 </small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="list_kategori_assesment_edit">
+                    <small>Pilih Kategori Event</small>
+                </label>
+                <?php
+                    $jml_data_kategori = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_kategori FROM event_kategori WHERE id_event='$id_event'"));
+                    if(empty($jml_data_kategori)){
+                        echo '<div class="alert alert-warning border-1 alert-dismissible fade show" role="alert">';
+                        echo '  <small class="credit">';
+                        echo '      Tidak Ada Kategori Untuk Event Ini.';
+                        echo '  </small>';
+                        echo '</div>';
+                    }else{
+                        // Pastikan kategori_list adalah string JSON valid
+                        if (!empty($kategori_list)) {
+                            $kategori_array = json_decode($kategori_list, true);
+                            // Jika decoding gagal, gunakan array kosong
+                            if (!is_array($kategori_array)) {
+                                $kategori_array = [];
+                            }
+                        } else {
+                            $kategori_array = [];
+                        }
+
+                        // Query untuk mendapatkan kategori event
+                        $query = mysqli_query($Conn, "SELECT id_event_kategori, kategori FROM event_kategori WHERE id_event='$id_event'");
+                        while ($data = mysqli_fetch_array($query)) {
+                            $id_event_kategori = $data['id_event_kategori'];
+                            $kategori = $data['kategori'];
+
+                            // Periksa apakah $id_event_kategori ada dalam array $kategori_array
+                            $checked = in_array($id_event_kategori, $kategori_array) ? 'checked' : '';
+
+                            // Tampilkan checkbox
+                            echo '<div class="form-check">';
+                            echo '  <input class="form-check-input" type="checkbox" id="list_kategori_assesment_edit' . $id_event_kategori . '" name="list_kategori_assesment_edit[]" value="' . $id_event_kategori . '" ' . $checked . '>';
+                            echo '  <label class="form-check-label" for="list_kategori_assesment_edit' . $id_event_kategori . '">';
+                            echo '      <small>' . $kategori . '</small>';
+                            echo '  </label>';
+                            echo '</div>';
+                        }
+                    }
+                ?>
             </div>
         </div>
         <div class="row mb-3">

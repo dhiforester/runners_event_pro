@@ -1051,6 +1051,9 @@
                             </small>
                         </div>
                     </div>
+                    <div id="KategoriListForAssesment">
+                        <!-- List Check Kategori Akan Muncul Disini -->
+                    </div>
                     <div class="row mb-3">
                         <div class="col-md-12" id="AlternatifButton">
                             <button type="button" class="btn btn-sm btn-outline-info btn-block" id="TambahAlternatif">

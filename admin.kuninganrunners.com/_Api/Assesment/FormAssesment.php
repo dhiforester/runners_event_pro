@@ -27,11 +27,11 @@
                 $keterangan = "x-token Tidak Boleh Kosong";
             } else {
                 if (!isset($_GET['id'])) {
-                    $keterangan = "ID Event Tidak Boleh Kosong!";
+                    $keterangan = "ID peserta Tidak Boleh Kosong!";
                 } else {
                     // Buat Dalam Bentukk Variabel
                     $xtoken = validateAndSanitizeInput($headers['x-token']);
-                    $id_event = validateAndSanitizeInput($_GET['id']);
+                    $id_event_peserta = validateAndSanitizeInput($_GET['id']);
                     // Validasi x-token menggunakan prepared statements
                     $stmt = $Conn->prepare("SELECT * FROM api_session WHERE xtoken = ?");
                     $stmt->bind_param("s", $xtoken);
@@ -50,41 +50,59 @@
                             $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                             $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                             
-                            // Persiapkan Query untuk Mengambil Form Assesment
-                            $QryFormAssesment = $Conn->prepare("SELECT * FROM event_assesment_form WHERE id_event = ? ORDER BY form_name ASC");
-                            $QryFormAssesment->bind_param("s", $id_event);
-                            $QryFormAssesment->execute();
-                            $ResultFormAssesment = $QryFormAssesment->get_result();
-                            
-                            while ($DataFormAssesment = $ResultFormAssesment->fetch_assoc()) {
-                                $id_event_assesment_form=$DataFormAssesment['id_event_assesment_form'];
-                                $form_name=$DataFormAssesment['form_name'];
-                                $form_type=$DataFormAssesment['form_type'];
-                                $mandatori=$DataFormAssesment['mandatori'];
-                                $alternatif=$DataFormAssesment['alternatif'];
-                                $komentar=$DataFormAssesment['komentar'];
-                                if(!empty($alternatif)){
-                                    $alternatif=json_decode($alternatif, true);
+                            //Buka id_event
+                            $id_event=GetDetailData($Conn, 'event_peserta', 'id_event_peserta', $id_event_peserta, 'id_event');
+                            if(empty($id_event)){
+                                $keterangan = "ID Peserta Event Tidak Valid";
+                            }else{
+                                $id_event_kategori=GetDetailData($Conn, 'event_peserta', 'id_event_peserta', $id_event_peserta, 'id_event_kategori');
+                                // Persiapkan Query untuk Mengambil Form Assesment
+                                $QryFormAssesment = $Conn->prepare("SELECT * FROM event_assesment_form WHERE id_event = ? ORDER BY form_name ASC");
+                                $QryFormAssesment->bind_param("s", $id_event);
+                                $QryFormAssesment->execute();
+                                $ResultFormAssesment = $QryFormAssesment->get_result();
+                                while ($DataFormAssesment = $ResultFormAssesment->fetch_assoc()) {
+                                    $id_event_assesment_form=$DataFormAssesment['id_event_assesment_form'];
+                                    $form_name=$DataFormAssesment['form_name'];
+                                    $form_type=$DataFormAssesment['form_type'];
+                                    $mandatori=$DataFormAssesment['mandatori'];
+                                    $alternatif=$DataFormAssesment['alternatif'];
+                                    $komentar=$DataFormAssesment['komentar'];
+                                    $kategori_list=$DataFormAssesment['kategori_list'];
+                                    // Pastikan kategori_list adalah string JSON valid
+                                    if (!empty($kategori_list)) {
+                                        $kategori_array = json_decode($kategori_list, true);
+                                        // Jika decoding gagal, gunakan array kosong
+                                        if (!is_array($kategori_array)) {
+                                            $kategori_array = [];
+                                        }
+                                    } else {
+                                        $kategori_array = [];
+                                    }
+                                    if(!empty($alternatif)){
+                                        $alternatif=json_decode($alternatif, true);
+                                    }
+                                    if(in_array($id_event_kategori, $kategori_array)){
+                                        // Add to array
+                                        $metadata[] = [
+                                            "id_event_assesment_form" => $id_event_assesment_form,
+                                            "form_name" => $form_name,
+                                            "form_type" => $form_type,
+                                            "mandatori" => $mandatori,
+                                            "alternatif" => $alternatif,
+                                            "komentar" => $komentar
+                                        ];
+                                    }
                                 }
-                                // Add to array
-                                $metadata[] = [
-                                    "id_event_assesment_form" => $id_event_assesment_form,
-                                    "form_name" => $form_name,
-                                    "form_type" => $form_type,
-                                    "mandatori" => $mandatori,
-                                    "alternatif" => $alternatif,
-                                    "komentar" => $komentar
-                                ];
-                            }
-                            
-                            //menyimpan Log
-                            $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                            if ($SimpanLog !== "Success") {
-                                $keterangan = "Gagal Menyimpan Log Service";
-                                $code = 201;
-                            } else {
-                                $keterangan = "success";
-                                $code = 200;
+                                //menyimpan Log
+                                $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                if ($SimpanLog !== "Success") {
+                                    $keterangan = "Gagal Menyimpan Log Service";
+                                    $code = 201;
+                                } else {
+                                    $keterangan = "success";
+                                    $code = 200;
+                                }
                             }
                         } else {
                             $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";

@@ -986,6 +986,16 @@ $(document).ready(function() {
             $('#AlternatifButton').hide();
             $('#AlternatifList').html('');
         }
+        //Menampilkan List Cehek Kategori
+        $('#KategoriListForAssesment').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/Event/FormKategoriListForAssesment.php',
+            data        : { id_event: id_event },
+            success     : function(data) {
+                $('#KategoriListForAssesment').html(data);
+            }
+        });
     });
     // Keterangan Form Type
     $('#form_type').on('change', function (e) {
@@ -1079,7 +1089,7 @@ $(document).ready(function() {
         e.preventDefault(); // Mencegah reload halaman
         $(this).closest('.input-group').remove(); // Menghapus elemen terkait
     });
-
+    
     // Proses Tambah Assesment Form
     $('#ProsesTambahAssesmentForm').on('submit', function(e) {
         e.preventDefault();
