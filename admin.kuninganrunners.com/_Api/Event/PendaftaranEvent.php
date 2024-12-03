@@ -110,6 +110,9 @@
                                                             $nama=GetDetailData($Conn, 'member', 'id_member', $id_member, 'nama');
                                                             $email=GetDetailData($Conn, 'member', 'id_member', $id_member, 'email');
                                                             $biaya_pendaftaran=GetDetailData($Conn, 'event_kategori', 'id_event_kategori', $id_event_kategori, 'biaya_pendaftaran');
+                                                            if(empty($biaya_pendaftaran)){
+                                                                $biaya_pendaftaran=0;
+                                                            }
                                                             $status="Pending";
                                                             $id_event_peserta=GenerateToken(36);
                                                             //Validasi Duplikat Data

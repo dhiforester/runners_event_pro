@@ -35,7 +35,7 @@
                 }
                 //Inisiasi Potongan
                 if(empty($_POST['nama_potongan'])){
-                    $potongan_lainnya="";
+                    $potongan_lainnya=[];
                 }else{
                     $potongan_lainnya=[];
                     $nama_potongan=$_POST['nama_potongan'];
@@ -47,11 +47,11 @@
                             "nominal_potongan"=>$nominal,
                         ];
                     }
-                    $potongan_lainnya=json_encode($potongan_lainnya);
                 }
+                $potongan_lainnya=json_encode($potongan_lainnya);
                 //Inisiasi biaya_lainnya
                 if(empty($_POST['nama_biaya'])){
-                    $biaya_lainnya="";
+                    $biaya_lainnya=[];
                 }else{
                     $biaya_lainnya=[];
                     $nama_biaya=$_POST['nama_biaya'];
@@ -63,8 +63,8 @@
                             "nominal_biaya"=>$nominal,
                         ];
                     }
-                    $biaya_lainnya=json_encode($biaya_lainnya);
                 }
+                $biaya_lainnya=json_encode($biaya_lainnya);
                 //Pengiriman
                 if(empty($_POST['asal_pengiriman_nama'])){
                     $asal_pengiriman_nama="";

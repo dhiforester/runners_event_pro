@@ -66,7 +66,7 @@
                                 $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                                 $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                                 //Validasi id_event_assesment_form
-                                $ValidasiAssesmentForm=GetDetailData($Conn, 'event', 'event_assesment_form', $id_event_assesment_form, 'id_event_assesment_form');
+                                $ValidasiAssesmentForm=GetDetailData($Conn, 'event_assesment_form', 'id_event_assesment_form', $id_event_assesment_form, 'id_event_assesment_form');
                                 if(empty($ValidasiAssesmentForm)){
                                     $ValidasiKebenaranData="ID Form Tidak Valid";
                                 }else{
@@ -96,14 +96,17 @@
                                     // Mengambil hasil
                                     $ResultAssesment = $QryEventAssesment->get_result();
                                     $DataAssesment = $ResultAssesment->fetch_assoc();
+                                    if (!$DataAssesment) {
+                                        $ValidasiDetailData="Data Tidak Ditemukan";
+                                    }
                                     // Menutup statement
                                     $QryEventAssesment->close();
                                     //Apabila Validasi Peserta Tidak Valid
                                     if($ValidasiDetailData!=="Valid"){
-                                        $keterangan=$ValidasiPeserta;
+                                        $keterangan=$ValidasiDetailData;
                                     }else{
-                                        $assesment_value=$DataAssesment['assesment_value'];
-                                        $status_assesment=$DataAssesment['status_assesment'];
+                                        $assesment_value = $DataAssesment['assesment_value'] ?? null;
+                                        $status_assesment = $DataAssesment['status_assesment'] ?? null;
                                         $form_type=GetDetailData($Conn,'event_assesment_form','id_event_assesment_form',$id_event_assesment_form,'form_type');
                                         //Buat JSON Status
                                         $status_assesment=json_decode($status_assesment, true);

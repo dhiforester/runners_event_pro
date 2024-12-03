@@ -41,7 +41,7 @@
                         if (strlen($deskripsi) > 500) { 
                             $errors[] = 'Deskripsi tidak boleh lebih dari 500 karakter'; 
                         }else{
-                            if (!ctype_digit($biaya_pendaftaran)) {
+                            if (!is_numeric($biaya_pendaftaran)) {
                                 $errors[] = 'Biaya pendaftaran hanya boleh diisi dengan angka!'; 
                             }else{
                                 // Bersihkan Variabel

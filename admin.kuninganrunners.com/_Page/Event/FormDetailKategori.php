@@ -50,6 +50,9 @@
                 $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');
                 $deskripsi=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'deskripsi');
                 $biaya_pendaftaran=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'biaya_pendaftaran');
+                if(empty($biaya_pendaftaran)){
+                    $biaya_pendaftaran=0;
+                }
                 $biaya_pendaftaran_format='Rp ' . number_format($biaya_pendaftaran, 2, ',', '.');
                 $JumlahPeserta = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_event_kategori='$id_event_kategori' AND status='Lunas'"));
 ?>

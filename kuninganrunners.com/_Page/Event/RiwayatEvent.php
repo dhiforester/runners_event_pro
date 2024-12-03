@@ -79,7 +79,11 @@
                             $event=$ListRiwayatEvent['event'];
                             $tanggal_mulai=$ListRiwayatEvent['event']['tanggal_mulai'];
                             $kategori_pendaftaran=$ListRiwayatEvent['kategori']['kategori'];
-                            $biaya_pendaftaran=$ListRiwayatEvent['kategori']['biaya_pendaftaran'];
+                            if(empty($ListRiwayatEvent['kategori']['biaya_pendaftaran'])){
+                                $biaya_pendaftaran=0;
+                            }else{
+                                $biaya_pendaftaran=$ListRiwayatEvent['kategori']['biaya_pendaftaran'];
+                            }
                             $nama=$ListRiwayatEvent['nama'];
                             $email=$ListRiwayatEvent['email'];
                             $datetime=$ListRiwayatEvent['datetime'];

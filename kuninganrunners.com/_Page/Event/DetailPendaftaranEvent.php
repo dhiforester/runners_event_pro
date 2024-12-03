@@ -75,7 +75,11 @@
                             $id_event_kategori=$metadata['id_event_kategori'];
                             $nama=$metadata['nama'];
                             $email=$metadata['email'];
-                            $biaya_pendaftaran=$metadata['biaya_pendaftaran'];
+                            if(empty($metadata['biaya_pendaftaran'])){
+                                $biaya_pendaftaran=0;
+                            }else{
+                                $biaya_pendaftaran=$metadata['biaya_pendaftaran'];
+                            }
                             $datetime=$metadata['datetime'];
                             $status=$metadata['status'];
                             $kategori=$metadata['kategori'];
@@ -318,49 +322,51 @@
                                                             $komentar=$list_assesement['komentar'];
                                                             //Buka Detail Assesment
                                                             $DetailAssesment=DetailAssesment($url_server,$xtoken,$id_event_assesment_form,$id_event_peserta);
-                                                            $DetailAssesmentArry=json_decode($DetailAssesment, true);
-                                                            if($DetailAssesmentArry['response']['code']!==200){
-                                                                $value_fix="";
-                                                                $status='<i class="bi bi-x-circle text-danger"></i>';
-                                                                $assesment_value='<code class="text-danger">None</code>';
-                                                            }else{
-                                                                //Apabila Tidak Ada Metadata
-                                                                if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
+                                                            if(!empty($DetailAssesment)){
+                                                                // echo "$DetailAssesment";
+                                                                $DetailAssesmentArry=json_decode($DetailAssesment, true);
+                                                                if($DetailAssesmentArry['response']['code']!==200){
                                                                     $value_fix="";
-                                                                    $status='<i class="bi bi-question-circle text-warning"></i>';
+                                                                    $status='<i class="bi bi-x-circle text-danger"></i>';
                                                                     $assesment_value='<code class="text-danger">None</code>';
                                                                 }else{
-                                                                    $status_assesment=$DetailAssesmentArry['metadata']['status_assesment']['status_assesment'];
-                                                                    if($status_assesment=="Pending"){
-                                                                        $status='<i class="bi bi-check-circle text-info"></i>';
-                                                                    }else{
-                                                                        if($status_assesment=="Refisi"){
-                                                                            $status='<i class="bi bi-exclamation-circle text-danger"></i>';
-                                                                        }else{
-                                                                            $status='<i class="bi bi-check-circle text-primary"></i>';
-                                                                        }
-                                                                    }
-                                                                    //Apabila Belum Terisi
+                                                                    //Apabila Tidak Ada Metadata
                                                                     if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
-                                                                        $assesment_value='<code class="text-danger">None</code>';
                                                                         $value_fix="";
+                                                                        $status='<i class="bi bi-question-circle text-warning"></i>';
+                                                                        $assesment_value='<code class="text-danger">None</code>';
                                                                     }else{
-                                                                        $value_fix=$DetailAssesmentArry['metadata']['assesment_value'];
-                                                                        if($form_type=="checkbox"){
-                                                                            $assesment_value = implode(", ", $DetailAssesmentArry['metadata']['assesment_value']);
-                                                                            $assesment_value='<code class="text-dark">'.$assesment_value.'</code>';
+                                                                        $status_assesment=$DetailAssesmentArry['metadata']['status_assesment']['status_assesment'];
+                                                                        if($status_assesment=="Pending"){
+                                                                            $status='<i class="bi bi-check-circle text-info"></i>';
                                                                         }else{
-                                                                            if($form_type=="file_foto"||$form_type=="file_pdf"){
-                                                                                $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
-                                                                                $assesment_value='<a href="'.$assesment_value.'"><code class="text-primary"><i class="bi bi-paperclip"></i> Lihat Lampiran</code></a>';
+                                                                            if($status_assesment=="Refisi"){
+                                                                                $status='<i class="bi bi-exclamation-circle text-danger"></i>';
                                                                             }else{
-                                                                                $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                                $status='<i class="bi bi-check-circle text-primary"></i>';
+                                                                            }
+                                                                        }
+                                                                        //Apabila Belum Terisi
+                                                                        if(empty($DetailAssesmentArry['metadata']['assesment_value'])){
+                                                                            $assesment_value='<code class="text-danger">None</code>';
+                                                                            $value_fix="";
+                                                                        }else{
+                                                                            $value_fix=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                            if($form_type=="checkbox"){
+                                                                                $assesment_value = implode(", ", $DetailAssesmentArry['metadata']['assesment_value']);
                                                                                 $assesment_value='<code class="text-dark">'.$assesment_value.'</code>';
+                                                                            }else{
+                                                                                if($form_type=="file_foto"||$form_type=="file_pdf"){
+                                                                                    $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                                    $assesment_value='<a href="'.$assesment_value.'"><code class="text-primary"><i class="bi bi-paperclip"></i> Lihat Lampiran</code></a>';
+                                                                                }else{
+                                                                                    $assesment_value=$DetailAssesmentArry['metadata']['assesment_value'];
+                                                                                    $assesment_value='<code class="text-dark">'.$assesment_value.'</code>';
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
                                             ?>
                                                             <div class="accordion-item">
                                                                 <h2 class="accordion-header" id="heading<?php echo $no; ?>">
@@ -584,7 +590,8 @@
                                                                 </div>
                                                             </div>
                                             <?php
-                                                            $no++;
+                                                                $no++;
+                                                            }
                                                         }
                                                         echo '';
                                                         echo '      </div>';
@@ -625,6 +632,12 @@
                                                             $total=$metadata_transaksi['jumlah'];
                                                             $status_pembayaran=$metadata_transaksi['status'];
                                                             //Format Nominal
+                                                            if(empty($subtotal)){
+                                                                $subtotal=0;
+                                                            }
+                                                            if(empty($total)){
+                                                                $total=0;
+                                                            }
                                                             $subtotal_format="Rp " . number_format($subtotal, 0, ',', '.');
                                                             $total_format="Rp " . number_format($total, 0, ',', '.');
                                                             //Routing Label Status
@@ -779,32 +792,43 @@
                                                             echo '</div>';
                                                             //Apabila Status Masih Pending
                                                             if($status_pembayaran!=="Lunas"){
-                                                                //Tampilkan Petunjuk Pembayaran
-                                                                echo '<div class="row mb-3 mt-3">';
-                                                                echo '  <div class="col-md-12">';
-                                                                echo '      <div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                                                                echo '          <small class="mobile-text">';
-                                                                echo '              Berikut ini langkah-langkah pembayaran yang perlu anda ketahui :';
-                                                                echo '              <ol>';
-                                                                echo '                  <li>Klik pada tombol <i>Bayar Sekarang</i> pada bagian akhir halaman.</li>';
-                                                                echo '                  <li>Sistem akan menampilkan pesan <i>Popup</i> yang berisi kode transaksi dan uraian pembayaran.</li>';
-                                                                echo '                  <li>Klik pada tombol <i>Lanjutkan Pembayaran</i> kemudian pilih metode pembayaran yang anda inginkan.</li>';
-                                                                echo '                  <li>Ikuti petunjuk pembayaran sesuai metode yang anda pilih.</li>';
-                                                                echo '                  <li>Setelah anda menyelesaikan pembayaran, silahkan refresh halaman ini untuk mengetahui pembaharuan status pendaftaran anda.</li>';
-                                                                echo '                  <li>Apabila terdapat kendala dalam proses pembayaran tersebut, silahkan hubungi kami pada kontak yang ada pada halaman beranda.</li>';
-                                                                echo '              </ol>';
-                                                                echo '          </small>';
-                                                                echo '      </div>';
-                                                                echo '  </div>';
-                                                                echo '</div>';
-                                                                //Tampilkan Tombol
-                                                                echo '<div class="row mb-3">';
-                                                                echo '  <div class="col-md-12">';
-                                                                echo '      <button type="button" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalBayarEvent" data-id="'.$kode_transaksi.'">';
-                                                                echo '          <i class="bi bi-coin"></i> Bayar Sekarang';
-                                                                echo '      </button>';
-                                                                echo '  </div>';
-                                                                echo '</div>';
+                                                                if(!empty($total)){
+                                                                    //Tampilkan Petunjuk Pembayaran
+                                                                    echo '<div class="row mb-3 mt-3">';
+                                                                    echo '  <div class="col-md-12">';
+                                                                    echo '      <div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                                                                    echo '          <small class="mobile-text">';
+                                                                    echo '              Berikut ini langkah-langkah pembayaran yang perlu anda ketahui :';
+                                                                    echo '              <ol>';
+                                                                    echo '                  <li>Klik pada tombol <i>Bayar Sekarang</i> pada bagian akhir halaman.</li>';
+                                                                    echo '                  <li>Sistem akan menampilkan pesan <i>Popup</i> yang berisi kode transaksi dan uraian pembayaran.</li>';
+                                                                    echo '                  <li>Klik pada tombol <i>Lanjutkan Pembayaran</i> kemudian pilih metode pembayaran yang anda inginkan.</li>';
+                                                                    echo '                  <li>Ikuti petunjuk pembayaran sesuai metode yang anda pilih.</li>';
+                                                                    echo '                  <li>Setelah anda menyelesaikan pembayaran, silahkan refresh halaman ini untuk mengetahui pembaharuan status pendaftaran anda.</li>';
+                                                                    echo '                  <li>Apabila terdapat kendala dalam proses pembayaran tersebut, silahkan hubungi kami pada kontak yang ada pada halaman beranda.</li>';
+                                                                    echo '              </ol>';
+                                                                    echo '          </small>';
+                                                                    echo '      </div>';
+                                                                    echo '  </div>';
+                                                                    echo '</div>';
+                                                                    //Tampilkan Tombol
+                                                                    echo '<div class="row mb-3">';
+                                                                    echo '  <div class="col-md-12">';
+                                                                    echo '      <button type="button" class="button_pendaftaran" data-bs-toggle="modal" data-bs-target="#ModalBayarEvent" data-id="'.$kode_transaksi.'">';
+                                                                    echo '          <i class="bi bi-coin"></i> Bayar Sekarang';
+                                                                    echo '      </button>';
+                                                                    echo '  </div>';
+                                                                    echo '</div>';
+                                                                }else{
+                                                                    echo '<div class="row mb-3 mt-5">';
+                                                                    echo '  <div class="col-md-12 text-center">';
+                                                                    echo '      <h1 class="text-success"><i class="bi bi-check-circle"></i></h1>';
+                                                                    echo '      <small class="mobile-text text-success">';
+                                                                    echo '          Biaya pendaftaran gratis.';
+                                                                    echo '      </small>';
+                                                                    echo '  </div>';
+                                                                    echo '</div>';
+                                                                }
                                                             }else{
                                                                 echo '<div class="row mb-3 mt-5">';
                                                                 echo '  <div class="col-md-12 text-center">';
@@ -831,4 +855,5 @@
 ?>
     </div>
 </section>
+
 

@@ -54,6 +54,9 @@
                 $kode_transaksi=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'kode_transaksi');
                 $datetime=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'datetime');
                 $jumlah=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'jumlah');
+                if(empty($jumlah)){
+                    $jumlah=0;
+                }
                 $status_transaksi=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'status');
                 //format Data
                 $strtotime=strtotime($datetime);
@@ -122,13 +125,17 @@
                     if (json_last_error() === JSON_ERROR_NONE) {
                         $code = $data["code"];
                         $status = $data["status"];
-                        $snap_token = $data["token"];
                         if ($code == "200") {
-                            $response= 'success';
-                            $message= $status;
-                            $snap_token= $snap_token;
+                            if(!empty($data["token"])){
+                                $snap_token = $data["token"];
+                                $response= 'success';
+                                $message= $status;
+                                $snap_token= $snap_token;
+                            }else{
+                                $response= 'Snap Token Tidak Ada';
+                            }
                         } else {
-                            $response= 'Snap Token Gagal Dibuat! Kode: ' . $code;
+                            $response= 'Snap Token Gagal Dibuat! Status: '.$status.' Kode: ' . $code;
                         }
                     } else {
                         $response= 'Error pada decoding JSON: '.$response_curl.' ' . json_last_error_msg();

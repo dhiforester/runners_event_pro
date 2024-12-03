@@ -53,6 +53,9 @@
                 $nama=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'nama');
                 $email=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'email');
                 $biaya_pendaftaran=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'biaya_pendaftaran');
+                if(empty($biaya_pendaftaran)){
+                    $biaya_pendaftaran=0;
+                }
                 $datetime=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'datetime');
                 $status=GetDetailData($Conn,'event_peserta','id_event_peserta',$id_event_peserta,'status');
                 $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');

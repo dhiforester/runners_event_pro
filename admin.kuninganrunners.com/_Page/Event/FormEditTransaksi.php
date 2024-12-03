@@ -79,6 +79,9 @@
                     $strtotime=strtotime($datetime);
                     $TanggalTransaksi=date('d/m/Y H:i', $strtotime);
                     //Biaya Pendaftaran
+                    if(empty($jumlah)){
+                        $jumlah=0;
+                    }
                     $jumlah_format='Rp ' . number_format($jumlah, 2, ',', '.');
                     //Jumlah Riwayat Transaksi
                     $RiwayatPembayaran = mysqli_num_rows(mysqli_query($Conn, "SELECT id_transaksi_payment FROM transaksi_payment WHERE kode_transaksi ='$kode_transaksi '"));

@@ -51,6 +51,9 @@
                 $kategori=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'kategori');
                 $deskripsi=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'deskripsi');
                 $biaya_pendaftaran=GetDetailData($Conn,'event_kategori','id_event_kategori',$id_event_kategori,'biaya_pendaftaran');
+                if(empty($biaya_pendaftaran)){
+                    $biaya_pendaftaran=0;
+                }
                 //Hitung Jumlah Karakter
                 $kategori_length=strlen($kategori);
                 $deskripsi_length=strlen($deskripsi);

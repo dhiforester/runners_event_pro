@@ -106,6 +106,24 @@
                         }
                     }
                     //Format Jumlah
+                    if(empty($jumlah)){
+                        $jumlah=0;
+                    }
+                    if(empty($ppn_pph)){
+                        $ppn_pph=0;
+                    }
+                    if(empty($biaya_layanan)){
+                        $biaya_layanan=0;
+                    }
+                    if(empty($potongan_lain_lain)){
+                        $potongan_lain_lain=0;
+                    }
+                    if(empty($biaya_lain_lain)){
+                        $biaya_lain_lain=0;
+                    }
+                    if(empty($tagihan)){
+                        $tagihan=0;
+                    }
                     $jumlah_format='Rp ' . number_format($jumlah, 0, ',', '.');
                     $ppn_pph_format='Rp ' . number_format($ppn_pph, 0, ',', '.');
                     $biaya_layanan_format='Rp ' . number_format($biaya_layanan, 0, ',', '.');
