@@ -22,9 +22,7 @@
                 //Buka Fungsi List Event
                 $list_event=$WebSummary['metadata']['event_list'];
                 $jumlah_event=count($list_event);
-                if(empty($jumlah_event)){
-                    echo "Tidak Ada Event Yang Ditampilkan";
-                }else{
+                if(!empty($jumlah_event)){
                     foreach($list_event as $event_list){
                         $id_event=$event_list['id_event'];
                         $tanggal_mulai=$event_list['tanggal_mulai'];

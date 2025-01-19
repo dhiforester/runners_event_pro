@@ -61,6 +61,9 @@
         if($Page=="SettingEmail"){
             echo '<script type="text/javascript" src="_Page/SettingEmail/SettingEmail.js"></script>';
         }
+        if($Page=="RajaOngkir"){
+            echo '<script type="text/javascript" src="_Page/RajaOngkir/RajaOngkir.js"></script>';
+        }
         if($Page=="ApiKey"){
             echo '<script type="text/javascript" src="_Page/ApiKey/ApiKey.js"></script>';
         }

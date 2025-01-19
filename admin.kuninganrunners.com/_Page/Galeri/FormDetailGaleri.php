@@ -56,11 +56,11 @@
                 $DatetimeFormat=date('d M Y H:i',$strtotime1);
 ?>
         <div class="row mb-3">
-            <div class="col-md-12 text-center mb-3">
-                <img src="<?php echo "$file_galeri_path"; ?>" alt="" width="50%">
+            <div class="col-md-12 text-center">
+                <img src="<?php echo "$file_galeri_path"; ?>" alt="" width="100%">
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col col-md-4">
                 <small class="credit">Nama/Title</small>
             </div>
@@ -72,7 +72,7 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col col-md-4">
                 <small class="credit">Album</small>
             </div>
@@ -84,7 +84,7 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col col-md-4">
                 <small class="credit">Datetime</small>
             </div>

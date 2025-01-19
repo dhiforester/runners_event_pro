@@ -58,6 +58,9 @@
         if($Page=="SettingEmail"){
             include "_Page/SettingEmail/ModalSettingEmail.php";
         }
+        if($Page=="RajaOngkir"){
+            include "_Page/RajaOngkir/ModalRajaOngkir.php";
+        }
         if($Page=="ApiKey"){
             include "_Page/ApiKey/ModalApiKey.php";
         }

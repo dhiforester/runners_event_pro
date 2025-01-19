@@ -62,7 +62,7 @@
                         <div class="col-md-8">
                             <select name="keyword_by" id="keyword_by" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="album">Album</option>
+                                <option value="id_web_galeri_album">Album</option>
                                 <option value="nama_galeri">Nama Foto</option>
                                 <option value="datetime">Datetime</option>
                             </select>
@@ -138,7 +138,7 @@
                             <label for="file_galeri">
                                 <small>Foto</small>
                             </label>
-                            <input type="file" name="file_galeri" id="file_galeri" class="form-control">
+                            <input type="file" name="file_galeri[]" id="file_galeri" class="form-control" multiple>
                             <small id="ValidasiFileGaleri">
                                 <code class="text text-dark">
                                     Foto yang digunakan maksimal 5 MB (JPG, JPEG, PNG Atau GIF)

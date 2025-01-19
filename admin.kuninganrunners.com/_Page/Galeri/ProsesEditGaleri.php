@@ -29,8 +29,8 @@
                     $id_web_galeri=$_POST['id_web_galeri'];
                     $album=$_POST['album'];
                     $nama_galeri=$_POST['nama_galeri'];
-                    if (!preg_match('/^[a-zA-Z0-9-]+$/', $album)) {
-                        $errors[] = 'Nama album hanya boleh huruf dan angka. Gunakan (-) sebagai pengganti spasi';
+                    if (!preg_match('/^[a-zA-Z0-9\s-]+$/', $album)) {
+                        $errors[] = 'Nama album hanya boleh huruf dan angka serta spasi.';
                     }else{
                         //Bersihkan Variabel
                         $id_web_galeri=validateAndSanitizeInput($id_web_galeri);
@@ -96,34 +96,63 @@
                                 if($ValidasiFoto!=="Valid"){
                                     $errors[] = ''.$ValidasiLogo.'';
                                 }else{
-                                    //Update Database
-                                    $sql = "UPDATE web_galeri SET 
-                                        album = ?, 
-                                        nama_galeri = ?,
-                                        datetime = ?,
-                                        file_galeri = ?
-                                    WHERE id_web_galeri = ?";
-                                    // Menyiapkan statement
-                                    $stmt = $Conn->prepare($sql);
-                                    $stmt->bind_param('sssss', 
-                                        $album, 
-                                        $nama_galeri, 
-                                        $now, 
-                                        $file_galeri,
-                                        $id_web_galeri
-                                    );
-                                    // Eksekusi statement dan cek apakah berhasil
-                                    if ($stmt->execute()) {
-                                        $kategori_log="Galeri";
-                                        $deskripsi_log="Edit Galeri";
-                                        $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
-                                        if($InputLog=="Success"){
-                                            $response['success'] = true;
+                                    //Membuka nama album lama
+                                    $album_lama=GetDetailData($Conn,'web_galeri','id_web_galeri',$id_web_galeri,'album');
+                                    //Apakah Nama Album Sudah Ada
+                                    $id_web_galeri_album=GetDetailData($Conn,'web_galeri_album','album',$album,'id_web_galeri_album');
+                                    if(empty($id_web_galeri_album)){
+                                        $id_web_galeri_album_uid=generateUuidV1();
+                                        //Insert Ke web_galeri_album
+                                        $query = "INSERT INTO web_galeri_album (id_web_galeri_album, album) 
+                                            VALUES (?, ?)";
+                                        $stmt = $Conn->prepare($query);
+                                        $stmt->bind_param("ss", $id_web_galeri_album_uid, $album);
+                                        if ($stmt->execute()) {
+                                            $id_web_galeri_album=$id_web_galeri_album_uid;
                                         }else{
-                                            $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
+                                            $id_web_galeri_album=0;
                                         }
+                                    }
+                                    if(empty($id_web_galeri_album)){
+                                        $errors[] = 'Terjadi kesalahan pada saat membuat data album';
                                     }else{
-                                        $errors[] = 'Terjadi kesalahan pada saat menyimpan data pada database!.';
+                                        //Update Database
+                                        $sql = "UPDATE web_galeri SET 
+                                            id_web_galeri_album = ?, 
+                                            album = ?, 
+                                            nama_galeri = ?,
+                                            datetime = ?,
+                                            file_galeri = ?
+                                        WHERE id_web_galeri = ?";
+                                        // Menyiapkan statement
+                                        $stmt = $Conn->prepare($sql);
+                                        $stmt->bind_param('ssssss', 
+                                            $id_web_galeri_album, 
+                                            $album, 
+                                            $nama_galeri, 
+                                            $now, 
+                                            $file_galeri,
+                                            $id_web_galeri
+                                        );
+                                        // Eksekusi statement dan cek apakah berhasil
+                                        if ($stmt->execute()) {
+                                            //Cek Apakah Nama Album Lama Masih Ada Yang tersisa
+                                            $jumlah_data_album_lama = mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$album_lama'"));
+                                            //Jika Tidak Ada Hapus Albumnya
+                                            if(empty($jumlah_data_album_lama)){
+                                                $HapusAlbum = mysqli_query($Conn, "DELETE FROM web_galeri_album WHERE album='$album_lama'") or die(mysqli_error($Conn));
+                                            }
+                                            $kategori_log="Galeri";
+                                            $deskripsi_log="Edit Galeri";
+                                            $InputLog=addLog($Conn,$SessionIdAkses,$now,$kategori_log,$deskripsi_log);
+                                            if($InputLog=="Success"){
+                                                $response['success'] = true;
+                                            }else{
+                                                $errors[] = 'Terjadi kesalahan pada saat menyimpan log aktivitas!.';
+                                            }
+                                        }else{
+                                            $errors[] = 'Terjadi kesalahan pada saat menyimpan data pada database!.';
+                                        }
                                     }
                                 }
                             }

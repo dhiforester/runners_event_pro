@@ -71,7 +71,7 @@
                                 if(!empty($foto)){
                                     $image_path="$base_url/_Api/Merchandise/ImageProxy.php?foto=$foto";
                                 }else{
-                                    $image_path="$base_url/assets/img/No-Image.png";
+                                    $image_path="$base_url/assets/img/no_image.jpg";
                                 }
                                 
                                  //Ubah Data Json Ke Array
@@ -83,7 +83,7 @@
                                     if(!empty($varian_list['foto_varian'])){
                                         $path_foto_varian=''.$base_url.'/_Api/Merchandise/ImageProxy.php?foto='.$varian_list['foto_varian'].'';
                                     }else{
-                                        $path_foto_varian="$base_url/assets/img/No-Image.png";
+                                        $path_foto_varian="$base_url/assets/img/no_image.jpg";
                                     }
                                     if(!empty($varian_list['id_varian'])){
                                         $id_varian=$varian_list['id_varian'];

@@ -29,9 +29,17 @@
                     unlink($file_galeri_path);
                 }
             }
+            //Membuka nama album lama
+            $album_lama=GetDetailData($Conn,'web_galeri','id_web_galeri',$id_web_galeri,'album');
             //Proses hapus data
             $HapusGaleri = mysqli_query($Conn, "DELETE FROM web_galeri WHERE id_web_galeri='$id_web_galeri'") or die(mysqli_error($Conn));
             if ($HapusGaleri) {
+                //Cek Apakah Nama Album Lama Masih Ada Yang tersisa
+                $jumlah_data_album_lama = mysqli_num_rows(mysqli_query($Conn, "SELECT id_web_galeri FROM web_galeri WHERE album='$album_lama'"));
+                //Jika Tidak Ada Hapus Albumnya
+                if(empty($jumlah_data_album_lama)){
+                    $HapusAlbum = mysqli_query($Conn, "DELETE FROM web_galeri_album WHERE album='$album_lama'") or die(mysqli_error($Conn));
+                }
                 //Menyimpan Log
                 $kategori_log="Galeri";
                 $deskripsi_log="Hapus Galeri";

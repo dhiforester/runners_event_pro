@@ -63,6 +63,9 @@
         if($Page=="SettingTransaksi"){
             include "_Page/SettingTransaksi/SettingTransaksi.php";
         }
+        if($Page=="RajaOngkir"){
+            include "_Page/RajaOngkir/RajaOngkir.php";
+        }
         if($Page=="Help"){
             include "_Page/Help/Help.php";
         }

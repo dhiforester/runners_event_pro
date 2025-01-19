@@ -58,22 +58,37 @@ $(document).ready(function() {
         $('#nama_galeri_length').text(value.length + '/' + maxLength);
     });
     // Validasi file Foto
-    $('#file_galeri').on('change', function() {
-        var file = this.files[0];
-        var validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        var maxSize = 5 * 1024 * 1024; // 2MB
-        var validasiMessage = $('#ValidasiFileGaleri');
+    $("#file_galeri").on("change", function () {
+        const files = this.files; // Mendapatkan file yang dipilih
+        const maxFileSize = 5 * 1024 * 1024; // 5 MB
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+        const maxFiles = 10; // Maksimal jumlah file
+        let errorMessage = "";
 
-        if (file) {
-            if ($.inArray(file.type, validTypes) == -1) {
-                validasiMessage.text('Tipe file tidak valid. Hanya diperbolehkan jpeg, jpg, png, atau gif.').css('color', 'red');
-                this.value = '';
-            } else if (file.size > maxSize) {
-                validasiMessage.text('Ukuran file maksimal 5 MB.').css('color', 'red');
-                this.value = '';
-            } else {
-                validasiMessage.text('File sudah valid dan sesuai persyaratan.').css('color', 'green');
+        // Periksa jumlah file
+        if (files.length > maxFiles) {
+            errorMessage = `Maksimal ${maxFiles} file yang dapat diunggah.`;
+        }
+
+        // Validasi setiap file
+        $.each(files, function (index, file) {
+            if (!allowedTypes.includes(file.type)) {
+                errorMessage = `File "${file.name}" tidak valid. Hanya JPG, JPEG, PNG, atau GIF yang diperbolehkan.`;
+                return false; // Hentikan iterasi
             }
+            if (file.size > maxFileSize) {
+                errorMessage = `File "${file.name}" terlalu besar. Maksimal ukuran adalah 5 MB.`;
+                return false; // Hentikan iterasi
+            }
+        });
+
+        // Menampilkan pesan validasi
+        const validationMessage = $("#ValidasiFileGaleri");
+        if (errorMessage) {
+            validationMessage.html(`<code class="text text-danger">${errorMessage}</code>`);
+            $(this).val(""); // Reset input file
+        } else {
+            validationMessage.html(`<code class="text text-success">Semua file valid!</code>`);
         }
     });
     //Ketika Modal Tambah Galeri Muncul

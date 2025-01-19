@@ -152,6 +152,11 @@
                     </a>
                 </li> 
                 <li>
+                    <a href="index.php?Page=RajaOngkir" class="<?php if($PageMenu=="RajaOngkir"){echo "active";} ?>">
+                        <i class="bi bi-circle"></i><span>Raja Ongkir</span>
+                    </a>
+                </li> 
+                <li>
                     <a href="index.php?Page=ApiKey" class="<?php if($PageMenu=="ApiKey"){echo "active";} ?>">
                         <i class="bi bi-circle"></i><span>API Key</span>
                     </a>
