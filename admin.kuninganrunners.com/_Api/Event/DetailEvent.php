@@ -66,7 +66,7 @@
                                 $rute=GetDetailData($Conn,'event','id_event',$id_event,'rute');
                                 //Buat List Kategori
                                 $kategori=[];
-                                $QryKategori = $Conn->prepare("SELECT * FROM event_kategori WHERE id_event >= ? ORDER BY id_event_kategori ASC");
+                                $QryKategori = $Conn->prepare("SELECT * FROM event_kategori WHERE id_event = ? ORDER BY id_event_kategori ASC");
                                 $QryKategori->bind_param("s", $id_event);
                                 $QryKategori->execute();
                                 $ResultKategori = $QryKategori->get_result();

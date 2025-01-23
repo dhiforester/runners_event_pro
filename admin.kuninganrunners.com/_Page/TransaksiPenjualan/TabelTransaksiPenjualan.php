@@ -133,6 +133,7 @@
                     $datetime= $data['datetime'];
                     $raw_member= $data['raw_member'];
                     $jumlah= $data['jumlah'];
+                    $pengiriman= $data['pengiriman'];
                     $status= $data['status'];
                     //Hitung Varian
                     $raw_member_arry=json_decode($raw_member, true);
@@ -163,6 +164,9 @@
                     //Sensor Kode Transaksi
                     $last_three_kode = substr($kode_transaksi, -5);
                     $masked_kode_transaksi = '***' . $last_three_kode;
+
+                    //Buka Data Pengiriman
+                    $status_pengiriman=GetDetailData($Conn,'transaksi_pengiriman','kode_transaksi',$kode_transaksi,'status_pengiriman');
         ?>
                     <div class="card hover-shadow">
                         <div class="card-body">
@@ -174,7 +178,7 @@
                                         </a>
                                     </b>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="row">
                                         <div class="col col-md-4">
                                             <small class="mobile-text">Kode Transaksi</small>
@@ -200,7 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="row">
                                         <div class="col col-md-4">
                                             <small class="mobile-text">Jumlah</small>
@@ -213,11 +217,53 @@
                                     </div>
                                     <div class="row">
                                         <div class="col col-md-4">
-                                            <small class="mobile-text">Status</small>
+                                            <small class="mobile-text">Pembayaran</small>
                                         </div>
                                         <div class="col col-md-8 ">
                                             <small class="mobile-text">
                                                 <?php echo "$LabelStatus"; ?>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col col-md-4">
+                                            <small class="mobile-text">Metode </small>
+                                        </div>
+                                        <div class="col col-md-8 ">
+                                            <small class="mobile-text">
+                                                <code class="text text-grayish">
+                                                    <?php echo "$pengiriman"; ?>
+                                                </code>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-md-4">
+                                            <small class="mobile-text">Status Order</small>
+                                        </div>
+                                        <div class="col col-md-8 ">
+                                            <small class="mobile-text">
+                                                <?php
+                                                    if($status_pengiriman=="Pending"){
+                                                        echo '<code class="text-warning text-decoration-underline">Menunggu</code>';
+                                                    }else{
+                                                        if($status_pengiriman=="Batal"){
+                                                            echo '<code class="text-danger text-decoration-underline">Batal</code>';
+                                                        }else{
+                                                            if($status_pengiriman=="Proses"){
+                                                                echo '<code class="text-info text-decoration-underline">Dikirim</code>';
+                                                            }else{
+                                                                if($status_pengiriman=="Selesai"){
+                                                                    echo '<code class="text-success text-decoration-underline">Selesai</code>';
+                                                                }else{
+                                                                    echo '<code class="text-grayish text-decoration-underline">None</code>';
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ?>
                                             </small>
                                         </div>
                                     </div>

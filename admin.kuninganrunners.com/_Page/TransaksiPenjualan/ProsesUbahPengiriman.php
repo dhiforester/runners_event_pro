@@ -17,11 +17,16 @@
         if (empty($_POST['kode_transaksi'])) {
             $ValidasiKelengkapanData="Kode Transaksi tidak boleh kosong! Anda wajib mengisi form tersebut.";
         }else{
-            // Validasi data input tidak boleh kosong
+            // Validasi status pengiriman tidak boleh kosong
             if (empty($_POST['status_pengiriman'])) {
                 $ValidasiKelengkapanData="Status Pengiriman tidak boleh kosong! Anda wajib mengisi form tersebut.";
             }else{
+                // Validasi Metode Pengiriman tidak boleh kosong
+            if (empty($_POST['metode'])) {
+                $ValidasiKelengkapanData="Metode Pengiriman tidak boleh kosong! Anda wajib mengisi form tersebut.";
+            }else{
                 $ValidasiKelengkapanData="Valid";
+            }
             }
         }
     }
@@ -31,9 +36,15 @@
         //Membuat Variabel
         $kode_transaksi=$_POST['kode_transaksi'];
         $status_pengiriman=$_POST['status_pengiriman'];
+        $metode_pengiriman=$_POST['metode'];
         //Buat Variabel Lainnya
         $no_resi = !empty($_POST['no_resi']) ? $_POST['no_resi'] : "";
         $kurir = !empty($_POST['kurir']) ? $_POST['kurir'] : "";
+        $tanggal_pengiriman = !empty($_POST['tanggal_pengiriman']) ? $_POST['tanggal_pengiriman'] : date('Y-m-d');
+        $jam_pengiriman = !empty($_POST['jam_pengiriman']) ? $_POST['jam_pengiriman'] : date('H:i:s');
+        $datetime_pengiriman="$tanggal_pengiriman $jam_pengiriman";
+        $ongkir = !empty($_POST['ongkir']) ? $_POST['ongkir'] : "0";
+        $link_pengiriman = !empty($_POST['link_pengiriman']) ? $_POST['link_pengiriman'] : "";
         //Asal Pengiriman
         $asal_pengiriman_nama = !empty($_POST['asal_pengiriman_nama']) ? $_POST['asal_pengiriman_nama'] : "";
         $asal_pengiriman_provinsi = !empty($_POST['asal_pengiriman_provinsi']) ? $_POST['asal_pengiriman_provinsi'] : "";
@@ -56,48 +67,19 @@
         $asal_pengiriman=json_encode($asal_pengiriman);
         //Tujuan Pengiriman
         $tujuan_pengiriman_nama = !empty($_POST['tujuan_pengiriman_nama']) ? $_POST['tujuan_pengiriman_nama'] : "";
-        $tujuan_pengiriman_provinsi = !empty($_POST['tujuan_pengiriman_provinsi']) ? $_POST['tujuan_pengiriman_provinsi'] : "";
-        $tujuan_pengiriman_kabupaten = !empty($_POST['tujuan_pengiriman_kabupaten']) ? $_POST['tujuan_pengiriman_kabupaten'] : "";
-        $tujuan_pengiriman_kecamatan = !empty($_POST['tujuan_pengiriman_kecamatan']) ? $_POST['tujuan_pengiriman_kecamatan'] : "";
-        $tujuan_pengiriman_desa = !empty($_POST['tujuan_pengiriman_desa']) ? $_POST['tujuan_pengiriman_desa'] : "";
-        $tujuan_pengiriman_rt_rw = !empty($_POST['tujuan_pengiriman_rt_rw']) ? $_POST['tujuan_pengiriman_rt_rw'] : "";
-        $tujuan_pengiriman_kode_pos = !empty($_POST['tujuan_pengiriman_kode_pos']) ? $_POST['tujuan_pengiriman_kode_pos'] : "";
         $tujuan_pengiriman_kontak = !empty($_POST['tujuan_pengiriman_kontak']) ? $_POST['tujuan_pengiriman_kontak'] : "";
+        $alamt_pengiriman = !empty($_POST['alamt_pengiriman']) ? $_POST['alamt_pengiriman'] : "";
+        $tujuan_pengiriman_rt_rw = !empty($_POST['tujuan_pengiriman_rt_rw']) ? $_POST['tujuan_pengiriman_rt_rw'] : "";
         $tujuan_pengiriman=[
-            "nama"=>$tujuan_pengiriman_nama,
-            "provinsi"=>$tujuan_pengiriman_provinsi,
-            "kabupaten"=>$tujuan_pengiriman_kabupaten,
-            "kecamatan"=>$tujuan_pengiriman_kecamatan,
-            "desa"=>$tujuan_pengiriman_desa,
+            "metode_pengiriman"=>$metode_pengiriman,
+            "alamt_pengiriman"=>$alamt_pengiriman,
+            "kurir"=>$kurir,
+            "cost_ongkir_item"=>"$ongkir|$kurir",
             "rt_rw"=>$tujuan_pengiriman_rt_rw,
-            "kode_pos"=>$tujuan_pengiriman_kode_pos,
+            "nama"=>$tujuan_pengiriman_nama,
             "kontak"=>$tujuan_pengiriman_kontak,
         ];
         $tujuan_pengiriman=json_encode($tujuan_pengiriman);
-        //Tanggal Jam Pengiriman
-        if(!empty($_POST['tanggal_pengiriman'])){
-            $tanggal_pengiriman=$_POST['tanggal_pengiriman'];
-        }else{
-            $tanggal_pengiriman=date('Y-m-d');
-        }
-        if(!empty($_POST['jam_pengiriman'])){
-            $jam_pengiriman=$_POST['jam_pengiriman'];
-        }else{
-            $jam_pengiriman=date('H:i:s');
-        }
-        $datetime_pengiriman="$tanggal_pengiriman $jam_pengiriman";
-        //Ongkir
-        if(!empty($_POST['ongkir'])){
-            $ongkir=$_POST['ongkir'];
-        }else{
-            $ongkir=0;
-        }
-        //Ongkir
-        if(!empty($_POST['link_pengiriman'])){
-            $link_pengiriman=$_POST['link_pengiriman'];
-        }else{
-            $link_pengiriman=0;
-        }
         //Buka Data Transaksi Berdasarkan kode_transaksi
         $tagihan=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'tagihan');
         $ppn_pph=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'ppn_pph');
@@ -145,12 +127,14 @@
             //Apabila Update Pengiriman Berhasil, Lanjutkan Update Jumlah Transaksi dan Nilai Ongkir
             $update_transaksi = "UPDATE transaksi SET 
             ongkir = ?, 
-            jumlah = ?
+            jumlah = ?,
+            pengiriman = ?
             WHERE kode_transaksi = ?";
             $stmtUpdate2 = $Conn->prepare($update_transaksi);
-            $stmtUpdate2->bind_param('sss', 
+            $stmtUpdate2->bind_param('ssss', 
                 $ongkir, 
                 $jumlah,
+                $metode_pengiriman,
                 $kode_transaksi
             );
             if ($stmtUpdate2->execute()) {

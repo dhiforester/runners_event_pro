@@ -12,7 +12,10 @@
     CURLOPT_MAXREDIRS => 10,
     CURLOPT_TIMEOUT => 0,
     CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_SSL_VERIFYPEER =>false,
+    CURLOPT_SSL_VERIFYHOST =>false,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    
     CURLOPT_CUSTOMREQUEST => 'POST',
     CURLOPT_POSTFIELDS =>'{
         "user_key_server" : "'.$user_key_server.'",
@@ -30,24 +33,30 @@
         $datetime_expired ="";
         echo 'Curl error: ' . $curl_error;
     }else{
-        //Apabila Response Bukan JSON
-        $arry_res = json_decode($response, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if(empty($response)){
             $xtoken ="";
             $datetime_expired ="";
-            echo 'Invalid JSON response: ' . $response;
+            echo 'Tidak ada response';
         }else{
-            //Apabila Otentifikasi token tidak valid
-            if($arry_res['response']['code']!==200) {
+            //Apabila Response Bukan JSON
+            $arry_res = json_decode($response, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
                 $xtoken ="";
                 $datetime_expired ="";
-                $message = $arry_res['response']['message'];
-                echo 'Terjadi kesalahan pada saat update data pengaturan ke server (Keterangan: ' . $message . ')';
+                echo 'Invalid JSON response : '.$response.'';
             }else{
-                //Apabila Berhasil
-                $metadata = $arry_res['metadata'];
-                $datetime_expired = $metadata['datetime_expired'];
-                $xtoken = $metadata['x-token'];
+                //Apabila Otentifikasi token tidak valid
+                if($arry_res['response']['code']!==200) {
+                    $xtoken ="";
+                    $datetime_expired ="";
+                    $message = $arry_res['response']['message'];
+                    echo 'Terjadi kesalahan pada saat update data pengaturan ke server (Keterangan: ' . $message . ')';
+                }else{
+                    //Apabila Berhasil
+                    $metadata = $arry_res['metadata'];
+                    $datetime_expired = $metadata['datetime_expired'];
+                    $xtoken = $metadata['x-token'];
+                }
             }
         }
     }
@@ -263,7 +272,7 @@
                                                                 echo '<script src="_Page/Vidio/Vidio.js"></script>';
                                                             }else{
                                                                 if($_GET['Page']=="Keranjang"){
-                                                                    echo '<script src="_Page/Keranjang/Keranjang.js"></script>';
+                                                                    echo '<script src="_Page/Keranjang/Keranjang.js?v='.date('d-m-Y-H:i:s').'"></script>';
                                                                 }else{
                                                                     if($_GET['Page']=="Transaksi"||$_GET['Page']=="DetailTransaksi"){
                                                                         echo '<script src="_Page/Transaksi/Transaksi.js"></script>';

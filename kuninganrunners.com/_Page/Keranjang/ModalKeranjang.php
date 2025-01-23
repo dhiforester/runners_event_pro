@@ -110,3 +110,49 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="ModalCariAlamat" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form action="javascript:void(0);" id="ProsesCariAlamat">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark"><i class="bi bi-search"></i> Cari Lokasii Tujuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col col-md-12">
+                            <div class="input-group">
+                                <input type="text" name="keyword_alamat" id="keyword_alamat" class="form-control" placeholder="Contoh : Cijoho">
+                                <button type="submit" class="btn btn-secondary" id="ButtonCariAlamat">
+                                    <i class="bi bi-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <small>Hasil Pencarian :</small>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12" id="list_alamat">
+                            <div class="alert alert-danger">
+                                Silahkan Lakukan Pencarian Lokasi Tujuan Pengiriman
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="NotifikasiCariAlamat">
+                            <!-- Notifikasi Cari Alamat ID Disini -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Tutup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

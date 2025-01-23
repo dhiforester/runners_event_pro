@@ -85,29 +85,35 @@
                                             if($email_member!==$email){
                                                 $keterangan = "Email dengan ID Login Tidak Sesuai ($email_member | $email)";
                                             }else{
-                                                // Cek Apakah Kode Transaksi Sesuai
-                                                $ValidasiKodeTransaksi = mysqli_num_rows(mysqli_query($Conn, "SELECT kode_transaksi FROM transaksi WHERE kode_transaksi='$kode_transaksi' AND id_member='$id_member' AND kategori='Pembelian'"));
-                                                if(empty($ValidasiKodeTransaksi)){
+                                                //Buka Data Transaksi
+                                                $kategori_transaksi="Pembelian";
+                                                $stmt_transaksi = $Conn->prepare("SELECT * FROM transaksi WHERE kode_transaksi=? AND id_member=? AND kategori=?");
+                                                $stmt_transaksi->bind_param("sss", $kode_transaksi, $id_member, $kategori_transaksi);
+                                                $stmt_transaksi->execute();
+                                                $result_transaksi = $stmt_transaksi->get_result();
+                                                $DataTransaksi = $result_transaksi->fetch_assoc();
+                                                if (empty($DataTransaksi['kode_transaksi'])) {
                                                     $keterangan = "Kode Transaksi Yang Anda Gunakan Tidak Valid";
                                                 }else{
-                                                    //Buka Data Transaksi
-                                                    $raw_member = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'raw_member');
-                                                    $kategori = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'kategori');
-                                                    $datetime_transaksi = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'datetime');
-                                                    $tagihan = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'tagihan');
-                                                    $ongkir = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'ongkir');
-                                                    $ppn_pph = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'ppn_pph');
-                                                    $biaya_layanan = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'biaya_layanan');
-                                                    $biaya_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'biaya_lainnya');
-                                                    $potongan_lainnya = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'potongan_lainnya');
-                                                    $jumlah_total = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'jumlah');
-                                                    $status = GetDetailData($Conn, 'transaksi', 'kode_transaksi', $kode_transaksi, 'status');
+                                                    $raw_member =$DataTransaksi['raw_member'];
+                                                    $kategori =$DataTransaksi['kategori'];
+                                                    $datetime_transaksi =$DataTransaksi['datetime'];
+                                                    $tagihan =$DataTransaksi['tagihan'];
+                                                    $ongkir =$DataTransaksi['ongkir'];
+                                                    $ppn_pph =$DataTransaksi['ppn_pph'];
+                                                    $biaya_layanan =$DataTransaksi['biaya_layanan'];
+                                                    $biaya_lainnya =$DataTransaksi['biaya_lainnya'];
+                                                    $potongan_lainnya =$DataTransaksi['potongan_lainnya'];
+                                                    $jumlah_total =$DataTransaksi['jumlah'];
+                                                    $pengiriman =$DataTransaksi['pengiriman'];
+                                                    $status =$DataTransaksi['status'];
                                                     //Ubah Biaya lain-lain menjadi arry
                                                     $biaya_lainnya_arry=json_decode($biaya_lainnya,true);
                                                     //Ubah Potongan lain-lain menjadi arry
                                                     $potongan_lainnya_arry=json_decode($potongan_lainnya,true);
                                                     //Ubah Raw Member Menjadi Array
                                                     $raw_member=json_decode($raw_member, true);
+                                                    
                                                     //Buka Data Rincian
                                                     $transaksi_rincian=[];
                                                     $QryTransaksiRincian = mysqli_query($Conn, "SELECT*FROM transaksi_rincian WHERE kode_transaksi='$kode_transaksi'");
@@ -132,6 +138,7 @@
                                                             "jumlah" => $jumlah
                                                         ];
                                                     }
+                                                    
                                                     //Buka Transaksi Payment
                                                     $transaksi_payment=[];
                                                     $QryPayment = mysqli_query($Conn, "SELECT*FROM transaksi_payment WHERE kode_transaksi='$kode_transaksi'");
@@ -141,25 +148,93 @@
                                                         $snap_token =$DataPayment['snap_token'];
                                                         $datetime_payment =$DataPayment['datetime'];
                                                         $status_payment =$DataPayment['status'];
+                                                        //Cek Status Pembayaran Dari Payment Gateway
+                                                        $api_key = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'api_key');
+                                                        $server_key = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'server_key');
+                                                        $production = GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'production');
+                                                        $api_payment_url =GetDetailData($Conn, 'setting_payment', 'id_setting_payment', '1', 'api_payment_url');
+                                                        //Persiapkan request ke payment gateway
+                                                        $update_process_transaksi_payment="No Process";
+                                                        $update_process_transaksi="No Process";
+                                                        $cek_status_transaksi=transaction_status_by_order_id($api_payment_url, $api_key, $order_id);
+                                                        $arry_status_transaksi=json_decode($cek_status_transaksi,true);
+                                                        if(!empty($arry_status_transaksi)){
+                                                            if(!empty($arry_status_transaksi['response'])){
+                                                                if($arry_status_transaksi['response']['code']==200){
+                                                                    //Buka metadatanya
+                                                                    if(!empty($arry_status_transaksi['metadata'])){
+                                                                        if(!empty($arry_status_transaksi['metadata']['transaction_status'])){
+                                                                            $resume_cek_status_transaksi=$arry_status_transaksi['metadata']['transaction_status'];
+                                                                            //Apabiiila resume status diketahui settlement maka update transaksi
+                                                                            if($resume_cek_status_transaksi=="settlement"){
+                                                                                //Melakukan Update 'transaksi_payment' Jika status belum Lunas
+                                                                                $status2 =GetDetailData($Conn,'transaksi_payment','order_id',$order_id,'status');
+                                                                                if($status2!=="Lunas"){
+                                                                                    $update_transaksi_payment = mysqli_query($Conn,"UPDATE transaksi_payment SET 
+                                                                                        status='Lunas'
+                                                                                    WHERE order_id='$order_id'") or die(mysqli_error($Conn)); 
+                                                                                    if($update_transaksi_payment){
+                                                                                        $update_process_transaksi_payment="Success";
+                                                                                    }else{
+                                                                                        $update_process_transaksi_payment="Error Update 'transaksi_payment' table";
+                                                                                    }
+                                                                                }
+                                                                                //Melakukan Update 'transaksi' Jika status belum Lunas
+                                                                                $status3 =GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'status');
+                                                                                if($status3!=="Lunas"){
+                                                                                    $update_transaksi = mysqli_query($Conn,"UPDATE transaksi SET 
+                                                                                        status='Lunas'
+                                                                                    WHERE kode_transaksi='$kode_transaksi'") or die(mysqli_error($Conn)); 
+                                                                                    if($update_transaksi){
+                                                                                        $update_process_transaksi="Success";
+                                                                                    }else{
+                                                                                        $update_process_transaksi="Error Update 'transaksi_payment' table";
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }else{
+                                                                            $resume_cek_status_transaksi="No Response 005";
+                                                                        }
+                                                                    }else{
+                                                                        $resume_cek_status_transaksi="No Response 004";
+                                                                    }
+                                                                }else{
+                                                                    $resume_cek_status_transaksi="No Response 003";
+                                                                }
+                                                            }else{
+                                                                $resume_cek_status_transaksi="No Response 002";
+                                                            }
+                                                        }else{
+                                                            $resume_cek_status_transaksi="No Response 001";
+                                                        }
                                                         //Buat Transaksi Payment
                                                         $transaksi_payment[]= [
                                                             "id_transaksi_payment" => $id_transaksi_payment,
                                                             "order_id" => $order_id,
                                                             "snap_token" => $snap_token,
                                                             "datetime" => $datetime_payment,
-                                                            "status" => $status_payment
+                                                            "status" => $status_payment,
+                                                            "cek_status_transaksi" => $resume_cek_status_transaksi,
+                                                            "update_process_transaksi_payment" => $update_process_transaksi_payment,
+                                                            "update_process_transaksi" => $update_process_transaksi,
                                                         ];
                                                     }
+                                                    
                                                     //Buka Transaksi Pengiriman
-                                                    $id_transaksi_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'id_transaksi_pengiriman');
-                                                    $no_resi = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'no_resi');
-                                                    $kurir = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'kurir');
-                                                    $asal_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'asal_pengiriman');
-                                                    $tujuan_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'tujuan_pengiriman');
-                                                    $ongkir = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'ongkir');
-                                                    $status_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'status_pengiriman');
-                                                    $datetime_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime_pengiriman');
-                                                    $link_pengiriman = GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'link_pengiriman');
+                                                    $stmt_pengriman = $Conn->prepare("SELECT * FROM transaksi_pengiriman WHERE kode_transaksi=?");
+                                                    $stmt_pengriman->bind_param("s", $kode_transaksi);
+                                                    $stmt_pengriman->execute();
+                                                    $result_pengiriman = $stmt_pengriman->get_result();
+                                                    $data_pengiriman = $result_pengiriman->fetch_assoc();
+                                                    $id_transaksi_pengiriman =$data_pengiriman['id_transaksi_pengiriman'];
+                                                    $no_resi =$data_pengiriman['no_resi'];
+                                                    $kurir =$data_pengiriman['kurir'];
+                                                    $asal_pengiriman =$data_pengiriman['asal_pengiriman'];
+                                                    $tujuan_pengiriman =$data_pengiriman['tujuan_pengiriman'];
+                                                    $ongkir =$data_pengiriman['ongkir'];
+                                                    $status_pengiriman =$data_pengiriman['status_pengiriman'];
+                                                    $datetime_pengiriman =$data_pengiriman['datetime_pengiriman'];
+                                                    $link_pengiriman =$data_pengiriman['link_pengiriman'];
                                                     //Ubah Asal Pengiriman Menjadi Arry
                                                     $asal_pengiriman_arry=json_decode($asal_pengiriman,true);
                                                     $tujuan_pengiriman_arry=json_decode($tujuan_pengiriman,true);
@@ -187,6 +262,7 @@
                                                         "biaya_lainnya" => $biaya_lainnya_arry,
                                                         "potongan_lainnya" => $potongan_lainnya_arry,
                                                         "jumlah" => $jumlah_total,
+                                                        "pengiriman" => $pengiriman,
                                                         "status" => $status,
                                                         "transaksi_rincian" => $transaksi_rincian,
                                                         "transaksi_payment" => $transaksi_payment,

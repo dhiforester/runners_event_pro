@@ -83,336 +83,177 @@
                                 <div class="col-md-12" id="MenampilkanMember"></div>
                             </div>
                             <div class="row mb-3 border-1 border-bottom">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <b>C. Informasi Pengiriman</b>
-                                </div>
-                                <div class="col-md-8 mb-3">
-                                    <small>
-                                        <code class="text-dark">
-                                            <i class="bi bi-info-circle"></i> Isi Form berikut ini apabila transaksi penjualan sudah dikirim
-                                        </code>
-                                    </small>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row mb-3">
                                         <div class="col-md-4">
-                                            <label for="no_resi">
-                                                <small>No.Resi</small>
+                                            <label for="metode_pengiriman">
+                                                <small>Metode Pengiriman</small>
                                             </label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" class="form-control" name="no_resi"  id="no_resi">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="kurir">
-                                                <small>Nama Kurir</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" name="kurir"  id="kurir" placeholder="Contoh: JNE, JNT, Tiki dll">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="datetime_pengiriman">
-                                                <small>Tanggal Pengiriman</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">
-                                                    <i class="bi bi-calendar-date"></i>
-                                                </span>
-                                                <input type="date" class="form-control" name="datetime_pengiriman"  id="datetime_pengiriman">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">
-                                                    <i class="bi bi-clock"></i>
-                                                </span>
-                                                <input type="time" class="form-control" name="time_pengiriman"  id="time_pengiriman">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="link_pengiriman">
-                                                <small>Link Pelacakan</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" name="link_pengiriman"  id="link_pengiriman" placeholder="https://">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4 mb-3">
-                                            <label for="asal_pengiriman">
-                                                <small>Asal Pengiriman</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-person-add"></i>
-                                                        </span>
-                                                        <input type="text" name="asal_pengiriman_nama" id="asal_pengiriman_nama" class="form-control" placeholder="Nama Pengirim" value="<?php echo "$nama_pengirim"; ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="asal_pengiriman_provinsi" id="asal_pengiriman_provinsi" class="form-control">
-                                                            <option value="">-Provinsi-</option>
-                                                            <?php
-                                                                $query = mysqli_query($Conn, "SELECT id_wilayah, propinsi FROM wilayah WHERE kategori='Propinsi'");
-                                                                while ($data = mysqli_fetch_array($query)) {
-                                                                    $id_wilayah= $data['id_wilayah'];
-                                                                    $propinsi= $data['propinsi'];
-                                                                    if($provinsi_pengirim==$propinsi){
-                                                                        echo '<option selected value="'.$propinsi.'">'.$propinsi.'</option>';
-                                                                    }else{
-                                                                        echo '<option value="'.$propinsi.'">'.$propinsi.'</option>';
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="asal_pengiriman_kabupaten" id="asal_pengiriman_kabupaten" class="form-control">
-                                                            <option value="">Kab/Kota</option>
-                                                            <?php
-                                                                if(!empty($provinsi_pengirim)){
-                                                                    $query = mysqli_query($Conn, "SELECT id_wilayah, kabupaten FROM wilayah WHERE kategori='Kabupaten' AND propinsi='$provinsi_pengirim'");
-                                                                        while ($data = mysqli_fetch_array($query)) {
-                                                                            $id_wilayah= $data['id_wilayah'];
-                                                                            $kabupaten= $data['kabupaten'];
-                                                                            if($kabupaten_pengirim==$kabupaten){
-                                                                                echo '<option selected value="'.$kabupaten.'">'.$kabupaten.'</option>';
-                                                                            }else{
-                                                                                echo '<option value="'.$kabupaten.'">'.$kabupaten.'</option>';
-                                                                            }
-                                                                        }
-                                                                }
-                                                                
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="asal_pengiriman_kecamatan" id="asal_pengiriman_kecamatan" class="form-control">
-                                                            <option value="">Kecamatan</option>
-                                                            <?php
-                                                                if(!empty($kabupaten_pengirim)){
-                                                                    $query = mysqli_query($Conn, "SELECT id_wilayah, kecamatan FROM wilayah WHERE kategori='Kecamatan' AND propinsi='$provinsi_pengirim' AND kabupaten='$kabupaten_pengirim'");
-                                                                    while ($data = mysqli_fetch_array($query)) {
-                                                                        $id_wilayah= $data['id_wilayah'];
-                                                                        $kecamatan= $data['kecamatan'];
-                                                                        if($kecamatan_pengirim==$kecamatan){
-                                                                            echo '<option selected value="'.$kecamatan.'">'.$kecamatan.'</option>';
-                                                                        }else{
-                                                                            echo '<option value="'.$kecamatan.'">'.$kecamatan.'</option>';
-                                                                        }
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="asal_pengiriman_desa" id="asal_pengiriman_desa" class="form-control">
-                                                            <option value="">Desa/Kelurahan</option>
-                                                            <?php
-                                                                if(!empty($kecamatan_pengirim)){
-                                                                    $query = mysqli_query($Conn, "SELECT id_wilayah, desa FROM wilayah WHERE kategori='desa' AND propinsi='$provinsi_pengirim' AND kabupaten='$kabupaten_pengirim' AND kecamatan='$kecamatan_pengirim'");
-                                                                    while ($data = mysqli_fetch_array($query)) {
-                                                                        $id_wilayah= $data['id_wilayah'];
-                                                                        $desa= $data['desa'];
-                                                                        if($desa_pengirim==$desa){
-                                                                            echo '<option selected value="'.$desa.'">'.$desa.'</option>';
-                                                                        }else{
-                                                                            echo '<option value="'.$desa.'">'.$desa.'</option>';
-                                                                        }
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-map"></i>
-                                                        </span>
-                                                        <input type="text" name="asal_pengiriman_rt_rw" id="asal_pengiriman_rt_rw" class="form-control" placeholder="Jalan, Nomor, RT/RW" value="<?php echo "$rt_rw_pengirim"; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <small class="credit">
-                                                                <i class="bi bi-signpost"></i>
-                                                            </small>
-                                                        </span>
-                                                        <input type="text" name="asal_pengiriman_kode_pos" id="asal_pengiriman_kode_pos" class="form-control" placeholder="Kode Pos" value="<?php echo "$kode_pos_pengirim"; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-phone"></i>
-                                                        </span>
-                                                        <input type="text" name="asal_pengiriman_kontak" id="asal_pengiriman_kontak" class="form-control" placeholder="Nomor Kontak (62)" value="<?php echo "$kontak_pengirim"; ?>">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="tujuan_pengiriman">
-                                                <small>Tujuan Pengiriman</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8" id="FormTujuanPengiriman">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-person-add"></i>
-                                                        </span>
-                                                        <input type="text" name="tujuan_pengiriman_nama" id="tujuan_pengiriman_nama" class="form-control" placeholder="Nama Penerima">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="tujuan_pengiriman_provinsi" id="tujuan_pengiriman_provinsi" class="form-control">
-                                                            <option value="">-Provinsi-</option>
-                                                            <?php
-                                                                $query = mysqli_query($Conn, "SELECT id_wilayah, propinsi FROM wilayah WHERE kategori='Propinsi'");
-                                                                while ($data = mysqli_fetch_array($query)) {
-                                                                    $id_wilayah= $data['id_wilayah'];
-                                                                    $propinsi= $data['propinsi'];
-                                                                    echo '<option value="'.$propinsi.'">'.$propinsi.'</option>';
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="tujuan_pengiriman_kabupaten" id="tujuan_pengiriman_kabupaten" class="form-control">
-                                                            <option value="">Kab/Kota</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="tujuan_pengiriman_kecamatan" id="tujuan_pengiriman_kecamatan" class="form-control">
-                                                            <option value="">Kecamatan</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-pin-map"></i>
-                                                        </span>
-                                                        <select name="tujuan_pengiriman_desa" id="tujuan_pengiriman_desa" class="form-control">
-                                                            <option value="">Desa/Kelurahan</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-map"></i>
-                                                        </span>
-                                                        <input type="text" name="tujuan_pengiriman_rt_rw" id="tujuan_pengiriman_rt_rw" class="form-control" placeholder="Jalan, Nomor, RT/RW">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-signpost"></i>
-                                                        </span>
-                                                        <input type="text" name="tujuan_pengiriman_kode_pos" id="tujuan_pengiriman_kode_pos" class="form-control" placeholder="Kode Pos">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="bi bi-phone"></i>
-                                                        </span>
-                                                        <input type="text" name="tujuan_pengiriman_kontak" id="tujuan_pengiriman_kontak" class="form-control" placeholder="Nomor Kontak (62)">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="ongkir">
-                                                <small>Ongkir (Rp)</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input type="number" min="0" class="form-control" name="ongkir"  id="ongkir" placeholder="Rp">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-4">
-                                            <label for="status_pengiriman">
-                                                <small>Status Pengiriman</small>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <select name="status_pengiriman" id="status_pengiriman" class="form-control">
-                                                <option value="Pending">Pending (Dalam proses pengemasan)</option>
-                                                <option value="Batal">Batal/Dikembalikan</option>
-                                                <option value="Proses">Proses/Sedang Dikirim</option>
-                                                <option value="Selesai">Sampai Tujuan (Selesai)</option>
+                                            <select name="metode_pengiriman" id="metode_pengiriman" class="form-control">
+                                                <option value="Dikirim">Dikirim</option>
+                                                <option value="Diambil">Diambil</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div id="form_uraian_pengiriman">
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="no_resi">
+                                                    <small>No.Resi</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="no_resi"  id="no_resi">
+                                                <small>
+                                                    <code class="text-dark">
+                                                        <i class="bi bi-info-circle"></i> Isi Form berikut ini apabila transaksi penjualan sudah dikirim
+                                                    </code>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="tanggal_pengiriman">
+                                                    <small>Tanggal/Jam Pengiriman</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-text text-grayish">
+                                                        <i class="bi bi-calendar-date"></i>
+                                                    </span>
+                                                    <input type="date" class="form-control" name="tanggal_pengiriman"  id="tanggal_pengiriman">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-text text-grayish">
+                                                        <i class="bi bi-clock"></i>
+                                                    </span>
+                                                    <input type="time" class="form-control" name="jam_pengiriman"  id="jam_pengiriman">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="link_pengiriman">
+                                                    <small>Link Pelacakan</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" name="link_pengiriman"  id="link_pengiriman" placeholder="https://">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="tujuan_pengiriman_nama">
+                                                    <small>Nama Penerima</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="tujuan_pengiriman_nama" id="tujuan_pengiriman_nama" class="form-control" placeholder="Nama Penerima">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="tujuan_pengiriman_kontak">
+                                                    <small>Kontak/HP</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="tujuan_pengiriman_kontak" id="tujuan_pengiriman_kontak" class="form-control" placeholder="Nomor Kontak (62)">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="alamat_pengiriman">
+                                                    <small>Alamat Pengiriman</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <span class="input-group-text text-primary" onclick="handleClick()" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#ModalCariAlamat">
+                                                        <i class="bi bi-search"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" name="alamat_pengiriman"  id="alamat_pengiriman">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="tujuan_pengiriman_rt_rw">
+                                                    <small>Alamat Selengkapnya</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="text" name="tujuan_pengiriman_rt_rw" id="tujuan_pengiriman_rt_rw" class="form-control" placeholder="Jalan, Nomor, RT/RW">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="kurir">
+                                                    <small>Nama Kurir</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="kurir" id="kurir" class="form-control">
+                                                    <option value="">Pilih</option>
+                                                    <option value="jne">JNE</option>
+                                                    <option value="sicepat">Sicepat</option>
+                                                    <option value="jnt">JNT</option>
+                                                    <option value="ninja">Ninja</option>
+                                                    <option value="tiki">Tiki</option>
+                                                    <option value="lion">Lion</option>
+                                                    <option value="wahana">Wahana</option>
+                                                    <option value="pos">POS</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="berat">
+                                                    <small>Berat (Kg)</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="number" min="0.00" step="0.01" name="berat" id="berat" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="ongkir">
+                                                    <small>Ongkir (Rp)</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <span class="input-group-text text-primary" onclick="handleClick()" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#ModalCariOngkir">
+                                                        <i class="bi bi-calculator"></i>
+                                                    </span>
+                                                    <input type="number" min="0" class="form-control" name="ongkir"  id="ongkir" placeholder="Rp">
+                                                    <input type="text" class="form-control" name="paket"  id="paket" placeholder="Paket Pengiriman">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-4">
+                                                <label for="status_pengiriman">
+                                                    <small>Status Pengiriman</small>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <select name="status_pengiriman" id="status_pengiriman" class="form-control">
+                                                    <option value="Pending">Pending (Dalam proses pengemasan)</option>
+                                                    <option value="Batal">Batal/Dikembalikan</option>
+                                                    <option value="Proses">Proses/Sedang Dikirim</option>
+                                                    <option value="Selesai">Sampai Tujuan (Selesai)</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

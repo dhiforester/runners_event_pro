@@ -1,3 +1,10 @@
 1. Tabel baru untuk mencatat API raja ongkir
 2. Menambah Routing Element
 3. Membuat folder fitur 'RajaOngkir'
+4. Penambahan kolom berat pada tabel 'transaksi_pengiriman'
+5. Menambah API service Raja Ongkir
+6. Menambah service API '_Apii/RajaOngkir/CariAlamat.php'
+7. Menambah service API '_Apii/RajaOngkir/CariOngkir.php'
+8. Menambah parameter 'berat' pada response service '_Apii/Merchandise/ListKeranjang.php'
+9. Menambahkan fitur/proses hitung ongkir pada halaman 'Keranjang'
+10. Memperbaharui Service API '_Apii/Merchandise/KirimPesanan.php'

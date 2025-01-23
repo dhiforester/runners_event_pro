@@ -99,10 +99,14 @@
                                                     $harga=GetDetailData($Conn,'barang','id_barang',$id_barang,'harga');
                                                     $stok=GetDetailData($Conn,'barang','id_barang',$id_barang,'stok');
                                                     $varian=GetDetailData($Conn,'barang','id_barang',$id_barang,'varian');
+                                                    $dimensi=GetDetailData($Conn,'barang','id_barang',$id_barang,'dimensi');
                                                     $harga_varian_fix=$harga;
                                                     $nama_varian_fix="";
                                                     //Ubah Data Json Ke Array
                                                     $varian_arry=json_decode($varian,true);
+                                                    $dimensi_arry=json_decode($dimensi,true);
+                                                    //Buka Berat
+                                                    $berat=$dimensi_arry['berat'];
                                                     //Buka Data Varian
                                                     $varian_data= [];
                                                     foreach($varian_arry as $varian_list){
@@ -156,6 +160,7 @@
                                                         "satuan" => $satuan,
                                                         "harga" => $harga,
                                                         "stok" => $stok,
+                                                        "berat" => $berat,
                                                         "varian" => $varian_data
                                                     ];
                                                     $list_keranjang[] = [

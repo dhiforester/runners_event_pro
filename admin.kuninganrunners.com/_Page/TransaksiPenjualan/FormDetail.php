@@ -56,6 +56,7 @@
                 $ppn_pph=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'ppn_pph');
                 $biaya_layanan=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'biaya_layanan');
                 $biaya_lainnya=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'biaya_lainnya');
+                $metode_pengiriman=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'pengiriman');
                 $potongan_lainnya=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'potongan_lainnya');
                 $status=GetDetailData($Conn,'transaksi','kode_transaksi',$kode_transaksi,'status');
                 //Buka Data Member
@@ -345,7 +346,14 @@
                                     }else{
                                         $qry_pengiriman = mysqli_query($Conn, "SELECT*FROM transaksi_pengiriman WHERE kode_transaksi='$kode_transaksi'");
                                         while ($data_pengiriman = mysqli_fetch_array($qry_pengiriman)) {
-                                            $no_resi= $data_pengiriman['no_resi'];
+                                            if(empty($data_pengiriman['no_resi'])){
+                                                $no_resi="Tidak Ada";
+                                                $label_resi='<code>'.$no_resi.'</code>';
+                                            }else{
+                                                $no_resi= $data_pengiriman['no_resi'];
+                                                $label_resi='<code class="text-dark">'.$no_resi.'</code>';
+                                            }
+                                            
                                             $kurir= $data_pengiriman['kurir'];
                                             $status_pengiriman= $data_pengiriman['status_pengiriman'];
                                             $datetime_pengiriman= $data_pengiriman['datetime_pengiriman'];
@@ -354,46 +362,66 @@
                                             $ongkir_format='Rp ' . number_format($ongkir, 0, ',', '.');
                                             echo '<div class="row mb-3 border-1 border-bottom">';
                                             echo '  <div class="col col-md-12 mb-3">';
-                                            echo '      <div class="row mb-3">';
-                                            echo '          <div class="col col-md-6 mb-3">';
-                                            echo '              <small><code class="text-dark">No.Resi</code></small>';
-                                            echo '          </div>';
-                                            echo '          <div class="col col-md-6 mb-3 text-end">';
-                                            echo '              <small><code class="text text-grayish">'.$no_resi.'</code></small>';
-                                            echo '          </div>';
-                                            echo '      </div>';
-                                            echo '      <div class="row mb-3">';
-                                            echo '          <div class="col col-md-6 mb-3">';
-                                            echo '              <small><code class="text-dark">Kurir</code></small>';
-                                            echo '          </div>';
-                                            echo '          <div class="col col-md-6 mb-3 text-end">';
-                                            echo '              <small><code class="text text-grayish">'.$kurir.'</code></small>';
-                                            echo '          </div>';
-                                            echo '      </div>';
-                                            echo '      <div class="row mb-3">';
-                                            echo '          <div class="col col-md-6 mb-3">';
-                                            echo '              <small><code class="text-dark">Datetime</code></small>';
-                                            echo '          </div>';
-                                            echo '          <div class="col col-md-6 mb-3 text-end">';
-                                            echo '              <small><code class="text text-grayish">'.$datetime_pengiriman.'</code></small>';
-                                            echo '          </div>';
-                                            echo '      </div>';
-                                            echo '      <div class="row mb-3">';
-                                            echo '          <div class="col col-md-6 mb-3">';
-                                            echo '              <small><code class="text-dark">Tarif Ongkir</code></small>';
-                                            echo '          </div>';
-                                            echo '          <div class="col col-md-6 mb-3 text-end">';
-                                            echo '              <small><code class="text text-grayish">'.$ongkir_format.'</code></small>';
-                                            echo '          </div>';
-                                            echo '      </div>';
-                                            echo '      <div class="row mb-3">';
-                                            echo '          <div class="col col-md-6 mb-3">';
-                                            echo '              <small><code class="text-dark">Status</code></small>';
-                                            echo '          </div>';
-                                            echo '          <div class="col col-md-6 mb-3 text-end">';
-                                            echo '              <small><code class="text text-grayish">'.$status.'</code></small>';
-                                            echo '          </div>';
-                                            echo '      </div>';
+                                            if($metode_pengiriman=="Diambil"){
+                                                echo '
+                                                    <div class="row mb-2">
+                                                        <div class="col col-md-12 mb-3">
+                                                            <div class="alert alert-primary">
+                                                                <small>Pelanggan memilih untuk mengambil barang secara mandiri.</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ';
+                                            }else{
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6 mb-2">';
+                                                echo '              <small><code class="text-dark">Metode</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small><code class="text-info">'.$metode_pengiriman.'</code></small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6 mb-2">';
+                                                echo '              <small><code class="text-dark">No.Resi</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small>'.$label_resi.'</small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6 mb-2">';
+                                                echo '              <small><code class="text-dark">Kurir</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small><code class="text text-grayish">'.$kurir.'</code></small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6 mb-2">';
+                                                echo '              <small><code class="text-dark">Datetime</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small><code class="text text-grayish">'.$datetime_pengiriman.'</code></small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6 mb-2">';
+                                                echo '              <small><code class="text-dark">Tarif Ongkir</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small><code class="text text-grayish">'.$ongkir_format.'</code></small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                                echo '      <div class="row mb-2">';
+                                                echo '          <div class="col col-md-6mb-2">';
+                                                echo '              <small><code class="text-dark">Pengiriman</code></small>';
+                                                echo '          </div>';
+                                                echo '          <div class="col col-md-6 mb-2 text-end">';
+                                                echo '              <small><code class="text text-grayish">'.$status_pengiriman.'</code></small>';
+                                                echo '          </div>';
+                                                echo '      </div>';
+                                            }
                                             echo '  </div>';
                                             echo '</div>';
                                         }

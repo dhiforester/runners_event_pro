@@ -663,3 +663,70 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalCariAlamat" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-search"></i> Cari Alamat
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="javascript:void(0);" id="ProsesCariAlamat">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" name="keyword_alamat" class="form-control" placeholder="Desa/Kelurahan">
+                                <button type="submit" class="btn btn-md btn-grayish">
+                                    <i class="bi bi-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-12" id="HasilPencarianAlamat">
+                        <!-- Hasill Pencarian Akan Muncul Disini -->
+                        <div class="alert alert-danger text-center">
+                            Belum Ada Hasil Pencarian
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalCariOngkir" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">
+                    <i class="bi bi-search"></i> Cari Ongkir
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="HasilPencarianOngkir">
+                        <!-- Hasill Pencarian Akan Muncul Disini -->
+                        <div class="alert alert-danger text-center">
+                            Belum Ada Hasil Pencarian
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-rounded" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

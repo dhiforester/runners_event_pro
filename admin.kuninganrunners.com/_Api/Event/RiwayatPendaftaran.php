@@ -83,7 +83,7 @@
                                             $keterangan = "Anda Belum Memiliki Riwayat Ikut Serta Dalam Event Apapun";
                                         }else{
                                             // Persiapkan Query untuk Mengambil Data Event
-                                            $QryEvent = $Conn->prepare("SELECT * FROM event_peserta WHERE id_member = ? ORDER BY id_event_peserta DESC");
+                                            $QryEvent = $Conn->prepare("SELECT * FROM event_peserta WHERE id_member = ? ORDER BY datetime DESC");
                                             $QryEvent->bind_param("s", $id_member);
                                             $QryEvent->execute();
                                             $resultEvent = $QryEvent->get_result();

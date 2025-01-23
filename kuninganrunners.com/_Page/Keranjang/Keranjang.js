@@ -1,20 +1,25 @@
-$(document).ready(function () {
-    function calculateSubtotal() {
-        var ProsesTambahTransaksi=$('#ProsesTambahTransaksi').serialize();
-        $.ajax({
-            type    : 'POST',
-            url     : '_Page/Keranjang/ProsesHitungSubtotal.php',
-            data    : ProsesTambahTransaksi,
-            success: function(data) {
-                $('#Subtotal').html(data);
-            }
-        });
-    }
-
-    $('input[name="item_keranjang[]"]').on('change', function () {
-        calculateSubtotal();
+function calculateSubtotal() {
+    var ProsesTambahTransaksi=$('#ProsesTambahTransaksi').serialize();
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Keranjang/ProsesHitungSubtotal.php',
+        data    : ProsesTambahTransaksi,
+        success: function(data) {
+            $('#Subtotal').html(data);
+        }
     });
-});
+}
+function ProsesHitungOngkir() {
+    var ProsesTambahTransaksi=$('#ProsesTambahTransaksi').serialize();
+    $.ajax({
+        type    : 'POST',
+        url     : '_Page/Keranjang/ProsesHitungOngkir.php',
+        data    : ProsesTambahTransaksi,
+        success: function(data) {
+            $('#list_paket').html(data);
+        }
+    });
+}
 function ShowAlamatFirstTime(id_propinsi,kabupaten_member,kecamatan_member,desa_member) {
     $.ajax({
         type    : 'POST',
@@ -47,6 +52,45 @@ function ShowAlamatFirstTime(id_propinsi,kabupaten_member,kecamatan_member,desa_
     });
 }
 $(document).ready(function () {
+    //Ketika Item Keranjang Dipilih
+    $('input[name="item_keranjang[]"]').on('change', function () {
+        calculateSubtotal();
+        ProsesHitungOngkir();
+    });
+
+    // Event listener untuk perubahan pada select metode_pengiriman
+    $('#metode_pengiriman').change(function() {
+        var metode = $(this).val(); // Ambil nilai dari select
+        if (metode === 'Dikirim') {
+            // Tampilkan alamat_pengiriman jika metode adalah "Dikirim"
+            $('#form_alamat_pengiriman').slideDown();
+        } else {
+            // Sembunyikan alamat_pengiriman jika metode adalah "Diambil"
+            $('#form_alamat_pengiriman').slideUp();
+        }
+    });
+
+    //Ketika Kurir Di Pilih
+    $('#kurir').change(function() {
+        ProsesHitungOngkir();
+    });
+    
+    //Ketika Pencarian alamat dimulai
+    $('#ProsesCariAlamat').on('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#list_alamat').html('Loading...');
+        $.ajax({
+            url             : '_Page/Keranjang/ProsesCariAlamat.php',
+            type            : 'POST',
+            data            : formData,
+            contentType     : false,
+            processData     : false,
+            success: function (response) {
+                $('#list_alamat').html(response);
+            }
+        });
+    });
     //Menampilkan kabupaten_pengiriman Pertama kali
     var id_propinsi=$('#provinsi_pengiriman').val();
     var kabupaten_member=$('#PutKabupatenMember').val();

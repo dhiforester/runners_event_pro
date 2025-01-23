@@ -140,7 +140,7 @@
                         if (curl_errno($curl)) {
                             $error_msg = curl_error($curl);
                             $message =$error_msg;
-                            $code =201; 
+                            $code =205; 
                         }else{
                             if (empty($response)) {
                                 $message ="Tidak Ada Response Apapun";

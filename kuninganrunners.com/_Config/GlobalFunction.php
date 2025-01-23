@@ -879,4 +879,54 @@
         curl_close($curl);
         return $response;
     }
+    function CariAlamat($url_server,$xtoken,$keyword){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/RajaOngkir/CariAlamat.php?keyword='.$keyword.'',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+    //Hitung Ongkir
+    function HitungOngkiir($url_server,$xtoken,$id_member_login,$id_destination,$kurir,$berat){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => ''.$url_server.'/_Api/RajaOngkir/CariOngkir.php',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>'{
+            "id_member_login" : "'.$id_member_login.'",
+            "id_destination" : "'.$id_destination.'",
+            "kurir" : "'.$kurir.'",
+            "berat" : "'.$berat.'"
+        }',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'x-token: '.$xtoken.''
+        ),
+        ));
+        $response = curl_exec($curl);
+        $curl_error = curl_error($curl);
+        if ($curl_error) {
+            $response=$curl_error;
+        }
+        curl_close($curl);
+        return $response;
+    }
 ?>

@@ -171,6 +171,12 @@
                                                                 //Buka Detail Barang
                                                                 $nama_barang=$detail_barang['nama_barang'];
                                                                 $satuan=$detail_barang['satuan'];
+                                                                if(empty($detail_barang['berat'])){
+                                                                    $berat=0;
+                                                                }else{
+                                                                    $berat=$detail_barang['berat'];
+                                                                }
+                                                                
                                                                 //Menghitung Jumlah
                                                                 $subtotal=$harga_fix*$qty;
                                                                 //Format rupiah
@@ -185,7 +191,7 @@
                                                             <div class="row mb-3 border-1 border-bottom">
                                                                 <div class="col col-md-6">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" id="<?php echo "Check-$no"; ?>" name="item_keranjang[]" value="<?php echo "$id_transaksi_keranjang|$id_barang|$harga_fix|$qty|$subtotal"; ?>">
+                                                                        <input class="form-check-input" type="checkbox" id="<?php echo "Check-$no"; ?>" name="item_keranjang[]" value="<?php echo "$id_transaksi_keranjang|$id_barang|$harga_fix|$qty|$subtotal|$berat"; ?>">
                                                                         <label class="form-check-label" for="<?php echo "Check-$no"; ?>">
                                                                             <small class="mobile-text">
                                                                                 <?php 
@@ -268,91 +274,72 @@
                                                         </div>
                                                         <div class="row mb-3">
                                                             <div class="col-md-3">
-                                                                <label for="provinsi_pengiriman">
-                                                                    <small>Provinsi</small>
+                                                                <label for="metode_pengiriman">
+                                                                    <small>Metode</small>
                                                                 </label>
                                                             </div>
                                                             <div class="col-md-9">
-                                                                <select name="provinsi" id="provinsi_pengiriman" class="form-control">
-                                                                    <option value="">Pilih</option>
-                                                                    <?php
-                                                                        $ListProvinsi=ListProvinsi($url_server,$xtoken);
-                                                                        $array_provinsi= json_decode($ListProvinsi, true);
-                                                                        if($array_provinsi['response']['code']==200) {
-                                                                            if(!empty($array_provinsi['metadata'])){
-                                                                                $provinsi = $array_provinsi['metadata'];
-                                                                                foreach($provinsi as $list_provinsi){
-                                                                                    $id_propinsi=$list_provinsi['id_propinsi'];
-                                                                                    $propinsi=$list_provinsi['propinsi'];
-                                                                                    if($provinsi_member==$propinsi){
-                                                                                        echo '<option selected value="'.$id_propinsi.'">'.$propinsi.'</option>';
-                                                                                    }else{
-                                                                                        echo '<option value="'.$id_propinsi.'">'.$propinsi.'</option>';
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    ?>
+                                                                <select id="metode_pengiriman" name="metode_pengiriman" class="form-control">
+                                                                    <option value="Dikirim">Dikirim/Paket</option>
+                                                                    <option value="Diambil">Diambil Ke Toko</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="kabupaten_pengiriman">
-                                                                    <small>Kab/Kota</small>
-                                                                </label>
+                                                        <div id="form_alamat_pengiriman">
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="alamt_pengiriman">
+                                                                        <small>Alamat Pengiriman</small>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <input type="text" readonly name="alamt_pengiriman" id="alamt_pengiriman" class="form-control" data-bs-toggle="modal" data-bs-target="#ModalCariAlamat">
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-9">
-                                                                <select name="kabupaten" id="kabupaten_pengiriman" class="form-control">
-                                                                    <option value="">Pilih</option>
-                                                                </select>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="kurir">
+                                                                        <small>Kurir</small>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <select name="kurir" id="kurir" class="form-control">
+                                                                        <option value="">Pilih</option>
+                                                                        <option value="jne">JNE</option>
+                                                                        <option value="sicepat">Sicepat</option>
+                                                                        <option value="jnt">JNT</option>
+                                                                        <option value="ninja">Ninja</option>
+                                                                        <option value="tiki">Tiki</option>
+                                                                        <option value="lion">Lion</option>
+                                                                        <option value="wahana">Wahana</option>
+                                                                        <option value="pos">POS</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="kecamatan_pengiriman">
-                                                                    <small>Kecamatan</small>
-                                                                </label>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="rt_rw">
+                                                                        <small>Jalan/RT/RW</small>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <textarea name="rt_rw" id="rt_rw" class="form-control"><?php echo $rt_rw_member; ?></textarea>
+                                                                    <small>
+                                                                        <code class="text text-grayish">
+                                                                            Nomor Rumah, Jalan/Gang, RT/RW
+                                                                        </code>
+                                                                    </small>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-9">
-                                                                <select name="kecamatan" id="kecamatan_pengiriman" class="form-control">
-                                                                    <option value="">Pilih</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="desa_pengiriman"><small>Desa/Kel</small></label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <select name="desa" id="desa_pengiriman" class="form-control">
-                                                                    <option value="">Pilih</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="rt_rw">
-                                                                    <small>Alamat</small>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <textarea name="rt_rw" id="rt_rw" class="form-control"><?php echo $rt_rw_member; ?></textarea>
-                                                                <small>
-                                                                    <code class="text text-grayish">
-                                                                        Nomor Rumah, Jalan/Gang, RT/RW
-                                                                    </code>
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="">
-                                                                    <small>Kode Pos</small>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                <input type="text" name="kode_pos" id="kode_pos" class="form-control" value="<?php echo $kode_pos_member; ?>">
+                                                            <div id="list_paket">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-12">
+                                                                        <!-- Option list Paket Akan Muncul Disini -->
+                                                                        <div class="alert alert-danger">
+                                                                            <small>Belum ada informasi tarif ongkir yang ditampilkan</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -370,7 +357,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <button type="submit" class="button_pendaftaran" id="ButtonTambahTransaksi">
-                                                                    <i class="bi bi-send"></i> Kirim Pesanan
+                                                                    Lanjutkan <i class="bi bi-chevron-right"></i>
                                                                 </button>
                                                             </div>
                                                         </div>

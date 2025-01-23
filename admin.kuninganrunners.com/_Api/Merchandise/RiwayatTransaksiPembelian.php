@@ -100,7 +100,7 @@
                                                 $no_resi=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'no_resi');
                                                 $kurir=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'kurir');
                                                 $status_pengiriman=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'status_pengiriman');
-                                                $datetime_pengiriman=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime');
+                                                $datetime_pengiriman=GetDetailData($Conn, 'transaksi_pengiriman', 'kode_transaksi', $kode_transaksi, 'datetime_pengiriman');
                                                 $transaksi_pengiriman= [
                                                     "no_resi" => $no_resi,
                                                     "kurir" => $kurir,
@@ -129,7 +129,7 @@
                                                 $keterangan = "Gagal Menyimpan Log Service";
                                                 $code = 201;
                                             } else {
-                                                $keterangan = "success";
+                                                $keterangan = "Success";
                                                 $code = 200;
                                             }
                                         }

@@ -113,14 +113,20 @@
                                                             if(empty($biaya_pendaftaran)){
                                                                 $biaya_pendaftaran=0;
                                                             }
-                                                            $status="Pending";
+                                                            if($biaya_pendaftaran=="0"){
+                                                                $status="Lunas";
+                                                            }else{
+                                                                $status="Pending";
+                                                            } 
                                                             $id_event_peserta=GenerateToken(36);
+                                                            
                                                             //Validasi Duplikat Data
                                                             $ValidasiDuplikat = mysqli_num_rows(mysqli_query($Conn, "SELECT id_event_peserta FROM event_peserta WHERE id_event='$id_event' AND id_member='$id_member'"));
                                                             if(!empty($ValidasiDuplikat)){
                                                                 $keterangan="Member Tersebut Sudah Terdaftar Sebelumnya Pada Event Yang Sama";
                                                             }else{
-                                                                // Insert data ke database
+                                                                $keterangan="Proses Tambah event_peserta";
+                                                                // Insert data ke database 'event_peserta'
                                                                 $query = "INSERT INTO event_peserta (
                                                                     id_event_peserta, 
                                                                     id_event, 
@@ -147,25 +153,159 @@
                                                                     $status
                                                                 );
                                                                 if ($stmt->execute()) {
-                                                                    $metadata= [
-                                                                        "id_event_peserta" => $id_event_peserta,
-                                                                        "id_event" => $id_event,
-                                                                        "id_event_kategori" => $id_event_kategori,
-                                                                        "id_member" => $id_member,
+                                                                    
+                                                                    //Persiapan Untuk Input Data Transaksi
+                                                                    $kategori_transaksi="Pendaftaran";
+                                                                    $kontak=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kontak');
+                                                                    $kode_transaksi=GenerateToken(36);
+                                                                     //Pisahkan Nama
+                                                                    $parts = explode(" ", $nama);
+                                                                    $first_name = $parts[0];
+                                                                    $last_name = isset($parts[1]) ? $parts[1] : '';
+                                                                     //Buka Alamat
+                                                                    $provinsi=GetDetailData($Conn, 'member', 'id_member', $id_member, 'provinsi');
+                                                                    $kabupaten=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kabupaten');
+                                                                    $kecamatan=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kecamatan');
+                                                                    $desa=GetDetailData($Conn, 'member', 'id_member', $id_member, 'desa');
+                                                                    $kode_pos=GetDetailData($Conn, 'member', 'id_member', $id_member, 'kode_pos');
+                                                                    $rt_rw=GetDetailData($Conn, 'member', 'id_member', $id_member, 'rt_rw');
+                                                                    //Buat Raw Member
+                                                                    $raw_member = [
                                                                         "nama" => $nama,
                                                                         "email" => $email,
-                                                                        "biaya_pendaftaran" => $biaya_pendaftaran,
-                                                                        "datetime" => $now,
-                                                                        "status" => $status
+                                                                        "kontak" => $kontak,
+                                                                        "id_member" => $id_member,
+                                                                        "last_name" => $last_name,
+                                                                        "first_name" => $first_name,
+                                                                        "provinsi" => $provinsi,
+                                                                        "kabupaten" => $kabupaten,
+                                                                        "kecamatan" => $kecamatan,
+                                                                        "desa" => $desa,
+                                                                        "kode_pos" => $kode_pos,
+                                                                        "rt_rw" => $rt_rw,
                                                                     ];
-                                                                    //menyimpan Log
-                                                                    $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
-                                                                    if ($SimpanLog !== "Success") {
-                                                                        $keterangan = "Gagal Menyimpan Log Service";
-                                                                        $code = 201;
-                                                                    } else {
-                                                                        $keterangan = "success";
-                                                                        $code = 200;
+                                                                    $raw_member=json_encode($raw_member);
+                                                                    
+                                                                    //Atur Ongkir PPN dan Biaya lain-lain
+                                                                    $ongkir=0;
+                                                                    
+                                                                    //Buka Pengaturan transaksi
+                                                                    $ppn_pph_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','ppn_pph');
+                                                                    $biaya_layanan_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','biaya_layanan');
+                                                                    $potongan_lainnya_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','potongan_lainnya');
+                                                                    $biaya_lainnya_pendaftaran=GetDetailData($Conn,'setting_transaksi','kategori ','Pendaftaran','biaya_lainnya');
+                                                                    if(empty($biaya_layanan_pendaftaran)){
+                                                                        $biaya_layanan_pendaftaran=0;
+                                                                    }
+                                                                    //Hitung PPN dari 'biaya_pendaftaran'
+                                                                    if(!empty($ppn_pph_pendaftaran)){
+                                                                        if(empty($biaya_pendaftaran)){
+                                                                            $ppn_pph_rp=0;
+                                                                        }else{
+                                                                            $ppn_pph_rp=$biaya_pendaftaran*($ppn_pph_pendaftaran/100);
+                                                                            $ppn_pph_rp=round($ppn_pph_rp);
+                                                                        }
+                                                                    }else{
+                                                                        $ppn_pph_rp=0;
+                                                                    }
+                                                                
+                                                                    //Menghitung Potongan Lainnya
+                                                                    if(!empty($potongan_lainnya_pendaftaran)){
+                                                                        $potongan_lainnya_rp=0;
+                                                                        $potongan_lainnya_pendaftaran_arry=json_decode($potongan_lainnya_pendaftaran, true);
+                                                                        if(empty(count( $potongan_lainnya_pendaftaran_arry))){
+                                                                            $potongan_lainnya_rp=0;
+                                                                        }else{
+                                                                            foreach ($potongan_lainnya_pendaftaran_arry as $potongan_lainnya_pendaftaran_list) {
+                                                                                $nominal_potongan=$potongan_lainnya_pendaftaran_list['nominal_potongan'];
+                                                                                $potongan_lainnya_rp=$potongan_lainnya_rp+$nominal_potongan;
+                                                                            }
+                                                                        }
+                                                                    }else{
+                                                                        $potongan_lainnya_rp=0;
+                                                                    }
+                                                                    //Menghitung Biaya Lainnya
+                                                                    if(!empty($biaya_lainnya_pendaftaran)){
+                                                                        $biaya_lainnya_rp=0;
+                                                                        $biaya_lainnya_pendaftaran_arry=json_decode($biaya_lainnya_pendaftaran, true);
+                                                                        if(empty(count($biaya_lainnya_pendaftaran_arry))){
+                                                                            $biaya_lainnya_rp=0;
+                                                                        }else{
+                                                                            foreach ($biaya_lainnya_pendaftaran_arry as $biaya_lainnya_pendaftaran_list) {
+                                                                                $nominal_biaya=$biaya_lainnya_pendaftaran_list['nominal_biaya'];
+                                                                                $biaya_lainnya_rp=$biaya_lainnya_rp+$nominal_biaya;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                    }else{
+                                                                        $biaya_lainnya_rp=0;
+                                                                    }
+
+                                                                    //Menghitung Subtotal
+                                                                    $subtotal=($biaya_pendaftaran+$ppn_pph_rp+$biaya_layanan_pendaftaran+$biaya_lainnya_rp)-$potongan_lainnya_rp;
+                                                                    $pengiriman="";
+                                                                    
+                                                                    //Simpan Transaksi
+                                                                    $query_transaksi = "INSERT INTO transaksi (
+                                                                        kode_transaksi, 
+                                                                        id_member, 
+                                                                        raw_member, 
+                                                                        kategori, 
+                                                                        datetime,
+                                                                        tagihan, 
+                                                                        ongkir, 
+                                                                        ppn_pph, 
+                                                                        biaya_layanan, 
+                                                                        biaya_lainnya, 
+                                                                        potongan_lainnya, 
+                                                                        jumlah,
+                                                                        pengiriman,
+                                                                        status
+                                                                    ) 
+                                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                                                    $stmt_transaksi = $Conn->prepare($query_transaksi);
+                                                                    $stmt_transaksi->bind_param(
+                                                                        "ssssssssssssss", 
+                                                                        $id_event_peserta, 
+                                                                        $id_member, 
+                                                                        $raw_member, 
+                                                                        $kategori_transaksi, 
+                                                                        $now, 
+                                                                        $biaya_pendaftaran, 
+                                                                        $ongkir, 
+                                                                        $ppn_pph_rp, 
+                                                                        $biaya_layanan_pendaftaran, 
+                                                                        $biaya_lainnya_pendaftaran, 
+                                                                        $potongan_lainnya_pendaftaran, 
+                                                                        $subtotal, 
+                                                                        $pengiriman, 
+                                                                        $status
+                                                                    );
+                                                                    if ($stmt_transaksi->execute()) {
+                                                                        $metadata= [
+                                                                            "id_event_peserta" => $id_event_peserta,
+                                                                            "id_event" => $id_event,
+                                                                            "id_event_kategori" => $id_event_kategori,
+                                                                            "id_member" => $id_member,
+                                                                            "nama" => $nama,
+                                                                            "email" => $email,
+                                                                            "biaya_pendaftaran" => $biaya_pendaftaran,
+                                                                            "datetime" => $now,
+                                                                            "status" => $status
+                                                                        ];
+                                                                        //menyimpan Log
+                                                                        $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
+                                                                        if ($SimpanLog !== "Success") {
+                                                                            $keterangan = "Gagal Menyimpan Log Service";
+                                                                            $code = 201;
+                                                                        } else {
+                                                                            $keterangan = "success";
+                                                                            $code = 200;
+                                                                        }
+                                                                    }else{
+                                                                        //Apabila gagal menyimpan transaksi maka hapus juga data 'event_peserta'
+                                                                        $HapusPendaftaran = mysqli_query($Conn, "DELETE FROM event_peserta WHERE id_event_peserta='$id_event_peserta'") or die(mysqli_error($Conn));
+                                                                        $keterangan = "Terjadi kesalahan saat menyimpan data pembayaran ke database";
                                                                     }
                                                                 } else {
                                                                     $keterangan = "Terjadi kesalahan saat menyimpan ke database";

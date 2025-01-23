@@ -118,6 +118,7 @@
                                 $biaya_lainnya=$metadata['biaya_lainnya'];
                                 $potongan_lainnya=$metadata['potongan_lainnya'];
                                 $jumlah=$metadata['jumlah'];
+                                $pengiriman=$metadata['pengiriman'];
                                 $status=$metadata['status'];
                                 $transaksi_rincian=$metadata['transaksi_rincian'];
                                 $transaksi_payment=$metadata['transaksi_payment'];
@@ -141,6 +142,12 @@
                                         $no_resi="Tidak Ada";
                                     }else{
                                         $no_resi=$transaksi_pengiriman['no_resi'];
+                                    }
+                                    if(!empty($transaksi_pengiriman['tujuan_pengiriman'])){
+                                        $tujuan_pengiriman=$transaksi_pengiriman['tujuan_pengiriman'];
+                                        $metode_pengiriman=$tujuan_pengiriman['metode_pengiriman'];
+                                    }else{
+                                        $metode_pengiriman="";
                                     }
                                 }else{
                                     $no_resi="Tidak Ada";
@@ -224,6 +231,23 @@
                                                         <small class="mobile-text">
                                                             <code class="text text-grayish">
                                                                 <?php echo "$LabelStatus"; ?>
+                                                            </code>
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div class="col col-md-4">
+                                                        <small class="mobile-text">Metode Pengiriman</small>
+                                                    </div>
+                                                    <div class="col col-md-8">
+                                                        <small class="mobile-text">
+                                                            <code class="text text-grayish">
+                                                                <?php 
+                                                                    echo "$pengiriman"; 
+                                                                    if($metode_pengiriman=="Diambil"){
+                                                                        echo "<br>(Alamat Toko : $kontak_alamat)";
+                                                                    }
+                                                                ?>
                                                             </code>
                                                         </small>
                                                     </div>
@@ -420,161 +444,136 @@
                                     </div>
                                 </div>
                                 <!-- Menampilkan Informasi Pengiriman -->
-                                <div class="box_custome">
-                                    <div class="box_custome_content">
-                                        <div class="row">
-                                            <div class="col-md-12 mb-3">
-                                                <b>
-                                                    <i class="bi bi-truck"></i> Informasi Pengiriman
-                                                </b>
+                                <?php
+                                    if(empty($transaksi_pengiriman)){
+                                        echo '
+                                            <div class="box_custome">
+                                                <div class="box_custome_content">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mb-3">
+                                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                                <small class="mobile-text">
+                                                                    Belum ada informasi pengiriman untuk transaksi ini
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <?php
-                                            if(empty($transaksi_pengiriman)){
-                                                echo '<div class="row mb-2">';
-                                                echo '  <div class="col col-md-12">';
-                                                echo '      <small class="mobile-text">';
-                                                echo '          <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                                                echo '              <small class="mobile-text">';
-                                                echo '                  Belum ada informasi pengiriman untuk transaksi ini.';
-                                                echo '              </small>';
-                                                echo '          </div>';
-                                                echo '      </small>';
-                                                echo '  </div>';
-                                                echo '</div>';
+                                        ';
+                                    }else{
+                                        $no_resi=$transaksi_pengiriman['no_resi'];
+                                        $kurir=$transaksi_pengiriman['kurir'];
+                                        $asal_pengiriman=$transaksi_pengiriman['asal_pengiriman'];
+                                        $tujuan_pengiriman=$transaksi_pengiriman['tujuan_pengiriman'];
+                                        $status_pengiriman=$transaksi_pengiriman['status_pengiriman'];
+                                        $datetime_pengiriman=$transaksi_pengiriman['datetime_pengiriman'];
+                                        $link_pengiriman=$transaksi_pengiriman['link_pengiriman'];
+                                        //Format Tanggal
+                                        $datetime_pengiriman=date('d/m/Y H:i T',strtotime($datetime_pengiriman));
+                                        //Inisiasi status Pengiriman
+                                        if($status_pengiriman=="Pending"){
+                                            $LabelStatusPengiriman='<code class="text text-dark">Belum Dikirim</code>';
+                                        }else{
+                                            if($status=="Proses"){
+                                                $LabelStatusPengiriman='<code class="text text-warning">Dalam Perjalanan</code>';
                                             }else{
-                                                $no_resi=$transaksi_pengiriman['no_resi'];
-                                                $kurir=$transaksi_pengiriman['kurir'];
-                                                $asal_pengiriman=$transaksi_pengiriman['asal_pengiriman'];
-                                                $tujuan_pengiriman=$transaksi_pengiriman['tujuan_pengiriman'];
-                                                $status_pengiriman=$transaksi_pengiriman['status_pengiriman'];
-                                                $datetime_pengiriman=$transaksi_pengiriman['datetime_pengiriman'];
-                                                $link_pengiriman=$transaksi_pengiriman['link_pengiriman'];
-                                                //Format Tanggal
-                                                $datetime_pengiriman=date('d/m/Y H:i T',strtotime($datetime_pengiriman));
-                                                //Inisiasi status Pengiriman
-                                                if($status_pengiriman=="Pending"){
-                                                    $LabelStatusPengiriman='<code class="text text-dark">Belum Dikirim</code>';
+                                                if($status=="Selesai"){
+                                                    $LabelStatusPengiriman='<code class="text text-success">Sampai Tujuan</code>';
                                                 }else{
-                                                    if($status=="Proses"){
-                                                        $LabelStatusPengiriman='<code class="text text-warning">Dalam Perjalanan</code>';
+                                                    if($status=="Batal"){
+                                                        $LabelStatusPengiriman='<code class="text text-danger">Batal/Dikembalikan</code>';
                                                     }else{
-                                                        if($status=="Selesai"){
-                                                            $LabelStatusPengiriman='<code class="text text-success">Sampai Tujuan</code>';
-                                                        }else{
-                                                            if($status=="Batal"){
-                                                                $LabelStatusPengiriman='<code class="text text-danger">Batal/Dikembalikan</code>';
-                                                            }else{
-                                                                $LabelStatusPengiriman='<code class="text text-grayish">None</code>';
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                //Buka Asal Pengiriman
-                                                $asal_pengiriman_provinsi=$asal_pengiriman['provinsi'];
-                                                $asal_pengiriman_kabupaten=$asal_pengiriman['kabupaten'];
-                                                $asal_pengiriman_kecamatan=$asal_pengiriman['kecamatan'];
-                                                $asal_pengiriman_desa=$asal_pengiriman['desa'];
-                                                $asal_pengiriman_rt_rw=$asal_pengiriman['rt_rw'];
-                                                $asal_pengiriman_kode_pos=$asal_pengiriman['kode_pos'];
-                                                $asal_pengiriman_kontak=$asal_pengiriman['kontak'];
-                                                $asal_pengiriman_nama=$asal_pengiriman['nama'];
-                                                //Buka Tujuan Pengiriman
-                                                $tujuan_pengiriman_provinsi=$tujuan_pengiriman['provinsi'];
-                                                $tujuan_pengiriman_kabupaten=$tujuan_pengiriman['kabupaten'];
-                                                $tujuan_pengiriman_kecamatan=$tujuan_pengiriman['kecamatan'];
-                                                $tujuan_pengiriman_desa=$tujuan_pengiriman['desa'];
-                                                $tujuan_pengiriman_rt_rw=$tujuan_pengiriman['rt_rw'];
-                                                $tujuan_pengiriman_kode_pos=$tujuan_pengiriman['kode_pos'];
-                                                $tujuan_pengiriman_kontak=$tujuan_pengiriman['kontak'];
-                                                $tujuan_pengiriman_nama=$tujuan_pengiriman['nama'];
-
-                                                //Menampilkan Informasi Pengiriman
-                                                if(empty($no_resi)){
-                                                    echo '<div class="row mb-2">';
-                                                    echo '  <div class="col col-md-12">';
-                                                    echo '      <small class="mobile-text">';
-                                                    echo '          <div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                                                    echo '              <small class="mobile-text">';
-                                                    echo '                  Belum ada pengiriman untuk transaksi ini.<br>';
-                                                    echo '                  Informasi pengiriman akan muncul setelah kami melakukan pengiriman barang pesanan anda.<br>';
-                                                    echo '              </small>';
-                                                    echo '          </div>';
-                                                    echo '      </small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                }else{
-                                                    echo '<div class="row mb-2">';
-                                                    echo '  <div class="col col-md-4">';
-                                                    echo '      <small class="mobile-text">No.Resi</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col col-md-8">';
-                                                    echo '      <small class="mobile-text"><code class="text-grayish">'.$no_resi.'</code></small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    echo '<div class="row mb-2">';
-                                                    echo '  <div class="col col-md-4">';
-                                                    echo '      <small class="mobile-text">Kurir</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col col-md-8">';
-                                                    echo '      <small class="mobile-text"><code class="text-grayish">'.$kurir.'</code></small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    echo '<div class="row mb-2">';
-                                                    echo '  <div class="col col-md-4">';
-                                                    echo '      <small class="mobile-text">Tgl/Jam</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col col-md-8">';
-                                                    echo '      <small class="mobile-text"><code class="text-grayish">'.$datetime_pengiriman.'</code></small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    echo '<div class="row mb-2">';
-                                                    echo '  <div class="col col-md-4">';
-                                                    echo '      <small class="mobile-text">Status Pengiriman</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col col-md-8">';
-                                                    echo '      <small class="mobile-text">'.$LabelStatusPengiriman.'</small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    echo '<div class="row mb-2 border-dashed-top">';
-                                                    echo '  <div class="col-md-4">';
-                                                    echo '      <small class="mobile-text">Dikirim Dari</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col-md-8">';
-                                                    echo '      <small class="mobile-text">';
-                                                    echo '          <code class="text text-grayish">A/N '.$asal_pengiriman_nama.' ('.$asal_pengiriman_kontak.')</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$asal_pengiriman_desa.', '.$asal_pengiriman_kecamatan.', '.$asal_pengiriman_kabupaten.'</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$asal_pengiriman_provinsi.'</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$asal_pengiriman_rt_rw.' '.$asal_pengiriman_kode_pos.'</code><br>';
-                                                    echo '      </small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    echo '<div class="row mb-2 border-dashed-top">';
-                                                    echo '  <div class="col-md-4">';
-                                                    echo '      <small class="mobile-text">Dikirim Kepada</small>';
-                                                    echo '  </div>';
-                                                    echo '  <div class="col-md-8">';
-                                                    echo '      <small class="mobile-text">';
-                                                    echo '          <code class="text text-grayish">A/N '.$tujuan_pengiriman_nama.' ('.$tujuan_pengiriman_kontak.')</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$tujuan_pengiriman_desa.', '.$tujuan_pengiriman_kecamatan.', '.$tujuan_pengiriman_kabupaten.'</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$tujuan_pengiriman_provinsi.'</code><br>';
-                                                    echo '          <code class="text text-grayish">'.$tujuan_pengiriman_rt_rw.' '.$tujuan_pengiriman_kode_pos.'</code><br>';
-                                                    echo '      </small>';
-                                                    echo '  </div>';
-                                                    echo '</div>';
-                                                    if(!empty($link_pengiriman)){
-                                                        echo '<div class="row mt-3 mb-2">';
-                                                        echo '  <div class="col-md-12">';
-                                                        echo '      <a href="'.$link_pengiriman.'" class="button_pendaftaran" target="_blank">Lacak Paket</a>';
-                                                        echo '  </div>';
-                                                        echo '</div>';
+                                                        $LabelStatusPengiriman='<code class="text text-grayish">None</code>';
                                                     }
                                                 }
                                             }
-                                        ?>
-                                    </div>
-                                </div>
-        <?php
+                                        }
+                                        //Buka Asal Pengiriman
+                                        $asal_pengiriman_provinsi=$asal_pengiriman['provinsi'];
+                                        $asal_pengiriman_kabupaten=$asal_pengiriman['kabupaten'];
+                                        $asal_pengiriman_kecamatan=$asal_pengiriman['kecamatan'];
+                                        $asal_pengiriman_desa=$asal_pengiriman['desa'];
+                                        $asal_pengiriman_rt_rw=$asal_pengiriman['rt_rw'];
+                                        $asal_pengiriman_kode_pos=$asal_pengiriman['kode_pos'];
+                                        $asal_pengiriman_kontak=$asal_pengiriman['kontak'];
+                                        $asal_pengiriman_nama=$asal_pengiriman['nama'];
+                                        //Buka Tujuan Pengiriman
+                                        $metode_pengiriman=$tujuan_pengiriman['metode_pengiriman'];
+                                        $alamt_pengiriman=$tujuan_pengiriman['alamt_pengiriman'];
+                                        $kurir=$tujuan_pengiriman['kurir'];
+                                        $cost_ongkir_item=$tujuan_pengiriman['cost_ongkir_item'];
+                                        $tujuan_pengiriman_rt_rw=$tujuan_pengiriman['rt_rw'];
+                                        $tujuan_pengiriman_kontak=$tujuan_pengiriman['kontak'];
+                                        $tujuan_pengiriman_nama=$tujuan_pengiriman['nama'];
+
+                                        //Menampilkan Informasi Pengiriman
+                                        if($metode_pengiriman=="Dikirim"){
+                                            if(empty($transaksi_pengiriman['no_resi'])){
+                                                $label_resi='<span class="text-danger">Belum Dikirim</span>';
+                                            }else{
+                                                $label_resi='<span class="text-dark text-decoration-underline">'.$transaksi_pengiriman['no_resi'].'</span>';
+                                            }
+                                            echo '
+                                                <div class="box_custome">
+                                                    <div class="box_custome_content">
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">No.Resi</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text"><code class="text-grayish">'.$no_resi.'</code></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">Kurir</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text"><code class="text-grayish">'.$kurir.'</code></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">Tgl/Jam Pengiriman</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text"><code class="text-grayish">'.$datetime_pengiriman.'</code></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">Status Pengiriman</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text"><code class="text-grayish">'.$LabelStatusPengiriman.'</code></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">Dikirim Dari</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text">
+                                                                    <code class="text text-grayish">A/N '.$asal_pengiriman_nama.' ('.$asal_pengiriman_kontak.')</code><br>
+                                                                    <code class="text text-grayish">'.$asal_pengiriman_desa.', '.$asal_pengiriman_kecamatan.', '.$asal_pengiriman_kabupaten.'</code><br>
+                                                                    <code class="text text-grayish">'.$asal_pengiriman_provinsi.'</code><br>
+                                                                    <code class="text text-grayish">'.$asal_pengiriman_rt_rw.' '.$asal_pengiriman_kode_pos.'</code><br>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-2">
+                                                            <div class="col col-md-4"><small class="mobile-text">Dikirim Kepada</small></div>
+                                                            <div class="col col-md-8">
+                                                                <small class="mobile-text">
+                                                                    <code class="text text-grayish">A/N '.$tujuan_pengiriman_nama.' ('.$tujuan_pengiriman_kontak.')</code><br>
+                                                                    <code class="text text-grayish">'.$alamt_pengiriman.'</code><br>
+                                                                    <code class="text text-grayish">'.$tujuan_pengiriman_rt_rw.'</code><br>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ';
+                                            if(!empty($link_pengiriman)){
+                                                echo '<div class="row mt-3 mb-2">';
+                                                echo '  <div class="col-md-12">';
+                                                echo '      <a href="'.$link_pengiriman.'" class="button_pendaftaran" target="_blank">Lacak Paket</a>';
+                                                echo '  </div>';
+                                                echo '</div>';
+                                            }
+                                        }
+                                    }
                                 if($status!=="Lunas"){
                                     echo '<div class="row mb-2 mt-3">';
                                     echo '  <div class="col col-md-12 text-center">';

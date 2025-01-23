@@ -984,4 +984,49 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Ketika Proses Pencarian Alamat
+    $('#ProsesCariAlamat').on('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#HasilPencarianAlamat').html('Loading...').prop('disabled', true);
+        //Request Ajax
+        $.ajax({
+            url         : '_Page/TransaksiPenjualan/ProsesCariAlamat.php',
+            type        : 'POST',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            success: function (response) {
+                $('#HasilPencarianAlamat').html(response);
+            }
+        });
+    });
+    //Modal Cari Ongkir
+    $('#ModalCariOngkir').on('show.bs.modal', function (e) {
+        //Tangkap beberapa variabel dari form
+        var alamat_pengiriman = $('#alamat_pengiriman').val();
+        var kurir = $('#kurir').val();
+        var berat = $('#berat').val();
+        $('#HasilPencarianOngkir').html("Loading...");
+        $.ajax({
+            type        : 'POST',
+            url         : '_Page/TransaksiPenjualan/ProsesCariOngkir.php',
+            data        : { alamat_pengiriman: alamat_pengiriman, kurir: kurir, berat: berat },
+            success     : function(data) {
+                $('#HasilPencarianOngkir').html(data);
+            }
+        });
+    });
+    
+    //Apabila Metode Pengiriman Diubah
+    $('#metode_pengiriman').on('change', function (e) {
+        e.preventDefault();
+        var metode_pengiriman = $('#metode_pengiriman').val(); // Ambil nilai select
+        if (metode_pengiriman == "Dikirim") {
+            $('#form_uraian_pengiriman').slideDown(300); // Memunculkan dengan transisi
+        } else {
+            $('#form_uraian_pengiriman').slideUp(300); // Menyembunyikan dengan transisi
+        }
+    });
 });

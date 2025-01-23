@@ -35,7 +35,7 @@
             echo '<script type="text/javascript" src="_Page/RegistrasiEvent/RegistrasiEvent.js"></script>';
         }
         if($Page=="TransaksiPenjualan"){
-            echo '<script type="text/javascript" src="_Page/TransaksiPenjualan/TransaksiPenjualan.js"></script>';
+            echo '<script type="text/javascript" src="_Page/TransaksiPenjualan/TransaksiPenjualan.js?v='.date('YmdHis').'"></script>';
         }
         if($Page=="RekapTransaksi"){
             echo '<script type="text/javascript" src="_Page/RekapTransaksi/RekapTransaksi.js"></script>';

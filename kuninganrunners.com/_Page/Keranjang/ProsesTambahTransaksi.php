@@ -64,20 +64,17 @@
             if (empty($_POST['item_keranjang'])) {
                 $ValidasiKelengkapanData="Item Keranjang tidak boleh kosong! Anda harus memilih item keranjang terlebih dulu.";
             }else{
-                if (empty($_POST['desa'])) {
-                    $ValidasiKelengkapanData="Silahkan lengkapi alamat pengiriman terlebih dulu";
+                if (empty($_POST['metode_pengiriman'])) {
+                    $ValidasiKelengkapanData="Metode Pengriman Tidak Boleh Kosong";
                 }else{
-                    if (empty($_POST['rt_rw'])) {
-                        $ValidasiKelengkapanData="Detail alamat tidak boleh kosong. Berikan keterangan alamat untuk pengiriman yang valid.";
+                    $metode_pengiriman=$_POST['metode_pengiriman'];
+                    if (empty($_POST['nama_member'])) {
+                        $ValidasiKelengkapanData="Nama member tidak boleh kosong";
                     }else{
-                        if (empty($_POST['nama_member'])) {
-                            $ValidasiKelengkapanData="Nama member tidak boleh kosong";
+                        if (empty($_POST['kontak_member'])) {
+                            $ValidasiKelengkapanData="Kontak member tidak boleh kosong. Lengkapi profil anda terlebih dulu";
                         }else{
-                            if (empty($_POST['kontak_member'])) {
-                                $ValidasiKelengkapanData="Kontak member tidak boleh kosong. Lengkapi profil anda terlebih dulu";
-                            }else{
-                                $ValidasiKelengkapanData="Valid";
-                            }
+                            $ValidasiKelengkapanData="Valid";
                         }
                     }
                 }
@@ -113,18 +110,39 @@
                             $message =$ValidasiSessionMember;
                             $code =201; 
                         }else{
+                            
+                            //Buat Variabel
                             $item_keranjang=$_POST['item_keranjang'];
+                            $metode_pengiriman =$_POST['metode_pengiriman'];
+                            $nama_member =$_POST['nama_member'];
+                            $kontak_member =$_POST['kontak_member'];
+                            
+                            //Email dan id_member_login Dari 'Session'
                             $email =$_SESSION['email'];
-                            $id_wilayah =$_POST['desa'];
-                            $rt_rw =$_POST['rt_rw'];
-                            if(empty($_POST['kode_pos'])){
-                                $kode_pos="";
-                            }else{
-                                $kode_pos=$_POST['kode_pos'];
-                            }
-                            $nama_member=$_POST['nama_member'];
-                            $kontak_member=$_POST['kontak_member'];
                             $id_member_login =$_SESSION['id_member_login'];
+                            
+                            //Validasi Form Lanjutan Berdasarkan metode pengiriman
+                            if($metode_pengiriman=="Dikirim"){
+                                if(empty($_POST['alamt_pengiriman'])){
+                                    $validasi_fase2="Alamat Pengiriman Tidak Boleh Kosong!";
+                                }else{
+                                    if(empty($_POST['kurir'])){
+                                        $validasi_fase2="Nama Kurir/Expedisi Tidak Boleh Kosong!";
+                                    }else{
+                                        if(empty($_POST['rt_rw'])){
+                                            $validasi_fase2="Keterangan Alamat Lainnya Tidak Boleh Kosong!";
+                                        }else{
+                                            if(empty($_POST['cost_ongkir_item'])){
+                                                $validasi_fase2="Paket Tarif Kurir/Expedisi Tidak Boleh Kosong!";
+                                            }else{
+                                                $validasi_fase2="Valid";
+                                            }
+                                        }
+                                    }
+                                }
+                            }else{
+                                $validasi_fase2="Valid";
+                            }
                             //Buat Aray Item Keranjang
                             $list_keranjang=[];
                             foreach ($item_keranjang as $item_keranjang_list) {
@@ -132,14 +150,27 @@
                                 $id_transaksi_keranjang=$explode[0];
                                 $list_keranjang[]=$id_transaksi_keranjang;
                             }
-                            //Membuat Raw Alamat Pengiriman
-                            $pengiriman=[
-                                "id_wilayah" => $id_wilayah,
-                                "rt_rw" => $rt_rw,
-                                "kode_pos" => $kode_pos,
-                                "nama" => $nama_member,
-                                "kontak" => $kontak_member,
-                            ];
+
+                            //Membuat Data 'pengiriman' berdasarkan metode
+                            if($metode_pengiriman=="Dikirim"){
+                                $alamt_pengiriman=$_POST['alamt_pengiriman'];
+                                $kurir=$_POST['kurir'];
+                                $rt_rw=$_POST['rt_rw'];
+                                $cost_ongkir_item=$_POST['cost_ongkir_item'];
+                                $pengiriman=[
+                                    "metode" => $metode_pengiriman,
+                                    "alamt_pengiriman" => $alamt_pengiriman,
+                                    "kurir" => $kurir,
+                                    "rt_rw" => $rt_rw,
+                                    "nama" => $nama_member,
+                                    "kontak" => $kontak_member,
+                                    "cost_ongkir_item" => $cost_ongkir_item,
+                                ];
+                            }else{
+                                $pengiriman=[
+                                    "metode" => $metode_pengiriman
+                                ];
+                            }
                             //Persiapan Mengirim Data Ke Server
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
@@ -155,7 +186,7 @@
                                     "email" => $email,
                                     "id_member_login" => $id_member_login,
                                     "list_keranjang" => $list_keranjang,
-                                    "pengiriman" => $pengiriman,
+                                    "pengiriman" => $pengiriman
                                 )),
                                 CURLOPT_HTTPHEADER => array(
                                     'x-token: ' . $xtoken,

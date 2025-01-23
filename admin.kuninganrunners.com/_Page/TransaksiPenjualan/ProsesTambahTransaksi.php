@@ -22,7 +22,11 @@
             if (empty($_POST['status_transaksi'])) {
                 $ValidasiKelengkapanData="Status Transaksi tidak boleh kosong! Anda wajib mengisi form tersebut.";
             }else{
-                $ValidasiKelengkapanData="Valid";
+                if (empty($_POST['metode_pengiriman'])) {
+                    $ValidasiKelengkapanData="Metode tidak boleh kosong! Anda wajib mengisi form tersebut.";
+                }else{
+                    $ValidasiKelengkapanData="Valid";
+                }
             }
         }
     }
@@ -34,73 +38,110 @@
         $status_transaksi=$_POST['status_transaksi'];
         $kategori_transaksi="Pembelian";
         //Pengiriman
+        $metode_pengiriman=$_POST['metode_pengiriman'];
         if(!empty($_POST['no_resi'])){
             $no_resi=$_POST['no_resi'];
         }else{
             $no_resi="";
         }
-        if(!empty($_POST['kurir'])){
-            $kurir=$_POST['kurir'];
+        if(!empty($_POST['tanggal_pengiriman'])){
+            $tanggal_pengiriman=$_POST['tanggal_pengiriman'];
         }else{
-            $kurir="";
+            $tanggal_pengiriman=date('Y-m-d');
         }
-        if(!empty($_POST['datetime_pengiriman'])){
-            $datetime_pengiriman=$_POST['datetime_pengiriman'];
+        if(!empty($_POST['jam_pengiriman'])){
+            $jam_pengiriman=$_POST['jam_pengiriman'];
         }else{
-            $datetime_pengiriman=$now;
+            $jam_pengiriman=date('H:i:s');
         }
         if(!empty($_POST['link_pengiriman'])){
             $link_pengiriman=$_POST['link_pengiriman'];
         }else{
             $link_pengiriman="";
         }
-        //Membuat Data Asal Pengiriman
-        $fields = [
-            'asal_pengiriman_nama', 
-            'asal_pengiriman_provinsi', 
-            'asal_pengiriman_kabupaten', 
-            'asal_pengiriman_kecamatan', 
-            'asal_pengiriman_desa', 
-            'asal_pengiriman_rt_rw', 
-            'asal_pengiriman_kode_pos', 
-            'asal_pengiriman_kontak'
-        ];
-        foreach ($fields as $field) {
-            $$field = !empty($_POST[$field]) ? $_POST[$field] : "";
+        if(!empty($_POST['tujuan_pengiriman_nama'])){
+            $tujuan_pengiriman_nama=$_POST['tujuan_pengiriman_nama'];
+        }else{
+            $tujuan_pengiriman_nama="";
+        }
+        if(!empty($_POST['tujuan_pengiriman_kontak'])){
+            $tujuan_pengiriman_kontak=$_POST['tujuan_pengiriman_kontak'];
+        }else{
+            $tujuan_pengiriman_kontak="";
+        }
+        if(!empty($_POST['alamat_pengiriman'])){
+            $alamat_pengiriman=$_POST['alamat_pengiriman'];
+        }else{
+            $alamat_pengiriman="";
+        }
+        if(!empty($_POST['tujuan_pengiriman_rt_rw'])){
+            $tujuan_pengiriman_rt_rw=$_POST['tujuan_pengiriman_rt_rw'];
+        }else{
+            $tujuan_pengiriman_rt_rw="";
+        }
+        if(!empty($_POST['kurir'])){
+            $kurir=$_POST['kurir'];
+        }else{
+            $kurir="";
+        }
+        if(!empty($_POST['ongkir'])){
+            $ongkir=$_POST['ongkir'];
+        }else{
+            $ongkir="";
+        }
+        if(!empty($_POST['paket'])){
+            $paket=$_POST['paket'];
+        }else{
+            $paket="";
+        }
+        if(!empty($_POST['status_pengiriman'])){
+            $status_pengiriman=$_POST['status_pengiriman'];
+        }else{
+            $status_pengiriman="";
+        }
+        $cost_ongkir_item="$ongkir|$paket";
+        $datetime_pengiriman="$tanggal_pengiriman $jam_pengiriman";
+        //Membuka Pengaturan asal pengiriman
+        $pengiriman=GetDetailData($Conn,'setting_transaksi','kategori ','Penjualan','pengiriman');
+        if(!empty($pengiriman)){
+            $pengiriman_arry=json_decode($pengiriman,true);
+            $nama_pengirim=$pengiriman_arry['nama_pengirim'];
+            $provinsi_pengirim=$pengiriman_arry['provinsi'];
+            $kabupaten_pengirim=$pengiriman_arry['kabupaten'];
+            $kecamatan_pengirim=$pengiriman_arry['kecamatan'];
+            $desa_pengirim=$pengiriman_arry['desa'];
+            $rt_rw_pengirim=$pengiriman_arry['rt_rw'];
+            $kode_pos_pengirim=$pengiriman_arry['kode_pos'];
+            $kontak_pengirim=$pengiriman_arry['kontak'];
+        }else{
+            $nama_pengirim="";
+            $provinsi_pengirim="";
+            $kabupaten_pengirim="";
+            $kecamatan_pengirim="";
+            $desa_pengirim="";
+            $rt_rw_pengirim="";
+            $kode_pos_pengirim="";
+            $kontak_pengirim="";
         }
         $asal_pengiriman=[
-            "nama"=>$asal_pengiriman_nama,
-            "provinsi"=>$asal_pengiriman_provinsi,
-            "kabupaten"=>$asal_pengiriman_kabupaten,
-            "kecamatan"=>$asal_pengiriman_kecamatan,
-            "desa"=>$asal_pengiriman_desa,
-            "rt_rw"=>$asal_pengiriman_rt_rw,
-            "kode_pos"=>$asal_pengiriman_kode_pos,
-            "kontak"=>$asal_pengiriman_kontak,
+            "nama"=>$nama_pengirim,
+            "provinsi"=>$provinsi_pengirim,
+            "kabupaten"=>$kabupaten_pengirim,
+            "kecamatan"=>$kecamatan_pengirim,
+            "desa"=>$desa_pengirim,
+            "rt_rw"=>$rt_rw_pengirim,
+            "kode_pos"=>$kode_pos_pengirim,
+            "kontak"=>$kontak_pengirim,
         ];
         $asal_pengiriman=json_encode($asal_pengiriman);
         //Membuat Tujuan Pengiriman
-        $fields = [
-            'tujuan_pengiriman_nama', 
-            'tujuan_pengiriman_provinsi', 
-            'tujuan_pengiriman_kabupaten', 
-            'tujuan_pengiriman_kecamatan', 
-            'tujuan_pengiriman_desa', 
-            'tujuan_pengiriman_rt_rw', 
-            'tujuan_pengiriman_kode_pos', 
-            'tujuan_pengiriman_kontak'
-        ];
-        foreach ($fields as $field) {
-            $$field = !empty($_POST[$field]) ? $_POST[$field] : "";
-        }
         $tujuan_pengiriman=[
-            "nama"=>$tujuan_pengiriman_nama,
-            "provinsi"=>$tujuan_pengiriman_provinsi,
-            "kabupaten"=>$tujuan_pengiriman_kabupaten,
-            "kecamatan"=>$tujuan_pengiriman_kecamatan,
-            "desa"=>$tujuan_pengiriman_desa,
+            "metode_pengiriman"=>$metode_pengiriman,
+            "alamt_pengiriman"=>$alamat_pengiriman,
+            "kurir"=>$kurir,
+            "cost_ongkir_item"=>$cost_ongkir_item,
             "rt_rw"=>$tujuan_pengiriman_rt_rw,
-            "kode_pos"=>$tujuan_pengiriman_kode_pos,
+            "nama"=>$tujuan_pengiriman_nama,
             "kontak"=>$tujuan_pengiriman_kontak,
         ];
         $tujuan_pengiriman=json_encode($tujuan_pengiriman);
@@ -286,12 +327,13 @@
                         biaya_lainnya, 
                         potongan_lainnya, 
                         jumlah,
+                        pengiriman,
                         status
                     ) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $Conn->prepare($query);
                     $stmt->bind_param(
-                        "sssssssssssss", 
+                        "ssssssssssssss", 
                         $kode_transaksi, 
                         $id_member, 
                         $raw_member, 
@@ -304,6 +346,7 @@
                         $biaya_lainnya, 
                         $potongan_lainnya, 
                         $jumlah_total, 
+                        $metode_pengiriman, 
                         $status_transaksi
                     );
                     if ($stmt->execute()) {
@@ -383,6 +426,7 @@
                                     $id_transaksi_keranjang= $data_keranjang_lis['id_transaksi_keranjang'];
                                     $id_barang= $data_keranjang_lis['id_barang'];
                                     $id_varian= $data_keranjang_lis['id_varian'];
+                                    $nama_varian="";
                                     $qty= $data_keranjang_lis['qty'];
                                     //Buka Data Barang
                                     $nama_barang=GetDetailData($Conn,'barang','id_barang',$id_barang,'nama_barang');

@@ -608,4 +608,57 @@
                 return $value;
         }
     }
+    function transaction_status_by_order_id($url, $api_key, $order_id) {
+        $code = 201;
+        $message = "No Service";
+        $metadata = [];
+        $headers = array('Content-Type: application/json');
+        // Array data untuk dikirim via CURL
+        $arr = array(
+            "api_key" => $api_key,
+            "order_id" => $order_id
+        );
+        $json = json_encode($arr);
+        // CURL init
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, "$url/transaction_status.php");
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10); // Timeout lebih lama
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        // Eksekusi CURL dan cek error
+        $response_curl = curl_exec($curl);
+        curl_exec($curl);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $message = 'Invalid JSON response: ' . json_last_error_msg();
+            $code = 201;
+            $metadata = [];
+        } else {
+            if ($response_curl === false) {
+                $response_service= 'CURL Error: ' . curl_error($curl);
+                $code = 201;
+                $message = $response_service;
+                $metadata = [];
+            } else {
+                $code = 200;
+                $message = "Response Accept";
+                $response_curl=json_decode($response_curl,true);
+                $code_payment_data=$response_curl['code'];
+                $status_payment_data=$response_curl['status'];
+                $response_payment_data=$response_curl['response'];
+                $metadata = $response_payment_data;
+            }
+        }
+        $Array = [
+            "response" => [
+                "code" => $code,
+                "message" => $message
+            ],
+            "metadata" => $metadata ?? []
+        ];
+        return json_encode($Array, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    }
 ?>

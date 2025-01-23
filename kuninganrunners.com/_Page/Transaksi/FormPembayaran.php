@@ -86,6 +86,7 @@
                 //Decode Response Setting
                 $WebSetting = json_decode($WebSetting, true);
                 //Buka Setting Dalam Variabel
+                $web_url=$WebSetting['metadata']['base_url'];
                 $title_web=ShowTrueContent($WebSetting['metadata']['title']);
                 $description_web=ShowTrueContent($WebSetting['metadata']['description']);
                 $keyword_web=ShowTrueContent($WebSetting['metadata']['keyword']);
@@ -157,6 +158,9 @@
                             $metadata=$detail_transaksi_arry['metadata'];
                             $jumlah_total=$metadata['jumlah'];
                             $jumlah_total_format='Rp ' . number_format($jumlah_total, 0, ',', '.');
+
+                            //Redirect URL
+                            $url_redirect_back="$web_url/index.php?Page=DetailTransaksi&kode=$kode_transaksi";
 ?>
                     <html>
                         <head>
@@ -185,74 +189,75 @@
                             </div>
                             
                             <script type="text/javascript">
-                                // For example trigger on button clicked, or any time you need
+                               // Pastikan script selalu diambil terbaru (cache buster)
+                                const scriptVersion = Date.now(); // Gunakan timestamp untuk cache buster
                                 var payButton = document.getElementById('pay-button');
                                 payButton.addEventListener('click', function () {
-                                    $('#pay-button').html('Loading..');
-                                    // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
-                                    window.snap.pay('<?php echo $snap_token;?>', {
-                                        onSuccess: function(result){
-                                            /* You may add your own implementation here */
+                                    $('#pay-button').html('Loading...');
+                                    window.snap.pay('<?php echo $snap_token; ?>', {
+                                        onSuccess: function (result) {
                                             Swal.fire({
                                                 title: 'Berhasil!',
                                                 text: 'Transaksi Pembayaran Berhasil',
                                                 icon: 'success',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Reload halaman setelah swal ditutup
-                                                    location.reload();
+                                                confirmButtonText: 'OK',
+                                                willClose: () => {
+                                                    redirectToUrl();
                                                 }
                                             });
-                                            $('#pay-button').html('<i class="bi bi-arrow-right-circle"></i> Pilih Metode Pembayaran');
                                         },
-                                        onPending: function(result){
-                                            /* You may add your own implementation here */
+                                        onPending: function (result) {
                                             Swal.fire({
                                                 title: 'Pembayaran Pending!',
                                                 text: 'Silahkan Tunggu Beberapa Saat',
                                                 icon: 'warning',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Reload halaman setelah swal ditutup
-                                                    location.reload();
+                                                confirmButtonText: 'OK',
+                                                willClose: () => {
+                                                    redirectToUrl();
                                                 }
                                             });
-                                            $('#pay-button').html('<i class="bi bi-arrow-right-circle"></i> Pilih Metode Pembayaran');
                                         },
-                                        onError: function(result){
-                                            /* You may add your own implementation here */
+                                        onError: function (result) {
                                             Swal.fire({
                                                 title: 'Pembayaran Gagal',
                                                 text: 'Terjadi Kesalahan Pada Saat Melakukan Pembayaran',
                                                 icon: 'error',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Reload halaman setelah swal ditutup
-                                                    location.reload();
+                                                confirmButtonText: 'OK',
+                                                willClose: () => {
+                                                    redirectToUrl();
                                                 }
                                             });
-                                            $('#pay-button').html('<i class="bi bi-arrow-right-circle"></i> Pilih Metode Pembayaran');
                                         },
-                                        onClose: function(){
-                                            /* You may add your own implementation here */
+                                        onClose: function () {
                                             Swal.fire({
                                                 title: 'Pembayaran Batal',
                                                 text: 'Anda tidak jadi meneruskan proses pembayaran',
                                                 icon: 'error',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Reload halaman setelah swal ditutup
-                                                    location.reload();
+                                                confirmButtonText: 'OK',
+                                                willClose: () => {
+                                                    redirectToUrl();
                                                 }
                                             });
-                                            $('#pay-button').html('<i class="bi bi-arrow-right-circle"></i> Pilih Metode Pembayaran');
                                         }
-                                    })
+                                    });
                                 });
+
+                                // Fungsi untuk melakukan redirect dengan loading terlebih dahulu
+                                function redirectToUrl() {
+                                    Swal.fire({
+                                        title: 'Memuat ulang halaman...',
+                                        text: 'Mohon tunggu.',
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        didOpen: () => {
+                                            Swal.showLoading();
+                                        }
+                                    });
+
+                                    setTimeout(() => {
+                                        window.location.replace('<?php echo $url_redirect_back; ?>&v=' + scriptVersion);
+                                    }, 5000); // Delay 5 detik
+                                }
                             </script>
                         </body>
                     </html>
