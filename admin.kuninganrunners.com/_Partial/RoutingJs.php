@@ -74,7 +74,7 @@
             echo '<script type="text/javascript" src="_Page/SettingTransaksi/SettingTransaksi.js"></script>';
         }
         if($Page=="LaporanTransaksi"){
-            echo '<script type="text/javascript" src="_Page/LaporanTransaksi/LaporanTransaksi.js"></script>';
+            echo '<script type="text/javascript" src="_Page/LaporanTransaksi/LaporanTransaksi.js?v='.date('YmdHis').'"></script>';
         }
         if($Page=="Aktivitas"){
             echo '<script type="text/javascript" src="_Page/Aktivitas/Aktivitas.js"></script>';

@@ -76,8 +76,20 @@
                                 echo '<tr>';
                                 echo '  <td align="center">'.$no.'</td>';
                                 echo '  <td align="left">'.$namaBulan.'</td>';
-                                echo '  <td align="right">'.$total_pendaftaran_format.'</td>';
-                                echo '  <td align="right">'.$total_pembelian_format.'</td>';
+                                echo '  
+                                    <td align="right">
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalExportLaporan" data-periode="'.$periode.'" data-keyword="'.$keyword.'" data-kategori="Pendaftaran">
+                                            '.$total_pendaftaran_format.'
+                                        </a>
+                                    </td>
+                                ';
+                                echo '  
+                                    <td align="right">
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalExportLaporan" data-periode="'.$periode.'" data-keyword="'.$keyword.'" data-kategori="Pembelian">
+                                            '.$total_pembelian_format.'
+                                        </a>
+                                    </td>
+                                ';
                                 echo '  <td align="right">'.$jumlah_total_format.'</td>';
                                 echo '</tr>';
                                 $no++;
@@ -120,8 +132,20 @@
                                 echo '<tr>';
                                 echo '  <td align="center">'.$no.'</td>';
                                 echo '  <td align="left">'.$tanggal.'/'.$bulan.'/'.$tahun.'</td>';
-                                echo '  <td align="right">'.$total_pendaftaran_format.'</td>';
-                                echo '  <td align="right">'.$total_pembelian_format.'</td>';
+                                echo '  
+                                    <td align="right">
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalExportLaporan" data-periode="'.$periode.'" data-keyword="'.$keyword.'" data-kategori="Pendaftaran">
+                                            '.$total_pendaftaran_format.'
+                                        </a>
+                                    </td>
+                                ';
+                                echo '  
+                                    <td align="right">
+                                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ModalExportLaporan" data-periode="'.$periode.'" data-keyword="'.$keyword.'" data-kategori="Pembelian">
+                                            '.$total_pembelian_format.'
+                                        </a>
+                                    </td>
+                                ';
                                 echo '  <td align="right">'.$jumlah_total_format.'</td>';
                                 echo '</tr>';
                                 $no++;

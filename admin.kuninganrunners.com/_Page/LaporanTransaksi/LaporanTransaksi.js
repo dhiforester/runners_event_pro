@@ -71,4 +71,20 @@ $(document).ready(function() {
         ShowGrafikLaporanTransaksi(false); // Submit ulang dengan data form
         $('#ModalFilterGrapik').modal('hide'); // Tutup modal
     });
+
+    //Menampilkan preview tabel export laporan
+    $('#ModalExportLaporan').on('show.bs.modal', function (e) {
+        var periode = $(e.relatedTarget).data('periode');
+        var keyword = $(e.relatedTarget).data('keyword');
+        var kategori = $(e.relatedTarget).data('kategori');
+        $('#TabelPreviewLaporan').html("Loading...");
+        $.ajax({
+            type 	    : 'POST',
+            url 	    : '_Page/LaporanTransaksi/TabelPreviewLaporan.php',
+            data        : {periode: periode, keyword: keyword, kategori: kategori},
+            success     : function(data){
+                $('#TabelPreviewLaporan').html(data);
+            }
+        });
+    });
 });
