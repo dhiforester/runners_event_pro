@@ -28,19 +28,64 @@
                 $keyword=$_GET['keyword'];
                 $kategori=$_GET['kategori'];
                 // Set header untuk ekspor CSV
+                echo '
+                    <html>
+                        <head>
+                            <title>Laporan Transaksi</title>
+                            <style>
+                                /* Menentukan style untuk elemen tabel */
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                }
+                                
+                                /* Menentukan style untuk setiap baris dalam tabel */
+                                table tr {
+                                    background-color: #f2f2f2;
+                                }
+
+                                /* Menentukan style untuk sel dalam tabel (td) */
+                                table tr td {
+                                    padding: 8px;
+                                    text-align: left;
+                                    border: 1px solid #ddd;
+                                }
+
+                                /* Menambahkan style untuk kolom header tabel */
+                                table th {
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    padding: 8px;
+                                    text-align: left;
+                                    border: 1px solid #ddd;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                ';
                 header("Content-type: application/vnd-ms-excel");
                 header("Content-Disposition: attachment; filename=Laporan-$kategori-$keyword.xls");
                 if($kategori=="Pembelian"){
-                    //Hitung Jumlah Data
-                    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM transaksi WHERE kategori='$kategori' AND datetime like '%$keyword%'"));
+                    // Hitung Jumlah Data
+                    $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM transaksi WHERE kategori='$kategori' AND datetime LIKE '%$keyword%'"));
                     echo '<table>';
                     echo '
                         <tr>
                             <td><b>No</b></td>
+                            <td><b>Kode Transaksi</b></td>
                             <td><b>Tgl/Jam</b></td>
                             <td><b>Member</b></td>
                             <td><b>Email</b></td>
                             <td><b>Barang</b></td>
+                            <td><b>Varian</b></td>
+                            <td><b>Harga</b></td>
+                            <td><b>QTY</b></td>
+                            <td><b>Subtotal</b></td>
+                            <td><b>Ongkir</b></td>
+                            <td><b>PPN/PPH</b></td>
+                            <td><b>Biaya Layanan</b></td>
+                            <td><b>Biaya Lain-Lain</b></td>
+                            <td><b>Potongan</b></td>
                             <td><b>Jumlah/Total</b></td>
                             <td><b>Pengiriman</b></td>
                             <td><b>Alamat 1</b></td>
@@ -48,146 +93,137 @@
                             <td><b>Status</b></td>
                         </tr>
                     ';
-                    if(empty($jml_data)){
+                    if ($jml_data == 0) {
                         echo '
                             <tr>
-                                <td colspan="10" class="text-center">
+                                <td colspan="19" class="text-center">
                                     Data Tidak Ditemukan Pada Database
                                 </td>
                             </tr>
                         ';
-                    }else{
-                        $no=1;
-                        $query1 = mysqli_query($Conn, "SELECT*FROM transaksi WHERE kategori='$kategori' AND datetime like '%$keyword%' ORDER BY datetime ASC");
-                        if (!$query1) {
-                            die("Query Error: " . mysqli_error($Conn)); // Tampilkan pesan error
-                        }else{
-                            while ($data1 = mysqli_fetch_array($query1)) {
-                                $kode_transaksi= $data1['kode_transaksi'];
-                                $id_member= $data1['id_member'];
-                                $tanggal_transaksi= $data1['datetime'];
-                                $jumlah= $data1['jumlah'];
-                                $pengiriman= $data1['pengiriman'];
-                                $status= $data1['status'];
-                                // Inisialisasi array kosong
-                                $list_barang_varian = []; 
-                                $query2 = mysqli_query($Conn, "SELECT * FROM transaksi_rincian WHERE kode_transaksi='$kode_transaksi'");
-                                while ($data2 = mysqli_fetch_array($query2)) {
-                                    $nama_barang = $data2['nama_barang'];
-                                    if(empty($data2['varian'])){
-                                        $varian ="";
-                                    }else{
-                                        $varian =$data2['varian'];
-                                        $varian_arry=json_decode($varian,true);
-                                        $varian=$varian_arry['nama_varian'];
-                                    }
-                                    $harga = $data2['harga'];
-                                    $qty = $data2['qty'];
-                                    // Format rincian barang menjadi string sesuai format yang diinginkan
-                                    $item = "- $nama_barang" . (!empty($varian) ? " ($varian)" : "") . " ($harga x $qty)";
-                                    
-                                    // Tambahkan rincian barang ke dalam array
-                                    $list_barang_varian[] = $item;
+                    } else {
+                        $no = 1;
+                        $query1 = mysqli_query($Conn, "SELECT * FROM transaksi WHERE kategori='$kategori' AND datetime LIKE '%$keyword%' ORDER BY datetime ASC");
+                        while ($data1 = mysqli_fetch_array($query1)) {
+                            $kode_transaksi = $data1['kode_transaksi'];
+                            $id_member = $data1['id_member'];
+                            $tanggal_transaksi = $data1['datetime'];
+                            $jumlah = $data1['jumlah'];
+                            $ongkir = $data1['ongkir'];
+                            $ppn_pph = $data1['ppn_pph'];
+                            $biaya_layanan = $data1['biaya_layanan'];
+                            $pengiriman = $data1['pengiriman'];
+                            $status = $data1['status'];
+
+                            // Decode JSON biaya_lainnya
+                            $biaya_lainnya_rp = 0;
+                            if (!empty($data1['biaya_lainnya'])) {
+                                $biaya_lainnya_arry = json_decode($data1['biaya_lainnya'], true);
+                                foreach ($biaya_lainnya_arry as $list_biaya_lainnya) {
+                                    $biaya_lainnya_rp += $list_biaya_lainnya['nominal_biaya'];
                                 }
-                                //Buka Nama Member
-                                $QryMember = $Conn->prepare("SELECT * FROM member WHERE id_member = ?");
-                                if ($QryMember === false) {
-                                    $member="Query Preparation Failed: " . $Conn->error;
-                                    $email="Query Preparation Failed: " . $Conn->error;
-                                }else{
-                                    // Bind parameter
-                                    $QryMember->bind_param("s", $id_member);                          
-                                    // Eksekusi query
-                                    if (!$QryMember->execute()) {
-                                        $member="Query Execution Failed: " . $QryMember->error;
-                                        $email="Query Execution Failed: " . $QryMember->error;
-                                    }else{
-                                        // Mengambil hasil
-                                        $Result = $QryMember->get_result();
-                                        $Data = $Result->fetch_assoc();
-                                        // Menutup statement
-                                        $QryMember->close();
-                                        // Mengembalikan hasil
-                                        if (empty($Data['id_member'])) {
-                                            $member="";
-                                            $email="";
-                                        } else {
-                                            $member=$Data['nama'];
-                                            $email=$Data['email'];
-                                        }
-                                    }
-                                }
-                                //Buka Informasi Pengiriman
-                                $Qry2 = $Conn->prepare("SELECT * FROM transaksi_pengiriman WHERE kode_transaksi = ?");
-                                if ($Qry2 === false) {
-                                    $tujuan_pengiriman="Query Preparation Failed: " . $Conn->error;
-                                    $rt_rw="";
-                                }else{
-                                    // Bind parameter
-                                    $Qry2->bind_param("s", $kode_transaksi);                          
-                                    // Eksekusi query
-                                    if (!$Qry2->execute()) {
-                                        $tujuan_pengiriman="Query Execution Failed: " . $Qry2->error;
-                                        $rt_rw="";
-                                    }else{
-                                        // Mengambil hasil
-                                        $Result2 = $Qry2->get_result();
-                                        $Data2 = $Result2->fetch_assoc();
-                                        // Menutup statement
-                                        $Qry2->close();
-                                        // Mengembalikan hasil
-                                        if (empty($Data2['tujuan_pengiriman'])) {
-                                            $tujuan_pengiriman="";
-                                            $rt_rw="";
-                                        } else {
-                                            $tujuan_pengiriman=$Data2['tujuan_pengiriman'];
-                                            $tujuan_arry=json_decode($tujuan_pengiriman, true);
-                                            $alamat=$tujuan_arry['alamt_pengiriman'];
-                                            $rt_rw=$tujuan_arry['rt_rw'];
-                                        }
-                                    }
-                                }
-                                echo '
-                                    <tr>
-                                        <td class="text-left">'.$no.'</td>
-                                        <td class="text-left">'.date('d/m/Y H:i:s',strtotime($tanggal_transaksi)).'</td>
-                                        <td class="text-left">'.$member.'</td>
-                                        <td class="text-left">'.$email.'</td>
-                                        <td class="text-left">'.implode("", $list_barang_varian).'</td>
-                                        <td class="text-left">'.$jumlah.'</td>
-                                        <td class="text-left">'.$pengiriman.'</td>
-                                        <td class="text-left">'.$alamat.'</td>
-                                        <td class="text-left">'.$rt_rw.'</td>
-                                        <td class="text-left">'.$status.'</td>
-                                    </tr>
-                                ';
-                                $no++;
                             }
+
+                            // Decode JSON potongan_lainnya
+                            $potongan_lainnya_rp = 0;
+                            if (!empty($data1['potongan_lainnya'])) {
+                                $potongan_lainnya_arry = json_decode($data1['potongan_lainnya'], true);
+                                foreach ($potongan_lainnya_arry as $list_potongan_lainnya) {
+                                    $potongan_lainnya_rp += $list_potongan_lainnya['nominal_potongan'];
+                                }
+                            }
+
+                            // Ambil data member
+                            $QryMember = $Conn->prepare("SELECT * FROM member WHERE id_member = ?");
+                            $QryMember->bind_param("s", $id_member);
+                            $QryMember->execute();
+                            $Result = $QryMember->get_result();
+                            $Data = $Result->fetch_assoc();
+                            $member = $Data['nama'] ?? "";
+                            $email = $Data['email'] ?? "";
+                            $QryMember->close();
+
+                            // Ambil informasi pengiriman
+                            $QryPengiriman = $Conn->prepare("SELECT * FROM transaksi_pengiriman WHERE kode_transaksi = ?");
+                            $QryPengiriman->bind_param("s", $kode_transaksi);
+                            $QryPengiriman->execute();
+                            $ResultPengiriman = $QryPengiriman->get_result();
+                            $DataPengiriman = $ResultPengiriman->fetch_assoc();
+                            $tujuan_pengiriman=$DataPengiriman['tujuan_pengiriman'];
+                            $tujuan_arry = json_decode($tujuan_pengiriman, true);
+                            $alamt_pengiriman =$tujuan_arry['alamt_pengiriman'];
+                            $rt_rw = $tujuan_arry['rt_rw'];
+                            $QryPengiriman->close();
+
+                            // Ambil rincian barang
+                            $query2 = mysqli_query($Conn, "SELECT * FROM transaksi_rincian WHERE kode_transaksi='$kode_transaksi'");
+                            $rowCount = mysqli_num_rows($query2);
+                            $firstRow = true;
+
+                            while ($data2 = mysqli_fetch_array($query2)) {
+                                $nama_barang = $data2['nama_barang'];
+                                $varian = !empty($data2['varian']) ? json_decode($data2['varian'], true)['nama_varian'] : "";
+                                $harga = $data2['harga'];
+                                $qty = $data2['qty'];
+                                $subtotal = $data2['jumlah'];
+
+                                // Tampilkan data transaksi hanya pada baris pertama
+                                if ($firstRow) {
+                                    echo '<tr>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $no . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $kode_transaksi . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . date('d/m/Y H:i:s', strtotime($tanggal_transaksi)) . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $member . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $email . '</td>';
+                                    echo '  <td class="text-left">' . $nama_barang . '</td>';
+                                    echo '  <td class="text-left">' . $varian . '</td>';
+                                    echo '  <td class="text-left">' . $harga . '</td>';
+                                    echo '  <td class="text-left">' . $qty . '</td>';
+                                    echo '  <td class="text-left">' . $subtotal . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $ongkir . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $ppn_pph . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $biaya_layanan . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $biaya_lainnya_rp . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $potongan_lainnya_rp . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $jumlah . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $pengiriman . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $alamt_pengiriman . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $rt_rw . '</td>';
+                                    echo '  <td class="text-left" valign="top" rowspan="' . $rowCount . '">' . $status . '</td>';
+                                    echo '</tr>';
+                                    $firstRow = false;
+                                } else {
+                                    // Tampilkan rincian barang lainnya
+                                    echo '<tr>';
+                                    echo '  <td class="text-left">' . $nama_barang . '</td>';
+                                    echo '  <td class="text-left">' . $varian . '</td>';
+                                    echo '  <td class="text-left">' . $harga . '</td>';
+                                    echo '  <td class="text-left">' . $qty . '</td>';
+                                    echo '  <td class="text-left">' . $subtotal . '</td>';
+                                    echo '</tr>';
+                                }
+                            }
+                            $no++;
                         }
                     }
-                    echo '  </tbody>';
-                    echo '  </table>';
                     echo '</table>';
+
                 }else{
                     //Hitung Jumlah Data
                     $jml_data = mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM transaksi WHERE kategori='$kategori' AND datetime like '%$keyword%'"));
-                    echo '<div class="table table-responsive">';
-                    echo '  <table class="table table-bordered table-hover">';
+                    echo '<table>';
                     echo '      
-                            <thead>
-                                <tr>
-                                    <th><b>No</b></th>
-                                    <th><b>Tgl/Jam</b></th>
-                                    <th><b>Member</b></th>
-                                    <th><b>Email</b></th>
-                                    <th><b>Event</b></th>
-                                    <th><b>Kategori</b></th>
-                                    <th><b>Biaya</b></th>
-                                    <th><b>Status</b></th>
-                                </tr>
-                            </thead>
+                        <tr>
+                            <td><b>No</b></td>
+                            <td><b>Tgl/Jam</b></td>
+                            <td><b>Member</b></td>
+                            <td><b>Email</b></td>
+                            <td><b>Event</b></td>
+                            <td><b>Kategori</b></td>
+                            <td><b>Biaya</b></td>
+                            <td><b>Status</b></td>
+                        </tr>
                     ';
-                    echo '  <tbody>';
                     if(empty($jml_data)){
                         echo '
                             <tr>
@@ -336,11 +372,14 @@
                             }
                         }
                     }
-                    echo '  </tbody>';
                     echo '  </table>';
-                    echo '</div>';
                 }
+                echo '
+                        </body>
+                    </html>
+                ';
             }
         }
     }
 ?>
+
