@@ -1577,4 +1577,18 @@ $(document).ready(function() {
             }
         });
     });
+
+    //Pagging Peserta
+    //ketika klik NextPagePeserta
+    $('#NextPagePeserta').click(function() {
+        var NextPagePeserta=$('#NextPagePeserta').val();
+        $('#page_peserta').val(NextPagePeserta);
+        ShowPesertaEvent();
+    });
+    //Ketika klik PrevPagePeserta
+    $('#PrevPagePeserta').click(function() {
+        var PrevPagePeserta = $('#PrevPagePeserta').val();
+        $('#page_peserta').val(PrevPagePeserta);
+        ShowPesertaEvent();
+    });
 });

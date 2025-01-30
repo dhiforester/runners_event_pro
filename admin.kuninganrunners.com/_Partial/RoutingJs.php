@@ -26,7 +26,7 @@
             echo '<script type="text/javascript" src="_Page/Member/Member.js"></script>';
         }
         if($Page=="Event"){
-            echo '<script type="text/javascript" src="_Page/Event/Event.js"></script>';
+            echo '<script type="text/javascript" src="_Page/Event/Event.js?v=1"></script>';
         }
         if($Page=="Merchandise"){
             echo '<script type="text/javascript" src="_Page/Merchandise/Merchandise.js"></script>';

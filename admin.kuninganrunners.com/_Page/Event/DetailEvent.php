@@ -210,8 +210,46 @@
                                                 <div class="col-md-8"></div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12" id="ShowPesertaEvent">
-                                                    <!-- Menampilkan data peserta -->
+                                                <div class="col-md-12">
+                                                    <div class="table table-responsive">
+                                                        <table class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><b>ID</b></th>
+                                                                    <th><b>Tgl</b></th>
+                                                                    <th><b>Nama</b></th>
+                                                                    <th><b>Email</b></th>
+                                                                    <th><b>Kontak</b></th>
+                                                                    <th><b>Kategori</b></th>
+                                                                    <th><b>Status</b></th>
+                                                                    <th><b>Opt</b></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody  id="ShowPesertaEvent">
+                                                                <!-- Menampilkan data peserta -->
+                                                                <tr>
+                                                                    <td colspan="8" class="text-center">
+                                                                        Belum ada data yang ditampilkan
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <div class="col-md-12 text-center">
+                                                    <div class="btn-group shadow-0" role="group">
+                                                        <button class="btn btn-md btn-grayish" id="PrevPagePeserta" value="">
+                                                            <i class="bi bi-chevron-left"></i>
+                                                        </button>
+                                                        <button class="btn btn-md btn-outline-grayish" id="PageButtonPeserta">
+                                                            0/100
+                                                        </button>
+                                                        <button class="btn btn-md btn-grayish" id="NextPagePeserta" value="">
+                                                            <i class="bi bi-chevron-right"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -113,6 +113,7 @@
                         </div>
                         <div class="col col-md-8">
                             <select name="batas_peserta" id="batas_peserta" class="form-control">
+                                <option value="2">2</option>
                                 <option value="5">5</option>
                                 <option selected value="10">10</option>
                                 <option value="25">25</option>
