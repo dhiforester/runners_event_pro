@@ -1,3 +1,49 @@
+//Fungsi Menampilkan Peserta Event
+function list_peserta_event() {
+    var curent_page = $('#curent_page').val();
+    var put_id_event = $('#put_id_event').val();
+    
+    // console.log("Current Page: ", curent_page);
+    // console.log("ID Event: ", put_id_event);
+
+    $('#TabelPesertaEvent').html('<tr><td colspan="3" class="text-center">Loading...</td></tr>');
+
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Event/TabelPeserta.php',
+        data: {page: curent_page, id_event: put_id_event},
+        success: function(response) {
+            // console.log("Response Received: ", response);
+            $('#TabelPesertaEvent').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: " + status + " - " + error);
+            $('#TabelPesertaEvent').html('<tr><td colspan="3" class="text-center text-danger">Error Loading Data</td></tr>');
+        }
+    });
+}
+//Menampilkan List Peserta Event Pertama Kali
+$(document).ready(function() {
+    list_peserta_event();
+
+    //Ketika Next Di click
+    $('#NextButton').on('click', function (e) {
+        var current_page = parseInt($('#curent_page').val());  // Ambil nilai halaman saat ini
+        var nextpage = current_page + 1;  // Decrement halaman
+        $('#curent_page').val(nextpage);  // Update nilai halaman saat in
+        list_peserta_event();
+    });
+
+    //Ketika Prev Di click
+    $('#PrevButton').on('click', function (e) {
+        var current_page = parseInt($('#curent_page').val());  // Ambil nilai halaman saat ini
+        var prevPage = current_page - 1;  // Decrement halaman
+        $('#curent_page').val(prevPage);  // Update nilai halaman saat in
+        list_peserta_event();
+    });
+
+});
+
 // Proses Pendaftaran Event
 $('#ProsesPendaftaranEvent').on('submit', function (e) {
     e.preventDefault();
@@ -144,3 +190,4 @@ $('#ProsesPembatalanEvent').on('submit', function (e) {
         }
     });
 });
+

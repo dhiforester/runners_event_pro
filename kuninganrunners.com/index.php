@@ -254,7 +254,7 @@
                                         echo '<script src="_Page/Profil/Profil.js"></script>';
                                     }else{
                                         if($_GET['Page']=="DetailEvent"||$_GET['Page']=="DetailPendaftaranEvent"){
-                                            echo '<script src="_Page/Event/Event.js"></script>';
+                                            echo '<script src="_Page/Event/Event.js?v=1"></script>';
                                         }else{
                                             if($_GET['Page']=="Galeri"){
                                                 echo '<script src="_Page/Galeri/Galeri.js"></script>';

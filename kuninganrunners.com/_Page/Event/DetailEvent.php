@@ -361,9 +361,56 @@
                                 <?php } ?>
                             </div>
                         </div>
+                        <div class="box_custome">
+                            <div class="box_custome_header">
+                                <h4>
+                                    <i class="bi bi-person"></i> Peserta Event
+                                </h4>
+                                <input type="hidden" id="curent_page" value="1">
+                                <input type="hidden" id="put_id_event" value="<?php echo "$id_event"; ?>">
+                            </div>
+                            <div class="box_custome_content">
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div class="table table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left"><b>ID</b></th>
+                                                        <th class="text-left"><b>Nama Peserta</b></th>
+                                                        <th class="text-left"><b>Kategori Event</b></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="TabelPesertaEvent">
+                                                    <tr>
+                                                        <td colspan="3" class="text-center">Belum Ada Proses</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-md btn-primary" id="PrevButton">
+                                                <i class="bi bi-chevron-left"></i>
+                                            </button>
+                                            <button type="button" disabled class="btn btn-md btn-outline-primary" id="PageButton">
+                                                0/100
+                                            </button>
+                                            <button type="button" class="btn btn-md btn-primary" id="NextButton">
+                                                <i class="bi bi-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade" id="ModalPendaftaranEvent" tabindex="-1">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
