@@ -9,6 +9,7 @@
     $curent_page="";
     $total_page="";
     $total_data="";
+    $keyword="";
     //Apabila Session Datetime expired tidak ada
     if(empty($_SESSION['datetime_expired'])){
         $xtoken="";
@@ -61,11 +62,14 @@
             }else{
                 $page=$_POST['page'];
             }
+            if(empty($_POST['keyword'])){
+                $keyword="";
+            }else{
+                $keyword=$_POST['keyword'];
+            }
             // Bersihkan Variabel Sebelum Dikirim
             $id_event = validateAndSanitizeInput($_POST['id_event']);
             $page = validateAndSanitizeInput($_POST['page']);
-            $keyword_by="status";
-            $keyword="Lunas";
             //Persiapan Mengirim Data Ke Server
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -81,7 +85,7 @@
                     "id_event" => $id_event,
                     "limit" => "10",
                     "page" => $page,
-                    "keyword_by" => $keyword_by,
+                    "keyword_by" => "",
                     "keyword" => $keyword,
                 )),
                 CURLOPT_HTTPHEADER => array(
@@ -132,9 +136,9 @@
                                 $shortened_id = '***' . substr($id_event_peserta, 0, 5);
                                 echo '
                                     <tr>
-                                        <td class="text-left">'.$shortened_id.'</td>
-                                        <td class="text-left">'.$nama.'</td>
-                                        <td class="text-left">'.$kategori.'</td>
+                                        <td class="text-left"><small>'.$shortened_id.'</small></td>
+                                        <td class="text-left"><small>'.$nama.'</small></td>
+                                        <td class="text-left"><small>'.$kategori.'</small></td>
                                     </tr>
                                 ';
                             }

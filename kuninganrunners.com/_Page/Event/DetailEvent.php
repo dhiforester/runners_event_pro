@@ -366,10 +366,23 @@
                                 <h4>
                                     <i class="bi bi-person"></i> Peserta Event
                                 </h4>
-                                <input type="hidden" id="curent_page" value="1">
-                                <input type="hidden" id="put_id_event" value="<?php echo "$id_event"; ?>">
                             </div>
                             <div class="box_custome_content">
+                                <div class="row mb-4">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-4">
+                                        <form action="javascript:void(0);" id="FormPencarianPeserta">
+                                            <input type="hidden" id="curent_page" value="1">
+                                            <input type="hidden" id="put_id_event" value="<?php echo "$id_event"; ?>">
+                                            <div class="input-group">
+                                                <input type="text" name="keyword" id="keyword_peserta" class="form-control" placeholder="Cari">
+                                                <button typpe="submit" class="btn btn-md btn-dark">
+                                                    <i class="bi bi-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                                 <div class="row mb-3">
                                     <div class="col-md-12">
                                         <div class="table table-responsive">

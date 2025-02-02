@@ -2,6 +2,7 @@
 function list_peserta_event() {
     var curent_page = $('#curent_page').val();
     var put_id_event = $('#put_id_event').val();
+    var keyword = $('#keyword_peserta').val();
     
     // console.log("Current Page: ", curent_page);
     // console.log("ID Event: ", put_id_event);
@@ -11,7 +12,7 @@ function list_peserta_event() {
     $.ajax({
         type: 'POST',
         url: '_Page/Event/TabelPeserta.php',
-        data: {page: curent_page, id_event: put_id_event},
+        data: {page: curent_page, id_event: put_id_event, keyword: keyword},
         success: function(response) {
             // console.log("Response Received: ", response);
             $('#TabelPesertaEvent').html(response);
@@ -41,8 +42,13 @@ $(document).ready(function() {
         $('#curent_page').val(prevPage);  // Update nilai halaman saat in
         list_peserta_event();
     });
-
+    
+    //Ketika Pencarian Di Submit
+    $('#FormPencarianPeserta').on('submit', function (e) {
+        list_peserta_event();
+    });
 });
+
 
 // Proses Pendaftaran Event
 $('#ProsesPendaftaranEvent').on('submit', function (e) {

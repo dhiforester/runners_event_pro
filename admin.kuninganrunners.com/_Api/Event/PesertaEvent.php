@@ -9,7 +9,7 @@
     $now = date('Y-m-d H:i:s');
     $service_name = "List Event";
 
-    // Setting default response
+    // Default response
     $code = 201;
     $keterangan = "Terjadi kesalahan";
     $metadata = [];
@@ -17,6 +17,7 @@
     // Validasi Metode Pengiriman Data
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         $keterangan = "Metode Pengiriman Data Hanya Boleh Menggunakan POST";
+        $code = 405; // Method Not Allowed
     } else {
         try {
             // Tangkap Header
@@ -25,11 +26,11 @@
             // Validasi x-token tidak boleh kosong
             if (!isset($headers['x-token'])) {
                 $keterangan = "x-token Tidak Boleh Kosong";
+                $code = 400; // Bad Request
             } else {
-                // Buat Dalam Bentukk Variabel
                 $xtoken = validateAndSanitizeInput($headers['x-token']);
                 
-                // Validasi x-token menggunakan prepared statements
+                // Prepared Statement untuk Validasi x-token
                 $stmt = $Conn->prepare("SELECT * FROM api_session WHERE xtoken = ?");
                 $stmt->bind_param("s", $xtoken);
                 $stmt->execute();
@@ -42,80 +43,55 @@
                     
                     // Cek Token Apakah Masih Berlaku
                     if ($now >= $datetime_creat && $now <= $datetime_expired) {
-                        // Validasi berhasil, Buka informasi token
                         $id_api_session = $DataValidasiToken['id_api_session'];
                         $id_setting_api_key = $DataValidasiToken['id_setting_api_key'];
                         $title_api_key = GetDetailData($Conn, 'setting_api_key', 'id_setting_api_key', $id_setting_api_key, 'title_api_key');
                         
-                        // Tangkap data dan decode
+                        // Tangkap dan decode data
                         $raw = file_get_contents('php://input');
                         $Tangkap = json_decode($raw, true);
 
-                        //Validasi id_event
-                        if (!isset($Tangkap['id_event'])) {
+                        // Validasi id_event
+                        if (empty($Tangkap['id_event'])) {
                             $keterangan = "ID Event Tidak Boleh Kosong";
-                        }else{
+                            $code = 400; // Bad Request
+                        } else {
+                            $id_event = validateAndSanitizeInput($Tangkap['id_event']);
+                            // Variabel lainnya
+                            $batas = !empty($Tangkap['limit']) ? validateAndSanitizeInput($Tangkap['limit']) : 100;
+                            $page = !empty($Tangkap['page']) ? validateAndSanitizeInput($Tangkap['page']) : 1;
+                            $keyword_by = !empty($Tangkap['keyword_by']) ? validateAndSanitizeInput($Tangkap['keyword_by']) : "";
+                            $keyword = !empty($Tangkap['keyword']) ? validateAndSanitizeInput($Tangkap['keyword']) : "";
+
+                            // Parameter Shorting
+                            $ShortBy = "DESC";
+                            $OrderBy = "datetime";
+                            $posisi = ($page - 1) * $batas;
                             
-                            $id_event=validateAndSanitizeInput($Tangkap['id_event']);
-                            //Variabel Lain
+                            // Menghitung jumlah data
+                            $query = "SELECT COUNT(id_event_peserta) as jml_data FROM event_peserta ep
+                                    WHERE ep.id_event = ? AND ep.status = 'Lunas'";
 
-                            //Secara default limit=100
-                            if (!isset($Tangkap['limit'])) {
-                                $batas = "100";
-                            }else{
-                                $batas = validateAndSanitizeInput($Tangkap['limit']);
-                            }
-                            
-                            //Secara default page=1
-                            if (!isset($Tangkap['page'])) {
-                                $page = "100";
-                            }else{
-                                $page = validateAndSanitizeInput($Tangkap['page']);
-                            }
-
-                            //Secara default keyword_by=null
-                            if (!isset($Tangkap['keyword_by'])) {
-                                $keyword_by = "";
-                            }else{
-                                $keyword_by = validateAndSanitizeInput($Tangkap['keyword_by']);
-                                $valid_keywords = ['nama', 'status'];
-                                $keyword_by = in_array($keyword_by, $valid_keywords) ? $keyword_by : '';
-                            }
-
-                            //Secara default keyword=null
-                            if (!isset($Tangkap['keyword'])) {
-                                $keyword = "";
-                            }else{
-                                $keyword = validateAndSanitizeInput($Tangkap['keyword']);
-                            }
-
-                            //Parameter Shorting
-                            $ShortBy="DESC";
-                            $OrderBy="datetime";
-                            $posisi = ( $page - 1 ) * $batas;
-                            
-                            // Mencari jumlah data
-                            // Mencari jumlah data
-                            // Mencari jumlah data
-                            $whereClauses = ["ep.id_event='$id_event'"];
                             if (!empty($keyword)) {
-                                if (empty($keyword_by)) {
-                                    $whereClauses[] = "(ep.nama LIKE '%$keyword%' OR ep.email LIKE '%$keyword%' OR ep.datetime LIKE '%$keyword%' OR ep.status LIKE '%$keyword%')";
-                                } else {
-                                    $whereClauses[] = "ep.$keyword_by LIKE '%$keyword%'";
-                                }
+                                $query .= " AND ep.nama LIKE ?";
+                                $keyword = "%" . $keyword . "%";
                             }
 
-                            $whereCondition = implode(' AND ', $whereClauses);
-
-                            // Query untuk menghitung jumlah data
-                            $countQuery = "SELECT COUNT(ep.id_event_peserta) AS total FROM event_peserta ep WHERE $whereCondition";
-                            $countResult = mysqli_query($Conn, $countQuery);
-                            if (!$countResult) {
-                                die("Error executing count query: " . mysqli_error($Conn));
+                            if (!empty($keyword_by)) {
+                                $query .= " AND ep.$keyword_by LIKE ?";
+                                $keyword = "%" . $keyword . "%";
                             }
 
-                            $jml_data = ($countRow = mysqli_fetch_assoc($countResult)) ? (int)$countRow['total'] : 0;
+                            $stmt = $Conn->prepare($query);
+                            if (!empty($keyword)) {
+                                $stmt->bind_param("ss", $id_event, $keyword);
+                            } else {
+                                $stmt->bind_param("s", $id_event);
+                            }
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $row = $result->fetch_assoc();
+                            $jml_data = $row['jml_data'];
 
                             // Hitung jumlah halaman
                             $JmlHalaman = ceil($jml_data / $batas);
@@ -124,17 +100,29 @@
                             $list_peserta = [];
                             if ($jml_data > 0) {
                                 $query = "SELECT ep.*, ek.kategori FROM event_peserta ep 
-                                        LEFT JOIN event_kategori ek ON ep.id_event_kategori = ek.id_event_kategori
-                                        WHERE $whereCondition 
-                                        ORDER BY $OrderBy $ShortBy 
-                                        LIMIT $posisi, $batas";
+                                          LEFT JOIN event_kategori ek ON ep.id_event_kategori = ek.id_event_kategori
+                                          WHERE ep.id_event = ? AND ep.status = 'Lunas'";
 
-                                $result = mysqli_query($Conn, $query);
-                                if (!$result) {
-                                    die("Error executing data query: " . mysqli_error($Conn));
+                                if (!empty($keyword)) {
+                                    $query .= " AND ep.nama LIKE ?";
                                 }
 
-                                while ($DataEvent = mysqli_fetch_assoc($result)) {
+                                if (!empty($keyword_by)) {
+                                    $query .= " AND ep.$keyword_by LIKE ?";
+                                }
+
+                                $query .= " ORDER BY $OrderBy $ShortBy LIMIT ?, ?";
+                                $stmt = $Conn->prepare($query);
+
+                                if (!empty($keyword)) {
+                                    $stmt->bind_param("ssii", $id_event, $keyword, $posisi, $batas);
+                                } else {
+                                    $stmt->bind_param("sii", $id_event, $posisi, $batas);
+                                }
+
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                while ($DataEvent = $result->fetch_assoc()) {
                                     $list_peserta[] = [
                                         "id_event_peserta" => $DataEvent['id_event_peserta'] ?? null,
                                         "nama" => $DataEvent['nama'] ?? null,
@@ -151,7 +139,7 @@
                                 "list_peserta" => $list_peserta,
                             ];
 
-                            //menyimpan Log
+                            // Menyimpan Log
                             $SimpanLog = insertLogApi($Conn, $id_setting_api_key, $title_api_key, $service_name, 200, "success", $now);
                             if ($SimpanLog !== "Success") {
                                 $keterangan = "Gagal Menyimpan Log Service";
@@ -163,16 +151,18 @@
                         }
                     } else {
                         $keterangan = "X-Token Yang Digunakan Sudah Tidak Berlaku";
+                        $code = 401; // Unauthorized
                     }
                 } else {
                     $keterangan = "X-Token Yang Digunakan Tidak Valid";
+                    $code = 401; // Unauthorized
                 }
                 
                 $stmt->close();
             }
         } catch (Exception $e) {
             $keterangan = "Terjadi kesalahan sistem: " . $e->getMessage();
-            $code = 500;
+            $code = 500; // Internal Server Error
         }
     }
 
